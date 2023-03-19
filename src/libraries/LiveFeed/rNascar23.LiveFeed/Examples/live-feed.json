@@ -1,0 +1,30 @@
+﻿Source: https://cf.nascar.com/live/feeds/live-feed.json
+
+{
+  "lap_number": 317,
+  "elapsed_time": 10816,
+  "flag_state": 9,
+  "race_id": 5271,
+  "laps_in_race": 317,
+  "laps_to_go": 0,
+  "vehicles": [],
+  "run_id": 9,
+  "run_name": "United Rentals Work United 500",
+  "series_id": 1,
+  "time_of_day": 62437,
+  "time_of_day_os": "2023-03-17T17:20:37.8384991-04:00",
+  "track_id": 111,
+  "track_length": 1.54,
+  "track_name": "Atlanta Motor Speedway",
+  "run_type": 3,
+  "number_of_caution_segments": 5,
+  "number_of_caution_laps": 35,
+  "number_of_lead_changes": 10,
+  "number_of_leaders": 6,
+  "avg_diff_1to3": 4109,
+  "stage": {
+    "stage_num": 3,
+    "finish_at_lap": 135,
+    "laps_in_stage": 75
+  }
+}
