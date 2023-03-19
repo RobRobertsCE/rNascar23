@@ -3,6 +3,7 @@ using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
+using rNascar23TestApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -50,6 +51,9 @@ namespace rNascar23TestApp
         private DataGridView _genericDataGridView = null;
         private DataGridView _seriesScheduleDataGridView = null;
         private DataGridView _eventScheduleDataGridView = null;
+        private DataGridView _fastestLapsDataGridView = null;
+        private DataGridView _biggestMoversDataGridView = null;
+        private DataGridView _biggestFallersDataGridView = null;
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
 
@@ -439,7 +443,7 @@ namespace rNascar23TestApp
             }
             _rightRaceDataGridView = BuildRaceViewGrid();
             pnlMain.Controls.Add(_rightRaceDataGridView);
-            _rightRaceDataGridView.Width = 850;
+            _rightRaceDataGridView.Width = 835;
             _rightRaceDataGridView.Dock = DockStyle.Left;
 
             if (_leftRaceDataGridView != null)
@@ -449,9 +453,39 @@ namespace rNascar23TestApp
             }
             _leftRaceDataGridView = BuildRaceViewGrid();
             pnlMain.Controls.Add(_leftRaceDataGridView);
-            _leftRaceDataGridView.Width = 850;
+            _leftRaceDataGridView.Width = 835;
             _leftRaceDataGridView.Dock = DockStyle.Left;
 
+            if (_fastestLapsDataGridView != null)
+            {
+                _fastestLapsDataGridView.Dispose();
+                _fastestLapsDataGridView = null;
+            }
+            _fastestLapsDataGridView = BuildFastestLapsViewGrid();
+            pnlRight.Controls.Add(_fastestLapsDataGridView);
+            _fastestLapsDataGridView.Height = 275;
+            _fastestLapsDataGridView.Dock = DockStyle.Top;
+
+            if (_biggestMoversDataGridView != null)
+            {
+                _biggestMoversDataGridView.Dispose();
+                _biggestMoversDataGridView = null;
+            }
+            _biggestMoversDataGridView = BuildBiggestMoversViewGrid();
+            pnlBottom.Controls.Add(_biggestMoversDataGridView);
+            _biggestMoversDataGridView.Width = 275;
+            _biggestMoversDataGridView.Dock = DockStyle.Left;
+
+            // _biggestFallersDataGridView
+            if (_biggestFallersDataGridView != null)
+            {
+                _biggestFallersDataGridView.Dispose();
+                _biggestFallersDataGridView = null;
+            }
+            _biggestFallersDataGridView = BuildBiggestFallersViewGrid();
+            pnlBottom.Controls.Add(_biggestFallersDataGridView);
+            _biggestFallersDataGridView.Width = 275;
+            _biggestFallersDataGridView.Dock = DockStyle.Left;
 
             lblRaceLaps.Visible = true;
             lblRaceLaps.Text = "-";
@@ -812,6 +846,117 @@ namespace rNascar23TestApp
             return dataGridView;
         }
 
+        private DataGridView BuildFastestLapsViewGrid()
+        {
+            var dataGridView = new DataGridView();
+
+            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            dataGridView.RowHeadersVisible = false;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            {
+                Column1,
+                Column2,
+                Column3,
+            });
+
+            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
+
+            ConfigureColumn(Column1, "Position", 25);
+
+            ConfigureColumn(Column2, "Driver", 150, "Fastest Laps");
+
+            ConfigureColumn(Column3, "Speed", 75, "M.P.H.");
+
+            return dataGridView;
+        }
+
+        private DataGridView BuildBiggestMoversViewGrid()
+        {
+            var dataGridView = new DataGridView();
+
+            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            dataGridView.RowHeadersVisible = false;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            {
+                Column1,
+                Column2,
+                Column3,
+            });
+
+            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
+
+            ConfigureColumn(Column1, "Position", 25);
+
+            ConfigureColumn(Column2, "Driver", 150, "Biggest Movers");
+
+            ConfigureColumn(Column3, "Change", 75, "Gain");
+
+            return dataGridView;
+        }
+
+        private DataGridView BuildBiggestFallersViewGrid()
+        {
+            var dataGridView = new DataGridView();
+
+            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            dataGridView.RowHeadersVisible = false;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            {
+                Column1,
+                Column2,
+                Column3,
+            });
+
+            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
+
+            ConfigureColumn(Column1, "Position", 25);
+
+            ConfigureColumn(Column2, "Driver", 150, "Biggest Fallers");
+
+            ConfigureColumn(Column3, "Change", 75, "Loss");
+
+            return dataGridView;
+        }
+
+        private void ConfigureColumn(
+            DataGridViewTextBoxColumn column,
+            string propertyName,
+            int? width = 125,
+            string headerText = "")
+        {
+            column.HeaderText = headerText;
+            column.Name = propertyName;
+            column.DataPropertyName = propertyName;
+
+            if (width.HasValue)
+            {
+                column.Width = width.Value;
+                column.Resizable = DataGridViewTriState.False;
+            }
+            else
+            {
+                column.Visible = false;
+            }
+        }
+
         // get data
         private IList<Series> GetSeriesSchedule(SeriesType seriesType)
         {
@@ -943,14 +1088,14 @@ namespace rNascar23TestApp
             _genericDataGridView.DataSource = new List<LiveFeed>() { liveFeed };
         }
 
-        private void DisplayVehicleData(LiveFeed result)
+        private void DisplayVehicleData(LiveFeed liveFeed)
         {
-            var raceVehicles = new List<RaceVehicleView>();
+            var raceVehicles = new List<RaceVehicleViewModel>();
 
             Vehicle lastVehicle = null;
-            foreach (var vehicle in result.Vehicles)
+            foreach (var vehicle in liveFeed.Vehicles)
             {
-                raceVehicles.Add(new RaceVehicleView()
+                raceVehicles.Add(new RaceVehicleViewModel()
                 {
                     RunningPosition = vehicle.running_position,
                     CarManufacturer = vehicle.vehicle_manufacturer,
@@ -1040,6 +1185,47 @@ namespace rNascar23TestApp
                     row.DefaultCellStyle.ForeColor = Color.Black;
                 }
             }
+
+            var fastestLaps = liveFeed.Vehicles.OrderByDescending(v => v.best_lap_speed).Take(10).Select(v => new FastestLapViewModel()
+            {
+                Driver = v.driver.full_name,
+                Speed = Math.Round(v.best_lap_speed, 3).ToString("N3")
+            }).ToList();
+
+            for (int i = 0; i < fastestLaps.Count; i++)
+            {
+                fastestLaps[i].Position = i + 1;
+            }
+
+            DisplayFastestLaps(fastestLaps);
+
+            // DisplayBiggestMovers
+
+            var biggestMovers = liveFeed.Vehicles.OrderByDescending(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
+            {
+                Driver = v.driver.full_name,
+                Change = v.position_differential_last_10_percent
+            }).ToList();
+
+            for (int i = 0; i < biggestMovers.Count; i++)
+            {
+                biggestMovers[i].Position = i + 1;
+            }
+
+            DisplayBiggestMovers(biggestMovers);
+
+            var biggestFallers = liveFeed.Vehicles.OrderBy(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
+            {
+                Driver = v.driver.full_name,
+                Change = v.position_differential_last_10_percent
+            }).ToList();
+
+            for (int i = 0; i < biggestFallers.Count; i++)
+            {
+                biggestFallers[i].Position = i + 1;
+            }
+
+            DisplayBiggestFallers(biggestFallers);
         }
 
         private void DisplayHeaderData(LiveFeed result)
@@ -1094,6 +1280,35 @@ namespace rNascar23TestApp
             lblStageLaps.Text = $"Stage {stageNumber}: Lap {lapNumber - stageStartLap} of {lapsInStage}";
         }
 
+        IList<FastestLapViewModel> _fastestLaps;
+        IList<PositionChangeViewModel> _biggestMovers;
+        IList<PositionChangeViewModel> _biggestFallers;
+
+        private void DisplayFastestLaps(IList<FastestLapViewModel> laps)
+        {
+            _fastestLaps = laps;
+
+            if (_fastestLapsDataGridView.DataSource == null)
+                _fastestLapsDataGridView.DataSource = _fastestLaps;
+        }
+
+        private void DisplayBiggestMovers(IList<PositionChangeViewModel> biggestMovers)
+        {
+            _biggestMovers = biggestMovers;
+
+            if (_biggestMoversDataGridView.DataSource == null)
+                _biggestMoversDataGridView.DataSource = _biggestMovers;
+        }
+
+        private void DisplayBiggestFallers(IList<PositionChangeViewModel> biggestFallers)
+        {
+            _biggestFallers = biggestFallers;
+
+            if (_biggestFallersDataGridView.DataSource == null)
+                _biggestFallersDataGridView.DataSource = _biggestFallers;
+        }
+
         #endregion
     }
 }
+
