@@ -1,6 +1,6 @@
-﻿namespace rNascar23TestApp
+﻿namespace rNascar23TestApp.ViewModels
 {
-    public class RaceVehicleView
+    internal class RaceVehicleViewModel
     {
         public int RunningPosition { get; set; }
         public string Driver { get; set; }
