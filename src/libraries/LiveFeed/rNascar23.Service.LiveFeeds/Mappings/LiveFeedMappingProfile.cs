@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.Service.LiveFeeds.Data.Models;
+using System.Collections.Generic;
 
 namespace rNascar23.LiveFeeds.Mappings
 {
@@ -12,7 +13,10 @@ namespace rNascar23.LiveFeeds.Mappings
 
             CreateMap<DriverModel, Driver>();
 
+            CreateMap<LapsLedModel, LapsLed>();
+
             CreateMap<VehicleModel, Vehicle>();
+                //.ForMember(m => m.laps_led, opts => opts.MapFrom(src => new LapsLed() {  start_lap = src.laps_led }));
 
             CreateMap<StageModel, Stage>()
               .ForMember(m => m.Number, opts => opts.MapFrom(src => (long)src.stage_num))

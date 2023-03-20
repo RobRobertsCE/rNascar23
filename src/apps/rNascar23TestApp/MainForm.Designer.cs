@@ -65,24 +65,24 @@
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.pnlHeader.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGreenYelllowLapIndicator)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
             // 
+            this.pnlHeader.Controls.Add(this.panel1);
             this.pnlHeader.Controls.Add(this.pnlFlagGreenYellow);
-            this.pnlHeader.Controls.Add(this.lblStageLaps);
-            this.pnlHeader.Controls.Add(this.lblRaceLaps);
-            this.pnlHeader.Controls.Add(this.lblEventName);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 24);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1292, 89);
+            this.pnlHeader.Size = new System.Drawing.Size(1292, 97);
             this.pnlHeader.TabIndex = 2;
             // 
             // pnlFlagGreenYellow
@@ -91,7 +91,7 @@
             this.pnlFlagGreenYellow.Controls.Add(this.picStatus);
             this.pnlFlagGreenYellow.Controls.Add(this.picGreenYelllowLapIndicator);
             this.pnlFlagGreenYellow.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlFlagGreenYellow.Location = new System.Drawing.Point(0, 30);
+            this.pnlFlagGreenYellow.Location = new System.Drawing.Point(0, 38);
             this.pnlFlagGreenYellow.Name = "pnlFlagGreenYellow";
             this.pnlFlagGreenYellow.Padding = new System.Windows.Forms.Padding(2);
             this.pnlFlagGreenYellow.Size = new System.Drawing.Size(1292, 59);
@@ -111,6 +111,7 @@
             // picGreenYelllowLapIndicator
             // 
             this.picGreenYelllowLapIndicator.BackColor = System.Drawing.Color.DimGray;
+            this.picGreenYelllowLapIndicator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picGreenYelllowLapIndicator.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.picGreenYelllowLapIndicator.Location = new System.Drawing.Point(2, 31);
             this.picGreenYelllowLapIndicator.Name = "picGreenYelllowLapIndicator";
@@ -124,7 +125,7 @@
             this.lblStageLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStageLaps.AutoSize = true;
             this.lblStageLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStageLaps.Location = new System.Drawing.Point(1088, 8);
+            this.lblStageLaps.Location = new System.Drawing.Point(1090, 12);
             this.lblStageLaps.Name = "lblStageLaps";
             this.lblStageLaps.Size = new System.Drawing.Size(102, 16);
             this.lblStageLaps.TabIndex = 13;
@@ -136,7 +137,7 @@
             this.lblRaceLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRaceLaps.AutoSize = true;
             this.lblRaceLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRaceLaps.Location = new System.Drawing.Point(931, 8);
+            this.lblRaceLaps.Location = new System.Drawing.Point(879, 12);
             this.lblRaceLaps.Name = "lblRaceLaps";
             this.lblRaceLaps.Size = new System.Drawing.Size(98, 16);
             this.lblRaceLaps.TabIndex = 12;
@@ -147,7 +148,7 @@
             // 
             this.lblEventName.AutoSize = true;
             this.lblEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEventName.Location = new System.Drawing.Point(12, 6);
+            this.lblEventName.Location = new System.Drawing.Point(3, 10);
             this.lblEventName.Name = "lblEventName";
             this.lblEventName.Size = new System.Drawing.Size(15, 20);
             this.lblEventName.TabIndex = 11;
@@ -366,9 +367,10 @@
             // 
             this.pnlMain.BackColor = System.Drawing.Color.DimGray;
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Location = new System.Drawing.Point(0, 113);
+            this.pnlMain.Location = new System.Drawing.Point(0, 121);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1032, 473);
+            this.pnlMain.Padding = new System.Windows.Forms.Padding(2);
+            this.pnlMain.Size = new System.Drawing.Size(1032, 465);
             this.pnlMain.TabIndex = 6;
             // 
             // pnlBottom
@@ -377,6 +379,7 @@
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBottom.Location = new System.Drawing.Point(0, 586);
             this.pnlBottom.Name = "pnlBottom";
+            this.pnlBottom.Padding = new System.Windows.Forms.Padding(2);
             this.pnlBottom.Size = new System.Drawing.Size(1292, 259);
             this.pnlBottom.TabIndex = 7;
             // 
@@ -384,10 +387,23 @@
             // 
             this.pnlRight.BackColor = System.Drawing.Color.DimGray;
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(1032, 113);
+            this.pnlRight.Location = new System.Drawing.Point(1032, 121);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(260, 473);
+            this.pnlRight.Padding = new System.Windows.Forms.Padding(2);
+            this.pnlRight.Size = new System.Drawing.Size(260, 465);
             this.pnlRight.TabIndex = 8;
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.lblEventName);
+            this.panel1.Controls.Add(this.lblStageLaps);
+            this.panel1.Controls.Add(this.lblRaceLaps);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1292, 42);
+            this.panel1.TabIndex = 15;
             // 
             // MainForm
             // 
@@ -406,7 +422,6 @@
             this.Text = "rNASCAR23";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.pnlHeader.ResumeLayout(false);
-            this.pnlHeader.PerformLayout();
             this.pnlFlagGreenYellow.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGreenYelllowLapIndicator)).EndInit();
@@ -414,6 +429,8 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -456,6 +473,7 @@
         private System.Windows.Forms.PictureBox picGreenYelllowLapIndicator;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem forrmattedLiveFeedToolStripMenuItem;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
