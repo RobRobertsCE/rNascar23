@@ -5,6 +5,7 @@ using rNascar23.Service.LiveFeeds;
 using System;
 using System.Windows.Forms;
 using AutoMapper;
+using rNascar23.Service.Flags;
 
 namespace rNascar23TestApp
 {
@@ -32,6 +33,7 @@ namespace rNascar23TestApp
                 {
                     services
                         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+                        .AddFlagState()
                         .AddRaceLists()
                         .AddLiveFeed()
                         .AddTransient<MainForm>();
