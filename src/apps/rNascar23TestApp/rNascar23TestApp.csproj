@@ -212,6 +212,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CautionFlagViewModel.cs" />
     <Compile Include="ViewModels\FastestLapViewModel.cs" />
     <Compile Include="ViewModels\LapStateViewModel.cs" />
     <Compile Include="ViewModels\PositionChangeViewModel.cs" />

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
+using rNascar23.Flags.Models;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
@@ -59,6 +60,7 @@ namespace rNascar23TestApp
         private DataGridView _fastestLapsDataGridView = null;
         private DataGridView _biggestMoversDataGridView = null;
         private DataGridView _biggestFallersDataGridView = null;
+        private DataGridView _cautionsDataGridView = null;
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
         IList<FastestLapViewModel> _fastestLaps;
@@ -356,11 +358,6 @@ namespace rNascar23TestApp
                 {
                     e.Graphics.FillRectangle(brush, flagSegment);
                 }
-
-                using (Font myFont = new Font("Arial", 10))
-                {
-                    e.Graphics.DrawString($"{i + 1}", myFont, Brushes.Black, new PointF(lapSegmentStartX + 2, stageBlockStartY + verticalPadding));
-                }
             }
         }
 
@@ -605,7 +602,6 @@ namespace rNascar23TestApp
             _biggestMoversDataGridView.Width = 275;
             _biggestMoversDataGridView.Dock = DockStyle.Left;
 
-            // _biggestFallersDataGridView
             if (_biggestFallersDataGridView != null)
             {
                 _biggestFallersDataGridView.Dispose();
@@ -615,6 +611,17 @@ namespace rNascar23TestApp
             pnlBottom.Controls.Add(_biggestFallersDataGridView);
             _biggestFallersDataGridView.Width = 275;
             _biggestFallersDataGridView.Dock = DockStyle.Left;
+
+            if (_cautionsDataGridView != null)
+            {
+                _cautionsDataGridView.Dispose();
+                _cautionsDataGridView = null;
+            }
+            _cautionsDataGridView = BuildCautionsViewGrid();
+            pnlBottom.Controls.Add(_cautionsDataGridView);
+            _cautionsDataGridView.Width = 285;
+            _cautionsDataGridView.Dock = DockStyle.Left;
+            _cautionsDataGridView.BringToFront();
 
             lblRaceLaps.Visible = true;
             lblRaceLaps.Text = "-";
@@ -1065,6 +1072,37 @@ namespace rNascar23TestApp
             return dataGridView;
         }
 
+        private DataGridView BuildCautionsViewGrid()
+        {
+            var dataGridView = new DataGridView();
+
+            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            dataGridView.RowHeadersVisible = false;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.AllowUserToResizeColumns = true;
+
+            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            {
+                Column1,
+                Column2,
+                Column3,
+            });
+
+            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
+
+            ConfigureColumn(Column1, "LapNumber", 50, "Lap");
+
+            ConfigureColumn(Column2, "Comment", 165, "Caution For");
+
+            ConfigureColumn(Column3, "Beneficiary", 65, "Lucky Dog");
+
+            return dataGridView;
+        }
+
         private void ConfigureColumn(
             DataGridViewTextBoxColumn column,
             string propertyName,
@@ -1155,7 +1193,7 @@ namespace rNascar23TestApp
                 "Unknown";
         }
 
-        private IList<rNascar23.Flags.Models.FlagState> GetFlagStates()
+        private IList<FlagState> GetFlagStates()
         {
             var flagStateRepository = Program.Services.GetRequiredService<IFlagStateRepository>();
 
@@ -1366,7 +1404,11 @@ namespace rNascar23TestApp
 
             DisplayBiggestFallers(biggestFallers);
 
-            UpdateGreenYellowLapIndicator(liveFeed);
+            var flagStates = GetFlagStates();
+
+            UpdateGreenYellowLapIndicator(liveFeed, flagStates);
+
+            DisplayCautionsList(flagStates);
         }
 
         private void DisplayHeaderData(LiveFeed result)
@@ -1458,10 +1500,27 @@ namespace rNascar23TestApp
                 _biggestFallersDataGridView.DataSource = _biggestFallers;
         }
 
-        private void UpdateGreenYellowLapIndicator(LiveFeed liveFeed)
+        private void DisplayCautionsList(IList<FlagState> flagStates)
         {
-            var flagStates = GetFlagStates();
+            IList<CautionFlagViewModel> cautions = new List<CautionFlagViewModel>();
 
+            foreach (var item in flagStates.Where(f => f.State == 2).OrderBy(f => f.LapNumber))
+            {
+                var caution = new CautionFlagViewModel()
+                {
+                    LapNumber = item.LapNumber,
+                    Comment = item.Comment,
+                    Beneficiary = item.Beneficiary,
+                };
+
+                cautions.Add(caution);
+            }
+
+            _cautionsDataGridView.DataSource = cautions;
+        }
+
+        private void UpdateGreenYellowLapIndicator(LiveFeed liveFeed, IList<FlagState> flagStates)
+        {
             int lap = 0;
             LapStateViewModel.FlagState previousFlagState = LapStateViewModel.FlagState.Green;
 
