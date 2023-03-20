@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
 using rNascar23TestApp.ViewModels;
+using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -64,14 +66,17 @@ namespace rNascar23TestApp
         IList<PositionChangeViewModel> _biggestFallers;
         private LapStateViewModel _lapStates = new LapStateViewModel();
         private Series _seriesRace = null;
+        private readonly ILogger<MainForm> _logger = null;
 
         #endregion
 
         #region ctor / load
 
-        public MainForm()
+        public MainForm(ILogger<MainForm> logger)
         {
             InitializeComponent();
+
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -82,7 +87,7 @@ namespace rNascar23TestApp
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex);
+                ExceptionHandler(ex, "Error loading main form");
             }
         }
 
@@ -365,12 +370,21 @@ namespace rNascar23TestApp
 
         private void ExceptionHandler(Exception ex)
         {
-            ExceptionHandler(ex, false);
+            ExceptionHandler(ex, String.Empty, true);
         }
-        private void ExceptionHandler(Exception ex, bool logMessage = false)
+        private void ExceptionHandler(Exception ex, string message = "")
         {
-            Console.WriteLine(ex.ToString());
+            ExceptionHandler(ex, message, true);
+        }
+        private void ExceptionHandler(Exception ex, string message = "", bool logMessage = false)
+        {
             MessageBox.Show(ex.Message);
+            if (logMessage)
+            {
+                string errorMessage = String.IsNullOrEmpty(message) ? ex.Message : message;
+
+                _logger.LogError(ex, errorMessage);
+            }
         }
 
         private void SetAutoUpdateState(bool isEnabled)
@@ -1369,7 +1383,7 @@ namespace rNascar23TestApp
                 var seriesRaceList = GetSeriesSchedule((SeriesType)result.SeriesId);
 
                 _seriesRace = seriesRaceList.FirstOrDefault(s => s.race_id == result.RaceId);
-                
+
                 if (_lapStates == null || _lapStates.Stage1Laps == 0)
                 {
                     _lapStates = new LapStateViewModel();

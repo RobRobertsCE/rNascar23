@@ -6,6 +6,8 @@ using System;
 using System.Windows.Forms;
 using AutoMapper;
 using rNascar23.Service.Flags;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace rNascar23TestApp
 {
@@ -37,6 +39,16 @@ namespace rNascar23TestApp
                         .AddRaceLists()
                         .AddLiveFeed()
                         .AddTransient<MainForm>();
+
+                    //Add Serilog
+                    var serilogLogger = new LoggerConfiguration()
+                    .WriteTo.File("rNascar23.LogFile.txt", outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+                    .CreateLogger();
+                    services.AddLogging(x =>
+                    {
+                        x.SetMinimumLevel(LogLevel.Information);
+                        x.AddSerilog(logger: serilogLogger, dispose: true);
+                    });
                 });
         }
     }
