@@ -8,6 +8,7 @@ using AutoMapper;
 using rNascar23.Service.Flags;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using rNascar23.Service.LapTimes;
 
 namespace rNascar23TestApp
 {
@@ -38,6 +39,7 @@ namespace rNascar23TestApp
                         .AddFlagState()
                         .AddRaceLists()
                         .AddLiveFeed()
+                        .AddLapTimes()
                         .AddTransient<MainForm>();
 
                     //Add Serilog

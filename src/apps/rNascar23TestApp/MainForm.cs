@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.Flags.Models;
+using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
@@ -62,6 +63,9 @@ namespace rNascar23TestApp
         private DataGridView _biggestFallersDataGridView = null;
         private DataGridView _cautionsDataGridView = null;
         private DataGridView _lapLeadersDataGridView = null;
+        private DataGridView _5LapAverageTimeDataGridView = null;
+        private DataGridView _10LapAverageTimeDataGridView = null;
+        private DataGridView _15LapAverageTimeDataGridView = null;
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
         IList<FastestLapViewModel> _fastestLaps;
@@ -600,7 +604,7 @@ namespace rNascar23TestApp
             }
             _biggestMoversDataGridView = BuildBiggestMoversViewGrid();
             pnlBottom.Controls.Add(_biggestMoversDataGridView);
-            _biggestMoversDataGridView.Width = 275;
+            _biggestMoversDataGridView.Width = 265;
             _biggestMoversDataGridView.Dock = DockStyle.Left;
 
             if (_biggestFallersDataGridView != null)
@@ -610,7 +614,7 @@ namespace rNascar23TestApp
             }
             _biggestFallersDataGridView = BuildBiggestFallersViewGrid();
             pnlBottom.Controls.Add(_biggestFallersDataGridView);
-            _biggestFallersDataGridView.Width = 275;
+            _biggestFallersDataGridView.Width = 265;
             _biggestFallersDataGridView.Dock = DockStyle.Left;
 
             if (_cautionsDataGridView != null)
@@ -631,9 +635,42 @@ namespace rNascar23TestApp
             }
             _lapLeadersDataGridView = BuildLapLeadersViewGrid();
             pnlBottom.Controls.Add(_lapLeadersDataGridView);
-            _lapLeadersDataGridView.Width = 285;
+            _lapLeadersDataGridView.Width = 275;
             _lapLeadersDataGridView.Dock = DockStyle.Left;
             _lapLeadersDataGridView.BringToFront();
+
+            if (_5LapAverageTimeDataGridView != null)
+            {
+                _5LapAverageTimeDataGridView.Dispose();
+                _5LapAverageTimeDataGridView = null;
+            }
+            _5LapAverageTimeDataGridView = Build5LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_5LapAverageTimeDataGridView);
+            _5LapAverageTimeDataGridView.Width = 275;
+            _5LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _5LapAverageTimeDataGridView.BringToFront();
+
+            if (_10LapAverageTimeDataGridView != null)
+            {
+                _10LapAverageTimeDataGridView.Dispose();
+                _10LapAverageTimeDataGridView = null;
+            }
+            _10LapAverageTimeDataGridView = Build10LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_10LapAverageTimeDataGridView);
+            _10LapAverageTimeDataGridView.Width = 275;
+            _10LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _10LapAverageTimeDataGridView.BringToFront();
+
+            if (_15LapAverageTimeDataGridView != null)
+            {
+                _15LapAverageTimeDataGridView.Dispose();
+                _15LapAverageTimeDataGridView = null;
+            }
+            _15LapAverageTimeDataGridView = Build15LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_15LapAverageTimeDataGridView);
+            _15LapAverageTimeDataGridView.Width = 275;
+            _15LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _15LapAverageTimeDataGridView.BringToFront();
 
             lblRaceLaps.Visible = true;
             lblRaceLaps.Text = "-";
@@ -1135,9 +1172,60 @@ namespace rNascar23TestApp
 
             dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
 
-            ConfigureColumn(Column1, "Driver", 210, "Lap Leaders");
+            ConfigureColumn(Column1, "Driver", 200, "Lap Leaders");
 
-            ConfigureColumn(Column2, "Laps", 55, "Laps");
+            ConfigureColumn(Column2, "Laps", 50, "Laps");
+
+            return dataGridView;
+        }
+
+        private DataGridView Build5LapAverageTimeViewGrid()
+        {
+            return BuildLastNLapAverageViewGrid(5, "Lap Time");
+        }
+        private DataGridView Build5LapAverageMphViewGrid()
+        {
+            return BuildLastNLapAverageViewGrid(5, "M.P.H.");
+        }
+        private DataGridView Build10LapAverageTimeViewGrid()
+        {
+            return BuildLastNLapAverageViewGrid(10, "Lap Time");
+        }
+        private DataGridView Build10LapAverageMphViewGrid()
+        {
+            return BuildLastNLapAverageViewGrid(10, "M.P.H.");
+        }
+        private DataGridView Build15LapAverageTimeViewGrid()
+        {
+            return BuildLastNLapAverageViewGrid(15, "Lap Time");
+        }
+        private DataGridView Build15LapAverageMphViewGrid()
+        {
+            return BuildLastNLapAverageViewGrid(15, "M.P.H.");
+        }
+        private DataGridView BuildLastNLapAverageViewGrid(int count, string averageTitle)
+        {
+            var dataGridView = new DataGridView();
+
+            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            dataGridView.RowHeadersVisible = false;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.AllowUserToResizeColumns = true;
+
+            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            {
+                Column1,
+                Column2,
+            });
+
+            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
+
+            ConfigureColumn(Column1, "Driver", 190, $"Last {count} Lap Avg");
+
+            ConfigureColumn(Column2, "Average", 75, averageTitle);
 
             return dataGridView;
         }
@@ -1450,6 +1538,63 @@ namespace rNascar23TestApp
             DisplayCautionsList(flagStates);
 
             DisplayLapLeadersList(liveFeed);
+
+            DisplayLapAverages();
+        }
+
+        private void DisplayLapAverages()
+        {
+            if (_seriesRace == null)
+                return;
+
+            var lapTimeRepository = Program.Services.GetRequiredService<ILapTimesRepository>();
+
+            var lapTimeData = lapTimeRepository.GetLapTimeData(_seriesRace.series_id, _seriesRace.race_id);
+
+            if (lapTimeData == null)
+                return;
+
+            // 5 lap avg time
+            var last5LapTimeAverages = lapTimeData.
+                Drivers.
+                OrderBy(d => d.AverageTimeLast5Laps().GetValueOrDefault(999)).
+                Take(10).
+                Select(d => new LapAverageViewModel()
+                {
+                    Driver = d.FullName,
+                    Average = (float)Math.Round(d.AverageTimeLast5Laps().GetValueOrDefault(999), 3)
+                }).
+                ToList();
+
+            _5LapAverageTimeDataGridView.DataSource = last5LapTimeAverages;
+
+            // 10 lap avg time
+            var last10LapTimeAverages = lapTimeData.
+               Drivers.
+               OrderBy(d => d.AverageTimeLast10Laps().GetValueOrDefault(999)).
+               Take(10).
+               Select(d => new LapAverageViewModel()
+               {
+                   Driver = d.FullName,
+                   Average = (float)Math.Round(d.AverageTimeLast10Laps().GetValueOrDefault(999), 3)
+               }).
+               ToList();
+
+            _10LapAverageTimeDataGridView.DataSource = last10LapTimeAverages;
+
+            // 15 lap avg time
+            var last15LapTimeAverages = lapTimeData.
+               Drivers.
+               OrderBy(d => d.AverageTimeLast15Laps().GetValueOrDefault(999)).
+               Take(10).
+               Select(d => new LapAverageViewModel()
+               {
+                   Driver = d.FullName,
+                   Average = (float)Math.Round(d.AverageTimeLast15Laps().GetValueOrDefault(999), 3)
+               }).
+               ToList();
+
+            _15LapAverageTimeDataGridView.DataSource = last15LapTimeAverages;
         }
 
         private void DisplayHeaderData(LiveFeed result)

@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\libraries\Data\rNascar23.Data\rNascar23.Data.csproj" />
-    <ProjectReference Include="..\libraries\FlagStates\rNascar23.FlagStates\rNascar23.Flags.csproj" />
+    <ProjectReference Include="..\..\Data\rNascar23.Data\rNascar23.Data.csproj" />
+    <ProjectReference Include="..\rNascar23.Flags\rNascar23.Flags.csproj" />
   </ItemGroup>
 
 </Project>
