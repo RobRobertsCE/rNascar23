@@ -61,6 +61,7 @@ namespace rNascar23TestApp
         private DataGridView _biggestMoversDataGridView = null;
         private DataGridView _biggestFallersDataGridView = null;
         private DataGridView _cautionsDataGridView = null;
+        private DataGridView _lapLeadersDataGridView = null;
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
         IList<FastestLapViewModel> _fastestLaps;
@@ -619,9 +620,20 @@ namespace rNascar23TestApp
             }
             _cautionsDataGridView = BuildCautionsViewGrid();
             pnlBottom.Controls.Add(_cautionsDataGridView);
-            _cautionsDataGridView.Width = 285;
+            _cautionsDataGridView.Width = 290;
             _cautionsDataGridView.Dock = DockStyle.Left;
             _cautionsDataGridView.BringToFront();
+
+            if (_lapLeadersDataGridView != null)
+            {
+                _lapLeadersDataGridView.Dispose();
+                _lapLeadersDataGridView = null;
+            }
+            _lapLeadersDataGridView = BuildLapLeadersViewGrid();
+            pnlBottom.Controls.Add(_lapLeadersDataGridView);
+            _lapLeadersDataGridView.Width = 285;
+            _lapLeadersDataGridView.Dock = DockStyle.Left;
+            _lapLeadersDataGridView.BringToFront();
 
             lblRaceLaps.Visible = true;
             lblRaceLaps.Text = "-";
@@ -1103,6 +1115,33 @@ namespace rNascar23TestApp
             return dataGridView;
         }
 
+        private DataGridView BuildLapLeadersViewGrid()
+        {
+            var dataGridView = new DataGridView();
+
+            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            dataGridView.RowHeadersVisible = false;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.AllowUserToResizeColumns = true;
+
+            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            {
+                Column1,
+                Column2,
+            });
+
+            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
+
+            ConfigureColumn(Column1, "Driver", 210, "Lap Leaders");
+
+            ConfigureColumn(Column2, "Laps", 55, "Laps");
+
+            return dataGridView;
+        }
+
         private void ConfigureColumn(
             DataGridViewTextBoxColumn column,
             string propertyName,
@@ -1409,6 +1448,8 @@ namespace rNascar23TestApp
             UpdateGreenYellowLapIndicator(liveFeed, flagStates);
 
             DisplayCautionsList(flagStates);
+
+            DisplayLapLeadersList(liveFeed);
         }
 
         private void DisplayHeaderData(LiveFeed result)
@@ -1517,6 +1558,24 @@ namespace rNascar23TestApp
             }
 
             _cautionsDataGridView.DataSource = cautions;
+        }
+
+        private void DisplayLapLeadersList(LiveFeed liveFeed)
+        {
+            IList<LapLeaderViewModel> lapLeaders = new List<LapLeaderViewModel>();
+
+            foreach (var lapLedLeader in liveFeed.Vehicles.Where(v => v.laps_led.Length > 0))
+            {
+                var lapLeader = new LapLeaderViewModel()
+                {
+                    Driver = lapLedLeader.driver.full_name,
+                    Laps = lapLedLeader.laps_led.Sum(l => l.end_lap - l.start_lap) + 1
+                };
+
+                lapLeaders.Add(lapLeader);
+            }
+
+            _lapLeadersDataGridView.DataSource = lapLeaders.OrderByDescending(l => l.Laps).ToList();
         }
 
         private void UpdateGreenYellowLapIndicator(LiveFeed liveFeed, IList<FlagState> flagStates)

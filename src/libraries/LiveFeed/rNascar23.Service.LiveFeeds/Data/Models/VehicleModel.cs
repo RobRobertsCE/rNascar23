@@ -15,7 +15,7 @@
         public int fastest_laps_run { get; set; }
         public int laps_position_improved { get; set; }
         public int laps_completed { get; set; }
-        public object[] laps_led { get; set; }
+        public LapsLedModel[] laps_led { get; set; }
         public float last_lap_speed { get; set; }
         public float last_lap_time { get; set; }
         public int passes_made { get; set; }
