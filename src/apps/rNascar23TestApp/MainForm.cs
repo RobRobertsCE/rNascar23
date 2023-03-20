@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
@@ -36,11 +37,13 @@ namespace rNascar23TestApp
 
         private enum SeriesType
         {
-            Trucks = 1,
+            Cup = 1,
             Xfinity,
-            Cup,
+            Trucks,
             All
         }
+
+
 
         #endregion
 
@@ -56,6 +59,11 @@ namespace rNascar23TestApp
         private DataGridView _biggestFallersDataGridView = null;
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
+        IList<FastestLapViewModel> _fastestLaps;
+        IList<PositionChangeViewModel> _biggestMovers;
+        IList<PositionChangeViewModel> _biggestFallers;
+        private LapStateViewModel _lapStates = new LapStateViewModel();
+        private Series _seriesRace = null;
 
         #endregion
 
@@ -168,6 +176,18 @@ namespace rNascar23TestApp
             }
         }
 
+        private void formattedLiveFeedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                GetLiveFeedData();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
         private void autoUpdateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -246,6 +266,99 @@ namespace rNascar23TestApp
             }
         }
 
+        // paint
+        private void picGreenYelllowLapIndicator_Paint(object sender, PaintEventArgs e)
+        {
+            if (_lapStates == null || _lapStates.Stage1Laps == 0)
+                return;
+
+            e.Graphics.Clear(picGreenYelllowLapIndicator.BackColor);
+
+            Color stageBlockBackgroundColor = Color.Black;
+            Color flagSegmentGreenColor = Color.DarkGreen;
+            Color flagSegmentYellowColor = Color.Gold;
+            Color flagSegmentRedColor = Color.Red;
+            Color flagSegmentWhiteColor = Color.White;
+            Color flagSegmentCheckeredColor = Color.Black;
+
+            int endPadding = 5;
+            int stagePadding = 10;
+            int verticalPadding = 3;
+            int stageBlockStartY = 0;
+
+            int totalPadding = (stagePadding * 2) + (endPadding * 2);
+            int totalBlockWidth = picGreenYelllowLapIndicator.Width - totalPadding;
+            int totalLaps = _lapStates.Stage1Laps + _lapStates.Stage2Laps + _lapStates.Stage3Laps;
+            float firstStageWidth = (float)Math.Round(((double)_lapStates.Stage1Laps / totalLaps) * totalBlockWidth, 0);
+            float secondStageWidth = (float)Math.Round(((double)_lapStates.Stage2Laps / totalLaps) * totalBlockWidth, 0);
+            float thirdStageWidth = (float)Math.Round(((double)_lapStates.Stage3Laps / totalLaps) * totalBlockWidth, 0);
+            float stage1StartX = endPadding;
+            float stage2StartX = endPadding + firstStageWidth + stagePadding;
+            float stage3StartX = endPadding + firstStageWidth + stagePadding + secondStageWidth + stagePadding;
+            int stageBlockHeight = picGreenYelllowLapIndicator.Height;
+
+            RectangleF stage1Block = new RectangleF(
+                   stage1StartX,
+                   stageBlockStartY,
+                   firstStageWidth,
+                   stageBlockHeight);
+
+            RectangleF stage2Block = new RectangleF(
+                   stage2StartX,
+                   stageBlockStartY,
+                   secondStageWidth,
+                   stageBlockHeight);
+
+            RectangleF stage3Block = new RectangleF(
+                 stage3StartX,
+                 stageBlockStartY,
+                 thirdStageWidth,
+                 stageBlockHeight);
+
+            using (Brush brush = new SolidBrush(stageBlockBackgroundColor))
+            {
+                e.Graphics.FillRectangle(brush, stage1Block);
+                e.Graphics.FillRectangle(brush, stage2Block);
+                e.Graphics.FillRectangle(brush, stage3Block);
+            }
+
+            float lapWidth1 = (float)stage1Block.Width / _lapStates.Stage1Laps;
+            float lapWidth2 = (float)stage2Block.Width / _lapStates.Stage2Laps;
+            float lapWidth3 = (float)stage3Block.Width / _lapStates.Stage3Laps;
+
+            for (int i = 0; i < _lapStates.LapSegments.Count; i++)
+            {
+                var lapSegment = _lapStates.LapSegments[i];
+                float lapWidth = lapSegment.Stage == 1 ? lapWidth1 : lapSegment.Stage == 2 ? lapWidth2 : lapWidth3;
+                float segmentOffset = lapSegment.Stage == 1 ? 0 : lapSegment.Stage == 2 ? stagePadding : stagePadding + stagePadding;
+                float segmentLength = (float)lapSegment.Laps * lapWidth;
+                float segmentStart = ((float)lapSegment.StartLapNumber * lapWidth) + segmentOffset;
+                float lapSegmentStartX = endPadding + segmentStart;
+
+                var segmentColor = lapSegment.FlagState == LapStateViewModel.FlagState.Green ?
+                    flagSegmentGreenColor : lapSegment.FlagState == LapStateViewModel.FlagState.Yellow ?
+                    flagSegmentYellowColor : lapSegment.FlagState == LapStateViewModel.FlagState.Red ?
+                    flagSegmentRedColor : lapSegment.FlagState == LapStateViewModel.FlagState.White ?
+                    flagSegmentWhiteColor : flagSegmentCheckeredColor;
+
+                RectangleF flagSegment = new RectangleF(
+                       lapSegmentStartX,
+                       stageBlockStartY + verticalPadding,
+                       segmentLength,
+                       stageBlockHeight - (verticalPadding * 2));
+
+                using (Brush brush = new SolidBrush(segmentColor))
+                {
+                    e.Graphics.FillRectangle(brush, flagSegment);
+                }
+
+                using (Font myFont = new Font("Arial", 10))
+                {
+                    e.Graphics.DrawString($"{i + 1}", myFont, Brushes.Black, new PointF(lapSegmentStartX + 2, stageBlockStartY + verticalPadding));
+                }
+            }
+        }
+
         #endregion
 
         #region private
@@ -273,6 +386,8 @@ namespace rNascar23TestApp
             {
                 lblAutoUpdateStatus.Text = "Auto-Update On";
                 lblAutoUpdateStatus.BackColor = Color.LimeGreen;
+
+                GetLiveFeedData();
             }
             else
             {
@@ -1026,6 +1141,15 @@ namespace rNascar23TestApp
                 "Unknown";
         }
 
+        private IList<rNascar23.Flags.Models.FlagState> GetFlagStates()
+        {
+            var flagStateRepository = Program.Services.GetRequiredService<IFlagStateRepository>();
+
+            var flagStates = flagStateRepository.GetFlagStates();
+
+            return flagStates;
+        }
+
         // display data
         private void DisplaySeriesSchedule(SeriesType seriesType)
         {
@@ -1130,7 +1254,7 @@ namespace rNascar23TestApp
                 }
 
                 // Fastest this lap.
-                if ((float)row.Cells[9].Value == bestLapTime)
+                if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                 {
                     row.Cells[9].Style.BackColor = Color.LimeGreen;
 
@@ -1153,6 +1277,7 @@ namespace rNascar23TestApp
             }
 
             _rightRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition > 20).OrderBy(v => v.RunningPosition).ToList();
+
             foreach (DataGridViewRow row in _rightRaceDataGridView.Rows)
             {
                 if (row.Index % 2 == 0)
@@ -1165,7 +1290,7 @@ namespace rNascar23TestApp
                 }
 
                 // Fastest this lap.
-                if ((float)row.Cells[9].Value == bestLapTime)
+                if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                 {
                     row.Cells[9].Style.BackColor = Color.LimeGreen;
 
@@ -1226,6 +1351,8 @@ namespace rNascar23TestApp
             }
 
             DisplayBiggestFallers(biggestFallers);
+
+            UpdateGreenYellowLapIndicator(liveFeed);
         }
 
         private void DisplayHeaderData(LiveFeed result)
@@ -1239,13 +1366,19 @@ namespace rNascar23TestApp
 
             if (result.RunType == (int)RunType.Race)
             {
-                Series seriesRace = null;
-
                 var seriesRaceList = GetSeriesSchedule((SeriesType)result.SeriesId);
 
-                seriesRace = seriesRaceList.FirstOrDefault(s => s.race_id == result.RaceId);
+                _seriesRace = seriesRaceList.FirstOrDefault(s => s.race_id == result.RaceId);
+                
+                if (_lapStates == null || _lapStates.Stage1Laps == 0)
+                {
+                    _lapStates = new LapStateViewModel();
+                    _lapStates.Stage1Laps = _seriesRace.stage_1_laps;
+                    _lapStates.Stage2Laps = _seriesRace.stage_2_laps;
+                    _lapStates.Stage3Laps = _seriesRace.stage_3_laps;
+                }
 
-                DisplayEventName(result.RunName, GetSeriesName(result.SeriesId), result.TrackName, seriesRace.stage_1_laps, seriesRace.stage_2_laps, seriesRace.stage_3_laps);
+                DisplayEventName(result.RunName, GetSeriesName(result.SeriesId), result.TrackName, _seriesRace.stage_1_laps, _seriesRace.stage_2_laps, _seriesRace.stage_3_laps);
 
                 DisplayRaceLaps(result.LapNumber, result.LapsInRace);
 
@@ -1280,16 +1413,19 @@ namespace rNascar23TestApp
             lblStageLaps.Text = $"Stage {stageNumber}: Lap {lapNumber - stageStartLap} of {lapsInStage}";
         }
 
-        IList<FastestLapViewModel> _fastestLaps;
-        IList<PositionChangeViewModel> _biggestMovers;
-        IList<PositionChangeViewModel> _biggestFallers;
-
         private void DisplayFastestLaps(IList<FastestLapViewModel> laps)
         {
             _fastestLaps = laps;
 
             if (_fastestLapsDataGridView.DataSource == null)
                 _fastestLapsDataGridView.DataSource = _fastestLaps;
+            // TODO:DisplayFastestLaps, DisplayBiggestMovers, DisplayBiggestFallers
+            //else
+            //{
+            //    _fastestLapsDataGridView.DataSource = typeof(List<FastestLapViewModel>);
+            //    _fastestLapsDataGridView.AutoGenerateColumns= false;
+            //    _fastestLapsDataGridView.DataSource = _fastestLaps;
+            //}
         }
 
         private void DisplayBiggestMovers(IList<PositionChangeViewModel> biggestMovers)
@@ -1308,7 +1444,56 @@ namespace rNascar23TestApp
                 _biggestFallersDataGridView.DataSource = _biggestFallers;
         }
 
+        private void UpdateGreenYellowLapIndicator(LiveFeed liveFeed)
+        {
+            var flagStates = GetFlagStates();
+
+            int lap = 0;
+            LapStateViewModel.FlagState previousFlagState = LapStateViewModel.FlagState.Green;
+
+            for (int i = 0; i < flagStates.Count; i++)
+            {
+                if (flagStates[i].State != (int)previousFlagState)
+                {
+                    // flag has changed
+                    if ((flagStates[i].LapNumber - lap) > 0)
+                    {
+                        // race has started   
+                        var newLapSegment = new LapStateViewModel.LapSegment
+                        {
+                            StartLapNumber = lap,
+                            Laps = flagStates[i].LapNumber - lap,
+                            Stage = lap >= _lapStates.Stage1Laps + _lapStates.Stage2Laps ?
+                            3 : lap >= _lapStates.Stage1Laps ?
+                            2 :
+                            1,
+                            FlagState = previousFlagState
+                        };
+
+                        _lapStates.LapSegments.Add(newLapSegment);
+
+                        previousFlagState = (LapStateViewModel.FlagState)flagStates[i].State;
+                        lap = flagStates[i].LapNumber;
+                    }
+                }
+            }
+
+            if (lap == (_lapStates.Stage1Laps + _lapStates.Stage2Laps + _lapStates.Stage3Laps - 1))
+            {
+                var lastLapSegment = new LapStateViewModel.LapSegment
+                {
+                    StartLapNumber = lap,
+                    Laps = 1,
+                    Stage = 3,
+                    FlagState = LapStateViewModel.FlagState.Checkered
+                };
+
+                _lapStates.LapSegments.Add(lastLapSegment);
+            }
+
+            picGreenYelllowLapIndicator.Invalidate();
+        }
+
         #endregion
     }
 }
-

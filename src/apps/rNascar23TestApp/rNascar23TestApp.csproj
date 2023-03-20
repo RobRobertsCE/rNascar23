@@ -204,6 +204,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\FastestLapViewModel.cs" />
+    <Compile Include="ViewModels\LapStateViewModel.cs" />
     <Compile Include="ViewModels\PositionChangeViewModel.cs" />
     <Compile Include="ViewModels\RaceVehicleViewModel.cs" />
     <EmbeddedResource Include="MainForm.resx">
@@ -234,6 +235,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libraries\FlagStates\rNascar23.FlagStates\rNascar23.Flags.csproj">
+      <Project>{185c8aa2-68f6-4356-899f-7edaf4a6d2e5}</Project>
+      <Name>rNascar23.Flags</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libraries\RaceLists\rNascar23.RaceLists\rNascar23.RaceLists.csproj">
       <Project>{cb651a9a-0d3b-4667-af0a-dd527a7c5b11}</Project>
       <Name>rNascar23.RaceLists</Name>
@@ -249,6 +254,10 @@
     <ProjectReference Include="..\..\libraries\RaceLists\rNascar23.Service.RaceLists\rNascar23.Service.RaceLists.csproj">
       <Project>{29f4feca-4d38-4c4d-8c13-78f97f021d2b}</Project>
       <Name>rNascar23.Service.RaceLists</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\rNascar23.Service.Flags\rNascar23.Service.Flags.csproj">
+      <Project>{3c15ac9b-751e-4fe7-bc27-375c47859963}</Project>
+      <Name>rNascar23.Service.Flags</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

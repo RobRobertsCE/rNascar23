@@ -1,0 +1,238 @@
+﻿{
+  "FlagStates": [
+    {
+      "lap_number": 0,
+      "flag_state": 8,
+      "elapsed_time": 0.0,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 60398.0639,
+      "time_of_day_os": "2023-03-18T16:46:38.063-04:00"
+    },
+    {
+      "lap_number": 0,
+      "flag_state": 1,
+      "elapsed_time": 0.0,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 63312.4429,
+      "time_of_day_os": "2023-03-18T17:35:12.443-04:00"
+    },
+    {
+      "lap_number": 1,
+      "flag_state": 2,
+      "elapsed_time": 41.675,
+      "comment": "Nos. 53, 66 Incident Frontstretch",
+      "beneficiary": "",
+      "time_of_day": 63357.7067,
+      "time_of_day_os": "2023-03-18T17:35:57.707-04:00"
+    },
+    {
+      "lap_number": 6,
+      "flag_state": 1,
+      "elapsed_time": 624.256,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 63940.2874,
+      "time_of_day_os": "2023-03-18T17:45:40.287-04:00"
+    },
+    {
+      "lap_number": 11,
+      "flag_state": 2,
+      "elapsed_time": 786.125,
+      "comment": "Nos. 26, 4, 44 Incident Turn 3",
+      "beneficiary": "",
+      "time_of_day": 64102.1566,
+      "time_of_day_os": "2023-03-18T17:48:22.157-04:00"
+    },
+    {
+      "lap_number": 23,
+      "flag_state": 1,
+      "elapsed_time": 2230.144,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 65546.1756,
+      "time_of_day_os": "2023-03-18T18:12:26.177-04:00"
+    },
+    {
+      "lap_number": 26,
+      "flag_state": 2,
+      "elapsed_time": 2308.852,
+      "comment": "Nos. 02, 27, 92 Incident Turn 1",
+      "beneficiary": "",
+      "time_of_day": 65624.8839,
+      "time_of_day_os": "2023-03-18T18:13:44.883-04:00"
+    },
+    {
+      "lap_number": 30,
+      "flag_state": 1,
+      "elapsed_time": 2741.884,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 66057.9152,
+      "time_of_day_os": "2023-03-18T18:20:57.917-04:00"
+    },
+    {
+      "lap_number": 31,
+      "flag_state": 2,
+      "elapsed_time": 2769.211,
+      "comment": "Debris on Frontstretch ",
+      "beneficiary": "",
+      "time_of_day": 66085.2425,
+      "time_of_day_os": "2023-03-18T18:21:25.243-04:00"
+    },
+    {
+      "lap_number": 36,
+      "flag_state": 1,
+      "elapsed_time": 3255.007,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 66571.038,
+      "time_of_day_os": "2023-03-18T18:29:31.037-04:00"
+    },
+    {
+      "lap_number": 39,
+      "flag_state": 2,
+      "elapsed_time": 3355.237,
+      "comment": "Nos. 91, 35 Incident Turn 4/ Stage 1 Conclusion ",
+      "beneficiary": "",
+      "time_of_day": 66671.2686,
+      "time_of_day_os": "2023-03-18T18:31:11.267-04:00"
+    },
+    {
+      "lap_number": 46,
+      "flag_state": 1,
+      "elapsed_time": 3980.801,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 67296.8326,
+      "time_of_day_os": "2023-03-18T18:41:36.833-04:00"
+    },
+    {
+      "lap_number": 55,
+      "flag_state": 2,
+      "elapsed_time": 4249.651,
+      "comment": "No. 91 Spin Turn 3",
+      "beneficiary": "35   ",
+      "time_of_day": 67565.682,
+      "time_of_day_os": "2023-03-18T18:46:05.683-04:00"
+    },
+    {
+      "lap_number": 59,
+      "flag_state": 1,
+      "elapsed_time": 4679.393,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 67995.4249,
+      "time_of_day_os": "2023-03-18T18:53:15.423-04:00"
+    },
+    {
+      "lap_number": 61,
+      "flag_state": 2,
+      "elapsed_time": 4725.329,
+      "comment": "No. 31 Spin Turn 1",
+      "beneficiary": "91   ",
+      "time_of_day": 68041.3609,
+      "time_of_day_os": "2023-03-18T18:54:01.36-04:00"
+    },
+    {
+      "lap_number": 65,
+      "flag_state": 1,
+      "elapsed_time": 5135.08,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 68451.1116,
+      "time_of_day_os": "2023-03-18T19:00:51.11-04:00"
+    },
+    {
+      "lap_number": 68,
+      "flag_state": 2,
+      "elapsed_time": 5229.311,
+      "comment": "Nos. 11, 24 Incident Turn 4",
+      "beneficiary": "91   ",
+      "time_of_day": 68545.3427,
+      "time_of_day_os": "2023-03-18T19:02:25.343-04:00"
+    },
+    {
+      "lap_number": 74,
+      "flag_state": 1,
+      "elapsed_time": 5818.251,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 69134.2827,
+      "time_of_day_os": "2023-03-18T19:12:14.283-04:00"
+    },
+    {
+      "lap_number": 77,
+      "flag_state": 2,
+      "elapsed_time": 5905.631,
+      "comment": "Nos. 7, 8, 51 Incident Backstretch / Stage 2 Conclusion",
+      "beneficiary": "",
+      "time_of_day": 69221.6621,
+      "time_of_day_os": "2023-03-18T19:13:41.663-04:00"
+    },
+    {
+      "lap_number": 85,
+      "flag_state": 1,
+      "elapsed_time": 6707.571,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 70023.6027,
+      "time_of_day_os": "2023-03-18T19:27:03.603-04:00"
+    },
+    {
+      "lap_number": 116,
+      "flag_state": 2,
+      "elapsed_time": 7679.888,
+      "comment": "Nos. 35, 28 Incident Turn 1",
+      "beneficiary": "2    ",
+      "time_of_day": 70995.9198,
+      "time_of_day_os": "2023-03-18T19:43:15.92-04:00"
+    },
+    {
+      "lap_number": 122,
+      "flag_state": 1,
+      "elapsed_time": 8271.953,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 71587.9847,
+      "time_of_day_os": "2023-03-18T19:53:07.983-04:00"
+    },
+    {
+      "lap_number": 154,
+      "flag_state": 2,
+      "elapsed_time": 9286.706,
+      "comment": "No. 31 Incident Turn 4",
+      "beneficiary": "2    ",
+      "time_of_day": 72602.7376,
+      "time_of_day_os": "2023-03-18T20:10:02.737-04:00"
+    },
+    {
+      "lap_number": 160,
+      "flag_state": 1,
+      "elapsed_time": 9820.211,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 73136.2422,
+      "time_of_day_os": "2023-03-18T20:18:56.243-04:00"
+    },
+    {
+      "lap_number": 162,
+      "flag_state": 4,
+      "elapsed_time": 9889.347,
+      "comment": null,
+      "beneficiary": null,
+      "time_of_day": 73205.3788,
+      "time_of_day_os": "2023-03-18T20:20:05.377-04:00"
+    },
+    {
+      "lap_number": 163,
+      "flag_state": 2,
+      "elapsed_time": 9891.708,
+      "comment": "",
+      "beneficiary": "",
+      "time_of_day": 73207.7396,
+      "time_of_day_os": "2023-03-18T20:20:07.74-04:00"
+    }
+  ]
+}
