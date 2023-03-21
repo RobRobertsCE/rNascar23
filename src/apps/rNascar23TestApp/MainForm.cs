@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
+using rNascar23.DriverStatistics.Ports;
 using rNascar23.Flags.Models;
 using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
@@ -13,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace rNascar23TestApp
@@ -193,6 +195,18 @@ namespace rNascar23TestApp
             try
             {
                 GetLiveFeedData();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void driverStatisticsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await GetDriverStatisticsAsync();
             }
             catch (Exception ex)
             {
@@ -1281,6 +1295,35 @@ namespace rNascar23TestApp
                         throw new ArgumentException($"Unrecognized Series: {seriesType}");
                     }
             }
+        }
+
+        private async Task GetDriverStatisticsAsync()
+        {
+            var liveFeedRepository = Program.Services.GetRequiredService<ILiveFeedRepository>();
+
+            var liveFeed = liveFeedRepository.GetLiveFeed();
+
+            var driverStatisticsRepository = Program.Services.GetRequiredService<IDriverStatisticsRepository>();
+
+            var driverStatistics = await driverStatisticsRepository.GetEventAsync(liveFeed.SeriesId, liveFeed.RaceId);
+
+            if (_viewState != ViewState.Info)
+            {
+                SetAutoUpdateState(false);
+
+                SetViewState(ViewState.Info);
+            }
+
+            foreach (var driverStats in driverStatistics.drivers)
+            {
+                var liveFeedDriver = liveFeed.Vehicles.FirstOrDefault(v => v.driver.driver_id == driverStats.driver_id);
+
+                if (liveFeedDriver != null)
+                    driverStats.driver_name = liveFeedDriver.driver.full_name;
+
+            }
+
+            _genericDataGridView.DataSource = driverStatistics.drivers;
         }
 
         private void GetLiveFeedData()

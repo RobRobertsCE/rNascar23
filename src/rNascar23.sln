@@ -31,7 +31,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rNascar23.Service.Flags", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LapTimes", "LapTimes", "{FD6EBCF8-47B7-43BC-AD7D-E781D4D38FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascar23.Service.LapTimes", "libraries\LapTimes\rNascar23.Service.LapTimes\rNascar23.Service.LapTimes.csproj", "{577055F5-2876-43D3-90A2-1DC5275DA8AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rNascar23.Service.LapTimes", "libraries\LapTimes\rNascar23.Service.LapTimes\rNascar23.Service.LapTimes.csproj", "{577055F5-2876-43D3-90A2-1DC5275DA8AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DriverStatistics", "DriverStatistics", "{AF556C64-1689-41A1-8A7E-CCC20D3E515F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascar23.DriverStatistics", "libraries\DriverStats\rNascar23.DriverStats\rNascar23.DriverStatistics.csproj", "{43497A12-F239-4A40-9865-0A7217EBA510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascar23.Service.DriverStatistics", "libraries\DriverStats\rNascar.Services.DriverStats\rNascar23.Service.DriverStatistics.csproj", "{BBBDAB8F-8764-4EBD-9FE5-7AAF3DD29D1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,6 +85,14 @@ Global
 		{577055F5-2876-43D3-90A2-1DC5275DA8AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{577055F5-2876-43D3-90A2-1DC5275DA8AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{577055F5-2876-43D3-90A2-1DC5275DA8AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43497A12-F239-4A40-9865-0A7217EBA510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43497A12-F239-4A40-9865-0A7217EBA510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43497A12-F239-4A40-9865-0A7217EBA510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43497A12-F239-4A40-9865-0A7217EBA510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBBDAB8F-8764-4EBD-9FE5-7AAF3DD29D1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBBDAB8F-8764-4EBD-9FE5-7AAF3DD29D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBBDAB8F-8764-4EBD-9FE5-7AAF3DD29D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBBDAB8F-8764-4EBD-9FE5-7AAF3DD29D1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +107,8 @@ Global
 		{A3AA6E5C-07A9-48C6-B45C-27BFBA0901EC} = {9B2377A4-48D8-4A2C-B613-0AC249BBB418}
 		{86C1DED5-6FF9-4894-9223-C86EF77E8C50} = {9B2377A4-48D8-4A2C-B613-0AC249BBB418}
 		{577055F5-2876-43D3-90A2-1DC5275DA8AE} = {FD6EBCF8-47B7-43BC-AD7D-E781D4D38FF4}
+		{43497A12-F239-4A40-9865-0A7217EBA510} = {AF556C64-1689-41A1-8A7E-CCC20D3E515F}
+		{BBBDAB8F-8764-4EBD-9FE5-7AAF3DD29D1B} = {AF556C64-1689-41A1-8A7E-CCC20D3E515F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59148673-1722-424A-8A9E-80655C2537C3}
