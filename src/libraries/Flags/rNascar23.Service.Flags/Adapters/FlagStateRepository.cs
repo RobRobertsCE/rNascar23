@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace rNascar23.Service.Flags.Adapters
 {
@@ -22,7 +23,7 @@ namespace rNascar23.Service.Flags.Adapters
 
         public string Url { get => @"https://cf.nascar.com/live/feeds/live-flag-data.json"; }
 
-        public IList<FlagState> GetFlagStates()
+        public async Task<IList<FlagState>> GetFlagStatesAsync()
         {
             try
             {
@@ -32,7 +33,7 @@ namespace rNascar23.Service.Flags.Adapters
 
                 //var flagStates = _mapper.Map<List<FlagState>>(model.FlagStates);
 
-                var json = Get(Url);
+                var json = await GetAsync(Url).ConfigureAwait(false);
 
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<FlagStateModel[]>(json);
 

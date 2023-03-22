@@ -4,6 +4,7 @@ using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
 using rNascar23.Service.RaceLists.Data.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace rNascar23.Service.RaceLists.Adapters
 {
@@ -18,11 +19,11 @@ namespace rNascar23.Service.RaceLists.Adapters
 
         public string Url { get => @"https://cf.nascar.com/cacher/2023/race_list_basic.json"; }
 
-        public RaceList GetRaceList()
+        public async Task<RaceList> GetRaceListAsync()
         {
             try
             {
-                var json = Get(Url);
+                var json = await GetAsync(Url).ConfigureAwait(false);
 
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<RaceListModel>(json);
 

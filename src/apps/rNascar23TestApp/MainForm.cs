@@ -4,6 +4,7 @@ using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.DriverStatistics.Ports;
 using rNascar23.Flags.Models;
+using rNascar23.LapTimes.Models;
 using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
@@ -75,18 +76,35 @@ namespace rNascar23TestApp
         IList<PositionChangeViewModel> _biggestMovers;
         IList<PositionChangeViewModel> _biggestFallers;
         private LapStateViewModel _lapStates = new LapStateViewModel();
-        private Series _seriesRace = null;
+
+        private FormState _formState = new FormState();
         private readonly ILogger<MainForm> _logger = null;
+        private readonly ILapTimesRepository _lapTimeRepository = null;
+        private readonly ILiveFeedRepository _liveFeedRepository = null;
+        private readonly IDriverStatisticsRepository _driverStatisticsRepository = null;
+        private readonly IFlagStateRepository _flagStateRepository = null;
+        private readonly IRaceListRepository _raceScheduleRepository = null;
 
         #endregion
 
         #region ctor / load
 
-        public MainForm(ILogger<MainForm> logger)
+        public MainForm(
+            ILogger<MainForm> logger,
+            ILapTimesRepository lapTimeRepository,
+            ILiveFeedRepository liveFeedRepository,
+            IDriverStatisticsRepository driverStatisticsRepository,
+            IFlagStateRepository flagStateRepository,
+            IRaceListRepository raceScheduleRepository)
         {
             InitializeComponent();
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _lapTimeRepository = lapTimeRepository ?? throw new ArgumentNullException(nameof(lapTimeRepository));
+            _liveFeedRepository = liveFeedRepository ?? throw new ArgumentNullException(nameof(liveFeedRepository));
+            _driverStatisticsRepository = driverStatisticsRepository ?? throw new ArgumentNullException(nameof(driverStatisticsRepository));
+            _flagStateRepository = flagStateRepository ?? throw new ArgumentNullException(nameof(flagStateRepository));
+            _raceScheduleRepository = raceScheduleRepository ?? throw new ArgumentNullException(nameof(raceScheduleRepository));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -106,11 +124,11 @@ namespace rNascar23TestApp
         #region private [event handlers]
 
         // timer
-        private void AutoUpdateTimer_Tick(object sender, EventArgs e)
+        private async void AutoUpdateTimer_Tick(object sender, EventArgs e)
         {
             try
             {
-                GetLiveFeedData();
+                await UpdateUiAsync();
             }
             catch (Exception ex)
             {
@@ -119,11 +137,11 @@ namespace rNascar23TestApp
         }
 
         // menu items
-        private void allToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void allToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DisplaySeriesSchedule(SeriesType.All);
+                await DisplaySeriesScheduleAsync(SeriesType.All);
             }
             catch (Exception ex)
             {
@@ -131,11 +149,11 @@ namespace rNascar23TestApp
             }
         }
 
-        private void truckRacesToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void truckRacesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DisplaySeriesSchedule(SeriesType.Trucks);
+                await DisplaySeriesScheduleAsync(SeriesType.Trucks);
             }
             catch (Exception ex)
             {
@@ -143,11 +161,11 @@ namespace rNascar23TestApp
             }
         }
 
-        private void xfinityRacesToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void xfinityRacesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DisplaySeriesSchedule(SeriesType.Xfinity);
+                await DisplaySeriesScheduleAsync(SeriesType.Xfinity);
             }
             catch (Exception ex)
             {
@@ -155,11 +173,11 @@ namespace rNascar23TestApp
             }
         }
 
-        private void cupRacesToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void cupRacesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DisplaySeriesSchedule(SeriesType.Cup);
+                await DisplaySeriesScheduleAsync(SeriesType.Cup);
             }
             catch (Exception ex)
             {
@@ -167,11 +185,11 @@ namespace rNascar23TestApp
             }
         }
 
-        private void vehicleListToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void vehicleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DisplayRawVehicleData();
+                await DisplayRawVehicleDataAsync();
             }
             catch (Exception ex)
             {
@@ -179,11 +197,11 @@ namespace rNascar23TestApp
             }
         }
 
-        private void liveFeedToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void liveFeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DisplayRawLiveFeedData();
+                await DisplayRawLiveFeedDataAsync();
             }
             catch (Exception ex)
             {
@@ -191,11 +209,11 @@ namespace rNascar23TestApp
             }
         }
 
-        private void formattedLiveFeedToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void formattedLiveFeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                GetLiveFeedData();
+                await UpdateUiAsync();
             }
             catch (Exception ex)
             {
@@ -207,7 +225,7 @@ namespace rNascar23TestApp
         {
             try
             {
-                await GetDriverStatisticsAsync();
+                await DisplayDriverStatisticsAsync();
             }
             catch (Exception ex)
             {
@@ -219,7 +237,7 @@ namespace rNascar23TestApp
         {
             try
             {
-                SetAutoUpdateState(!AutoUpdateTimer.Enabled);
+                SetAutoUpdateStateAsync(!AutoUpdateTimer.Enabled);
             }
             catch (Exception ex)
             {
@@ -293,6 +311,18 @@ namespace rNascar23TestApp
             }
         }
 
+        private void _seriesScheduleDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplayEventSchedule();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
         // paint
         private void picGreenYelllowLapIndicator_Paint(object sender, PaintEventArgs e)
         {
@@ -312,7 +342,7 @@ namespace rNascar23TestApp
             Color flagSegmentYellowColor = Color.Gold;
             Color flagSegmentRedColor = Color.Red;
             Color flagSegmentWhiteColor = Color.White;
-            Color flagSegmentCheckeredColor = Color.Black;
+            Color flagSegmentCheckeredColor = Color.Gray;
 
             int endPadding = 5;
             int stagePadding = 10;
@@ -347,13 +377,6 @@ namespace rNascar23TestApp
                  stageBlockStartY,
                  thirdStageWidth,
                  stageBlockHeight);
-
-            //using (Brush brush = new SolidBrush(stageBlockBackgroundColor))
-            //{
-            //    e.Graphics.FillRectangle(brush, stage1Block);
-            //    e.Graphics.FillRectangle(brush, stage2Block);
-            //    e.Graphics.FillRectangle(brush, stage3Block);
-            //}
 
             float lapWidth1 = (float)stage1Block.Width / _lapStates.Stage1Laps;
             float lapWidth2 = (float)stage2Block.Width / _lapStates.Stage2Laps;
@@ -395,353 +418,24 @@ namespace rNascar23TestApp
                 var endLap = lapSegment.Laps == 1 ? lapSegment.StartLapNumber : lapSegment.StartLapNumber + lapSegment.Laps;
                 var lapsText = endLap == startLap ? $"Lap {startLap + 1}" : $"Laps {startLap} to {endLap}";
 
-                toolTip1.SetToolTip(flagSegmentPB, $"{flagState} {lapsText}");
+                var cautionDetails = String.Empty;
+
+                if (lapSegment.FlagState == LapStateViewModel.FlagState.Yellow)
+                {
+                    var flagData = _formState.FlagStates.FirstOrDefault(f => f.LapNumber >= lapSegment.StartLapNumber && f.LapNumber <= lapSegment.StartLapNumber);
+
+                    cautionDetails = flagData == null && (flagData.Comment != null || flagData.Beneficiary != null) ? String.Empty : $"{Environment.NewLine}{flagData.Comment?.ToString()}{Environment.NewLine}Lucky Dog:{flagData.Beneficiary?.ToString().Trim()}";
+                }
+
+                toolTip1.SetToolTip(flagSegmentPB, $"{flagState} {lapsText}{cautionDetails}");
 
                 picGreenYelllowLapIndicator.Controls.Add(flagSegmentPB);
-
-                //////using (Brush brush = new SolidBrush(segmentColor))
-                //////{
-                //////    e.Graphics.FillRectangle(brush, flagSegment);
-                //////}
-
-                ////if (lapSegment.FlagState == LapStateViewModel.FlagState.Yellow)
-                ////{
-                ////    _cautionIndicatorSegments.Add(new CautionIndicatorSegment()
-                ////    {
-                ////        StartX = lapSegmentStartX,
-                ////        EndX = lapSegmentStartX + segmentLength,
-                ////        StartLap = lapSegment.StartLapNumber,
-                ////        EndLap = lapSegment.Laps
-                ////    });
-                ////}
             }
         }
 
         #endregion
 
-        #region private
-
-        private void ExceptionHandler(Exception ex)
-        {
-            ExceptionHandler(ex, String.Empty, true);
-        }
-        private void ExceptionHandler(Exception ex, string message = "")
-        {
-            ExceptionHandler(ex, message, true);
-        }
-        private void ExceptionHandler(Exception ex, string message = "", bool logMessage = false)
-        {
-            MessageBox.Show(ex.Message);
-            if (logMessage)
-            {
-                string errorMessage = String.IsNullOrEmpty(message) ? ex.Message : message;
-
-                _logger.LogError(ex, errorMessage);
-            }
-        }
-
-        private void SetAutoUpdateState(bool isEnabled)
-        {
-            if (AutoUpdateTimer.Enabled == isEnabled)
-                return;
-
-            autoUpdateToolStripMenuItem.Checked = isEnabled;
-
-            AutoUpdateTimer.Enabled = isEnabled;
-
-            if (AutoUpdateTimer.Enabled)
-            {
-                lblAutoUpdateStatus.Text = "Auto-Update On";
-                lblAutoUpdateStatus.BackColor = Color.LimeGreen;
-
-                GetLiveFeedData();
-            }
-            else
-            {
-                lblAutoUpdateStatus.Text = "Auto-Update Off";
-                lblAutoUpdateStatus.BackColor = SystemColors.Control;
-            }
-        }
-
-        private void SetViewState(ViewState newViewState)
-        {
-            SetViewState(newViewState, false);
-        }
-        private void SetViewState(ViewState newViewState, bool forceRefresh = false)
-        {
-            if (newViewState == _viewState && forceRefresh == false)
-                return;
-
-            SetUiView(newViewState);
-
-            _viewState = newViewState;
-
-            lblViewState.Text = $"View: {_viewState}";
-        }
-
-        private void SetUiView(ViewState viewState)
-        {
-            ClearViewControls();
-
-            switch (viewState)
-            {
-                case ViewState.None:
-                    break;
-                case ViewState.Practice:
-                    DisplayPracticeViewState();
-                    break;
-                case ViewState.Qualifying:
-                    DisplayQualifyingViewState();
-                    break;
-                case ViewState.Race:
-                    DisplayRaceViewState();
-                    break;
-                case ViewState.Info:
-                    DisplayInfoViewState();
-                    break;
-                case ViewState.SeriesSchedule:
-                    DisplaySeriesScheduleViewState();
-                    break;
-                case ViewState.EventSchedule:
-                    DisplayEventScheduleViewState();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void ClearViewControls()
-        {
-            var existingControls = new List<Control>();
-
-            foreach (Control existingControl in pnlMain.Controls)
-            {
-                existingControls.Add(existingControl);
-            }
-
-            foreach (Control existingControl in pnlBottom.Controls)
-            {
-                existingControls.Add(existingControl);
-            }
-
-            pnlMain.Controls.Clear();
-            pnlBottom.Controls.Clear();
-
-            for (int i = existingControls.Count - 1; i >= 0; i--)
-            {
-                existingControls[i].Dispose();
-                existingControls[i] = null;
-            }
-
-            lblRaceLaps.Visible = false;
-            lblRaceLaps.Text = "-";
-
-            lblStageLaps.Visible = false;
-            lblStageLaps.Text = "-";
-        }
-
-        private void DisplaySeriesScheduleViewState()
-        {
-            if (_seriesScheduleDataGridView != null)
-            {
-                _seriesScheduleDataGridView.SelectionChanged -= _seriesScheduleDataGridView_SelectionChanged;
-                _seriesScheduleDataGridView.Dispose();
-                _seriesScheduleDataGridView = null;
-            }
-
-            _seriesScheduleDataGridView = new DataGridView();
-            pnlMain.Controls.Add(_seriesScheduleDataGridView);
-            _seriesScheduleDataGridView.Dock = DockStyle.Fill;
-
-            DisplayEventScheduleViewState();
-        }
-
-        private void DisplayEventScheduleViewState()
-        {
-            if (_eventScheduleDataGridView != null)
-            {
-                _eventScheduleDataGridView.Dispose();
-                _eventScheduleDataGridView = null;
-            }
-
-            _eventScheduleDataGridView = new DataGridView();
-
-            pnlBottom.Controls.Add(_eventScheduleDataGridView);
-            _eventScheduleDataGridView.Dock = DockStyle.Fill;
-        }
-
-        private void DisplayPracticeViewState()
-        {
-            if (_rightRaceDataGridView != null)
-            {
-                _rightRaceDataGridView.Dispose();
-                _rightRaceDataGridView = null;
-            }
-            _rightRaceDataGridView = BuildPracticeViewGrid();
-            pnlMain.Controls.Add(_rightRaceDataGridView);
-            _rightRaceDataGridView.Width = 850;
-            _rightRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_leftRaceDataGridView != null)
-            {
-                _leftRaceDataGridView.Dispose();
-                _leftRaceDataGridView = null;
-            }
-            _leftRaceDataGridView = BuildPracticeViewGrid();
-            pnlMain.Controls.Add(_leftRaceDataGridView);
-            _leftRaceDataGridView.Width = 850;
-            _leftRaceDataGridView.Dock = DockStyle.Left;
-        }
-
-        private void DisplayQualifyingViewState()
-        {
-            if (_rightRaceDataGridView != null)
-            {
-                _rightRaceDataGridView.Dispose();
-                _rightRaceDataGridView = null;
-            }
-            _rightRaceDataGridView = BuildQualifyingViewGrid();
-            pnlMain.Controls.Add(_rightRaceDataGridView);
-            _rightRaceDataGridView.Width = 850;
-            _rightRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_leftRaceDataGridView != null)
-            {
-                _leftRaceDataGridView.Dispose();
-                _leftRaceDataGridView = null;
-            }
-            _leftRaceDataGridView = BuildQualifyingViewGrid();
-            pnlMain.Controls.Add(_leftRaceDataGridView);
-            _leftRaceDataGridView.Width = 850;
-            _leftRaceDataGridView.Dock = DockStyle.Left;
-        }
-
-        private void DisplayRaceViewState()
-        {
-            if (_rightRaceDataGridView != null)
-            {
-                _rightRaceDataGridView.Dispose();
-                _rightRaceDataGridView = null;
-            }
-            _rightRaceDataGridView = BuildRaceViewGrid();
-            pnlMain.Controls.Add(_rightRaceDataGridView);
-            _rightRaceDataGridView.Width = 835;
-            _rightRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_leftRaceDataGridView != null)
-            {
-                _leftRaceDataGridView.Dispose();
-                _leftRaceDataGridView = null;
-            }
-            _leftRaceDataGridView = BuildRaceViewGrid();
-            pnlMain.Controls.Add(_leftRaceDataGridView);
-            _leftRaceDataGridView.Width = 835;
-            _leftRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_fastestLapsDataGridView != null)
-            {
-                _fastestLapsDataGridView.Dispose();
-                _fastestLapsDataGridView = null;
-            }
-            _fastestLapsDataGridView = BuildFastestLapsViewGrid();
-            pnlRight.Controls.Add(_fastestLapsDataGridView);
-            _fastestLapsDataGridView.Height = 275;
-            _fastestLapsDataGridView.Dock = DockStyle.Top;
-
-            if (_biggestMoversDataGridView != null)
-            {
-                _biggestMoversDataGridView.Dispose();
-                _biggestMoversDataGridView = null;
-            }
-            _biggestMoversDataGridView = BuildBiggestMoversViewGrid();
-            pnlBottom.Controls.Add(_biggestMoversDataGridView);
-            _biggestMoversDataGridView.Width = 265;
-            _biggestMoversDataGridView.Dock = DockStyle.Left;
-
-            if (_biggestFallersDataGridView != null)
-            {
-                _biggestFallersDataGridView.Dispose();
-                _biggestFallersDataGridView = null;
-            }
-            _biggestFallersDataGridView = BuildBiggestFallersViewGrid();
-            pnlBottom.Controls.Add(_biggestFallersDataGridView);
-            _biggestFallersDataGridView.Width = 265;
-            _biggestFallersDataGridView.Dock = DockStyle.Left;
-
-            if (_cautionsDataGridView != null)
-            {
-                _cautionsDataGridView.Dispose();
-                _cautionsDataGridView = null;
-            }
-            _cautionsDataGridView = BuildCautionsViewGrid();
-            pnlBottom.Controls.Add(_cautionsDataGridView);
-            _cautionsDataGridView.Width = 290;
-            _cautionsDataGridView.Dock = DockStyle.Left;
-            _cautionsDataGridView.BringToFront();
-
-            if (_lapLeadersDataGridView != null)
-            {
-                _lapLeadersDataGridView.Dispose();
-                _lapLeadersDataGridView = null;
-            }
-            _lapLeadersDataGridView = BuildLapLeadersViewGrid();
-            pnlBottom.Controls.Add(_lapLeadersDataGridView);
-            _lapLeadersDataGridView.Width = 275;
-            _lapLeadersDataGridView.Dock = DockStyle.Left;
-            _lapLeadersDataGridView.BringToFront();
-
-            if (_5LapAverageTimeDataGridView != null)
-            {
-                _5LapAverageTimeDataGridView.Dispose();
-                _5LapAverageTimeDataGridView = null;
-            }
-            _5LapAverageTimeDataGridView = Build5LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_5LapAverageTimeDataGridView);
-            _5LapAverageTimeDataGridView.Width = 275;
-            _5LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _5LapAverageTimeDataGridView.BringToFront();
-
-            if (_10LapAverageTimeDataGridView != null)
-            {
-                _10LapAverageTimeDataGridView.Dispose();
-                _10LapAverageTimeDataGridView = null;
-            }
-            _10LapAverageTimeDataGridView = Build10LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_10LapAverageTimeDataGridView);
-            _10LapAverageTimeDataGridView.Width = 275;
-            _10LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _10LapAverageTimeDataGridView.BringToFront();
-
-            if (_15LapAverageTimeDataGridView != null)
-            {
-                _15LapAverageTimeDataGridView.Dispose();
-                _15LapAverageTimeDataGridView = null;
-            }
-            _15LapAverageTimeDataGridView = Build15LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_15LapAverageTimeDataGridView);
-            _15LapAverageTimeDataGridView.Width = 275;
-            _15LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _15LapAverageTimeDataGridView.BringToFront();
-
-            lblRaceLaps.Visible = true;
-            lblRaceLaps.Text = "-";
-
-            lblStageLaps.Visible = true;
-            lblStageLaps.Text = "-";
-        }
-
-        private void DisplayInfoViewState()
-        {
-            if (_genericDataGridView != null)
-            {
-                _genericDataGridView.Dispose();
-                _genericDataGridView = null;
-            }
-
-            _genericDataGridView = new DataGridView();
-            pnlMain.Controls.Add(_genericDataGridView);
-            _genericDataGridView.Dock = DockStyle.Fill;
-        }
+        #region private [build controls]
 
         private DataGridView BuildRaceViewGrid()
         {
@@ -1302,12 +996,44 @@ namespace rNascar23TestApp
             }
         }
 
-        // get data
-        private IList<Series> GetSeriesSchedule(SeriesType seriesType)
-        {
-            var raceListRepository = Program.Services.GetRequiredService<IRaceListRepository>();
+        #endregion
 
-            var raceLists = raceListRepository.GetRaceList();
+        #region private [read data]
+
+        private async Task<bool> ReadDataAsync()
+        {
+            _formState.LiveFeed = await _liveFeedRepository.GetLiveFeedAsync();
+
+            if (_formState.LiveFeed.TimeOfDayOs == _lastLiveFeedTimestamp)
+                return false;
+
+            _lastLiveFeedTimestamp = _formState.LiveFeed.TimeOfDayOs;
+
+            if (_formState.CurrentSeriesRace == null || _formState.LiveFeed.RaceId != _formState.CurrentSeriesRace.race_id)
+            {
+                _formState.SeriesSchedules = await GetSeriesScheduleAsync((SeriesType)_formState.LiveFeed.SeriesId);
+
+                _formState.CurrentSeriesRace = _formState.SeriesSchedules.FirstOrDefault(s => s.race_id == _formState.LiveFeed.RaceId);
+            }
+
+            _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId); ;
+            _formState.FlagStates = await _flagStateRepository.GetFlagStatesAsync();
+
+            _formState.EventStatistics = await _driverStatisticsRepository.GetEventAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+            foreach (var driverStats in _formState.EventStatistics.drivers)
+            {
+                var liveFeedDriver = _formState.LiveFeed.Vehicles.FirstOrDefault(v => v.driver.driver_id == driverStats.driver_id);
+
+                if (liveFeedDriver != null)
+                    driverStats.driver_name = liveFeedDriver.driver.full_name;
+            }
+
+            return true;
+        }
+
+        private async Task<IList<Series>> GetSeriesScheduleAsync(SeriesType seriesType)
+        {
+            var raceLists = await _raceScheduleRepository.GetRaceListAsync();
 
             switch (seriesType)
             {
@@ -1334,63 +1060,6 @@ namespace rNascar23TestApp
             }
         }
 
-        private async Task GetDriverStatisticsAsync()
-        {
-            var liveFeedRepository = Program.Services.GetRequiredService<ILiveFeedRepository>();
-
-            var liveFeed = liveFeedRepository.GetLiveFeed();
-
-            var driverStatisticsRepository = Program.Services.GetRequiredService<IDriverStatisticsRepository>();
-
-            var driverStatistics = await driverStatisticsRepository.GetEventAsync(liveFeed.SeriesId, liveFeed.RaceId);
-
-            if (_viewState != ViewState.Info)
-            {
-                SetAutoUpdateState(false);
-
-                SetViewState(ViewState.Info);
-            }
-
-            foreach (var driverStats in driverStatistics.drivers)
-            {
-                var liveFeedDriver = liveFeed.Vehicles.FirstOrDefault(v => v.driver.driver_id == driverStats.driver_id);
-
-                if (liveFeedDriver != null)
-                    driverStats.driver_name = liveFeedDriver.driver.full_name;
-
-            }
-
-            _genericDataGridView.DataSource = driverStatistics.drivers;
-        }
-
-        private void GetLiveFeedData()
-        {
-            try
-            {
-                var liveFeedRepository = Program.Services.GetRequiredService<ILiveFeedRepository>();
-
-                var liveFeed = liveFeedRepository.GetLiveFeed();
-
-                if (liveFeed.TimeOfDayOs == _lastLiveFeedTimestamp)
-                    return;
-
-                if (liveFeed.RunType != (int)_viewState)
-                {
-                    SetViewState((ViewState)liveFeed.RunType);
-                }
-
-                DisplayHeaderData(liveFeed);
-
-                DisplayVehicleData(liveFeed);
-
-                _lastLiveFeedTimestamp = liveFeed.TimeOfDayOs;
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler(ex);
-            }
-        }
-
         private string GetSeriesName(int seriesId)
         {
             return seriesId == 1 ? "Cup Series" :
@@ -1400,32 +1069,284 @@ namespace rNascar23TestApp
                 "Unknown";
         }
 
-        private IList<FlagState> GetFlagStates()
+        #endregion
+
+        #region private [display data]
+
+        private async Task UpdateUiAsync()
         {
-            var flagStateRepository = Program.Services.GetRequiredService<IFlagStateRepository>();
+            var hasNewData = await ReadDataAsync();
 
-            var flagStates = flagStateRepository.GetFlagStates();
+            if (_formState.LiveFeed.RunType != (int)_viewState)
+            {
+                SetViewState((ViewState)_formState.LiveFeed.RunType);
+            }
 
-            return flagStates;
+            //if (!hasNewData)
+            //    return;
+
+            DisplayHeaderData(_formState.LiveFeed);
+
+            DisplayVehicleData(_formState.LiveFeed);
         }
 
-        // display data
-        private void DisplaySeriesSchedule(SeriesType seriesType)
+        private async Task DisplayDriverStatisticsAsync()
+        {
+            if (_viewState != ViewState.Info)
+            {
+                await SetAutoUpdateStateAsync(false);
+
+                SetViewState(ViewState.Info);
+            }
+
+            if (_formState.EventStatistics == null)
+            {
+                await ReadDataAsync();
+            }
+
+            _genericDataGridView.DataSource = _formState.EventStatistics?.drivers;
+        }
+
+        private void DisplaySeriesScheduleViewState()
+        {
+            if (_seriesScheduleDataGridView != null)
+            {
+                _seriesScheduleDataGridView.SelectionChanged -= _seriesScheduleDataGridView_SelectionChanged;
+                _seriesScheduleDataGridView.Dispose();
+                _seriesScheduleDataGridView = null;
+            }
+
+            _seriesScheduleDataGridView = new DataGridView();
+            pnlMain.Controls.Add(_seriesScheduleDataGridView);
+            _seriesScheduleDataGridView.Dock = DockStyle.Fill;
+
+            DisplayEventScheduleViewState();
+        }
+
+        private void DisplayEventScheduleViewState()
+        {
+            if (_eventScheduleDataGridView != null)
+            {
+                _eventScheduleDataGridView.Dispose();
+                _eventScheduleDataGridView = null;
+            }
+
+            _eventScheduleDataGridView = new DataGridView();
+
+            pnlBottom.Controls.Add(_eventScheduleDataGridView);
+            _eventScheduleDataGridView.Dock = DockStyle.Fill;
+        }
+
+        private void DisplayPracticeViewState()
+        {
+            if (_rightRaceDataGridView != null)
+            {
+                _rightRaceDataGridView.Dispose();
+                _rightRaceDataGridView = null;
+            }
+            _rightRaceDataGridView = BuildPracticeViewGrid();
+            pnlMain.Controls.Add(_rightRaceDataGridView);
+            _rightRaceDataGridView.Width = 850;
+            _rightRaceDataGridView.Dock = DockStyle.Left;
+
+            if (_leftRaceDataGridView != null)
+            {
+                _leftRaceDataGridView.Dispose();
+                _leftRaceDataGridView = null;
+            }
+            _leftRaceDataGridView = BuildPracticeViewGrid();
+            pnlMain.Controls.Add(_leftRaceDataGridView);
+            _leftRaceDataGridView.Width = 850;
+            _leftRaceDataGridView.Dock = DockStyle.Left;
+
+            pnlHeader.Visible = true;
+        }
+
+        private void DisplayQualifyingViewState()
+        {
+            if (_rightRaceDataGridView != null)
+            {
+                _rightRaceDataGridView.Dispose();
+                _rightRaceDataGridView = null;
+            }
+            _rightRaceDataGridView = BuildQualifyingViewGrid();
+            pnlMain.Controls.Add(_rightRaceDataGridView);
+            _rightRaceDataGridView.Width = 850;
+            _rightRaceDataGridView.Dock = DockStyle.Left;
+
+            if (_leftRaceDataGridView != null)
+            {
+                _leftRaceDataGridView.Dispose();
+                _leftRaceDataGridView = null;
+            }
+            _leftRaceDataGridView = BuildQualifyingViewGrid();
+            pnlMain.Controls.Add(_leftRaceDataGridView);
+            _leftRaceDataGridView.Width = 850;
+            _leftRaceDataGridView.Dock = DockStyle.Left;
+
+            pnlHeader.Visible = true;
+        }
+
+        private void DisplayRaceViewState()
+        {
+            if (_rightRaceDataGridView != null)
+            {
+                _rightRaceDataGridView.Dispose();
+                _rightRaceDataGridView = null;
+            }
+            _rightRaceDataGridView = BuildRaceViewGrid();
+            pnlMain.Controls.Add(_rightRaceDataGridView);
+            _rightRaceDataGridView.Width = 835;
+            _rightRaceDataGridView.Dock = DockStyle.Left;
+
+            if (_leftRaceDataGridView != null)
+            {
+                _leftRaceDataGridView.Dispose();
+                _leftRaceDataGridView = null;
+            }
+            _leftRaceDataGridView = BuildRaceViewGrid();
+            pnlMain.Controls.Add(_leftRaceDataGridView);
+            _leftRaceDataGridView.Width = 835;
+            _leftRaceDataGridView.Dock = DockStyle.Left;
+
+            if (_fastestLapsDataGridView != null)
+            {
+                _fastestLapsDataGridView.Dispose();
+                _fastestLapsDataGridView = null;
+            }
+            _fastestLapsDataGridView = BuildFastestLapsViewGrid();
+            pnlRight.Controls.Add(_fastestLapsDataGridView);
+            _fastestLapsDataGridView.Height = 275;
+            _fastestLapsDataGridView.Dock = DockStyle.Top;
+
+            if (_biggestMoversDataGridView != null)
+            {
+                _biggestMoversDataGridView.Dispose();
+                _biggestMoversDataGridView = null;
+            }
+            _biggestMoversDataGridView = BuildBiggestMoversViewGrid();
+            pnlBottom.Controls.Add(_biggestMoversDataGridView);
+            _biggestMoversDataGridView.Width = 265;
+            _biggestMoversDataGridView.Dock = DockStyle.Left;
+
+            if (_biggestFallersDataGridView != null)
+            {
+                _biggestFallersDataGridView.Dispose();
+                _biggestFallersDataGridView = null;
+            }
+            _biggestFallersDataGridView = BuildBiggestFallersViewGrid();
+            pnlBottom.Controls.Add(_biggestFallersDataGridView);
+            _biggestFallersDataGridView.Width = 265;
+            _biggestFallersDataGridView.Dock = DockStyle.Left;
+
+            if (_cautionsDataGridView != null)
+            {
+                _cautionsDataGridView.Dispose();
+                _cautionsDataGridView = null;
+            }
+            _cautionsDataGridView = BuildCautionsViewGrid();
+            pnlBottom.Controls.Add(_cautionsDataGridView);
+            _cautionsDataGridView.Width = 290;
+            _cautionsDataGridView.Dock = DockStyle.Left;
+            _cautionsDataGridView.BringToFront();
+
+            if (_lapLeadersDataGridView != null)
+            {
+                _lapLeadersDataGridView.Dispose();
+                _lapLeadersDataGridView = null;
+            }
+            _lapLeadersDataGridView = BuildLapLeadersViewGrid();
+            pnlBottom.Controls.Add(_lapLeadersDataGridView);
+            _lapLeadersDataGridView.Width = 275;
+            _lapLeadersDataGridView.Dock = DockStyle.Left;
+            _lapLeadersDataGridView.BringToFront();
+
+            if (_5LapAverageTimeDataGridView != null)
+            {
+                _5LapAverageTimeDataGridView.Dispose();
+                _5LapAverageTimeDataGridView = null;
+            }
+            _5LapAverageTimeDataGridView = Build5LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_5LapAverageTimeDataGridView);
+            _5LapAverageTimeDataGridView.Width = 275;
+            _5LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _5LapAverageTimeDataGridView.BringToFront();
+
+            if (_10LapAverageTimeDataGridView != null)
+            {
+                _10LapAverageTimeDataGridView.Dispose();
+                _10LapAverageTimeDataGridView = null;
+            }
+            _10LapAverageTimeDataGridView = Build10LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_10LapAverageTimeDataGridView);
+            _10LapAverageTimeDataGridView.Width = 275;
+            _10LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _10LapAverageTimeDataGridView.BringToFront();
+
+            if (_15LapAverageTimeDataGridView != null)
+            {
+                _15LapAverageTimeDataGridView.Dispose();
+                _15LapAverageTimeDataGridView = null;
+            }
+            _15LapAverageTimeDataGridView = Build15LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_15LapAverageTimeDataGridView);
+            _15LapAverageTimeDataGridView.Width = 275;
+            _15LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _15LapAverageTimeDataGridView.BringToFront();
+
+            lblRaceLaps.Visible = true;
+            lblRaceLaps.Text = "-";
+
+            lblStageLaps.Visible = true;
+            lblStageLaps.Text = "-";
+
+            picGreenYelllowLapIndicator.Visible = true;
+
+            pnlHeader.Visible = true;
+        }
+
+        private void DisplayInfoViewState()
+        {
+            if (_genericDataGridView != null)
+            {
+                _genericDataGridView.Dispose();
+                _genericDataGridView = null;
+            }
+
+            _genericDataGridView = new DataGridView();
+            pnlMain.Controls.Add(_genericDataGridView);
+            _genericDataGridView.Dock = DockStyle.Fill;
+        }
+
+        private async Task DisplaySeriesScheduleAsync(SeriesType seriesType)
         {
             if (AutoUpdateTimer.Enabled)
-                SetAutoUpdateState(false);
+                await SetAutoUpdateStateAsync(false);
 
             if (_viewState != ViewState.SeriesSchedule)
                 SetViewState(ViewState.SeriesSchedule);
 
-            var schedule = GetSeriesSchedule(seriesType);
+            var schedule = await GetSeriesScheduleAsync(seriesType);
 
             _seriesScheduleDataGridView.DataSource = schedule.OrderBy(s => s.date_scheduled).ToList();
 
             _seriesScheduleDataGridView.SelectionChanged += _seriesScheduleDataGridView_SelectionChanged;
+
+            foreach (DataGridViewRow row in _seriesScheduleDataGridView.Rows)
+            {
+                // event complete
+                if (row.Cells[43].Value != null && !String.IsNullOrEmpty(row.Cells[43].Value.ToString()))
+                {
+                    row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                }
+                else
+                {
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
         }
 
-        private void _seriesScheduleDataGridView_SelectionChanged(object sender, EventArgs e)
+        private void DisplayEventSchedule()
         {
             if (_seriesScheduleDataGridView.SelectedRows.Count > 0)
             {
@@ -1439,34 +1360,43 @@ namespace rNascar23TestApp
             {
                 _eventScheduleDataGridView.DataSource = null;
             }
+
+            foreach (DataGridViewRow row in _eventScheduleDataGridView.Rows)
+            {
+                // event complete
+                if (row.Cells[2].Value != null && ((DateTime)row.Cells[2].Value) < DateTime.UtcNow)
+                {
+                    row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                }
+                else
+                {
+                    row.DefaultCellStyle.ForeColor = Color.Black;
+                }
+            }
         }
 
-        private void DisplayRawVehicleData()
+        private async Task DisplayRawVehicleDataAsync()
         {
             if (AutoUpdateTimer.Enabled)
-                SetAutoUpdateState(false);
+                SetAutoUpdateStateAsync(false);
 
             if (_viewState != ViewState.Info)
                 SetViewState(ViewState.Info);
 
-            var liveFeedRepository = rNascar23TestApp.Program.Services.GetRequiredService<ILiveFeedRepository>();
-
-            var liveFeed = liveFeedRepository.GetLiveFeed();
+            var liveFeed = await _liveFeedRepository.GetLiveFeedAsync();
 
             _genericDataGridView.DataSource = liveFeed.Vehicles.OrderBy(v => v.running_position).ToList();
         }
 
-        private void DisplayRawLiveFeedData()
+        private async Task DisplayRawLiveFeedDataAsync()
         {
             if (AutoUpdateTimer.Enabled)
-                SetAutoUpdateState(false);
+                await SetAutoUpdateStateAsync(false);
 
             if (_viewState != ViewState.Info)
                 SetViewState(ViewState.Info);
 
-            var liveFeedRepository = rNascar23TestApp.Program.Services.GetRequiredService<ILiveFeedRepository>();
-
-            var liveFeed = liveFeedRepository.GetLiveFeed();
+            var liveFeed = await _liveFeedRepository.GetLiveFeedAsync();
 
             _genericDataGridView.DataSource = new List<LiveFeed>() { liveFeed };
         }
@@ -1499,76 +1429,104 @@ namespace rNascar23TestApp
 
             var bestLapTime = raceVehicles.OrderBy(v => v.LastLap).FirstOrDefault().LastLap;
 
-            _leftRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition <= 20).OrderBy(v => v.RunningPosition).ToList();
-
-            foreach (DataGridViewRow row in _leftRaceDataGridView.Rows)
+            try
             {
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
+                _leftRaceDataGridView.SuspendLayout();
 
-                // Fastest this lap.
-                if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
-                {
-                    row.Cells[9].Style.BackColor = Color.LimeGreen;
+                _leftRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition <= 20).OrderBy(v => v.RunningPosition).ToList();
 
-                    // Best lap for driver for the race
-                    if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                foreach (DataGridViewRow row in _leftRaceDataGridView.Rows)
+                {
+                    if (row.Index % 2 == 0)
                     {
-                        row.Cells[8].Style.BackColor = Color.LimeGreen;
+                        row.DefaultCellStyle.BackColor = Color.LightGray;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White;
+                    }
+
+                    // Fastest this lap.
+                    if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
+                    {
+                        row.Cells[9].Style.BackColor = Color.LimeGreen;
+
+                        // Best lap for driver for the race
+                        if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                        {
+                            row.Cells[8].Style.BackColor = Color.LimeGreen;
+                        }
+                    }
+
+                    // off track
+                    if ((bool)row.Cells[7].Value == false)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Black;
                     }
                 }
-
-                // off track
-                if ((bool)row.Cells[7].Value == false)
-                {
-                    row.DefaultCellStyle.ForeColor = Color.DarkGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.ForeColor = Color.Black;
-                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                _leftRaceDataGridView.ResumeLayout(false);
             }
 
-            _rightRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition > 20).OrderBy(v => v.RunningPosition).ToList();
-
-            foreach (DataGridViewRow row in _rightRaceDataGridView.Rows)
+            try
             {
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
+                _rightRaceDataGridView.SuspendLayout();
 
-                // Fastest this lap.
-                if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
-                {
-                    row.Cells[9].Style.BackColor = Color.LimeGreen;
+                _rightRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition > 20).OrderBy(v => v.RunningPosition).ToList();
 
-                    if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                foreach (DataGridViewRow row in _rightRaceDataGridView.Rows)
+                {
+                    if (row.Index % 2 == 0)
                     {
-                        row.Cells[8].Style.BackColor = Color.LimeGreen;
+                        row.DefaultCellStyle.BackColor = Color.LightGray;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.BackColor = Color.White;
+                    }
+
+                    // Fastest this lap.
+                    if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
+                    {
+                        row.Cells[9].Style.BackColor = Color.LimeGreen;
+
+                        if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                        {
+                            row.Cells[8].Style.BackColor = Color.LimeGreen;
+                        }
+                    }
+
+                    // off track
+                    if ((bool)row.Cells[7].Value == false)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Black;
                     }
                 }
-
-                // off track
-                if ((bool)row.Cells[7].Value == false)
-                {
-                    row.DefaultCellStyle.ForeColor = Color.DarkGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.ForeColor = Color.Black;
-                }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                _rightRaceDataGridView.ResumeLayout(false);
+            }
+
 
             var fastestLaps = liveFeed.Vehicles.OrderByDescending(v => v.best_lap_speed).Take(10).Select(v => new FastestLapViewModel()
             {
@@ -1611,31 +1569,25 @@ namespace rNascar23TestApp
 
             DisplayBiggestFallers(biggestFallers);
 
-            var flagStates = GetFlagStates();
+            UpdateGreenYellowLapIndicator(_formState.LiveFeed, _formState.FlagStates);
 
-            UpdateGreenYellowLapIndicator(liveFeed, flagStates);
+            DisplayCautionsList(_formState.FlagStates);
 
-            DisplayCautionsList(flagStates);
-
-            DisplayLapLeadersList(liveFeed);
+            DisplayLapLeadersList(_formState.LiveFeed);
 
             DisplayLapAverages();
         }
 
         private void DisplayLapAverages()
         {
-            if (_seriesRace == null)
+            if (_formState.CurrentSeriesRace == null)
                 return;
 
-            var lapTimeRepository = Program.Services.GetRequiredService<ILapTimesRepository>();
-
-            var lapTimeData = lapTimeRepository.GetLapTimeData(_seriesRace.series_id, _seriesRace.race_id);
-
-            if (lapTimeData == null)
+            if (_formState.LapTimes == null)
                 return;
 
             // 5 lap avg time
-            var last5LapTimeAverages = lapTimeData.
+            var last5LapTimeAverages = _formState.LapTimes.
                 Drivers.
                 OrderBy(d => d.AverageTimeLast5Laps().GetValueOrDefault(999)).
                 Take(10).
@@ -1649,7 +1601,7 @@ namespace rNascar23TestApp
             _5LapAverageTimeDataGridView.DataSource = last5LapTimeAverages;
 
             // 10 lap avg time
-            var last10LapTimeAverages = lapTimeData.
+            var last10LapTimeAverages = _formState.LapTimes.
                Drivers.
                OrderBy(d => d.AverageTimeLast10Laps().GetValueOrDefault(999)).
                Take(10).
@@ -1663,7 +1615,7 @@ namespace rNascar23TestApp
             _10LapAverageTimeDataGridView.DataSource = last10LapTimeAverages;
 
             // 15 lap avg time
-            var last15LapTimeAverages = lapTimeData.
+            var last15LapTimeAverages = _formState.LapTimes.
                Drivers.
                OrderBy(d => d.AverageTimeLast15Laps().GetValueOrDefault(999)).
                Take(10).
@@ -1677,38 +1629,34 @@ namespace rNascar23TestApp
             _15LapAverageTimeDataGridView.DataSource = last15LapTimeAverages;
         }
 
-        private void DisplayHeaderData(LiveFeed result)
+        private void DisplayHeaderData(LiveFeed liveFeed)
         {
-            picStatus.BackColor = result.FlagState == 8 ? Color.Orange :
-                result.FlagState == 1 ? Color.LimeGreen :
-                result.FlagState == 2 ? Color.Yellow :
-                result.FlagState == 3 ? Color.Red :
-                result.FlagState == 4 ? Color.White :
+            picStatus.BackColor = liveFeed.FlagState == 8 ? Color.Orange :
+                liveFeed.FlagState == 1 ? Color.LimeGreen :
+                liveFeed.FlagState == 2 ? Color.Yellow :
+                liveFeed.FlagState == 3 ? Color.Red :
+                liveFeed.FlagState == 4 ? Color.White :
                 Color.DimGray;
 
-            if (result.RunType == (int)RunType.Race)
+            if (liveFeed.RunType == (int)RunType.Race)
             {
-                var seriesRaceList = GetSeriesSchedule((SeriesType)result.SeriesId);
-
-                _seriesRace = seriesRaceList.FirstOrDefault(s => s.race_id == result.RaceId);
-
                 if (_lapStates == null || _lapStates.Stage1Laps == 0)
                 {
                     _lapStates = new LapStateViewModel();
-                    _lapStates.Stage1Laps = _seriesRace.stage_1_laps;
-                    _lapStates.Stage2Laps = _seriesRace.stage_2_laps;
-                    _lapStates.Stage3Laps = _seriesRace.stage_3_laps;
+                    _lapStates.Stage1Laps = _formState.CurrentSeriesRace.stage_1_laps;
+                    _lapStates.Stage2Laps = _formState.CurrentSeriesRace.stage_2_laps;
+                    _lapStates.Stage3Laps = _formState.CurrentSeriesRace.stage_3_laps;
                 }
 
-                DisplayEventName(result.RunName, GetSeriesName(result.SeriesId), result.TrackName, _seriesRace.stage_1_laps, _seriesRace.stage_2_laps, _seriesRace.stage_3_laps);
+                DisplayEventName(liveFeed.RunName, GetSeriesName(liveFeed.SeriesId), liveFeed.TrackName, _formState.CurrentSeriesRace.stage_1_laps, _formState.CurrentSeriesRace.stage_2_laps, _formState.CurrentSeriesRace.stage_3_laps);
 
-                DisplayRaceLaps(result.LapNumber, result.LapsInRace);
+                DisplayRaceLaps(liveFeed.LapNumber, liveFeed.LapsInRace);
 
-                DisplayStageLaps(result.Stage.Number, result.LapNumber, result.Stage.FinishAtLap, result.Stage.LapsInStage);
+                DisplayStageLaps(liveFeed.Stage.Number, liveFeed.LapNumber, liveFeed.Stage.FinishAtLap, liveFeed.Stage.LapsInStage);
             }
             else
             {
-                DisplayEventName(result.RunName, GetSeriesName(result.SeriesId), result.TrackName);
+                DisplayEventName(liveFeed.RunName, GetSeriesName(liveFeed.SeriesId), liveFeed.TrackName);
             }
         }
 
@@ -1849,6 +1797,145 @@ namespace rNascar23TestApp
             }
 
             picGreenYelllowLapIndicator.Invalidate();
+        }
+
+        #endregion
+
+        #region private
+
+        private void ExceptionHandler(Exception ex)
+        {
+            ExceptionHandler(ex, String.Empty, true);
+        }
+        private void ExceptionHandler(Exception ex, string message = "")
+        {
+            ExceptionHandler(ex, message, true);
+        }
+        private void ExceptionHandler(Exception ex, string message = "", bool logMessage = false)
+        {
+            MessageBox.Show(ex.Message);
+            if (logMessage)
+            {
+                string errorMessage = String.IsNullOrEmpty(message) ? ex.Message : message;
+
+                _logger.LogError(ex, errorMessage);
+            }
+        }
+
+        private async Task SetAutoUpdateStateAsync(bool isEnabled)
+        {
+            if (AutoUpdateTimer.Enabled == isEnabled)
+                return;
+
+            autoUpdateToolStripMenuItem.Checked = isEnabled;
+
+            AutoUpdateTimer.Enabled = isEnabled;
+
+            if (AutoUpdateTimer.Enabled)
+            {
+                lblAutoUpdateStatus.Text = "Auto-Update On";
+                lblAutoUpdateStatus.BackColor = Color.LimeGreen;
+
+                await ReadDataAsync();
+            }
+            else
+            {
+                lblAutoUpdateStatus.Text = "Auto-Update Off";
+                lblAutoUpdateStatus.BackColor = SystemColors.Control;
+            }
+        }
+
+        private void SetViewState(ViewState newViewState)
+        {
+            SetViewState(newViewState, false);
+        }
+        private void SetViewState(ViewState newViewState, bool forceRefresh = false)
+        {
+            if (newViewState == _viewState && forceRefresh == false)
+                return;
+
+            SetUiView(newViewState);
+
+            _viewState = newViewState;
+
+            lblViewState.Text = $"View: {_viewState}";
+        }
+
+        private void SetUiView(ViewState viewState)
+        {
+            ClearViewControls();
+
+            switch (viewState)
+            {
+                case ViewState.None:
+                    break;
+                case ViewState.Practice:
+                    DisplayPracticeViewState();
+                    break;
+                case ViewState.Qualifying:
+                    DisplayQualifyingViewState();
+                    break;
+                case ViewState.Race:
+                    DisplayRaceViewState();
+                    break;
+                case ViewState.Info:
+                    DisplayInfoViewState();
+                    break;
+                case ViewState.SeriesSchedule:
+                    DisplaySeriesScheduleViewState();
+                    break;
+                case ViewState.EventSchedule:
+                    DisplayEventScheduleViewState();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ClearViewControls()
+        {
+            var existingControls = new List<Control>();
+
+            foreach (Control existingControl in pnlMain.Controls)
+            {
+                existingControls.Add(existingControl);
+            }
+
+            foreach (Control existingControl in pnlBottom.Controls)
+            {
+                existingControls.Add(existingControl);
+            }
+
+            foreach (Control existingControl in pnlRight.Controls)
+            {
+                existingControls.Add(existingControl);
+            }
+
+            pnlMain.Controls.Clear();
+            pnlBottom.Controls.Clear();
+
+            for (int i = existingControls.Count - 1; i >= 0; i--)
+            {
+                existingControls[i].Dispose();
+                existingControls[i] = null;
+            }
+
+            for (int i = picGreenYelllowLapIndicator.Controls.Count - 1; i >= 0; i--)
+            {
+                picGreenYelllowLapIndicator.Controls[i].Dispose();
+            }
+            picGreenYelllowLapIndicator.Controls.Clear();
+
+            lblRaceLaps.Visible = false;
+            lblRaceLaps.Text = "-";
+
+            lblStageLaps.Visible = false;
+            lblStageLaps.Text = "-";
+
+            picGreenYelllowLapIndicator.Visible = false;
+
+            lblEventName.Text = "-";
+            pnlHeader.Visible = false;
         }
 
         #endregion

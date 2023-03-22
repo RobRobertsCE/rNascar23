@@ -26,7 +26,7 @@ namespace rNascar23.Service.DriverStatistics.Adapters
         {
             var absoluteUrl = BuildUrl(seriesId, raceId);
 
-            var json = await GetAsync(absoluteUrl);
+            var json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
             var model = JsonConvert.DeserializeObject<EventStatsModel[]>(json);
 
