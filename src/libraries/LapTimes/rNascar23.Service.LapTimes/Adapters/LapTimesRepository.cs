@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace rNascar23.Service.LapTimes.Adapters
 {
@@ -23,11 +24,11 @@ namespace rNascar23.Service.LapTimes.Adapters
             _mapper = mapper;
         }
 
-        public LapTimeData GetLapTimeData(int seriesId, int eventId)
+        public async Task<LapTimeData> GetLapTimeDataAsync(int seriesId, int eventId)
         {
             var absoluteUrl = BuildUrl(seriesId, eventId);
 
-            var json = Get(absoluteUrl);
+            var json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
             var model = JsonConvert.DeserializeObject<Rootobject>(json);
 
@@ -36,11 +37,11 @@ namespace rNascar23.Service.LapTimes.Adapters
             return lapTimeData;
         }
 
-        public LapTimeData GetLapTimeData(int seriesId, int eventId, int driverId)
+        public async Task<LapTimeData> GetLapTimeDataAsync(int seriesId, int eventId, int driverId)
         {
             var absoluteUrl = BuildUrl(seriesId, eventId);
 
-            var json = Get(absoluteUrl);
+            var json = await GetAsync(absoluteUrl);
 
             var model = JsonConvert.DeserializeObject<Rootobject>(json);
 

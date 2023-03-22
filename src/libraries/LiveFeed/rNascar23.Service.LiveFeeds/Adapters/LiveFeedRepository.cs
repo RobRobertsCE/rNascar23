@@ -5,6 +5,7 @@ using rNascar23.LiveFeeds.Models;
 using rNascar23.Service.LiveFeeds.Data.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace rNascar23.Service.LiveFeeds.Adapters
 {
@@ -19,11 +20,11 @@ namespace rNascar23.Service.LiveFeeds.Adapters
 
         public string Url { get => @"https://cf.nascar.com/live/feeds/live-feed.json"; }
 
-        public LiveFeed GetLiveFeed()
+        public async Task<LiveFeed> GetLiveFeedAsync()
         {
             try
             {
-                var json = Get(Url);
+                var json = await GetAsync(Url).ConfigureAwait(false);
 
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<LiveFeedModel>(json);
 

@@ -69,6 +69,7 @@
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -206,8 +207,9 @@
             this.refreshToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.liveFeedToolStripMenuItem,
             this.vehicleListToolStripMenuItem,
-            this.eventsToolStripMenuItem,
             this.driverStatisticsToolStripMenuItem,
+            this.toolStripMenuItem5,
+            this.eventsToolStripMenuItem,
             this.toolStripMenuItem3,
             this.forrmattedLiveFeedToolStripMenuItem,
             this.toolStripMenuItem1,
@@ -298,8 +300,8 @@
             // 
             this.autoUpdateToolStripMenuItem.CheckOnClick = true;
             this.autoUpdateToolStripMenuItem.Name = "autoUpdateToolStripMenuItem";
-            this.autoUpdateToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.autoUpdateToolStripMenuItem.Text = "&Auto-Update Live Feed";
+            this.autoUpdateToolStripMenuItem.Size = new System.Drawing.Size(236, 22);
+            this.autoUpdateToolStripMenuItem.Text = "&Auto-Update Live Feed On/Off";
             this.autoUpdateToolStripMenuItem.Click += new System.EventHandler(this.autoUpdateToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
@@ -422,6 +424,11 @@
             this.pnlRight.Size = new System.Drawing.Size(260, 465);
             this.pnlRight.TabIndex = 8;
             // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(233, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -494,6 +501,7 @@
         private System.Windows.Forms.ToolStripMenuItem driverStatisticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
     }
 }
 
