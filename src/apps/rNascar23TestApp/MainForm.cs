@@ -12,6 +12,7 @@ using rNascar23TestApp.ViewModels;
 using Serilog.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -300,6 +301,12 @@ namespace rNascar23TestApp
 
             e.Graphics.Clear(picGreenYelllowLapIndicator.BackColor);
 
+            for (int i = picGreenYelllowLapIndicator.Controls.Count - 1; i >= 0; i--)
+            {
+                picGreenYelllowLapIndicator.Controls[i].Dispose();
+            }
+            picGreenYelllowLapIndicator.Controls.Clear();
+
             Color stageBlockBackgroundColor = Color.Black;
             Color flagSegmentGreenColor = Color.DarkGreen;
             Color flagSegmentYellowColor = Color.Gold;
@@ -341,12 +348,12 @@ namespace rNascar23TestApp
                  thirdStageWidth,
                  stageBlockHeight);
 
-            using (Brush brush = new SolidBrush(stageBlockBackgroundColor))
-            {
-                e.Graphics.FillRectangle(brush, stage1Block);
-                e.Graphics.FillRectangle(brush, stage2Block);
-                e.Graphics.FillRectangle(brush, stage3Block);
-            }
+            //using (Brush brush = new SolidBrush(stageBlockBackgroundColor))
+            //{
+            //    e.Graphics.FillRectangle(brush, stage1Block);
+            //    e.Graphics.FillRectangle(brush, stage2Block);
+            //    e.Graphics.FillRectangle(brush, stage3Block);
+            //}
 
             float lapWidth1 = (float)stage1Block.Width / _lapStates.Stage1Laps;
             float lapWidth2 = (float)stage2Block.Width / _lapStates.Stage2Laps;
@@ -373,10 +380,40 @@ namespace rNascar23TestApp
                        segmentLength,
                        stageBlockHeight - (verticalPadding * 2));
 
-                using (Brush brush = new SolidBrush(segmentColor))
-                {
-                    e.Graphics.FillRectangle(brush, flagSegment);
-                }
+                PictureBox flagSegmentPB = new PictureBox();
+                flagSegmentPB.Location = new Point(picGreenYelllowLapIndicator.Location.X + (int)lapSegmentStartX, stageBlockStartY + verticalPadding);
+                flagSegmentPB.Size = new Size((int)segmentLength, stageBlockHeight - (verticalPadding * 2));
+                flagSegmentPB.BackColor = segmentColor;
+
+                var flagState = lapSegment.FlagState == LapStateViewModel.FlagState.Green ?
+                    "Green" : lapSegment.FlagState == LapStateViewModel.FlagState.Yellow ?
+                    "Caution" : lapSegment.FlagState == LapStateViewModel.FlagState.Red ?
+                    "Red" : lapSegment.FlagState == LapStateViewModel.FlagState.White ?
+                    "White" : "Checkered";
+
+                var startLap = lapSegment.StartLapNumber == 0 ? 1 : lapSegment.StartLapNumber;
+                var endLap = lapSegment.Laps == 1 ? lapSegment.StartLapNumber : lapSegment.StartLapNumber + lapSegment.Laps;
+                var lapsText = endLap == startLap ? $"Lap {startLap + 1}" : $"Laps {startLap} to {endLap}";
+
+                toolTip1.SetToolTip(flagSegmentPB, $"{flagState} {lapsText}");
+
+                picGreenYelllowLapIndicator.Controls.Add(flagSegmentPB);
+
+                //////using (Brush brush = new SolidBrush(segmentColor))
+                //////{
+                //////    e.Graphics.FillRectangle(brush, flagSegment);
+                //////}
+
+                ////if (lapSegment.FlagState == LapStateViewModel.FlagState.Yellow)
+                ////{
+                ////    _cautionIndicatorSegments.Add(new CautionIndicatorSegment()
+                ////    {
+                ////        StartX = lapSegmentStartX,
+                ////        EndX = lapSegmentStartX + segmentLength,
+                ////        StartLap = lapSegment.StartLapNumber,
+                ////        EndLap = lapSegment.Laps
+                ////    });
+                ////}
             }
         }
 

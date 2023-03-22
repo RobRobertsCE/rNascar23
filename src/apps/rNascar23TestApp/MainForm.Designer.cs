@@ -49,11 +49,12 @@
             this.xfinityRacesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.truckRacesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.autoUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.driverStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.forrmattedLiveFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.driverStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.autoUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.practiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,7 +68,7 @@
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -269,18 +270,12 @@
             this.allToolStripMenuItem.Text = "&All";
             this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
+            // driverStatisticsToolStripMenuItem
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(192, 6);
-            // 
-            // autoUpdateToolStripMenuItem
-            // 
-            this.autoUpdateToolStripMenuItem.CheckOnClick = true;
-            this.autoUpdateToolStripMenuItem.Name = "autoUpdateToolStripMenuItem";
-            this.autoUpdateToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.autoUpdateToolStripMenuItem.Text = "&Auto-Update Live Feed";
-            this.autoUpdateToolStripMenuItem.Click += new System.EventHandler(this.autoUpdateToolStripMenuItem_Click);
+            this.driverStatisticsToolStripMenuItem.Name = "driverStatisticsToolStripMenuItem";
+            this.driverStatisticsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.driverStatisticsToolStripMenuItem.Text = "&Driver Statistics";
+            this.driverStatisticsToolStripMenuItem.Click += new System.EventHandler(this.driverStatisticsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
@@ -294,12 +289,23 @@
             this.forrmattedLiveFeedToolStripMenuItem.Text = "&Forrmatted Live Feed";
             this.forrmattedLiveFeedToolStripMenuItem.Click += new System.EventHandler(this.formattedLiveFeedToolStripMenuItem_Click);
             // 
-            // driverStatisticsToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.driverStatisticsToolStripMenuItem.Name = "driverStatisticsToolStripMenuItem";
-            this.driverStatisticsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.driverStatisticsToolStripMenuItem.Text = "&Driver Statistics";
-            this.driverStatisticsToolStripMenuItem.Click += new System.EventHandler(this.driverStatisticsToolStripMenuItem_Click);
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(192, 6);
+            // 
+            // autoUpdateToolStripMenuItem
+            // 
+            this.autoUpdateToolStripMenuItem.CheckOnClick = true;
+            this.autoUpdateToolStripMenuItem.Name = "autoUpdateToolStripMenuItem";
+            this.autoUpdateToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.autoUpdateToolStripMenuItem.Text = "&Auto-Update Live Feed";
+            this.autoUpdateToolStripMenuItem.Click += new System.EventHandler(this.autoUpdateToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(192, 6);
             // 
             // viewToolStripMenuItem
             // 
@@ -416,11 +422,6 @@
             this.pnlRight.Size = new System.Drawing.Size(260, 465);
             this.pnlRight.TabIndex = 8;
             // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(192, 6);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -492,6 +493,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem driverStatisticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
