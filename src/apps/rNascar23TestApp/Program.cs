@@ -1,14 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using rNascar23.Data.LiveFeeds.Ports;
+using Microsoft.Extensions.Logging;
+using rNascar23.Service.DriverStatistics;
+using rNascar23.Service.Flags;
+using rNascar23.Service.LapTimes;
 using rNascar23.Service.LiveFeeds;
+using Serilog;
 using System;
 using System.Windows.Forms;
-using AutoMapper;
-using rNascar23.Service.Flags;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using rNascar23.Service.LapTimes;
 
 namespace rNascar23TestApp
 {
@@ -40,6 +40,7 @@ namespace rNascar23TestApp
                         .AddRaceLists()
                         .AddLiveFeed()
                         .AddLapTimes()
+                        .AddDriverStatistics()
                         .AddTransient<MainForm>();
 
                     //Add Serilog

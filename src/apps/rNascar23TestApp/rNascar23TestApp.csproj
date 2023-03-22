@@ -247,6 +247,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libraries\DriverStats\rNascar.Services.DriverStats\rNascar23.Service.DriverStatistics.csproj">
+      <Project>{bbbdab8f-8764-4ebd-9fe5-7aaf3dd29d1b}</Project>
+      <Name>rNascar23.Service.DriverStatistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libraries\DriverStats\rNascar23.DriverStats\rNascar23.DriverStatistics.csproj">
+      <Project>{43497A12-F239-4A40-9865-0A7217EBA510}</Project>
+      <Name>rNascar23.DriverStatistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libraries\Flags\rNascar23.Flags\rNascar23.Flags.csproj">
       <Project>{a3aa6e5c-07a9-48c6-b45c-27bfba0901ec}</Project>
       <Name>rNascar23.Flags</Name>

@@ -30,12 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.pnlHeader = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblEventName = new System.Windows.Forms.Label();
+            this.lblStageLaps = new System.Windows.Forms.Label();
+            this.lblRaceLaps = new System.Windows.Forms.Label();
             this.pnlFlagGreenYellow = new System.Windows.Forms.Panel();
             this.picStatus = new System.Windows.Forms.PictureBox();
             this.picGreenYelllowLapIndicator = new System.Windows.Forms.PictureBox();
-            this.lblStageLaps = new System.Windows.Forms.Label();
-            this.lblRaceLaps = new System.Windows.Forms.Label();
-            this.lblEventName = new System.Windows.Forms.Label();
             this.AutoUpdateTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,10 +49,12 @@
             this.xfinityRacesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.truckRacesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.allToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.autoUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.driverStatisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.forrmattedLiveFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.autoUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.practiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,14 +68,14 @@
             this.pnlMain = new System.Windows.Forms.Panel();
             this.pnlBottom = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlHeader.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGreenYelllowLapIndicator)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -84,6 +87,52 @@
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.Size = new System.Drawing.Size(1292, 97);
             this.pnlHeader.TabIndex = 2;
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.lblEventName);
+            this.panel1.Controls.Add(this.lblStageLaps);
+            this.panel1.Controls.Add(this.lblRaceLaps);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1292, 42);
+            this.panel1.TabIndex = 15;
+            // 
+            // lblEventName
+            // 
+            this.lblEventName.AutoSize = true;
+            this.lblEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEventName.Location = new System.Drawing.Point(3, 10);
+            this.lblEventName.Name = "lblEventName";
+            this.lblEventName.Size = new System.Drawing.Size(15, 20);
+            this.lblEventName.TabIndex = 11;
+            this.lblEventName.Text = "-";
+            // 
+            // lblStageLaps
+            // 
+            this.lblStageLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblStageLaps.AutoSize = true;
+            this.lblStageLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStageLaps.Location = new System.Drawing.Point(1090, 12);
+            this.lblStageLaps.Name = "lblStageLaps";
+            this.lblStageLaps.Size = new System.Drawing.Size(102, 16);
+            this.lblStageLaps.TabIndex = 13;
+            this.lblStageLaps.Text = "<Stage Laps>";
+            this.lblStageLaps.Visible = false;
+            // 
+            // lblRaceLaps
+            // 
+            this.lblRaceLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblRaceLaps.AutoSize = true;
+            this.lblRaceLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRaceLaps.Location = new System.Drawing.Point(879, 12);
+            this.lblRaceLaps.Name = "lblRaceLaps";
+            this.lblRaceLaps.Size = new System.Drawing.Size(98, 16);
+            this.lblRaceLaps.TabIndex = 12;
+            this.lblRaceLaps.Text = "<Race Laps>";
+            this.lblRaceLaps.Visible = false;
             // 
             // pnlFlagGreenYellow
             // 
@@ -119,40 +168,6 @@
             this.picGreenYelllowLapIndicator.TabIndex = 9;
             this.picGreenYelllowLapIndicator.TabStop = false;
             this.picGreenYelllowLapIndicator.Paint += new System.Windows.Forms.PaintEventHandler(this.picGreenYelllowLapIndicator_Paint);
-            // 
-            // lblStageLaps
-            // 
-            this.lblStageLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblStageLaps.AutoSize = true;
-            this.lblStageLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStageLaps.Location = new System.Drawing.Point(1090, 12);
-            this.lblStageLaps.Name = "lblStageLaps";
-            this.lblStageLaps.Size = new System.Drawing.Size(102, 16);
-            this.lblStageLaps.TabIndex = 13;
-            this.lblStageLaps.Text = "<Stage Laps>";
-            this.lblStageLaps.Visible = false;
-            // 
-            // lblRaceLaps
-            // 
-            this.lblRaceLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblRaceLaps.AutoSize = true;
-            this.lblRaceLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRaceLaps.Location = new System.Drawing.Point(879, 12);
-            this.lblRaceLaps.Name = "lblRaceLaps";
-            this.lblRaceLaps.Size = new System.Drawing.Size(98, 16);
-            this.lblRaceLaps.TabIndex = 12;
-            this.lblRaceLaps.Text = "<Race Laps>";
-            this.lblRaceLaps.Visible = false;
-            // 
-            // lblEventName
-            // 
-            this.lblEventName.AutoSize = true;
-            this.lblEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEventName.Location = new System.Drawing.Point(3, 10);
-            this.lblEventName.Name = "lblEventName";
-            this.lblEventName.Size = new System.Drawing.Size(15, 20);
-            this.lblEventName.TabIndex = 11;
-            this.lblEventName.Text = "-";
             // 
             // AutoUpdateTimer
             // 
@@ -192,10 +207,12 @@
             this.liveFeedToolStripMenuItem,
             this.vehicleListToolStripMenuItem,
             this.eventsToolStripMenuItem,
+            this.driverStatisticsToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.forrmattedLiveFeedToolStripMenuItem,
             this.toolStripMenuItem1,
             this.autoUpdateToolStripMenuItem,
-            this.toolStripMenuItem3,
-            this.forrmattedLiveFeedToolStripMenuItem});
+            this.toolStripMenuItem4});
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
             this.refreshToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
             this.refreshToolStripMenuItem.Text = "&Refresh";
@@ -253,6 +270,25 @@
             this.allToolStripMenuItem.Text = "&All";
             this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
             // 
+            // driverStatisticsToolStripMenuItem
+            // 
+            this.driverStatisticsToolStripMenuItem.Name = "driverStatisticsToolStripMenuItem";
+            this.driverStatisticsToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.driverStatisticsToolStripMenuItem.Text = "&Driver Statistics";
+            this.driverStatisticsToolStripMenuItem.Click += new System.EventHandler(this.driverStatisticsToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(192, 6);
+            // 
+            // forrmattedLiveFeedToolStripMenuItem
+            // 
+            this.forrmattedLiveFeedToolStripMenuItem.Name = "forrmattedLiveFeedToolStripMenuItem";
+            this.forrmattedLiveFeedToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.forrmattedLiveFeedToolStripMenuItem.Text = "&Forrmatted Live Feed";
+            this.forrmattedLiveFeedToolStripMenuItem.Click += new System.EventHandler(this.formattedLiveFeedToolStripMenuItem_Click);
+            // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -266,17 +302,10 @@
             this.autoUpdateToolStripMenuItem.Text = "&Auto-Update Live Feed";
             this.autoUpdateToolStripMenuItem.Click += new System.EventHandler(this.autoUpdateToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem3
+            // toolStripMenuItem4
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(192, 6);
-            // 
-            // forrmattedLiveFeedToolStripMenuItem
-            // 
-            this.forrmattedLiveFeedToolStripMenuItem.Name = "forrmattedLiveFeedToolStripMenuItem";
-            this.forrmattedLiveFeedToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-            this.forrmattedLiveFeedToolStripMenuItem.Text = "&Forrmatted Live Feed";
-            this.forrmattedLiveFeedToolStripMenuItem.Click += new System.EventHandler(this.formattedLiveFeedToolStripMenuItem_Click);
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(192, 6);
             // 
             // viewToolStripMenuItem
             // 
@@ -393,18 +422,6 @@
             this.pnlRight.Size = new System.Drawing.Size(260, 465);
             this.pnlRight.TabIndex = 8;
             // 
-            // panel1
-            // 
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.lblEventName);
-            this.panel1.Controls.Add(this.lblStageLaps);
-            this.panel1.Controls.Add(this.lblRaceLaps);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1292, 42);
-            this.panel1.TabIndex = 15;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -422,6 +439,8 @@
             this.Text = "rNASCAR23";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.pnlHeader.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.pnlFlagGreenYellow.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGreenYelllowLapIndicator)).EndInit();
@@ -429,8 +448,6 @@
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -474,6 +491,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem forrmattedLiveFeedToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem driverStatisticsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
