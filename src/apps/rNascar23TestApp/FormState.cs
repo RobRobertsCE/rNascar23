@@ -3,13 +3,9 @@ using rNascar23.Flags.Models;
 using rNascar23.LapTimes.Models;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace rNascar23TestApp.ViewModels
+namespace rNascar23TestApp
 {
     internal class FormState
     {

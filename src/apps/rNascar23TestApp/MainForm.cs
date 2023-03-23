@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
+using rNascar23.DriverStatistics.Models;
 using rNascar23.DriverStatistics.Ports;
 using rNascar23.Flags.Models;
 using rNascar23.LapTimes.Models;
@@ -9,7 +10,10 @@ using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
+using rNascar23TestApp.CustomViews;
+using rNascar23TestApp.Dialogs;
 using rNascar23TestApp.ViewModels;
+using rNascar23TestApp.Views;
 using Serilog.Core;
 using System;
 using System.Collections.Generic;
@@ -51,6 +55,16 @@ namespace rNascar23TestApp
             All
         }
 
+        private enum ScheduleType
+        {
+            Cup = 1,
+            Xfinity,
+            Trucks,
+            All,
+            ThisWeek,
+            Today
+        }
+
 
 
         #endregion
@@ -72,10 +86,14 @@ namespace rNascar23TestApp
         private DataGridView _15LapAverageTimeDataGridView = null;
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
+        private ScheduleType _selectedScheduleType = ScheduleType.All;
         IList<FastestLapViewModel> _fastestLaps;
         IList<PositionChangeViewModel> _biggestMovers;
         IList<PositionChangeViewModel> _biggestFallers;
         private LapStateViewModel _lapStates = new LapStateViewModel();
+        private IList<GridSettings> _customGridSettings = null;
+        private IList<GridView> _gridViews = null;
+
 
         private FormState _formState = new FormState();
         private readonly ILogger<MainForm> _logger = null;
@@ -141,7 +159,7 @@ namespace rNascar23TestApp
         {
             try
             {
-                await DisplaySeriesScheduleAsync(SeriesType.All);
+                await DisplaySeriesScheduleAsync(ScheduleType.All);
             }
             catch (Exception ex)
             {
@@ -153,7 +171,7 @@ namespace rNascar23TestApp
         {
             try
             {
-                await DisplaySeriesScheduleAsync(SeriesType.Trucks);
+                await DisplaySeriesScheduleAsync(ScheduleType.Trucks);
             }
             catch (Exception ex)
             {
@@ -165,7 +183,7 @@ namespace rNascar23TestApp
         {
             try
             {
-                await DisplaySeriesScheduleAsync(SeriesType.Xfinity);
+                await DisplaySeriesScheduleAsync(ScheduleType.Xfinity);
             }
             catch (Exception ex)
             {
@@ -177,7 +195,7 @@ namespace rNascar23TestApp
         {
             try
             {
-                await DisplaySeriesScheduleAsync(SeriesType.Cup);
+                await DisplaySeriesScheduleAsync(ScheduleType.Cup);
             }
             catch (Exception ex)
             {
@@ -315,6 +333,9 @@ namespace rNascar23TestApp
         {
             try
             {
+                if (_selectedScheduleType == ScheduleType.ThisWeek || _selectedScheduleType == ScheduleType.Today)
+                    return;
+
                 DisplayEventSchedule();
             }
             catch (Exception ex)
@@ -430,6 +451,156 @@ namespace rNascar23TestApp
                 toolTip1.SetToolTip(flagSegmentPB, $"{flagState} {lapsText}{cautionDetails}");
 
                 picGreenYelllowLapIndicator.Controls.Add(flagSegmentPB);
+            }
+        }
+
+        private void btnRaceView_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetViewState(ViewState.Race);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private void btnQualifyingView_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetViewState(ViewState.Qualifying);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private void btnPracticeView_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetViewState(ViewState.Practice);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void btnCustomGridsView_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplayCustomGridsView();
+
+                await SetCustomGridViewDataAsync();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void customViewEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await DisplayGridEditorDialogAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void truckToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedScheduleType = ScheduleType.Trucks;
+                SetViewState(ViewState.SeriesSchedule, true);
+                await DisplaySeriesScheduleAsync(_selectedScheduleType);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void xfinityToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedScheduleType = ScheduleType.Xfinity;
+                SetViewState(ViewState.SeriesSchedule, true);
+                await DisplaySeriesScheduleAsync(_selectedScheduleType);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void cupToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedScheduleType = ScheduleType.Cup;
+                SetViewState(ViewState.SeriesSchedule, true);
+                await DisplaySeriesScheduleAsync(_selectedScheduleType);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void allToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedScheduleType = ScheduleType.All;
+                SetViewState(ViewState.SeriesSchedule, true);
+                await DisplaySeriesScheduleAsync(_selectedScheduleType);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void thisWeekToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedScheduleType = ScheduleType.ThisWeek;
+                SetViewState(ViewState.SeriesSchedule, true);
+                await DisplaySeriesScheduleAsync(_selectedScheduleType);
+
+                DisplayEventSchedule();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void todayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedScheduleType = ScheduleType.Today;
+                SetViewState(ViewState.SeriesSchedule, true);
+                await DisplaySeriesScheduleAsync(_selectedScheduleType);
+
+                DisplayEventSchedule();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
             }
         }
 
@@ -1011,7 +1182,7 @@ namespace rNascar23TestApp
 
             if (_formState.CurrentSeriesRace == null || _formState.LiveFeed.RaceId != _formState.CurrentSeriesRace.race_id)
             {
-                _formState.SeriesSchedules = await GetSeriesScheduleAsync((SeriesType)_formState.LiveFeed.SeriesId);
+                _formState.SeriesSchedules = await GetSeriesScheduleAsync((ScheduleType)_formState.LiveFeed.SeriesId);
 
                 _formState.CurrentSeriesRace = _formState.SeriesSchedules.FirstOrDefault(s => s.race_id == _formState.LiveFeed.RaceId);
             }
@@ -1031,27 +1202,45 @@ namespace rNascar23TestApp
             return true;
         }
 
-        private async Task<IList<Series>> GetSeriesScheduleAsync(SeriesType seriesType)
+        private async Task<IList<Series>> GetSeriesScheduleAsync(ScheduleType seriesType)
         {
             var raceLists = await _raceScheduleRepository.GetRaceListAsync();
 
             switch (seriesType)
             {
-                case SeriesType.Trucks:
+                case ScheduleType.Trucks:
                     {
                         return raceLists.TruckSeries;
                     }
-                case SeriesType.Xfinity:
+                case ScheduleType.Xfinity:
                     {
                         return raceLists.XfinitySeries;
                     }
-                case SeriesType.Cup:
+                case ScheduleType.Cup:
                     {
                         return raceLists.CupSeries;
                     }
-                case SeriesType.All:
+                case ScheduleType.All:
                     {
                         return raceLists.CupSeries.Concat(raceLists.XfinitySeries).Concat(raceLists.TruckSeries).ToList();
+                    }
+                case ScheduleType.ThisWeek:
+                    {
+                        var firstDayOfThisWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+
+                        return raceLists.CupSeries.
+                            Concat(raceLists.XfinitySeries).
+                            Concat(raceLists.TruckSeries).
+                            Where(s => s.date_scheduled.Date > firstDayOfThisWeek.Date.AddDays(1) && s.date_scheduled.Date.AddDays(1) <= (firstDayOfThisWeek.AddDays(8).Date)).
+                            ToList();
+                    }
+                case ScheduleType.Today:
+                    {
+                        return raceLists.CupSeries.
+                           Concat(raceLists.XfinitySeries).
+                           Concat(raceLists.TruckSeries).
+                           Where(s => s.schedule.Any(x => x.StartTimeLocal.Date == DateTime.Now.Date)).
+                           ToList();
                     }
                 default:
                     {
@@ -1077,17 +1266,14 @@ namespace rNascar23TestApp
         {
             var hasNewData = await ReadDataAsync();
 
-            if (_formState.LiveFeed.RunType != (int)_viewState)
-            {
-                SetViewState((ViewState)_formState.LiveFeed.RunType);
-            }
+            if (!hasNewData)
+                return;
 
-            //if (!hasNewData)
-            //    return;
+            DisplayHeaderData();
 
-            DisplayHeaderData(_formState.LiveFeed);
+            DisplayVehicleData();
 
-            DisplayVehicleData(_formState.LiveFeed);
+            await SetCustomGridViewDataAsync();
         }
 
         private async Task DisplayDriverStatisticsAsync()
@@ -1159,7 +1345,53 @@ namespace rNascar23TestApp
             _leftRaceDataGridView.Width = 850;
             _leftRaceDataGridView.Dock = DockStyle.Left;
 
+            if (_fastestLapsDataGridView != null)
+            {
+                _fastestLapsDataGridView.Dispose();
+                _fastestLapsDataGridView = null;
+            }
+            _fastestLapsDataGridView = BuildFastestLapsViewGrid();
+            pnlRight.Controls.Add(_fastestLapsDataGridView);
+            _fastestLapsDataGridView.Height = 275;
+            _fastestLapsDataGridView.Dock = DockStyle.Top;
+
+            if (_5LapAverageTimeDataGridView != null)
+            {
+                _5LapAverageTimeDataGridView.Dispose();
+                _5LapAverageTimeDataGridView = null;
+            }
+            _5LapAverageTimeDataGridView = Build5LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_5LapAverageTimeDataGridView);
+            _5LapAverageTimeDataGridView.Width = 275;
+            _5LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _5LapAverageTimeDataGridView.BringToFront();
+
+            if (_10LapAverageTimeDataGridView != null)
+            {
+                _10LapAverageTimeDataGridView.Dispose();
+                _10LapAverageTimeDataGridView = null;
+            }
+            _10LapAverageTimeDataGridView = Build10LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_10LapAverageTimeDataGridView);
+            _10LapAverageTimeDataGridView.Width = 275;
+            _10LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _10LapAverageTimeDataGridView.BringToFront();
+
+            if (_15LapAverageTimeDataGridView != null)
+            {
+                _15LapAverageTimeDataGridView.Dispose();
+                _15LapAverageTimeDataGridView = null;
+            }
+            _15LapAverageTimeDataGridView = Build15LapAverageTimeViewGrid();
+            pnlBottom.Controls.Add(_15LapAverageTimeDataGridView);
+            _15LapAverageTimeDataGridView.Width = 275;
+            _15LapAverageTimeDataGridView.Dock = DockStyle.Left;
+            _15LapAverageTimeDataGridView.BringToFront();
+
+            pnlRight.Visible = true;
             pnlHeader.Visible = true;
+
+            picGreenYelllowLapIndicator.Visible = false;
         }
 
         private void DisplayQualifyingViewState()
@@ -1318,7 +1550,7 @@ namespace rNascar23TestApp
             _genericDataGridView.Dock = DockStyle.Fill;
         }
 
-        private async Task DisplaySeriesScheduleAsync(SeriesType seriesType)
+        private async Task DisplaySeriesScheduleAsync(ScheduleType seriesType)
         {
             if (AutoUpdateTimer.Enabled)
                 await SetAutoUpdateStateAsync(false);
@@ -1358,21 +1590,103 @@ namespace rNascar23TestApp
             }
             else
             {
-                _eventScheduleDataGridView.DataSource = null;
+                if (_selectedScheduleType == ScheduleType.ThisWeek)
+                {
+                    Dictionary<string, List<Schedule>> eventSchedule = new Dictionary<string, List<Schedule>>();
+                    Series series = null;
+
+                    foreach (DataGridViewRow seriesScheduleRow in _seriesScheduleDataGridView.Rows)
+                    {
+                        series = (Series)seriesScheduleRow.DataBoundItem;
+
+                        List<Schedule> seriesEventSchedule = (List<Schedule>)series.schedule.ToList();
+
+                        eventSchedule.Add(series.SeriesName, seriesEventSchedule);
+                    }
+
+                    var seriesEventActivities = new List<SeriesEventScheduleViewModel>();
+
+                    foreach (KeyValuePair<string, List<Schedule>> item in eventSchedule)
+                    {
+                        seriesEventActivities.AddRange(item.Value.Select(x => new SeriesEventScheduleViewModel
+                        {
+                            Series = item.Key,
+                            Activity = x.EventName,
+                            Notes = x.Notes,
+                            StartTime = x.StartTimeLocal,
+                            Description = x.Description
+                        }));
+                    }
+
+                    _eventScheduleDataGridView.DataSource = seriesEventActivities.OrderBy(x => x.StartTime).ToList();
+                }
+                else if (_selectedScheduleType == ScheduleType.Today)
+                {
+                    Dictionary<string, List<Schedule>> eventSchedule = new Dictionary<string, List<Schedule>>();
+                    Series series = null;
+
+                    foreach (DataGridViewRow seriesScheduleRow in _seriesScheduleDataGridView.Rows)
+                    {
+                        series = (Series)seriesScheduleRow.DataBoundItem;
+
+                        List<Schedule> seriesEventSchedule = (List<Schedule>)series.schedule.ToList();
+
+                        eventSchedule.Add(series.SeriesName, seriesEventSchedule);
+                    }
+
+                    var seriesEventActivities = new List<SeriesEventScheduleViewModel>();
+
+                    foreach (KeyValuePair<string, List<Schedule>> item in eventSchedule)
+                    {
+                        seriesEventActivities.AddRange(item.Value.
+                            Where(x => x.StartTimeLocal.Date == DateTime.Now.Date).
+                            Select(x => new SeriesEventScheduleViewModel
+                            {
+                                Series = item.Key,
+                                Activity = x.EventName,
+                                Notes = x.Notes,
+                                StartTime = x.StartTimeLocal,
+                                Description = x.Description
+                            }));
+                    }
+
+                    _eventScheduleDataGridView.DataSource = seriesEventActivities.OrderBy(x => x.StartTime).ToList();
+                }
+                else
+                {
+                    _eventScheduleDataGridView.DataSource = null;
+                }
             }
 
             foreach (DataGridViewRow row in _eventScheduleDataGridView.Rows)
             {
-                // event complete
-                if (row.Cells[2].Value != null && ((DateTime)row.Cells[2].Value) < DateTime.UtcNow)
+                if (_selectedScheduleType == ScheduleType.Today || _selectedScheduleType == ScheduleType.Today)
                 {
-                    row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                    // event complete
+                    if (row.Cells[3].Value != null && ((DateTime)row.Cells[3].Value) < DateTime.Now)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
                 }
                 else
                 {
-                    row.DefaultCellStyle.ForeColor = Color.Black;
+                    // event complete
+                    if (row.Cells[3].Value != null && ((DateTime)row.Cells[3].Value) < DateTime.Now)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                    }
+                    else
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.Black;
+                    }
                 }
             }
+
+            _eventScheduleDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private async Task DisplayRawVehicleDataAsync()
@@ -1401,12 +1715,12 @@ namespace rNascar23TestApp
             _genericDataGridView.DataSource = new List<LiveFeed>() { liveFeed };
         }
 
-        private void DisplayVehicleData(LiveFeed liveFeed)
+        private void DisplayVehicleData()
         {
             var raceVehicles = new List<RaceVehicleViewModel>();
 
             Vehicle lastVehicle = null;
-            foreach (var vehicle in liveFeed.Vehicles)
+            foreach (var vehicle in _formState.LiveFeed.Vehicles)
             {
                 raceVehicles.Add(new RaceVehicleViewModel()
                 {
@@ -1427,7 +1741,7 @@ namespace rNascar23TestApp
                 lastVehicle = vehicle;
             }
 
-            var bestLapTime = raceVehicles.OrderBy(v => v.LastLap).FirstOrDefault().LastLap;
+            var bestLapTime = raceVehicles.OrderBy(v => v.LastLap).FirstOrDefault()?.LastLap;
 
             try
             {
@@ -1446,15 +1760,18 @@ namespace rNascar23TestApp
                         row.DefaultCellStyle.BackColor = Color.White;
                     }
 
-                    // Fastest this lap.
-                    if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
+                    if (bestLapTime.HasValue)
                     {
-                        row.Cells[9].Style.BackColor = Color.LimeGreen;
-
-                        // Best lap for driver for the race
-                        if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                        // Fastest this lap.
+                        if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                         {
-                            row.Cells[8].Style.BackColor = Color.LimeGreen;
+                            row.Cells[9].Style.BackColor = Color.LimeGreen;
+
+                            // Best lap for driver for the race
+                            if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                            {
+                                row.Cells[8].Style.BackColor = Color.LimeGreen;
+                            }
                         }
                     }
 
@@ -1495,14 +1812,17 @@ namespace rNascar23TestApp
                         row.DefaultCellStyle.BackColor = Color.White;
                     }
 
-                    // Fastest this lap.
-                    if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
+                    if (bestLapTime.HasValue)
                     {
-                        row.Cells[9].Style.BackColor = Color.LimeGreen;
-
-                        if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                        // Fastest this lap.
+                        if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                         {
-                            row.Cells[8].Style.BackColor = Color.LimeGreen;
+                            row.Cells[9].Style.BackColor = Color.LimeGreen;
+
+                            if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                            {
+                                row.Cells[8].Style.BackColor = Color.LimeGreen;
+                            }
                         }
                     }
 
@@ -1528,7 +1848,7 @@ namespace rNascar23TestApp
             }
 
 
-            var fastestLaps = liveFeed.Vehicles.OrderByDescending(v => v.best_lap_speed).Take(10).Select(v => new FastestLapViewModel()
+            var fastestLaps = _formState.LiveFeed.Vehicles.OrderByDescending(v => v.best_lap_speed).Take(10).Select(v => new FastestLapViewModel()
             {
                 Driver = v.driver.full_name,
                 Speed = Math.Round(v.best_lap_speed, 3).ToString("N3")
@@ -1543,7 +1863,7 @@ namespace rNascar23TestApp
 
             // DisplayBiggestMovers
 
-            var biggestMovers = liveFeed.Vehicles.OrderByDescending(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
+            var biggestMovers = _formState.LiveFeed.Vehicles.OrderByDescending(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
             {
                 Driver = v.driver.full_name,
                 Change = v.position_differential_last_10_percent
@@ -1556,7 +1876,7 @@ namespace rNascar23TestApp
 
             DisplayBiggestMovers(biggestMovers);
 
-            var biggestFallers = liveFeed.Vehicles.OrderBy(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
+            var biggestFallers = _formState.LiveFeed.Vehicles.OrderBy(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
             {
                 Driver = v.driver.full_name,
                 Change = v.position_differential_last_10_percent
@@ -1569,11 +1889,11 @@ namespace rNascar23TestApp
 
             DisplayBiggestFallers(biggestFallers);
 
-            UpdateGreenYellowLapIndicator(_formState.LiveFeed, _formState.FlagStates);
+            UpdateGreenYellowLapIndicator();
 
-            DisplayCautionsList(_formState.FlagStates);
+            DisplayCautionsList();
 
-            DisplayLapLeadersList(_formState.LiveFeed);
+            DisplayLapLeadersList();
 
             DisplayLapAverages();
         }
@@ -1629,16 +1949,16 @@ namespace rNascar23TestApp
             _15LapAverageTimeDataGridView.DataSource = last15LapTimeAverages;
         }
 
-        private void DisplayHeaderData(LiveFeed liveFeed)
+        private void DisplayHeaderData()
         {
-            picStatus.BackColor = liveFeed.FlagState == 8 ? Color.Orange :
-                liveFeed.FlagState == 1 ? Color.LimeGreen :
-                liveFeed.FlagState == 2 ? Color.Yellow :
-                liveFeed.FlagState == 3 ? Color.Red :
-                liveFeed.FlagState == 4 ? Color.White :
+            picStatus.BackColor = _formState.LiveFeed.FlagState == 8 ? Color.Orange :
+                _formState.LiveFeed.FlagState == 1 ? Color.LimeGreen :
+                _formState.LiveFeed.FlagState == 2 ? Color.Yellow :
+                _formState.LiveFeed.FlagState == 3 ? Color.Red :
+                _formState.LiveFeed.FlagState == 4 ? Color.White :
                 Color.DimGray;
 
-            if (liveFeed.RunType == (int)RunType.Race)
+            if (_formState.LiveFeed.RunType == (int)RunType.Race)
             {
                 if (_lapStates == null || _lapStates.Stage1Laps == 0)
                 {
@@ -1648,15 +1968,15 @@ namespace rNascar23TestApp
                     _lapStates.Stage3Laps = _formState.CurrentSeriesRace.stage_3_laps;
                 }
 
-                DisplayEventName(liveFeed.RunName, GetSeriesName(liveFeed.SeriesId), liveFeed.TrackName, _formState.CurrentSeriesRace.stage_1_laps, _formState.CurrentSeriesRace.stage_2_laps, _formState.CurrentSeriesRace.stage_3_laps);
+                DisplayEventName(_formState.LiveFeed.RunName, GetSeriesName(_formState.LiveFeed.SeriesId), _formState.LiveFeed.TrackName, _formState.CurrentSeriesRace.stage_1_laps, _formState.CurrentSeriesRace.stage_2_laps, _formState.CurrentSeriesRace.stage_3_laps);
 
-                DisplayRaceLaps(liveFeed.LapNumber, liveFeed.LapsInRace);
+                DisplayRaceLaps(_formState.LiveFeed.LapNumber, _formState.LiveFeed.LapsInRace);
 
-                DisplayStageLaps(liveFeed.Stage.Number, liveFeed.LapNumber, liveFeed.Stage.FinishAtLap, liveFeed.Stage.LapsInStage);
+                DisplayStageLaps(_formState.LiveFeed.Stage.Number, _formState.LiveFeed.LapNumber, _formState.LiveFeed.Stage.FinishAtLap, _formState.LiveFeed.Stage.LapsInStage);
             }
             else
             {
-                DisplayEventName(liveFeed.RunName, GetSeriesName(liveFeed.SeriesId), liveFeed.TrackName);
+                DisplayEventName(_formState.LiveFeed.RunName, GetSeriesName(_formState.LiveFeed.SeriesId), _formState.LiveFeed.TrackName);
             }
         }
 
@@ -1714,11 +2034,11 @@ namespace rNascar23TestApp
                 _biggestFallersDataGridView.DataSource = _biggestFallers;
         }
 
-        private void DisplayCautionsList(IList<FlagState> flagStates)
+        private void DisplayCautionsList()
         {
             IList<CautionFlagViewModel> cautions = new List<CautionFlagViewModel>();
 
-            foreach (var item in flagStates.Where(f => f.State == 2).OrderBy(f => f.LapNumber))
+            foreach (var item in _formState.FlagStates.Where(f => f.State == 2).OrderBy(f => f.LapNumber))
             {
                 var caution = new CautionFlagViewModel()
                 {
@@ -1733,11 +2053,11 @@ namespace rNascar23TestApp
             _cautionsDataGridView.DataSource = cautions;
         }
 
-        private void DisplayLapLeadersList(LiveFeed liveFeed)
+        private void DisplayLapLeadersList()
         {
             IList<LapLeaderViewModel> lapLeaders = new List<LapLeaderViewModel>();
 
-            foreach (var lapLedLeader in liveFeed.Vehicles.Where(v => v.laps_led.Length > 0))
+            foreach (var lapLedLeader in _formState.LiveFeed.Vehicles.Where(v => v.laps_led.Length > 0))
             {
                 var lapLeader = new LapLeaderViewModel()
                 {
@@ -1751,23 +2071,23 @@ namespace rNascar23TestApp
             _lapLeadersDataGridView.DataSource = lapLeaders.OrderByDescending(l => l.Laps).ToList();
         }
 
-        private void UpdateGreenYellowLapIndicator(LiveFeed liveFeed, IList<FlagState> flagStates)
+        private void UpdateGreenYellowLapIndicator()
         {
             int lap = 0;
             LapStateViewModel.FlagState previousFlagState = LapStateViewModel.FlagState.Green;
 
-            for (int i = 0; i < flagStates.Count; i++)
+            for (int i = 0; i < _formState.FlagStates.Count; i++)
             {
-                if (flagStates[i].State != (int)previousFlagState)
+                if (_formState.FlagStates[i].State != (int)previousFlagState)
                 {
                     // flag has changed
-                    if ((flagStates[i].LapNumber - lap) > 0)
+                    if ((_formState.FlagStates[i].LapNumber - lap) > 0)
                     {
                         // race has started   
                         var newLapSegment = new LapStateViewModel.LapSegment
                         {
                             StartLapNumber = lap,
-                            Laps = flagStates[i].LapNumber - lap,
+                            Laps = _formState.FlagStates[i].LapNumber - lap,
                             Stage = lap >= _lapStates.Stage1Laps + _lapStates.Stage2Laps ?
                             3 : lap >= _lapStates.Stage1Laps ?
                             2 :
@@ -1777,8 +2097,8 @@ namespace rNascar23TestApp
 
                         _lapStates.LapSegments.Add(newLapSegment);
 
-                        previousFlagState = (LapStateViewModel.FlagState)flagStates[i].State;
-                        lap = flagStates[i].LapNumber;
+                        previousFlagState = (LapStateViewModel.FlagState)_formState.FlagStates[i].State;
+                        lap = _formState.FlagStates[i].LapNumber;
                     }
                 }
             }
@@ -1797,6 +2117,117 @@ namespace rNascar23TestApp
             }
 
             picGreenYelllowLapIndicator.Invalidate();
+        }
+
+        private async Task DisplayGridEditorDialogAsync()
+        {
+            SetViewState(ViewState.None);
+
+            await ReadDataAsync();
+
+            var dialog = Program.Services.GetRequiredService<GridSettingsDialog>();
+
+            if (_customGridSettings == null)
+            {
+                var service = Program.Services.GetRequiredService<CustomViewSettingsService>();
+                _customGridSettings = service.GetCustomViewSettings();
+            }
+
+            dialog.ShowDialog();
+        }
+
+        private void DisplayCustomGridsView()
+        {
+            var service = Program.Services.GetRequiredService<CustomViewSettingsService>();
+            _customGridSettings = service.GetCustomViewSettings();
+
+            var factory = Program.Services.GetRequiredService<CustomGridViewFactory>();
+
+            _gridViews = factory.GetCustomGridViews(_customGridSettings);
+
+            SetViewState(ViewState.None, true);
+
+            foreach (var customGridView in _gridViews.OrderBy(g => g.Settings.Location).ThenBy(g => g.Settings.DisplayOrder))
+            {
+                Panel selectedPanel = null;
+                switch (customGridView.Settings.Location)
+                {
+                    case GridLocations.Main:
+                        selectedPanel = pnlMain;
+                        break;
+                    case GridLocations.Right:
+                        selectedPanel = pnlRight;
+                        break;
+                    case GridLocations.Bottom:
+                        selectedPanel = pnlBottom;
+                        break;
+                    default:
+                        break;
+                }
+
+                selectedPanel.Controls.Add(customGridView);
+                customGridView.Dock = DockStyle.Left;
+                customGridView.BringToFront();
+                var gridSplitter = new Splitter()
+                {
+                    Dock = DockStyle.Left
+                };
+                selectedPanel.Controls.Add(gridSplitter);
+                gridSplitter.BringToFront();
+            }
+        }
+
+        private async Task SetCustomGridViewDataAsync()
+        {
+            if (_gridViews == null || _gridViews.Count == 0)
+                return;
+
+            if (_formState.LiveFeed == null)
+                await ReadDataAsync();
+
+            foreach (GridView gridView in _gridViews)
+            {
+                switch (gridView.Settings.ApiSource)
+                {
+                    case ApiSources.DriverStatistics:
+                        var driversDataSource = new DataSource<rNascar23.DriverStatistics.Models.Driver>()
+                        {
+                            Values = _formState.EventStatistics.drivers
+                        };
+                        gridView.SetDataSource(driversDataSource);
+                        break;
+                    case ApiSources.Flags:
+                        var flagsDataSource = new DataSource<FlagState>()
+                        {
+                            Values = _formState.FlagStates
+                        };
+                        gridView.SetDataSource(flagsDataSource);
+                        break;
+                    case ApiSources.LapTimes:
+                        var lapsDataSource = new DataSource<LapDetails>()
+                        {
+                            Values = _formState.LapTimes.Drivers.SelectMany(d => d.Laps).ToList()
+                        };
+                        gridView.SetDataSource(lapsDataSource);
+                        break;
+                    case ApiSources.LiveFeed:
+                        var liveFeedDataSource = new DataSource<LiveFeed>()
+                        {
+                            Values = new List<LiveFeed>() { _formState.LiveFeed }
+                        };
+                        gridView.SetDataSource(liveFeedDataSource);
+                        break;
+                    case ApiSources.RaceLists:
+                        var schedulesDataSource = new DataSource<Series>()
+                        {
+                            Values = _formState.SeriesSchedules
+                        };
+                        gridView.SetDataSource(schedulesDataSource);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         #endregion

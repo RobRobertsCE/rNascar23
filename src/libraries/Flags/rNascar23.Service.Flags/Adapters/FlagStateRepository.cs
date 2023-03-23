@@ -3,11 +3,8 @@ using rNascar23.Data;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Flags.Models;
 using rNascar23.Service.Flags.Data.Models;
-using rNascar23.Service.Flags.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace rNascar23.Service.Flags.Adapters

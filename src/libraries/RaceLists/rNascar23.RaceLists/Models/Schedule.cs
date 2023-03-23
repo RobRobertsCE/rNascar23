@@ -7,6 +7,13 @@ namespace rNascar23.RaceLists.Models
         public string EventName { get; set; }
         public string Notes { get; set; }
         public DateTime StartTimeUtc { get; set; }
+        public DateTime StartTimeLocal
+        {
+            get
+            {
+                return StartTimeUtc.ToLocalTime();
+            }
+        }
         public int RunType { get; set; }
         public string Description
         {

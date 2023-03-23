@@ -6,6 +6,8 @@ using rNascar23.Service.DriverStatistics;
 using rNascar23.Service.Flags;
 using rNascar23.Service.LapTimes;
 using rNascar23.Service.LiveFeeds;
+using rNascar23TestApp.CustomViews;
+using rNascar23TestApp.Dialogs;
 using Serilog;
 using System;
 using System.Windows.Forms;
@@ -41,7 +43,10 @@ namespace rNascar23TestApp
                         .AddLiveFeed()
                         .AddLapTimes()
                         .AddDriverStatistics()
-                        .AddTransient<MainForm>();
+                        .AddTransient<MainForm>()
+                        .AddTransient<GridSettingsDialog>()
+                        .AddTransient<CustomGridViewFactory>()
+                        .AddTransient<CustomViewSettingsService>();                    
 
                     //Add Serilog
                     var serilogLogger = new LoggerConfiguration()
