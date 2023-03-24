@@ -1,0 +1,548 @@
+﻿[
+  {
+    "race_id": 5314,
+    "run_id": 6,
+    "stage_number": 1,
+    "results": [
+      {
+        "position": 1,
+        "vehicle_number": "21",
+        "driver_id": 4133,
+        "full_name": "Austin Hill",
+        "stage_points": 10
+      },
+      {
+        "position": 2,
+        "vehicle_number": "2",
+        "driver_id": 4204,
+        "full_name": "Sheldon Creed",
+        "stage_points": 9
+      },
+      {
+        "position": 3,
+        "vehicle_number": "20",
+        "driver_id": 4092,
+        "full_name": "John Hunter Nemechek",
+        "stage_points": 8
+      },
+      {
+        "position": 4,
+        "vehicle_number": "16",
+        "driver_id": 4312,
+        "full_name": "Chandler Smith #",
+        "stage_points": 7
+      },
+      {
+        "position": 5,
+        "vehicle_number": "98",
+        "driver_id": 4269,
+        "full_name": "Riley Herbst",
+        "stage_points": 6
+      },
+      {
+        "position": 6,
+        "vehicle_number": "25",
+        "driver_id": 4038,
+        "full_name": "Brett Moffitt",
+        "stage_points": 5
+      },
+      {
+        "position": 7,
+        "vehicle_number": "11",
+        "driver_id": 4093,
+        "full_name": "Daniel Hemric",
+        "stage_points": 4
+      },
+      {
+        "position": 8,
+        "vehicle_number": "39",
+        "driver_id": 3884,
+        "full_name": "Ryan Sieg",
+        "stage_points": 3
+      },
+      {
+        "position": 9,
+        "vehicle_number": "00",
+        "driver_id": 4104,
+        "full_name": "Cole Custer",
+        "stage_points": 2
+      },
+      {
+        "position": 10,
+        "vehicle_number": "10",
+        "driver_id": 4172,
+        "full_name": "Justin Haley(i)",
+        "stage_points": 0
+      },
+      {
+        "position": 11,
+        "vehicle_number": "48",
+        "driver_id": 3914,
+        "full_name": "Parker Kligerman",
+        "stage_points": 0
+      },
+      {
+        "position": 12,
+        "vehicle_number": "51",
+        "driver_id": 595,
+        "full_name": "Jeremy Clements",
+        "stage_points": 0
+      },
+      {
+        "position": 13,
+        "vehicle_number": "9",
+        "driver_id": 4085,
+        "full_name": "Brandon Jones",
+        "stage_points": 0
+      },
+      {
+        "position": 14,
+        "vehicle_number": "78",
+        "driver_id": 4301,
+        "full_name": "Anthony Alfredo",
+        "stage_points": 0
+      },
+      {
+        "position": 15,
+        "vehicle_number": "24",
+        "driver_id": 4433,
+        "full_name": "Connor Mosack",
+        "stage_points": 0
+      },
+      {
+        "position": 16,
+        "vehicle_number": "1",
+        "driver_id": 4327,
+        "full_name": "Sam Mayer",
+        "stage_points": 0
+      },
+      {
+        "position": 17,
+        "vehicle_number": "31",
+        "driver_id": 4419,
+        "full_name": "Parker Retzlaff #",
+        "stage_points": 0
+      },
+      {
+        "position": 18,
+        "vehicle_number": "27",
+        "driver_id": 4018,
+        "full_name": "Jeb Burton",
+        "stage_points": 0
+      },
+      {
+        "position": 19,
+        "vehicle_number": "6",
+        "driver_id": 4144,
+        "full_name": "Brennan Poole",
+        "stage_points": 0
+      },
+      {
+        "position": 20,
+        "vehicle_number": "19",
+        "driver_id": 3952,
+        "full_name": "Ryan Truex",
+        "stage_points": 0
+      },
+      {
+        "position": 21,
+        "vehicle_number": "7",
+        "driver_id": 34,
+        "full_name": "Justin Allgaier",
+        "stage_points": 0
+      },
+      {
+        "position": 22,
+        "vehicle_number": "8",
+        "driver_id": 4123,
+        "full_name": "Josh Berry",
+        "stage_points": 0
+      },
+      {
+        "position": 23,
+        "vehicle_number": "38",
+        "driver_id": 4313,
+        "full_name": "Joe Graf Jr.",
+        "stage_points": 0
+      },
+      {
+        "position": 24,
+        "vehicle_number": "18",
+        "driver_id": 4441,
+        "full_name": "Sammy Smith #",
+        "stage_points": 0
+      },
+      {
+        "position": 25,
+        "vehicle_number": "91",
+        "driver_id": 4410,
+        "full_name": "Chad Chastain",
+        "stage_points": 0
+      },
+      {
+        "position": 26,
+        "vehicle_number": "45",
+        "driver_id": 4409,
+        "full_name": "Sage Karam",
+        "stage_points": 0
+      },
+      {
+        "position": 27,
+        "vehicle_number": "35",
+        "driver_id": 4254,
+        "full_name": "Patrick Emerling",
+        "stage_points": 0
+      },
+      {
+        "position": 28,
+        "vehicle_number": "08",
+        "driver_id": 4103,
+        "full_name": "Gray Gaulding",
+        "stage_points": 0
+      },
+      {
+        "position": 29,
+        "vehicle_number": "28",
+        "driver_id": 4388,
+        "full_name": "Kyle Sieg",
+        "stage_points": 0
+      },
+      {
+        "position": 30,
+        "vehicle_number": "43",
+        "driver_id": 4029,
+        "full_name": "Ryan Ellis",
+        "stage_points": 0
+      },
+      {
+        "position": 31,
+        "vehicle_number": "07",
+        "driver_id": 4376,
+        "full_name": "Blaine Perkins #",
+        "stage_points": 0
+      },
+      {
+        "position": 32,
+        "vehicle_number": "92",
+        "driver_id": 4106,
+        "full_name": "Josh Williams",
+        "stage_points": 0
+      },
+      {
+        "position": 33,
+        "vehicle_number": "02",
+        "driver_id": 4187,
+        "full_name": "Kyle Weatherman",
+        "stage_points": 0
+      },
+      {
+        "position": 34,
+        "vehicle_number": "44",
+        "driver_id": 3894,
+        "full_name": "Jeffrey Earnhardt",
+        "stage_points": 0
+      },
+      {
+        "position": 35,
+        "vehicle_number": "26",
+        "driver_id": 4191,
+        "full_name": "Kaz Grala",
+        "stage_points": 0
+      },
+      {
+        "position": 36,
+        "vehicle_number": "4",
+        "driver_id": 4142,
+        "full_name": "Garrett Smithley",
+        "stage_points": 0
+      },
+      {
+        "position": 37,
+        "vehicle_number": "53",
+        "driver_id": 4004,
+        "full_name": "Joey Gase",
+        "stage_points": 0
+      },
+      {
+        "position": 38,
+        "vehicle_number": "66",
+        "driver_id": 4259,
+        "full_name": "Caesar Bacarella",
+        "stage_points": 0
+      }
+    ]
+  },
+  {
+    "race_id": 5314,
+    "run_id": 6,
+    "stage_number": 2,
+    "results": [
+      {
+        "position": 1,
+        "vehicle_number": "48",
+        "driver_id": 3914,
+        "full_name": "Parker Kligerman",
+        "stage_points": 10
+      },
+      {
+        "position": 2,
+        "vehicle_number": "98",
+        "driver_id": 4269,
+        "full_name": "Riley Herbst",
+        "stage_points": 9
+      },
+      {
+        "position": 3,
+        "vehicle_number": "9",
+        "driver_id": 4085,
+        "full_name": "Brandon Jones",
+        "stage_points": 8
+      },
+      {
+        "position": 4,
+        "vehicle_number": "2",
+        "driver_id": 4204,
+        "full_name": "Sheldon Creed",
+        "stage_points": 7
+      },
+      {
+        "position": 5,
+        "vehicle_number": "78",
+        "driver_id": 4301,
+        "full_name": "Anthony Alfredo",
+        "stage_points": 6
+      },
+      {
+        "position": 6,
+        "vehicle_number": "39",
+        "driver_id": 3884,
+        "full_name": "Ryan Sieg",
+        "stage_points": 5
+      },
+      {
+        "position": 7,
+        "vehicle_number": "8",
+        "driver_id": 4123,
+        "full_name": "Josh Berry",
+        "stage_points": 4
+      },
+      {
+        "position": 8,
+        "vehicle_number": "21",
+        "driver_id": 4133,
+        "full_name": "Austin Hill",
+        "stage_points": 3
+      },
+      {
+        "position": 9,
+        "vehicle_number": "00",
+        "driver_id": 4104,
+        "full_name": "Cole Custer",
+        "stage_points": 2
+      },
+      {
+        "position": 10,
+        "vehicle_number": "51",
+        "driver_id": 595,
+        "full_name": "Jeremy Clements",
+        "stage_points": 1
+      },
+      {
+        "position": 11,
+        "vehicle_number": "25",
+        "driver_id": 4038,
+        "full_name": "Brett Moffitt",
+        "stage_points": 0
+      },
+      {
+        "position": 12,
+        "vehicle_number": "20",
+        "driver_id": 4092,
+        "full_name": "John Hunter Nemechek",
+        "stage_points": 0
+      },
+      {
+        "position": 13,
+        "vehicle_number": "38",
+        "driver_id": 4313,
+        "full_name": "Joe Graf Jr.",
+        "stage_points": 0
+      },
+      {
+        "position": 14,
+        "vehicle_number": "19",
+        "driver_id": 3952,
+        "full_name": "Ryan Truex",
+        "stage_points": 0
+      },
+      {
+        "position": 15,
+        "vehicle_number": "1",
+        "driver_id": 4327,
+        "full_name": "Sam Mayer",
+        "stage_points": 0
+      },
+      {
+        "position": 16,
+        "vehicle_number": "7",
+        "driver_id": 34,
+        "full_name": "Justin Allgaier",
+        "stage_points": 0
+      },
+      {
+        "position": 17,
+        "vehicle_number": "31",
+        "driver_id": 4419,
+        "full_name": "Parker Retzlaff #",
+        "stage_points": 0
+      },
+      {
+        "position": 18,
+        "vehicle_number": "10",
+        "driver_id": 4172,
+        "full_name": "Justin Haley(i)",
+        "stage_points": 0
+      },
+      {
+        "position": 19,
+        "vehicle_number": "6",
+        "driver_id": 4144,
+        "full_name": "Brennan Poole",
+        "stage_points": 0
+      },
+      {
+        "position": 20,
+        "vehicle_number": "16",
+        "driver_id": 4312,
+        "full_name": "Chandler Smith #",
+        "stage_points": 0
+      },
+      {
+        "position": 21,
+        "vehicle_number": "11",
+        "driver_id": 4093,
+        "full_name": "Daniel Hemric",
+        "stage_points": 0
+      },
+      {
+        "position": 22,
+        "vehicle_number": "18",
+        "driver_id": 4441,
+        "full_name": "Sammy Smith #",
+        "stage_points": 0
+      },
+      {
+        "position": 23,
+        "vehicle_number": "07",
+        "driver_id": 4376,
+        "full_name": "Blaine Perkins #",
+        "stage_points": 0
+      },
+      {
+        "position": 24,
+        "vehicle_number": "27",
+        "driver_id": 4018,
+        "full_name": "Jeb Burton",
+        "stage_points": 0
+      },
+      {
+        "position": 25,
+        "vehicle_number": "08",
+        "driver_id": 4103,
+        "full_name": "Gray Gaulding",
+        "stage_points": 0
+      },
+      {
+        "position": 26,
+        "vehicle_number": "28",
+        "driver_id": 4388,
+        "full_name": "Kyle Sieg",
+        "stage_points": 0
+      },
+      {
+        "position": 27,
+        "vehicle_number": "43",
+        "driver_id": 4029,
+        "full_name": "Ryan Ellis",
+        "stage_points": 0
+      },
+      {
+        "position": 28,
+        "vehicle_number": "35",
+        "driver_id": 4254,
+        "full_name": "Patrick Emerling",
+        "stage_points": 0
+      },
+      {
+        "position": 29,
+        "vehicle_number": "91",
+        "driver_id": 4410,
+        "full_name": "Chad Chastain",
+        "stage_points": 0
+      },
+      {
+        "position": 30,
+        "vehicle_number": "24",
+        "driver_id": 4433,
+        "full_name": "Connor Mosack",
+        "stage_points": 0
+      },
+      {
+        "position": 31,
+        "vehicle_number": "45",
+        "driver_id": 4409,
+        "full_name": "Sage Karam",
+        "stage_points": 0
+      },
+      {
+        "position": 32,
+        "vehicle_number": "92",
+        "driver_id": 4106,
+        "full_name": "Josh Williams",
+        "stage_points": 0
+      },
+      {
+        "position": 33,
+        "vehicle_number": "02",
+        "driver_id": 4187,
+        "full_name": "Kyle Weatherman",
+        "stage_points": 0
+      },
+      {
+        "position": 34,
+        "vehicle_number": "44",
+        "driver_id": 3894,
+        "full_name": "Jeffrey Earnhardt",
+        "stage_points": 0
+      },
+      {
+        "position": 35,
+        "vehicle_number": "26",
+        "driver_id": 4191,
+        "full_name": "Kaz Grala",
+        "stage_points": 0
+      },
+      {
+        "position": 36,
+        "vehicle_number": "4",
+        "driver_id": 4142,
+        "full_name": "Garrett Smithley",
+        "stage_points": 0
+      },
+      {
+        "position": 37,
+        "vehicle_number": "53",
+        "driver_id": 4004,
+        "full_name": "Joey Gase",
+        "stage_points": 0
+      },
+      {
+        "position": 38,
+        "vehicle_number": "66",
+        "driver_id": 4259,
+        "full_name": "Caesar Bacarella",
+        "stage_points": 0
+      }
+    ]
+  }
+]

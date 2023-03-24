@@ -8,6 +8,8 @@ using rNascar23.Flags.Models;
 using rNascar23.LapTimes.Models;
 using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
+using rNascar23.Points.Models;
+using rNascar23.Points.Ports;
 using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
 using rNascar23TestApp.CustomViews;
@@ -87,6 +89,7 @@ namespace rNascar23TestApp
         private DataGridView _5LapAverageTimeDataGridView = null;
         private DataGridView _10LapAverageTimeDataGridView = null;
         private DataGridView _15LapAverageTimeDataGridView = null;
+        private DataGridView _livePointsDataGridView = null;
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
         private ScheduleType _selectedScheduleType = ScheduleType.All;
@@ -106,6 +109,7 @@ namespace rNascar23TestApp
         private readonly IDriverStatisticsRepository _driverStatisticsRepository = null;
         private readonly IFlagStateRepository _flagStateRepository = null;
         private readonly IRaceListRepository _raceScheduleRepository = null;
+        private readonly IPointsRepository _pointsRepository = null;
 
         #endregion
 
@@ -118,7 +122,8 @@ namespace rNascar23TestApp
             ILiveFeedRepository liveFeedRepository,
             IDriverStatisticsRepository driverStatisticsRepository,
             IFlagStateRepository flagStateRepository,
-            IRaceListRepository raceScheduleRepository)
+            IRaceListRepository raceScheduleRepository,
+            IPointsRepository pointsRepository)
         {
             InitializeComponent();
 
@@ -129,6 +134,7 @@ namespace rNascar23TestApp
             _driverStatisticsRepository = driverStatisticsRepository ?? throw new ArgumentNullException(nameof(driverStatisticsRepository));
             _flagStateRepository = flagStateRepository ?? throw new ArgumentNullException(nameof(flagStateRepository));
             _raceScheduleRepository = raceScheduleRepository ?? throw new ArgumentNullException(nameof(raceScheduleRepository));
+            _pointsRepository = pointsRepository ?? throw new ArgumentNullException(nameof(pointsRepository));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -610,6 +616,18 @@ namespace rNascar23TestApp
             }
         }
 
+        private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplayLogFile();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
         #endregion
 
         #region private [build controls]
@@ -1013,6 +1031,41 @@ namespace rNascar23TestApp
             return dataGridView;
         }
 
+        //_livePointsDataGridView
+        private DataGridView BuildLivePointsViewGrid()
+        {
+            var dataGridView = new DataGridView();
+
+            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            dataGridView.RowHeadersVisible = false;
+
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            {
+                Column1,
+                Column2,
+                Column3,
+                Column4,
+            });
+
+            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
+
+            ConfigureColumn(Column1, "Position", 25, "");
+
+            ConfigureColumn(Column2, "Driver", 150, "Driver");
+
+            ConfigureColumn(Column3, "Points", 75, "Points");
+
+            ConfigureColumn(Column4, "Bonus", 75, "Bonus");
+
+            return dataGridView;
+        }
+
         private DataGridView BuildBiggestFallersViewGrid()
         {
             var dataGridView = new DataGridView();
@@ -1210,6 +1263,10 @@ namespace rNascar23TestApp
             }
 
             _formState.LapAverages = await _lapAveragesRepository.GetLapAveragesAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+
+            _formState.LivePoints = await _pointsRepository.GetDriverPoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
+
+            _formState.StagePoints = await _pointsRepository.GetStagePoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
 
             return true;
         }
@@ -1433,6 +1490,7 @@ namespace rNascar23TestApp
 
         private void DisplayRaceViewState()
         {
+            // main panel
             if (_rightRaceDataGridView != null)
             {
                 _rightRaceDataGridView.Dispose();
@@ -1453,6 +1511,17 @@ namespace rNascar23TestApp
             _leftRaceDataGridView.Width = 835;
             _leftRaceDataGridView.Dock = DockStyle.Left;
 
+            // right panel
+            if (_livePointsDataGridView != null)
+            {
+                _livePointsDataGridView.Dispose();
+                _livePointsDataGridView = null;
+            }
+            _livePointsDataGridView = BuildLivePointsViewGrid();
+            pnlRight.Controls.Add(_livePointsDataGridView);
+            _livePointsDataGridView.Height = 275;
+            _livePointsDataGridView.Dock = DockStyle.Top;
+
             if (_fastestLapsDataGridView != null)
             {
                 _fastestLapsDataGridView.Dispose();
@@ -1463,6 +1532,7 @@ namespace rNascar23TestApp
             _fastestLapsDataGridView.Height = 275;
             _fastestLapsDataGridView.Dock = DockStyle.Top;
 
+            // bottom panel
             if (_biggestMoversDataGridView != null)
             {
                 _biggestMoversDataGridView.Dispose();
@@ -1880,6 +1950,8 @@ namespace rNascar23TestApp
 
             DisplayFastestLaps(fastestLaps);
 
+            DisplayDriverPoints();
+
             // DisplayBiggestMovers
 
             var biggestMovers = _formState.LiveFeed.Vehicles.OrderByDescending(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
@@ -2081,6 +2153,19 @@ namespace rNascar23TestApp
 
             if (_fastestLapsDataGridView != null && _fastestLapsDataGridView.DataSource == null)
                 _fastestLapsDataGridView.DataSource = _fastestLaps;
+        }
+
+        private void DisplayDriverPoints()
+        {
+            if (_livePointsDataGridView != null && _livePointsDataGridView.DataSource == null)
+                _livePointsDataGridView.DataSource = _formState.LivePoints.
+                    Select(p => new DriverPointsViewModel()
+                    {
+                        Position = p.points_position,
+                        Driver = p.Driver,
+                        Points = p.points,
+                        Bonus = p.bonus_points
+                    }).OrderBy(p => p.Position).ToList();
         }
 
         private void DisplayBiggestMovers(IList<PositionChangeViewModel> biggestMovers)
@@ -2319,6 +2404,20 @@ namespace rNascar23TestApp
             }
         }
 
+        private void DisplayLogFile()
+        {
+            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            string logFilePath = Path.Combine(assemblyPath, LogFileName);
+
+            if (!File.Exists(logFilePath))
+            {
+                _logger.LogInformation($"Log file created {DateTime.Now}");
+            }
+
+            Process.Start("notepad.exe", logFilePath);
+        }
+
         #endregion
 
         #region private
@@ -2459,31 +2558,5 @@ namespace rNascar23TestApp
         }
 
         #endregion
-
-        private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DisplayLogFile();
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler(ex);
-            }
-        }
-
-        private void DisplayLogFile()
-        {
-            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            string logFilePath = Path.Combine(assemblyPath, LogFileName);
-
-            if (!File.Exists(logFilePath))
-            {
-                _logger.LogInformation($"Log file created {DateTime.Now}");
-            }
-
-            Process.Start("notepad.exe", logFilePath);
-        }
     }
 }

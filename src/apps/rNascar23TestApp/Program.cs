@@ -6,6 +6,7 @@ using rNascar23.Service.DriverStatistics;
 using rNascar23.Service.Flags;
 using rNascar23.Service.LapTimes;
 using rNascar23.Service.LiveFeeds;
+using rNascar23.Service.Points;
 using rNascar23TestApp.CustomViews;
 using rNascar23TestApp.Dialogs;
 using Serilog;
@@ -42,6 +43,7 @@ namespace rNascar23TestApp
                         .AddRaceLists()
                         .AddLiveFeed()
                         .AddLapTimes()
+                        .AddPoints()
                         .AddDriverStatistics()
                         .AddTransient<MainForm>()
                         .AddTransient<GridSettingsDialog>()

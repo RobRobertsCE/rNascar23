@@ -228,6 +228,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FormState.cs" />
     <Compile Include="CustomViews\GridSettings.cs" />
+    <Compile Include="ViewModels\DriverPointsViewModel.cs" />
     <Compile Include="ViewModels\LapAverageViewModel.cs" />
     <Compile Include="ViewModels\CautionFlagViewModel.cs" />
     <Compile Include="ViewModels\FastestLapViewModel.cs" />
@@ -299,6 +300,14 @@
     <ProjectReference Include="..\..\libraries\LapTimes\rNascar23.Service.LapTimes\rNascar23.Service.LapTimes.csproj">
       <Project>{577055f5-2876-43d3-90a2-1dc5275da8ae}</Project>
       <Name>rNascar23.Service.LapTimes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libraries\Points\rNascar23.Points\rNascar23.Points.csproj">
+      <Project>{c11708b9-b376-40a5-9124-8d29743d0384}</Project>
+      <Name>rNascar23.Points</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libraries\Points\rNascar23.Service.Points\rNascar23.Service.Points.csproj">
+      <Project>{8f236e4c-ebd3-434c-832c-d4c81378a36d}</Project>
+      <Name>rNascar23.Service.Points</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\libraries\RaceLists\rNascar23.RaceLists\rNascar23.RaceLists.csproj">
       <Project>{cb651a9a-0d3b-4667-af0a-dd527a7c5b11}</Project>
