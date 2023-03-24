@@ -8,6 +8,8 @@ namespace rNascar23.Service.Flags.Mappings
     {
         public LapTimesMappingProfile()
         {
+            CreateMap<LapAveragesModel, LapAverages>();
+
             CreateMap<Flag, LapFlag>()
                 .ForMember(m => m.LapsCompleted, opts => opts.MapFrom(src => src.LapsCompleted))
                 .ForMember(m => m.FlagState, opts => opts.MapFrom(src => src.FlagState));

@@ -12,6 +12,7 @@ namespace rNascar23TestApp
         public LiveFeed LiveFeed { get; set; }
         public IList<FlagState> FlagStates { get; set; }
         public IList<Series> SeriesSchedules { get; set; }
+        public IList<LapAverages> LapAverages { get; set; }
         public LapTimeData LapTimes { get; set; }
         public EventStats EventStatistics { get; set; }
 

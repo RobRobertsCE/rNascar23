@@ -6,6 +6,8 @@
         Flags,
         LapTimes,
         LiveFeed,
-        RaceLists
+        RaceLists,
+        Vehicles,
+        LapAverages
     }
 }

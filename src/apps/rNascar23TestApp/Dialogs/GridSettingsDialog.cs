@@ -781,6 +781,9 @@ namespace rNascar23TestApp.Dialogs
                 case ApiSources.Flags:
                     var flagsObj = new FlagState();
                     return GetAllPropertiesOfType(flagsObj);
+                case ApiSources.LapAverages:
+                    var lapAveragesObj = new LapAverages();
+                    return GetAllPropertiesOfType(lapAveragesObj);
                 case ApiSources.LapTimes:
                     var lapTimesObj = new LapDetails();
                     return GetAllPropertiesOfType(lapTimesObj);
@@ -790,6 +793,9 @@ namespace rNascar23TestApp.Dialogs
                 case ApiSources.RaceLists:
                     var scheduleObj = new Series();
                     return GetAllPropertiesOfType(scheduleObj);
+                case ApiSources.Vehicles:
+                    var vehicleObj = new Vehicle();
+                    return GetAllPropertiesOfType(vehicleObj);
                 default:
                     throw new ArgumentException($"Unrecognized Api Source: {apiSource}");
             }

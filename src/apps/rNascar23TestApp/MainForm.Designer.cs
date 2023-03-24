@@ -65,6 +65,8 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customViewEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblAutoUpdateStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewState = new System.Windows.Forms.ToolStripStatusLabel();
@@ -76,10 +78,6 @@
             this.btnRaceView = new System.Windows.Forms.ToolStripButton();
             this.btnQualifyingView = new System.Windows.Forms.ToolStripButton();
             this.btnPracticeView = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.customViewEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ddbSchedules = new System.Windows.Forms.ToolStripDropDownButton();
             this.truckToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xfinityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -89,6 +87,10 @@
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
             this.thisWeekToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.todayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
+            this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -280,28 +282,28 @@
             // cupRacesToolStripMenuItem
             // 
             this.cupRacesToolStripMenuItem.Name = "cupRacesToolStripMenuItem";
-            this.cupRacesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cupRacesToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.cupRacesToolStripMenuItem.Text = "&Cup";
             this.cupRacesToolStripMenuItem.Click += new System.EventHandler(this.cupRacesToolStripMenuItem_Click);
             // 
             // xfinityRacesToolStripMenuItem
             // 
             this.xfinityRacesToolStripMenuItem.Name = "xfinityRacesToolStripMenuItem";
-            this.xfinityRacesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.xfinityRacesToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.xfinityRacesToolStripMenuItem.Text = "&Xfinity";
             this.xfinityRacesToolStripMenuItem.Click += new System.EventHandler(this.xfinityRacesToolStripMenuItem_Click);
             // 
             // truckRacesToolStripMenuItem
             // 
             this.truckRacesToolStripMenuItem.Name = "truckRacesToolStripMenuItem";
-            this.truckRacesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.truckRacesToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.truckRacesToolStripMenuItem.Text = "&Truck";
             this.truckRacesToolStripMenuItem.Click += new System.EventHandler(this.truckRacesToolStripMenuItem_Click);
             // 
             // allToolStripMenuItem
             // 
             this.allToolStripMenuItem.Name = "allToolStripMenuItem";
-            this.allToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.allToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
             this.allToolStripMenuItem.Text = "&All";
             this.allToolStripMenuItem.Click += new System.EventHandler(this.allToolStripMenuItem_Click);
             // 
@@ -344,7 +346,9 @@
             this.raceToolStripMenuItem,
             this.toolStripMenuItem2,
             this.infoToolStripMenuItem,
-            this.toolStripMenuItem6});
+            this.toolStripMenuItem6,
+            this.toolStripMenuItem7,
+            this.logFileToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
@@ -393,6 +397,21 @@
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
             this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.customViewEditorToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "&Tools";
+            // 
+            // customViewEditorToolStripMenuItem
+            // 
+            this.customViewEditorToolStripMenuItem.Name = "customViewEditorToolStripMenuItem";
+            this.customViewEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.customViewEditorToolStripMenuItem.Text = "&Custom View Editor";
+            this.customViewEditorToolStripMenuItem.Click += new System.EventHandler(this.customViewEditorToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -505,36 +524,6 @@
             this.btnPracticeView.Text = "Practice View";
             this.btnPracticeView.Click += new System.EventHandler(this.btnPracticeView_Click);
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnCustomGridsView
-            // 
-            this.btnCustomGridsView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnCustomGridsView.Image = ((System.Drawing.Image)(resources.GetObject("btnCustomGridsView.Image")));
-            this.btnCustomGridsView.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnCustomGridsView.Name = "btnCustomGridsView";
-            this.btnCustomGridsView.Size = new System.Drawing.Size(86, 22);
-            this.btnCustomGridsView.Text = "Custom Views";
-            this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
-            // 
-            // toolsToolStripMenuItem
-            // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.customViewEditorToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
-            this.toolsToolStripMenuItem.Text = "&Tools";
-            // 
-            // customViewEditorToolStripMenuItem
-            // 
-            this.customViewEditorToolStripMenuItem.Name = "customViewEditorToolStripMenuItem";
-            this.customViewEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.customViewEditorToolStripMenuItem.Text = "&Custom View Editor";
-            this.customViewEditorToolStripMenuItem.Click += new System.EventHandler(this.customViewEditorToolStripMenuItem_Click);
-            // 
             // ddbSchedules
             // 
             this.ddbSchedules.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -556,54 +545,81 @@
             // truckToolStripMenuItem
             // 
             this.truckToolStripMenuItem.Name = "truckToolStripMenuItem";
-            this.truckToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.truckToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.truckToolStripMenuItem.Text = "Truck";
             this.truckToolStripMenuItem.Click += new System.EventHandler(this.truckToolStripMenuItem_Click);
             // 
             // xfinityToolStripMenuItem
             // 
             this.xfinityToolStripMenuItem.Name = "xfinityToolStripMenuItem";
-            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.xfinityToolStripMenuItem.Text = "Xfinity";
             this.xfinityToolStripMenuItem.Click += new System.EventHandler(this.xfinityToolStripMenuItem_Click);
             // 
             // cupToolStripMenuItem
             // 
             this.cupToolStripMenuItem.Name = "cupToolStripMenuItem";
-            this.cupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cupToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.cupToolStripMenuItem.Text = "Cup";
             this.cupToolStripMenuItem.Click += new System.EventHandler(this.cupToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(124, 6);
             // 
             // allToolStripMenuItem1
             // 
             this.allToolStripMenuItem1.Name = "allToolStripMenuItem1";
-            this.allToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.allToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
             this.allToolStripMenuItem1.Text = "All";
             this.allToolStripMenuItem1.Click += new System.EventHandler(this.allToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(124, 6);
             // 
             // thisWeekToolStripMenuItem
             // 
             this.thisWeekToolStripMenuItem.Name = "thisWeekToolStripMenuItem";
-            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.thisWeekToolStripMenuItem.Text = "This Week";
             this.thisWeekToolStripMenuItem.Click += new System.EventHandler(this.thisWeekToolStripMenuItem_Click);
             // 
             // todayToolStripMenuItem
             // 
             this.todayToolStripMenuItem.Name = "todayToolStripMenuItem";
-            this.todayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.todayToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.todayToolStripMenuItem.Text = "Today";
             this.todayToolStripMenuItem.Click += new System.EventHandler(this.todayToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnCustomGridsView
+            // 
+            this.btnCustomGridsView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnCustomGridsView.Image = ((System.Drawing.Image)(resources.GetObject("btnCustomGridsView.Image")));
+            this.btnCustomGridsView.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCustomGridsView.Name = "btnCustomGridsView";
+            this.btnCustomGridsView.Size = new System.Drawing.Size(86, 22);
+            this.btnCustomGridsView.Text = "Custom Views";
+            this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
+            // 
+            // logFileToolStripMenuItem
+            // 
+            this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logFileToolStripMenuItem.Text = "Log File";
+            this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -699,6 +715,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem thisWeekToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem todayToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem logFileToolStripMenuItem;
     }
 }
 

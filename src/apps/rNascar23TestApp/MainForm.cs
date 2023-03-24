@@ -98,6 +98,7 @@ namespace rNascar23TestApp
         private FormState _formState = new FormState();
         private readonly ILogger<MainForm> _logger = null;
         private readonly ILapTimesRepository _lapTimeRepository = null;
+        private readonly ILapAveragesRepository _lapAveragesRepository = null;
         private readonly ILiveFeedRepository _liveFeedRepository = null;
         private readonly IDriverStatisticsRepository _driverStatisticsRepository = null;
         private readonly IFlagStateRepository _flagStateRepository = null;
@@ -110,6 +111,7 @@ namespace rNascar23TestApp
         public MainForm(
             ILogger<MainForm> logger,
             ILapTimesRepository lapTimeRepository,
+            ILapAveragesRepository lapAveragesRepository,
             ILiveFeedRepository liveFeedRepository,
             IDriverStatisticsRepository driverStatisticsRepository,
             IFlagStateRepository flagStateRepository,
@@ -119,6 +121,7 @@ namespace rNascar23TestApp
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _lapTimeRepository = lapTimeRepository ?? throw new ArgumentNullException(nameof(lapTimeRepository));
+            _lapAveragesRepository = lapAveragesRepository ?? throw new ArgumentNullException(nameof(lapAveragesRepository));
             _liveFeedRepository = liveFeedRepository ?? throw new ArgumentNullException(nameof(liveFeedRepository));
             _driverStatisticsRepository = driverStatisticsRepository ?? throw new ArgumentNullException(nameof(driverStatisticsRepository));
             _flagStateRepository = flagStateRepository ?? throw new ArgumentNullException(nameof(flagStateRepository));
@@ -1187,17 +1190,23 @@ namespace rNascar23TestApp
                 _formState.CurrentSeriesRace = _formState.SeriesSchedules.FirstOrDefault(s => s.race_id == _formState.LiveFeed.RaceId);
             }
 
-            _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId); ;
+            _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
             _formState.FlagStates = await _flagStateRepository.GetFlagStatesAsync();
 
             _formState.EventStatistics = await _driverStatisticsRepository.GetEventAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
-            foreach (var driverStats in _formState.EventStatistics.drivers)
-            {
-                var liveFeedDriver = _formState.LiveFeed.Vehicles.FirstOrDefault(v => v.driver.driver_id == driverStats.driver_id);
 
-                if (liveFeedDriver != null)
-                    driverStats.driver_name = liveFeedDriver.driver.full_name;
+            if (_formState.EventStatistics != null && _formState.EventStatistics.drivers != null)
+            {
+                foreach (var driverStats in _formState.EventStatistics?.drivers)
+                {
+                    var liveFeedDriver = _formState.LiveFeed.Vehicles.FirstOrDefault(v => v.driver.driver_id == driverStats.driver_id);
+
+                    if (liveFeedDriver != null)
+                        driverStats.driver_name = liveFeedDriver.driver.full_name;
+                }
             }
+
+            _formState.LapAverages = await _lapAveragesRepository.GetLapAveragesAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
             return true;
         }
@@ -1745,44 +1754,47 @@ namespace rNascar23TestApp
 
             try
             {
-                _leftRaceDataGridView.SuspendLayout();
-
-                _leftRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition <= 20).OrderBy(v => v.RunningPosition).ToList();
-
-                foreach (DataGridViewRow row in _leftRaceDataGridView.Rows)
+                if (_leftRaceDataGridView != null)
                 {
-                    if (row.Index % 2 == 0)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.LightGray;
-                    }
-                    else
-                    {
-                        row.DefaultCellStyle.BackColor = Color.White;
-                    }
+                    _leftRaceDataGridView.SuspendLayout();
 
-                    if (bestLapTime.HasValue)
+                    _leftRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition <= 20).OrderBy(v => v.RunningPosition).ToList();
+
+                    foreach (DataGridViewRow row in _leftRaceDataGridView.Rows)
                     {
-                        // Fastest this lap.
-                        if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
+                        if (row.Index % 2 == 0)
                         {
-                            row.Cells[9].Style.BackColor = Color.LimeGreen;
+                            row.DefaultCellStyle.BackColor = Color.LightGray;
+                        }
+                        else
+                        {
+                            row.DefaultCellStyle.BackColor = Color.White;
+                        }
 
-                            // Best lap for driver for the race
-                            if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                        if (bestLapTime.HasValue)
+                        {
+                            // Fastest this lap.
+                            if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                             {
-                                row.Cells[8].Style.BackColor = Color.LimeGreen;
+                                row.Cells[9].Style.BackColor = Color.LimeGreen;
+
+                                // Best lap for driver for the race
+                                if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                                {
+                                    row.Cells[8].Style.BackColor = Color.LimeGreen;
+                                }
                             }
                         }
-                    }
 
-                    // off track
-                    if ((bool)row.Cells[7].Value == false)
-                    {
-                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
-                    }
-                    else
-                    {
-                        row.DefaultCellStyle.ForeColor = Color.Black;
+                        // off track
+                        if ((bool)row.Cells[7].Value == false)
+                        {
+                            row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                        }
+                        else
+                        {
+                            row.DefaultCellStyle.ForeColor = Color.Black;
+                        }
                     }
                 }
             }
@@ -1792,48 +1804,52 @@ namespace rNascar23TestApp
             }
             finally
             {
-                _leftRaceDataGridView.ResumeLayout(false);
+                if (_leftRaceDataGridView != null)
+                    _leftRaceDataGridView.ResumeLayout(false);
             }
 
             try
             {
-                _rightRaceDataGridView.SuspendLayout();
-
-                _rightRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition > 20).OrderBy(v => v.RunningPosition).ToList();
-
-                foreach (DataGridViewRow row in _rightRaceDataGridView.Rows)
+                if (_rightRaceDataGridView != null)
                 {
-                    if (row.Index % 2 == 0)
-                    {
-                        row.DefaultCellStyle.BackColor = Color.LightGray;
-                    }
-                    else
-                    {
-                        row.DefaultCellStyle.BackColor = Color.White;
-                    }
+                    _rightRaceDataGridView.SuspendLayout();
 
-                    if (bestLapTime.HasValue)
+                    _rightRaceDataGridView.DataSource = raceVehicles.Where(v => v.RunningPosition > 20).OrderBy(v => v.RunningPosition).ToList();
+
+                    foreach (DataGridViewRow row in _rightRaceDataGridView.Rows)
                     {
-                        // Fastest this lap.
-                        if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
+                        if (row.Index % 2 == 0)
                         {
-                            row.Cells[9].Style.BackColor = Color.LimeGreen;
+                            row.DefaultCellStyle.BackColor = Color.LightGray;
+                        }
+                        else
+                        {
+                            row.DefaultCellStyle.BackColor = Color.White;
+                        }
 
-                            if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                        if (bestLapTime.HasValue)
+                        {
+                            // Fastest this lap.
+                            if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                             {
-                                row.Cells[8].Style.BackColor = Color.LimeGreen;
+                                row.Cells[9].Style.BackColor = Color.LimeGreen;
+
+                                if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
+                                {
+                                    row.Cells[8].Style.BackColor = Color.LimeGreen;
+                                }
                             }
                         }
-                    }
 
-                    // off track
-                    if ((bool)row.Cells[7].Value == false)
-                    {
-                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
-                    }
-                    else
-                    {
-                        row.DefaultCellStyle.ForeColor = Color.Black;
+                        // off track
+                        if ((bool)row.Cells[7].Value == false)
+                        {
+                            row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                        }
+                        else
+                        {
+                            row.DefaultCellStyle.ForeColor = Color.Black;
+                        }
                     }
                 }
             }
@@ -1844,9 +1860,9 @@ namespace rNascar23TestApp
             }
             finally
             {
-                _rightRaceDataGridView.ResumeLayout(false);
+                if (_rightRaceDataGridView != null)
+                    _rightRaceDataGridView.ResumeLayout(false);
             }
-
 
             var fastestLaps = _formState.LiveFeed.Vehicles.OrderByDescending(v => v.best_lap_speed).Take(10).Select(v => new FastestLapViewModel()
             {
@@ -1895,10 +1911,12 @@ namespace rNascar23TestApp
 
             DisplayLapLeadersList();
 
-            DisplayLapAverages();
+            DisplayBestNLapAverages();
+
+            //DisplayLastNLapAverages();
         }
 
-        private void DisplayLapAverages()
+        private void DisplayLastNLapAverages()
         {
             if (_formState.CurrentSeriesRace == null)
                 return;
@@ -1947,6 +1965,57 @@ namespace rNascar23TestApp
                ToList();
 
             _15LapAverageTimeDataGridView.DataSource = last15LapTimeAverages;
+        }
+
+        private void DisplayBestNLapAverages()
+        {
+            if (_formState.CurrentSeriesRace == null)
+                return;
+
+            if (_formState.LapTimes == null)
+                return;
+
+            // 5 lap avg Speed
+            var best5LapTimeAverages = _formState.LapTimes.
+                Drivers.
+                OrderByDescending(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1)).
+                Take(10).
+                Select(d => new LapAverageViewModel()
+                {
+                    Driver = d.FullName,
+                    Average = (float)Math.Round(d.Best5LapAverageSpeed().GetValueOrDefault(-1), 3)
+                }).
+                ToList();
+
+            _5LapAverageTimeDataGridView.DataSource = best5LapTimeAverages;
+
+            // 10 lap avg Speed
+            var best10LapTimeAverages = _formState.LapTimes.
+               Drivers.
+               OrderByDescending(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1)).
+               Take(10).
+               Select(d => new LapAverageViewModel()
+               {
+                   Driver = d.FullName,
+                   Average = (float)Math.Round(d.Best10LapAverageSpeed().GetValueOrDefault(-1), 3)
+               }).
+               ToList();
+
+            _10LapAverageTimeDataGridView.DataSource = best10LapTimeAverages;
+
+            // 15 lap avg Speed
+            var best15LapTimeAverages = _formState.LapTimes.
+               Drivers.
+               OrderByDescending(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1)).
+               Take(10).
+               Select(d => new LapAverageViewModel()
+               {
+                   Driver = d.FullName,
+                   Average = (float)Math.Round(d.Best15LapAverageSpeed().GetValueOrDefault(-1), 3)
+               }).
+               ToList();
+
+            _15LapAverageTimeDataGridView.DataSource = best15LapTimeAverages;
         }
 
         private void DisplayHeaderData()
@@ -2007,22 +2076,15 @@ namespace rNascar23TestApp
         {
             _fastestLaps = laps;
 
-            if (_fastestLapsDataGridView.DataSource == null)
+            if (_fastestLapsDataGridView != null && _fastestLapsDataGridView.DataSource == null)
                 _fastestLapsDataGridView.DataSource = _fastestLaps;
-            // TODO:DisplayFastestLaps, DisplayBiggestMovers, DisplayBiggestFallers
-            //else
-            //{
-            //    _fastestLapsDataGridView.DataSource = typeof(List<FastestLapViewModel>);
-            //    _fastestLapsDataGridView.AutoGenerateColumns= false;
-            //    _fastestLapsDataGridView.DataSource = _fastestLaps;
-            //}
         }
 
         private void DisplayBiggestMovers(IList<PositionChangeViewModel> biggestMovers)
         {
             _biggestMovers = biggestMovers;
 
-            if (_biggestMoversDataGridView.DataSource == null)
+            if (_biggestMoversDataGridView != null && _biggestMoversDataGridView.DataSource == null)
                 _biggestMoversDataGridView.DataSource = _biggestMovers;
         }
 
@@ -2030,12 +2092,15 @@ namespace rNascar23TestApp
         {
             _biggestFallers = biggestFallers;
 
-            if (_biggestFallersDataGridView.DataSource == null)
+            if (_biggestFallersDataGridView != null && _biggestFallersDataGridView.DataSource == null)
                 _biggestFallersDataGridView.DataSource = _biggestFallers;
         }
 
         private void DisplayCautionsList()
         {
+            if (_cautionsDataGridView == null)
+                return;
+
             IList<CautionFlagViewModel> cautions = new List<CautionFlagViewModel>();
 
             foreach (var item in _formState.FlagStates.Where(f => f.State == 2).OrderBy(f => f.LapNumber))
@@ -2055,6 +2120,9 @@ namespace rNascar23TestApp
 
         private void DisplayLapLeadersList()
         {
+            if (_lapLeadersDataGridView == null)
+                return;
+
             IList<LapLeaderViewModel> lapLeaders = new List<LapLeaderViewModel>();
 
             foreach (var lapLedLeader in _formState.LiveFeed.Vehicles.Where(v => v.laps_led.Length > 0))
@@ -2190,11 +2258,14 @@ namespace rNascar23TestApp
                 switch (gridView.Settings.ApiSource)
                 {
                     case ApiSources.DriverStatistics:
-                        var driversDataSource = new DataSource<rNascar23.DriverStatistics.Models.Driver>()
+                        if (_formState.EventStatistics != null && _formState.EventStatistics.drivers != null)
                         {
-                            Values = _formState.EventStatistics.drivers
-                        };
-                        gridView.SetDataSource(driversDataSource);
+                            var driversDataSource = new DataSource<rNascar23.DriverStatistics.Models.Driver>()
+                            {
+                                Values = _formState.EventStatistics.drivers
+                            };
+                            gridView.SetDataSource(driversDataSource);
+                        }
                         break;
                     case ApiSources.Flags:
                         var flagsDataSource = new DataSource<FlagState>()
@@ -2210,6 +2281,14 @@ namespace rNascar23TestApp
                         };
                         gridView.SetDataSource(lapsDataSource);
                         break;
+
+                    case ApiSources.LapAverages:
+                        var lapAveragesDataSource = new DataSource<LapAverages>()
+                        {
+                            Values = _formState.LapAverages.ToList()
+                        };
+                        gridView.SetDataSource(lapAveragesDataSource);
+                        break;
                     case ApiSources.LiveFeed:
                         var liveFeedDataSource = new DataSource<LiveFeed>()
                         {
@@ -2223,6 +2302,13 @@ namespace rNascar23TestApp
                             Values = _formState.SeriesSchedules
                         };
                         gridView.SetDataSource(schedulesDataSource);
+                        break;
+                    case ApiSources.Vehicles:
+                        var vehicleDataSource = new DataSource<Vehicle>()
+                        {
+                            Values = _formState.LiveFeed.Vehicles
+                        };
+                        gridView.SetDataSource(vehicleDataSource);
                         break;
                     default:
                         break;
@@ -2370,5 +2456,10 @@ namespace rNascar23TestApp
         }
 
         #endregion
+
+        private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

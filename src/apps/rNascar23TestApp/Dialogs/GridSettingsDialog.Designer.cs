@@ -45,6 +45,8 @@
             this.pnlFields = new System.Windows.Forms.Panel();
             this.lstFields = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.lblIndex = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.txtDisplayIndex = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.chkColumnVisible = new System.Windows.Forms.CheckBox();
@@ -58,6 +60,12 @@
             this.cboGridSelection = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlGridSettings = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbSortAscending = new System.Windows.Forms.RadioButton();
+            this.rbSortDescending = new System.Windows.Forms.RadioButton();
+            this.rbSortNone = new System.Windows.Forms.RadioButton();
+            this.cboSortBy = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.txtDisplayOrder = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.cboLocation = new System.Windows.Forms.ComboBox();
@@ -71,14 +79,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.txtGridName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.lblIndex = new System.Windows.Forms.Label();
-            this.cboSortBy = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rbSortNone = new System.Windows.Forms.RadioButton();
-            this.rbSortDescending = new System.Windows.Forms.RadioButton();
-            this.rbSortAscending = new System.Windows.Forms.RadioButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.pnlDialogButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -297,6 +297,25 @@
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip1.SetToolTip(this.label4, "List of all the available fields from the selected data source");
             // 
+            // lblIndex
+            // 
+            this.lblIndex.AutoSize = true;
+            this.lblIndex.Location = new System.Drawing.Point(211, 32);
+            this.lblIndex.Name = "lblIndex";
+            this.lblIndex.Size = new System.Drawing.Size(15, 17);
+            this.lblIndex.TabIndex = 10;
+            this.lblIndex.Text = "0";
+            this.toolTip1.SetToolTip(this.lblIndex, "The oder that the field appears in the data source. (Not editable)");
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(211, 8);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(39, 17);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "Index";
+            // 
             // txtDisplayIndex
             // 
             this.txtDisplayIndex.Location = new System.Drawing.Point(18, 176);
@@ -439,6 +458,75 @@
             this.pnlGridSettings.Size = new System.Drawing.Size(1134, 173);
             this.pnlGridSettings.TabIndex = 4;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rbSortAscending);
+            this.groupBox1.Controls.Add(this.rbSortDescending);
+            this.groupBox1.Controls.Add(this.rbSortNone);
+            this.groupBox1.Location = new System.Drawing.Point(699, 53);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(175, 98);
+            this.groupBox1.TabIndex = 15;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Sort Direction";
+            // 
+            // rbSortAscending
+            // 
+            this.rbSortAscending.AutoSize = true;
+            this.rbSortAscending.Location = new System.Drawing.Point(71, 24);
+            this.rbSortAscending.Name = "rbSortAscending";
+            this.rbSortAscending.Size = new System.Drawing.Size(86, 21);
+            this.rbSortAscending.TabIndex = 2;
+            this.rbSortAscending.Text = "Ascending";
+            this.toolTip1.SetToolTip(this.rbSortAscending, "Sorts the data in the grid by the selected sort column in ascending order.");
+            this.rbSortAscending.UseVisualStyleBackColor = true;
+            // 
+            // rbSortDescending
+            // 
+            this.rbSortDescending.AutoSize = true;
+            this.rbSortDescending.Location = new System.Drawing.Point(71, 51);
+            this.rbSortDescending.Name = "rbSortDescending";
+            this.rbSortDescending.Size = new System.Drawing.Size(94, 21);
+            this.rbSortDescending.TabIndex = 1;
+            this.rbSortDescending.Text = "Descending";
+            this.toolTip1.SetToolTip(this.rbSortDescending, "Sorts the data in the grid by the selected sort column in descending order.");
+            this.rbSortDescending.UseVisualStyleBackColor = true;
+            // 
+            // rbSortNone
+            // 
+            this.rbSortNone.AutoSize = true;
+            this.rbSortNone.Checked = true;
+            this.rbSortNone.Location = new System.Drawing.Point(7, 24);
+            this.rbSortNone.Name = "rbSortNone";
+            this.rbSortNone.Size = new System.Drawing.Size(58, 21);
+            this.rbSortNone.TabIndex = 0;
+            this.rbSortNone.TabStop = true;
+            this.rbSortNone.Text = "None";
+            this.rbSortNone.UseVisualStyleBackColor = true;
+            // 
+            // cboSortBy
+            // 
+            this.cboSortBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboSortBy.FormattingEnabled = true;
+            this.cboSortBy.Items.AddRange(new object[] {
+            "Main",
+            "Right",
+            "Bottom"});
+            this.cboSortBy.Location = new System.Drawing.Point(699, 22);
+            this.cboSortBy.Name = "cboSortBy";
+            this.cboSortBy.Size = new System.Drawing.Size(175, 25);
+            this.cboSortBy.TabIndex = 14;
+            this.toolTip1.SetToolTip(this.cboSortBy, "The column the data in the grid is sorted by.");
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(700, 2);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(49, 17);
+            this.label14.TabIndex = 13;
+            this.label14.Text = "Sort By";
+            // 
             // txtDisplayOrder
             // 
             this.txtDisplayOrder.Location = new System.Drawing.Point(518, 70);
@@ -516,7 +604,9 @@
             "Flags",
             "Lap Times",
             "Live Feed",
-            "Race Schedules"});
+            "Race Schedules",
+            "Vehicles",
+            "Lap Averages"});
             this.cboDataSource.Location = new System.Drawing.Point(337, 22);
             this.cboDataSource.Name = "cboDataSource";
             this.cboDataSource.Size = new System.Drawing.Size(175, 25);
@@ -567,94 +657,6 @@
             this.label7.Size = new System.Drawing.Size(72, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Grid Name";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(211, 8);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(39, 17);
-            this.label13.TabIndex = 9;
-            this.label13.Text = "Index";
-            // 
-            // lblIndex
-            // 
-            this.lblIndex.AutoSize = true;
-            this.lblIndex.Location = new System.Drawing.Point(211, 32);
-            this.lblIndex.Name = "lblIndex";
-            this.lblIndex.Size = new System.Drawing.Size(15, 17);
-            this.lblIndex.TabIndex = 10;
-            this.lblIndex.Text = "0";
-            this.toolTip1.SetToolTip(this.lblIndex, "The oder that the field appears in the data source. (Not editable)");
-            // 
-            // cboSortBy
-            // 
-            this.cboSortBy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboSortBy.FormattingEnabled = true;
-            this.cboSortBy.Items.AddRange(new object[] {
-            "Main",
-            "Right",
-            "Bottom"});
-            this.cboSortBy.Location = new System.Drawing.Point(699, 22);
-            this.cboSortBy.Name = "cboSortBy";
-            this.cboSortBy.Size = new System.Drawing.Size(175, 25);
-            this.cboSortBy.TabIndex = 14;
-            this.toolTip1.SetToolTip(this.cboSortBy, "The column the data in the grid is sorted by.");
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(700, 2);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(49, 17);
-            this.label14.TabIndex = 13;
-            this.label14.Text = "Sort By";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.rbSortAscending);
-            this.groupBox1.Controls.Add(this.rbSortDescending);
-            this.groupBox1.Controls.Add(this.rbSortNone);
-            this.groupBox1.Location = new System.Drawing.Point(699, 53);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(175, 98);
-            this.groupBox1.TabIndex = 15;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Sort Direction";
-            // 
-            // rbSortNone
-            // 
-            this.rbSortNone.AutoSize = true;
-            this.rbSortNone.Checked = true;
-            this.rbSortNone.Location = new System.Drawing.Point(7, 24);
-            this.rbSortNone.Name = "rbSortNone";
-            this.rbSortNone.Size = new System.Drawing.Size(58, 21);
-            this.rbSortNone.TabIndex = 0;
-            this.rbSortNone.TabStop = true;
-            this.rbSortNone.Text = "None";
-            this.rbSortNone.UseVisualStyleBackColor = true;
-            // 
-            // rbSortDescending
-            // 
-            this.rbSortDescending.AutoSize = true;
-            this.rbSortDescending.Location = new System.Drawing.Point(71, 51);
-            this.rbSortDescending.Name = "rbSortDescending";
-            this.rbSortDescending.Size = new System.Drawing.Size(94, 21);
-            this.rbSortDescending.TabIndex = 1;
-            this.rbSortDescending.Text = "Descending";
-            this.toolTip1.SetToolTip(this.rbSortDescending, "Sorts the data in the grid by the selected sort column in descending order.");
-            this.rbSortDescending.UseVisualStyleBackColor = true;
-            // 
-            // rbSortAscending
-            // 
-            this.rbSortAscending.AutoSize = true;
-            this.rbSortAscending.Location = new System.Drawing.Point(71, 24);
-            this.rbSortAscending.Name = "rbSortAscending";
-            this.rbSortAscending.Size = new System.Drawing.Size(86, 21);
-            this.rbSortAscending.TabIndex = 2;
-            this.rbSortAscending.Text = "Ascending";
-            this.toolTip1.SetToolTip(this.rbSortAscending, "Sorts the data in the grid by the selected sort column in ascending order.");
-            this.rbSortAscending.UseVisualStyleBackColor = true;
             // 
             // GridSettingsDialog
             // 
