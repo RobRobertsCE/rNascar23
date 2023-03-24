@@ -19,7 +19,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,6 +29,7 @@ namespace rNascar23TestApp
 {
     public partial class MainForm : Form
     {
+        private const string LogFileName = "rNascar23.LogFile.txt";
         #region enums
 
         private enum ViewState
@@ -2459,7 +2462,28 @@ namespace rNascar23TestApp
 
         private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            try
+            {
+                DisplayLogFile();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
 
+        private void DisplayLogFile()
+        {
+            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            string logFilePath = Path.Combine(assemblyPath, LogFileName);
+
+            if (!File.Exists(logFilePath))
+            {
+                _logger.LogInformation($"Log file created {DateTime.Now}");
+            }
+
+            Process.Start("notepad.exe", logFilePath);
         }
     }
 }

@@ -89,7 +89,6 @@
             this.todayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -347,7 +346,6 @@
             this.toolStripMenuItem2,
             this.infoToolStripMenuItem,
             this.toolStripMenuItem6,
-            this.toolStripMenuItem7,
             this.logFileToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
@@ -609,11 +607,6 @@
             this.btnCustomGridsView.Text = "Custom Views";
             this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
             // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(177, 6);
-            // 
             // logFileToolStripMenuItem
             // 
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
@@ -715,7 +708,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem thisWeekToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem todayToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
         private System.Windows.Forms.ToolStripMenuItem logFileToolStripMenuItem;
     }
 }
