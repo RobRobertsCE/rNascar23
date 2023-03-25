@@ -40,6 +40,33 @@ namespace rNascar23.LapTimes.Models
             return AverageSpeedLastNLaps(5);
         }
 
+        public float? Best5LapAverageSpeed()
+        {
+            return BestSpeedOverNLaps(5);
+        }
+        public float? Best5LapAverageTime()
+        {
+            return BestTimeOverNLaps(5);
+        }
+
+        public float? Best10LapAverageSpeed()
+        {
+            return BestSpeedOverNLaps(10);
+        }
+        public float? Best10LapAverageTime()
+        {
+            return BestTimeOverNLaps(10);
+        }
+
+        public float? Best15LapAverageSpeed()
+        {
+            return BestSpeedOverNLaps(15);
+        }
+        public float? Best15LapAverageTime()
+        {
+            return BestTimeOverNLaps(15);
+        }
+
         private float? AverageTimeLastNLaps(int lapCount)
         {
             if (Laps == null || Laps.Count < lapCount)
@@ -67,6 +94,50 @@ namespace rNascar23.LapTimes.Models
                     return null;
 
                 return (float?)Math.Round(lastNLaps.Average(l => float.Parse(l.LapSpeed)), 3);
+            }
+        }
+
+        private float? BestSpeedOverNLaps(int range)
+        {
+            if (Laps == null || Laps.Count < range)
+                return null;
+            else
+            {
+                float maxAverage = -1;
+
+                for (int i = 0; i < Laps.Count - range; i++)
+                {
+                    var rangeAverage = Laps.Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
+
+                    if (rangeAverage > maxAverage)
+                    {
+                        maxAverage = rangeAverage;
+                    }
+                }
+
+                return (float?)Math.Round(maxAverage, 3);
+            }
+        }
+
+        private float? BestTimeOverNLaps(int range)
+        {
+            if (Laps == null || Laps.Count < range)
+                return null;
+            else
+            {
+                float minAverage = 9999;
+
+                for (int i = 0; i < Laps.Count - range; i++)
+                {
+                    var rangeAverage = Laps.Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
+
+                    if (rangeAverage < minAverage)
+                    {
+                        minAverage = rangeAverage;
+                    }
+                }
+
+                return (float?)Math.Round(minAverage, 3);
             }
         }
     }
