@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using rNascar23.Service.DriverStatistics.Data.Models;
 using rNascar23.Data;
@@ -13,10 +14,13 @@ namespace rNascar23.Service.DriverStatistics.Adapters
     internal class DriverStatisticsRepository : JsonDataRepository, IDriverStatisticsRepository
     {
         private readonly IMapper _mapper;
+        private readonly ILogger<DriverStatisticsRepository> _logger;
 
-        public DriverStatisticsRepository(IMapper mapper)
+        public DriverStatisticsRepository(IMapper mapper, ILogger<DriverStatisticsRepository> logger)
+            : base(logger)
         {
-            _mapper = mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         // https://cf.nascar.com/loopstats/prod/2023/2/5314.json

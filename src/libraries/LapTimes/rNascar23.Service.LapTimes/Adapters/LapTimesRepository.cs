@@ -25,9 +25,10 @@ namespace rNascar23.Service.LapTimes.Adapters
         public string Url { get => @"https://cf.nascar.com/cacher/{0}/{1}/{2}/lap-times.json"; }
 
         public LapTimesRepository(IMapper mapper, ILogger<LapTimesRepository> logger)
+            : base(logger)
         {
-            _mapper = mapper;
-            _logger = logger;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<LapTimeData> GetLapTimeDataAsync(int seriesId, int eventId)
@@ -40,12 +41,8 @@ namespace rNascar23.Service.LapTimes.Adapters
 
                 json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
-                if (json.Contains("<Error>"))
+                if (string.IsNullOrEmpty(json))
                 {
-                    var errorObject = (Error)new XmlSerializer(typeof(Error)).Deserialize(new StringReader(json));
-
-                    _logger.LogInformation($"Error reading lap time data: {errorObject.Message}");
-
                     return new LapTimeData();
                 }
                 else

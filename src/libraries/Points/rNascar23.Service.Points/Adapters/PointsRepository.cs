@@ -19,9 +19,10 @@ namespace rNascar23.Service.Points.Adapters
         public string Url { get => @"https://cf.nascar.com/live/feeds/series_{0}/{1}/live_points.json"; }
 
         public PointsRepository(IMapper mapper, ILogger<PointsRepository> logger)
+            : base(logger)
         {
-            _mapper = mapper;
-            _logger = logger;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<IList<DriverPoints>> GetDriverPoints(int raceId, int seriesId)

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using rNascar23.Data;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Flags.Models;
@@ -12,10 +13,13 @@ namespace rNascar23.Service.Flags.Adapters
     internal class FlagStateRepository : JsonDataRepository, IFlagStateRepository
     {
         private readonly IMapper _mapper;
+        private readonly ILogger<FlagStateRepository> _logger;
 
-        public FlagStateRepository(IMapper mapper)
+        public FlagStateRepository(IMapper mapper, ILogger<FlagStateRepository> logger)
+            : base(logger)
         {
-            _mapper = mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public string Url { get => @"https://cf.nascar.com/live/feeds/live-flag-data.json"; }

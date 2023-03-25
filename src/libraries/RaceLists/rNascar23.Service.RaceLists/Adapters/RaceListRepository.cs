@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using rNascar23.Data;
 using rNascar23.RaceLists.Models;
 using rNascar23.RaceLists.Ports;
@@ -11,10 +12,13 @@ namespace rNascar23.Service.RaceLists.Adapters
     internal class RaceListRepository: JsonDataRepository, IRaceListRepository
     {
         private readonly IMapper _mapper;
+        private readonly ILogger<RaceListRepository> _logger;
 
-        public RaceListRepository(IMapper mapper)
+        public RaceListRepository(IMapper mapper, ILogger<RaceListRepository> logger)
+            : base(logger)
         {
-            _mapper = mapper;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public string Url { get => @"https://cf.nascar.com/cacher/2023/race_list_basic.json"; }
