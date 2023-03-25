@@ -7,9 +7,12 @@ using rNascar23.LapTimes.Ports;
 using rNascar23.Service.LapTimes.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace rNascar23.Service.LapTimes.Adapters
 {
@@ -37,11 +40,22 @@ namespace rNascar23.Service.LapTimes.Adapters
 
                 json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
-                var model = JsonConvert.DeserializeObject<Rootobject>(json);
+                if (json.Contains("<Error>"))
+                {
+                    var errorObject = (Error)new XmlSerializer(typeof(Error)).Deserialize(new StringReader(json));
 
-                var lapTimeData = _mapper.Map<LapTimeData>(model);
+                    _logger.LogInformation($"Error reading lap time data: {errorObject.Message}");
 
-                return lapTimeData;
+                    return new LapTimeData();
+                }
+                else
+                {
+                    var model = JsonConvert.DeserializeObject<Rootobject>(json);
+
+                    var lapTimeData = _mapper.Map<LapTimeData>(model);
+
+                    return lapTimeData;
+                }
             }
             catch (Exception ex)
             {

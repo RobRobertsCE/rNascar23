@@ -80,6 +80,7 @@
             this.txtGridName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btnHideAllColumns = new System.Windows.Forms.Button();
             this.pnlDialogButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -177,6 +178,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnHideAllColumns);
             this.splitContainer1.Panel2.Controls.Add(this.lblIndex);
             this.splitContainer1.Panel2.Controls.Add(this.label13);
             this.splitContainer1.Panel2.Controls.Add(this.txtDisplayIndex);
@@ -658,6 +660,17 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Grid Name";
             // 
+            // btnHideAllColumns
+            // 
+            this.btnHideAllColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnHideAllColumns.Location = new System.Drawing.Point(18, 299);
+            this.btnHideAllColumns.Name = "btnHideAllColumns";
+            this.btnHideAllColumns.Size = new System.Drawing.Size(130, 23);
+            this.btnHideAllColumns.TabIndex = 11;
+            this.btnHideAllColumns.Text = "Hide All Columns";
+            this.btnHideAllColumns.UseVisualStyleBackColor = true;
+            this.btnHideAllColumns.Click += new System.EventHandler(this.btnHideAllColumns_Click);
+            // 
             // GridSettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -746,5 +759,6 @@
         private System.Windows.Forms.ComboBox cboSortBy;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnHideAllColumns;
     }
 }

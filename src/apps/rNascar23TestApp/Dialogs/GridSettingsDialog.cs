@@ -913,5 +913,13 @@ namespace rNascar23TestApp.Dialogs
 
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullColumnSelect;
         }
+
+        private void btnHideAllColumns_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.Visible = false;
+            }
+        }
     }
 }
