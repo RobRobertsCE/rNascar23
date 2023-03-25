@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -48,15 +49,28 @@ namespace rNascar23TestApp
                         .AddTransient<MainForm>()
                         .AddTransient<GridSettingsDialog>()
                         .AddTransient<CustomGridViewFactory>()
-                        .AddTransient<CustomViewSettingsService>();                    
+                        .AddTransient<CustomViewSettingsService>();
 
-                    //Add Serilog
+                    /*
+                    SERILOG (Set in appsettings.json):
+                    Level	Usage
+                    Verbose	Verbose is the noisiest level, rarely (if ever) enabled for a production app.
+                    Debug	Debug is used for internal system events that are not necessarily observable from the outside, but useful when determining how something happened.
+                    Information	Information events describe things happening in the system that correspond to its responsibilities and functions. Generally these are the observable actions the system can perform.
+                    Warning	When service is degraded, endangered, or may be behaving outside of its expected parameters, Warning level events are used.
+                    Error	When functionality is unavailable or expectations broken, an Error event is used.
+                    Fatal	The most critical level, Fatal events demand immediate attention.
+                    */
+                    var configuration = new ConfigurationBuilder()
+                        .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
+                        .Build();
+
                     var serilogLogger = new LoggerConfiguration()
-                    .WriteTo.File("rNascar23.LogFile.txt", outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
-                    .CreateLogger();
+                        .ReadFrom.Configuration(configuration)
+                        .CreateLogger();
+
                     services.AddLogging(x =>
                     {
-                        x.SetMinimumLevel(LogLevel.Information);
                         x.AddSerilog(logger: serilogLogger, dispose: true);
                     });
                 });

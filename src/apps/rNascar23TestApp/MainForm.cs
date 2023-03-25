@@ -16,6 +16,7 @@ using rNascar23TestApp.CustomViews;
 using rNascar23TestApp.Dialogs;
 using rNascar23TestApp.ViewModels;
 using rNascar23TestApp.Views;
+using Serilog;
 using Serilog.Core;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,8 @@ namespace rNascar23TestApp
 {
     public partial class MainForm : Form
     {
-        private const string LogFileName = "rNascar23.LogFile.txt";
+        private const string LogFileName = "rNascar23Log.{0}.txt";
+
         #region enums
 
         private enum ViewState
@@ -2408,7 +2410,11 @@ namespace rNascar23TestApp
         {
             string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
-            string logFilePath = Path.Combine(assemblyPath, LogFileName);
+            string currentLogFile = String.Format(LogFileName, DateTime.Now.ToString("yyyyMMdd")); ;
+
+            string logFileDirectory = Path.Combine(assemblyPath, @".\Logs\");
+
+            string logFilePath = Path.Combine(logFileDirectory, currentLogFile);
 
             if (!File.Exists(logFilePath))
             {
