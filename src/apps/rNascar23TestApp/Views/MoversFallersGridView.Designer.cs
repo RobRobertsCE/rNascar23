@@ -38,13 +38,14 @@
             // 
             // Grid
             // 
+            this.Grid.BackgroundColor = System.Drawing.Color.Black;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grid.GridColor = System.Drawing.SystemColors.Control;
             this.Grid.Location = new System.Drawing.Point(0, 25);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(401, 410);
+            this.Grid.Size = new System.Drawing.Size(260, 225);
             this.Grid.TabIndex = 7;
-            this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Grid_RowsAdded);
             // 
             // TitleLabel
             // 
@@ -55,7 +56,7 @@
             this.TitleLabel.ForeColor = System.Drawing.Color.White;
             this.TitleLabel.Location = new System.Drawing.Point(0, 0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(401, 25);
+            this.TitleLabel.Size = new System.Drawing.Size(260, 25);
             this.TitleLabel.TabIndex = 6;
             this.TitleLabel.Text = "Biggest Movers";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -67,7 +68,7 @@
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.TitleLabel);
             this.Name = "MoversFallersGridView";
-            this.Size = new System.Drawing.Size(401, 435);
+            this.Size = new System.Drawing.Size(260, 250);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
             this.ResumeLayout(false);

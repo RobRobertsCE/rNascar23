@@ -38,13 +38,13 @@
             // 
             // Grid
             // 
+            this.Grid.BackgroundColor = System.Drawing.Color.Black;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grid.Location = new System.Drawing.Point(0, 25);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(385, 363);
+            this.Grid.Size = new System.Drawing.Size(260, 225);
             this.Grid.TabIndex = 9;
-            this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Grid_RowsAdded);
             // 
             // TitleLabel
             // 
@@ -55,7 +55,7 @@
             this.TitleLabel.ForeColor = System.Drawing.Color.Black;
             this.TitleLabel.Location = new System.Drawing.Point(0, 0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(385, 25);
+            this.TitleLabel.Size = new System.Drawing.Size(260, 25);
             this.TitleLabel.TabIndex = 8;
             this.TitleLabel.Text = "N Laps";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -67,7 +67,7 @@
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.TitleLabel);
             this.Name = "NLapsGridView";
-            this.Size = new System.Drawing.Size(385, 388);
+            this.Size = new System.Drawing.Size(260, 250);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
             this.ResumeLayout(false);

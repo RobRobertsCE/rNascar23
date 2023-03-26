@@ -23,6 +23,9 @@ namespace rNascar23TestApp.Views
 
         #region properties
 
+        public ApiSources ApiSource => ApiSources.DriverPoints;
+        public string Title => "Driver Points";
+
         private IList<DriverPoints> _data = new List<DriverPoints>();
         public IList<DriverPoints> Data
         {
@@ -34,13 +37,21 @@ namespace rNascar23TestApp.Views
             {
                 _data = value;
 
-                SetDataSource(_data);
+                if (_data != null)
+                    SetDataSource(_data);
             }
         }
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
         public bool IsCustomGrid { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
 
         #endregion
 
@@ -52,14 +63,15 @@ namespace rNascar23TestApp.Views
 
             BuildGridView(Grid);
 
-            Settings = new GridSettings()
+            if (Settings == null)
             {
-                ApiSource = ApiSources.DriverPoints,
-                SortOrderField = "Position",
-                SortOrder = 1
-            };
-
-            this.Height = 310;
+                Settings = new GridSettings()
+                {
+                    ApiSource = ApiSources.DriverPoints,
+                    SortOrderField = "Position",
+                    SortOrder = 1
+                };
+            }
         }
 
         #endregion
@@ -100,10 +112,10 @@ namespace rNascar23TestApp.Views
             return data.
                  Select(p => new DriverPointsViewModel()
                  {
-                     Position = p.points_position,
+                     Position = p.PointsPosition,
                      Driver = p.Driver,
-                     Points = p.points,
-                     Bonus = p.bonus_points
+                     Points = p.Points,
+                     Bonus = p.BonusPoints
                  }).OrderBy(p => p.Position).ToList();
         }
 
@@ -126,35 +138,21 @@ namespace rNascar23TestApp.Views
 
             GridViewColumnBuilder.ConfigureColumn(Column1, "Position", 25, "");
 
-            GridViewColumnBuilder.ConfigureColumn(Column2, "Driver", 150, "Driver");
+            GridViewColumnBuilder.ConfigureColumn(Column2, "Driver", 125, "Driver");
 
-            GridViewColumnBuilder.ConfigureColumn(Column3, "Points", 75, "Points");
+            GridViewColumnBuilder.ConfigureColumn(Column3, "Points", 45, "Pts");
 
-            GridViewColumnBuilder.ConfigureColumn(Column4, "Bonus", 75, "Bonus");
+            GridViewColumnBuilder.ConfigureColumn(Column4, "Bonus", 45, "Bonus");
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
             dataGridView.AutoGenerateColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
 
             return dataGridView;
-        }
-
-        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                var row = Grid.Rows[i];
-
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
-            }
         }
 
         #endregion

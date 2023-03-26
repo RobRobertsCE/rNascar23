@@ -17,6 +17,9 @@ namespace rNascar23TestApp.Views
     {
         #region properties
 
+        public ApiSources ApiSource => ApiSources.Vehicles;
+        public string Title => "Lap Leaders";
+
         private IList<Vehicle> _data = new List<Vehicle>();
         public IList<Vehicle> Data
         {
@@ -28,13 +31,21 @@ namespace rNascar23TestApp.Views
             {
                 _data = value;
 
-                SetDataSource(_data);
+                if (_data != null)
+                    SetDataSource(_data);
             }
         }
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
         public bool IsCustomGrid { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
 
         #endregion
 
@@ -53,7 +64,7 @@ namespace rNascar23TestApp.Views
                 SortOrder = 2
             };
 
-            this.Height = 200;
+            this.Height = 225;
         }
 
         #endregion
@@ -93,15 +104,19 @@ namespace rNascar23TestApp.Views
         {
             IList<LapLeaderViewModel> lapLeaders = new List<LapLeaderViewModel>();
 
+            int i = 1;
             foreach (var lapLedLeader in vehicles.Where(v => v.laps_led.Length > 0))
             {
                 var lapLeader = new LapLeaderViewModel()
                 {
-                    Driver = lapLedLeader.driver.full_name,
+                    Position = i,
+                    Driver = lapLedLeader.driver.FullName,
                     Laps = lapLedLeader.laps_led.Sum(l => l.end_lap - l.start_lap) + 1
                 };
 
                 lapLeaders.Add(lapLeader);
+
+                i++;
             }
 
             return lapLeaders;
@@ -109,44 +124,34 @@ namespace rNascar23TestApp.Views
 
         private DataGridView BuildGridView(DataGridView dataGridView)
         {
+            DataGridViewTextBoxColumn Column0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 
             dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
             {
+                Column0,
                 Column1,
                 Column2,
             });
 
             dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
 
-            GridViewColumnBuilder.ConfigureColumn(Column1, "Driver", 200, "Driver");
+            GridViewColumnBuilder.ConfigureColumn(Column0, "Position", 25, "");
 
-            GridViewColumnBuilder.ConfigureColumn(Column2, "Laps", 50, "Laps");
+            GridViewColumnBuilder.ConfigureColumn(Column1, "Driver", 150, "Driver");
+
+            GridViewColumnBuilder.ConfigureColumn(Column2, "Laps", 55, "Laps");
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
             dataGridView.AutoGenerateColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
 
             return dataGridView;
-        }
-
-        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                var row = Grid.Rows[i];
-
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
-            }
         }
 
         #endregion

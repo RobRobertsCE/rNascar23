@@ -24,6 +24,9 @@ namespace rNascar23TestApp.Views
 
         #region properties
 
+        public ApiSources ApiSource => ApiSources.Vehicles;
+        public string Title => "MoversFallers";
+
         private ViewTypes _viewType = ViewTypes.Movers;
         public ViewTypes ViewType
         {
@@ -48,13 +51,21 @@ namespace rNascar23TestApp.Views
             {
                 _data = value;
 
-                SetDataSource(_data);
+                if (_data != null)
+                    SetDataSource(_data);
             }
         }
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
         public bool IsCustomGrid { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
 
         #endregion
 
@@ -65,6 +76,7 @@ namespace rNascar23TestApp.Views
         {
 
         }
+
         public MoversFallersGridView(ViewTypes viewType)
         {
             InitializeComponent();
@@ -79,8 +91,6 @@ namespace rNascar23TestApp.Views
                 SortOrderField = "Change",
                 SortOrder = _viewType == ViewTypes.Movers ? 2 : 1
             };
-
-            this.Width = 260;
 
             SetGridTitle(_viewType);
         }
@@ -147,7 +157,7 @@ namespace rNascar23TestApp.Views
                     Take(10).
                     Select(v => new PositionChangeViewModel()
                 {
-                    Driver = v.driver.full_name,
+                    Driver = v.driver.FullName,
                     Change = v.position_differential_last_10_percent
                 }).ToList();
 
@@ -166,7 +176,7 @@ namespace rNascar23TestApp.Views
                     Take(10).
                     Select(v => new PositionChangeViewModel()
                 {
-                    Driver = v.driver.full_name,
+                    Driver = v.driver.FullName,
                     Change = v.position_differential_last_10_percent
                 }).ToList();
 
@@ -203,27 +213,13 @@ namespace rNascar23TestApp.Views
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
             dataGridView.AutoGenerateColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
 
             return dataGridView;
-        }
-
-        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                var row = Grid.Rows[i];
-
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
-            }
         }
 
         #endregion

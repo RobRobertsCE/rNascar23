@@ -1,5 +1,6 @@
 ﻿using rNascar23.LiveFeeds.Models;
 using rNascar23TestApp.CustomViews;
+using rNascar23TestApp.Settings;
 using rNascar23TestApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,9 @@ namespace rNascar23TestApp.Views
     {
         #region properties
 
+        public ApiSources ApiSource => ApiSources.Vehicles;
+        public string Title => "Fastest Laps";
+
         private IList<Vehicle> _data = new List<Vehicle>();
         public IList<Vehicle> Data
         {
@@ -25,13 +29,22 @@ namespace rNascar23TestApp.Views
             {
                 _data = value;
 
-                SetDataSource(_data);
+                if (_data != null)
+                    SetDataSource(_data);
             }
         }
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
         public bool IsCustomGrid { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
+        public SpeedTimeType DisplayType { get; set; }
 
         #endregion
 
@@ -50,7 +63,11 @@ namespace rNascar23TestApp.Views
                 SortOrder = 1
             };
 
-            this.Height = 310;
+            this.Height = 275;
+
+            var userSettings = UserSettingsService.LoadUserSettings();
+
+            DisplayType = userSettings.FastestLapsDisplayType;
         }
 
         #endregion
@@ -59,6 +76,10 @@ namespace rNascar23TestApp.Views
 
         private void SetDataSource<T>(IList<T> values)
         {
+            var gridDisplayType = DisplayType == SpeedTimeType.Seconds ? "Lap Time" : "M.P.H.";
+
+            this.TitleLabel.Text = $"Fastest Laps ({gridDisplayType})";
+
             var models = BuildViewModels((IList<Vehicle>)values);
 
             var dataTable = GridViewTableBuilder.ToDataTable<FastestLapViewModel>(models.ToList());
@@ -88,11 +109,31 @@ namespace rNascar23TestApp.Views
 
         private IList<FastestLapViewModel> BuildViewModels(IList<Vehicle> vehicles)
         {
-            var fastestLaps = vehicles.OrderByDescending(v => v.best_lap_speed).Take(10).Select(v => new FastestLapViewModel()
+            List<FastestLapViewModel> fastestLaps = null;
+
+            if (DisplayType == SpeedTimeType.MPH)
             {
-                Driver = v.driver.full_name,
-                Speed = Math.Round(v.best_lap_speed, 3).ToString("N3")
-            }).ToList();
+                fastestLaps = vehicles.
+                    OrderByDescending(v => v.best_lap_speed).
+                    Take(10).
+                    Select(v => new FastestLapViewModel()
+                    {
+                        Driver = v.driver.FullName,
+                        Value = Math.Round(v.best_lap_speed, 3).ToString("N3")
+                    }).ToList();
+            }
+            else
+            {
+                fastestLaps = vehicles.
+                    Where(v => v.best_lap_time > 0).
+                    OrderBy(v => v.best_lap_time).
+                    Take(10).
+                    Select(v => new FastestLapViewModel()
+                {
+                    Driver = v.driver.FullName,
+                    Value = Math.Round(v.best_lap_time, 3).ToString("N3")
+                }).ToList();
+            }
 
             for (int i = 0; i < fastestLaps.Count; i++)
             {
@@ -125,31 +166,19 @@ namespace rNascar23TestApp.Views
 
             GridViewColumnBuilder.ConfigureColumn(Column2, "Driver", 150);
 
-            GridViewColumnBuilder.ConfigureColumn(Column3, "Speed", 75);
+            var valueColumnTitle = DisplayType == SpeedTimeType.Seconds ? "Speed" : "Lap Time";
+
+            GridViewColumnBuilder.ConfigureColumn(Column3, "Value", 75, valueColumnTitle);
 
             dataGridView.ColumnHeadersVisible = false;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
             dataGridView.AutoGenerateColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
 
             return dataGridView;
-        }
-
-        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                var row = Grid.Rows[i];
-
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
-            }
         }
 
         #endregion

@@ -2,27 +2,24 @@
 {
     public class Driver
     {
-        public string driver_name { get; set; }
-        public int driver_id { get; set; }
-        public int start_ps { get; set; }
-        public int mid_ps { get; set; }
-        /// <summary>
-        /// position?
-        /// </summary>
-        public int ps { get; set; }
-        public int closing_ps { get; set; }
-        public int closing_laps_diff { get; set; }
-        public int best_ps { get; set; }
-        public int worst_ps { get; set; }
-        public float avg_ps { get; set; }
-        public int passes_gf { get; set; }
-        public int passing_diff { get; set; }
-        public int passed_gf { get; set; }
-        public int quality_passes { get; set; }
-        public int fast_laps { get; set; }
-        public int top15_laps { get; set; }
-        public int lead_laps { get; set; }
-        public int laps { get; set; }
-        public float rating { get; set; }
+        public string DriverName { get; set; }
+        public int DriverId { get; set; }
+        public int StartPosition { get; set; }
+        public int MidPosition { get; set; }
+        public int Position { get; set; }
+        public int ClosingPosition { get; set; }
+        public int ClosingLapsDifference { get; set; }
+        public int BestPosition { get; set; }
+        public int WorstPosition { get; set; }
+        public float AveragePosition { get; set; }
+        public int PassesGreenFlag { get; set; }
+        public int PassingDifference { get; set; }
+        public int PassedGreenFlag { get; set; }
+        public int QualityPasses { get; set; }
+        public int FastestLaps { get; set; }
+        public int Top15Laps { get; set; }
+        public int LeadLaps { get; set; }
+        public int Laps { get; set; }
+        public float Rating { get; set; }
     }
 }

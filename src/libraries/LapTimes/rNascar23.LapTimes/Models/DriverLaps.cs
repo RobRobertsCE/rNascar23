@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace rNascar23.LapTimes.Models
 {
     public class DriverLaps
     {
+        #region properties
+
         public string Number { get; set; }
         public string FullName { get; set; }
         public string Manufacturer { get; set; }
         public int RunningPos { get; set; }
         public int NASCARDriverID { get; set; }
         public IList<LapDetails> Laps { get; set; } = new List<LapDetails>();
+
+        #endregion
+
+        #region public
 
         public float? AverageTimeLast15Laps()
         {
@@ -67,6 +74,10 @@ namespace rNascar23.LapTimes.Models
             return BestTimeOverNLaps(15);
         }
 
+        #endregion
+
+        #region private
+
         private float? AverageTimeLastNLaps(int lapCount)
         {
             if (Laps == null || Laps.Count < lapCount)
@@ -88,34 +99,41 @@ namespace rNascar23.LapTimes.Models
                 return null;
             else
             {
-                var lastNLaps = Laps.OrderByDescending(l => l.Lap).Take(lapCount);
+                var lastNLaps = Laps.OrderByDescending(l => l.Lap).Take(lapCount).ToList();
 
                 if (lastNLaps.Any(l => !l.LapTime.HasValue))
                     return null;
 
-                return (float?)Math.Round(lastNLaps.Average(l => float.Parse(l.LapSpeed)), 3);
-            }
-        }
+                if (lastNLaps.Any(l => l.LapSpeed == "-1"))
+                    return null;
 
-        private float? BestSpeedOverNLaps(int range)
-        {
-            if (Laps == null || Laps.Count < range)
-                return null;
-            else
-            {
-                float maxAverage = -1;
+                List<float> lapSet = new List<float>();
 
-                for (int i = 0; i < Laps.Count - range; i++)
+                for (int i = 0; i < lastNLaps.Count(); i++)
                 {
-                    var rangeAverage = Laps.Where(l => !string.IsNullOrEmpty(l.LapSpeed) && l.Lap > 0).Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
+                    float? lapSpeed = TryParseFloat(lastNLaps[i].LapSpeed);
 
-                    if (rangeAverage > maxAverage)
+                    if (lapSpeed.HasValue)
                     {
-                        maxAverage = rangeAverage;
+                        lapSet.Add(lapSpeed.Value);
                     }
+                    else
+                        break;
                 }
 
-                return (float?)Math.Round(maxAverage, 3);
+                if (lapSet.Count == lapCount)
+                {
+                    try
+                    {
+                        return lapSet.Average(l => l);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                }
+                else
+                    return null;
             }
         }
 
@@ -127,18 +145,98 @@ namespace rNascar23.LapTimes.Models
             {
                 float minAverage = 9999;
 
-                for (int i = 0; i < Laps.Count - range; i++)
+                for (int x = 0; x < Laps.Count - range; x++)
                 {
-                    var rangeAverage = Laps.Where(l => !string.IsNullOrEmpty(l.LapSpeed)).Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
+                    List<float> lapSet = new List<float>();
 
-                    if (rangeAverage < minAverage)
+                    for (int y = 0; y < range; y++)
                     {
-                        minAverage = rangeAverage;
+                        var lap = Laps[x + y];
+
+                        if (lap.LapTime.HasValue)
+                        {
+                            lapSet.Add(lap.LapTime.Value);
+                        }
+                        else
+                            break;
+                    }
+
+                    if (lapSet.Count == range)
+                    {
+                        var lapSetAverage = lapSet.Average(l => l);
+
+                        if (lapSetAverage < minAverage)
+                        {
+                            minAverage = lapSetAverage;
+                        }
                     }
                 }
 
                 return (float?)Math.Round(minAverage, 3);
             }
         }
+
+        private float? BestSpeedOverNLaps(int range)
+        {
+            if (Laps == null || Laps.Count < range)
+                return null;
+            else
+            {
+                float maxAverage = -1;
+
+                for (int x = 0; x < Laps.Count - range; x++)
+                {
+                    List<float> lapSet = new List<float>();
+
+                    for (int y = 0; y < range; y++)
+                    {
+                        var lap = Laps[x + y];
+
+                        float? lapSpeed = TryParseFloat(lap.LapSpeed);
+
+                        if (lapSpeed.HasValue)
+                        {
+                            lapSet.Add(lapSpeed.Value);
+                        }
+                        else
+                            break;
+                    }
+
+                    if (lapSet.Count == range)
+                    {
+                        var lapSetAverage = lapSet.Average(l => l);
+
+                        if (lapSetAverage > maxAverage)
+                        {
+                            maxAverage = lapSetAverage;
+                        }
+                    }
+                }
+
+                if (maxAverage == -1)
+                    return null;
+                else
+                    return (float?)Math.Round(maxAverage, 3);
+            }
+        }
+
+        private float? TryParseFloat(string floatString)
+        {
+            float? parsedFloat;
+            if (float.TryParse(floatString, NumberStyles.Float, CultureInfo.InvariantCulture, out float result))
+            {
+                parsedFloat = result;
+            }
+            else if (float.TryParse(floatString, out result))
+            {
+                parsedFloat = result;
+            }
+            else
+                parsedFloat = null;
+
+            return parsedFloat;
+        }
+
+        #endregion
     }
 }

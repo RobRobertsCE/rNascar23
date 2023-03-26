@@ -213,17 +213,60 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\ImportExportDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ImportExportDialog.Designer.cs">
+      <DependentUpon>ImportExportDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\UserSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\UserSettingsDialog.Designer.cs">
+      <DependentUpon>UserSettingsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Settings\JsonFileHelper.cs" />
+    <Compile Include="Settings\SpeedTimeType.cs" />
+    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="CustomViews\ApiSources.cs" />
     <Compile Include="CustomViews\CustomGridViewFactory.cs" />
     <Compile Include="CustomViews\CustomViewSettingsService.cs" />
     <Compile Include="CustomViews\GridColumnSettings.cs" />
+    <Compile Include="CustomViews\GridFont.cs" />
     <Compile Include="CustomViews\GridLocations.cs" />
+    <Compile Include="CustomViews\GridRowStyle.cs" />
+    <Compile Include="CustomViews\GridStyle.cs" />
+    <Compile Include="CustomViews\GridStyleHelper.cs" />
+    <Compile Include="CustomViews\GridStyleSettings.cs" />
+    <Compile Include="CustomViews\ICustomGridViewFactory.cs" />
+    <Compile Include="CustomViews\ICustomViewSettingsService.cs" />
+    <Compile Include="CustomViews\IStyleService.cs" />
+    <Compile Include="CustomViews\StyleService.cs" />
     <Compile Include="Dialogs\GridSettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogs\GridSettingsDialog.Designer.cs">
       <DependentUpon>GridSettingsDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\NewScreenNameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\NewScreenNameDialog.Designer.cs">
+      <DependentUpon>NewScreenNameDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ScreenEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ScreenEditor.Designer.cs">
+      <DependentUpon>ScreenEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\StyleEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\StyleEditor.Designer.cs">
+      <DependentUpon>StyleEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,7 +277,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FormState.cs" />
     <Compile Include="CustomViews\GridSettings.cs" />
+    <Compile Include="Screens\IScreenService.cs" />
+    <Compile Include="Screens\ScreenDefinition.cs" />
+    <Compile Include="Screens\ScreenPanel.cs" />
+    <Compile Include="Screens\ScreenPanelGridDefinition.cs" />
+    <Compile Include="Screens\ScreenService.cs" />
+    <Compile Include="Settings\UserSettingsService.cs" />
     <Compile Include="ViewModels\DriverPointsViewModel.cs" />
+    <Compile Include="ViewModels\INamedItem.cs" />
     <Compile Include="ViewModels\LapAverageViewModel.cs" />
     <Compile Include="ViewModels\CautionFlagViewModel.cs" />
     <Compile Include="ViewModels\FastestLapViewModel.cs" />
@@ -242,7 +292,31 @@
     <Compile Include="ViewModels\LapStateViewModel.cs" />
     <Compile Include="ViewModels\PositionChangeViewModel.cs" />
     <Compile Include="ViewModels\RaceVehicleViewModel.cs" />
+    <Compile Include="ViewModels\RadioTypes.cs" />
+    <Compile Include="ViewModels\SatelliteTypes.cs" />
+    <Compile Include="ViewModels\ScheduledEventViewModel.cs" />
+    <Compile Include="ViewModels\ScheduleType.cs" />
     <Compile Include="ViewModels\SeriesEventScheduleViewModel.cs" />
+    <Compile Include="ViewModels\SeriesTypes.cs" />
+    <Compile Include="ViewModels\TvTypes.cs" />
+    <Compile Include="Views\LeaderboardGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LeaderboardGridView.Designer.cs">
+      <DependentUpon>LeaderboardGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScheduledEventView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ScheduledEventView.Designer.cs">
+      <DependentUpon>ScheduledEventView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScheduleView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ScheduleView.Designer.cs">
+      <DependentUpon>ScheduleView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\StagePointsGridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -298,6 +372,21 @@
     <EmbeddedResource Include="Dialogs\GridSettingsDialog.resx">
       <DependentUpon>GridSettingsDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ImportExportDialog.resx">
+      <DependentUpon>ImportExportDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\NewScreenNameDialog.resx">
+      <DependentUpon>NewScreenNameDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ScreenEditor.resx">
+      <DependentUpon>ScreenEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\StyleEditor.resx">
+      <DependentUpon>StyleEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\UserSettingsDialog.resx">
+      <DependentUpon>UserSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -311,6 +400,15 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\LeaderboardGridView.resx">
+      <DependentUpon>LeaderboardGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ScheduledEventView.resx">
+      <DependentUpon>ScheduledEventView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\ScheduleView.resx">
+      <DependentUpon>ScheduleView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\StagePointsGridView.resx">
       <DependentUpon>StagePointsGridView.cs</DependentUpon>
     </EmbeddedResource>
@@ -335,6 +433,7 @@
     <EmbeddedResource Include="Views\NLapsGridView.resx">
       <DependentUpon>NLapsGridView.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include=".editorconfig" />
     <None Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -385,10 +484,6 @@
       <Project>{8f236e4c-ebd3-434c-832c-d4c81378a36d}</Project>
       <Name>rNascar23.Service.Points</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\libraries\RaceLists\rNascar23.RaceLists\rNascar23.RaceLists.csproj">
-      <Project>{cb651a9a-0d3b-4667-af0a-dd527a7c5b11}</Project>
-      <Name>rNascar23.RaceLists</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\libraries\LiveFeed\rNascar23.LiveFeed\rNascar23.LiveFeeds.csproj">
       <Project>{0C0644D8-AA4E-48B0-9F7B-DB7845978C4A}</Project>
       <Name>rNascar23.LiveFeeds</Name>
@@ -397,10 +492,59 @@
       <Project>{7FC5D433-FCF5-46A8-A0AB-1637FA6D851C}</Project>
       <Name>rNascar23.Service.LiveFeeds</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\libraries\RaceLists\rNascar23.Service.RaceLists\rNascar23.Service.RaceLists.csproj">
-      <Project>{29f4feca-4d38-4c4d-8c13-78f97f021d2b}</Project>
-      <Name>rNascar23.Service.RaceLists</Name>
+    <ProjectReference Include="..\..\libraries\Schedules\rNascar23.RaceLists\rNascar23.Schedules.csproj">
+      <Project>{f803eb13-4e3e-4baf-8c38-fae6fe08cfcd}</Project>
+      <Name>rNascar23.Schedules</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\libraries\Schedules\rNascar23.Service.RaceLists\rNascar23.Service.Schedules.csproj">
+      <Project>{2052c56a-f96e-4815-b530-eab7825b1486}</Project>
+      <Name>rNascar23.Service.Schedules</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chevrolet_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CTS_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ford_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FOX_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FS1_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MRN_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NBC_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NBCSports_Streaming_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NCS_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PRN_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sirius_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Toyota_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\USA_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\XFinity_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FS2_Small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

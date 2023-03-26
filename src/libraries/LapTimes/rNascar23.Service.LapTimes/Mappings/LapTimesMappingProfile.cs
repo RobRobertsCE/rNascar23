@@ -29,8 +29,8 @@ namespace rNascar23.Service.Flags.Mappings
                 .ForMember(m => m.Laps, opts => opts.MapFrom(src => src.Laps));
 
             CreateMap<Rootobject, LapTimeData>()
-                .ForMember(m => m.Drivers, opts => opts.MapFrom(src => src.laps))
-                .ForMember(m => m.LapFlags, opts => opts.MapFrom(src => src.flags));
+                .ForMember(m => m.Drivers, opts => opts.MapFrom(src => src.Laps))
+                .ForMember(m => m.LapFlags, opts => opts.MapFrom(src => src.Flags));
         }
     }
 }
