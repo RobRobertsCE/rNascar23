@@ -243,6 +243,12 @@
     <Compile Include="ViewModels\PositionChangeViewModel.cs" />
     <Compile Include="ViewModels\RaceVehicleViewModel.cs" />
     <Compile Include="ViewModels\SeriesEventScheduleViewModel.cs" />
+    <Compile Include="Views\StagePointsGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\StagePointsGridView.Designer.cs">
+      <DependentUpon>StagePointsGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\DriverPointsGridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -305,6 +311,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\StagePointsGridView.resx">
+      <DependentUpon>StagePointsGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\DriverPointsGridView.resx">
       <DependentUpon>DriverPointsGridView.cs</DependentUpon>
     </EmbeddedResource>
