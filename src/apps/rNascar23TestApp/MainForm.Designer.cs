@@ -90,6 +90,9 @@
             this.todayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
+            this.backupCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -406,7 +409,10 @@
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.customViewEditorToolStripMenuItem});
+            this.customViewEditorToolStripMenuItem,
+            this.toolStripMenuItem7,
+            this.backupCustomViewsToolStripMenuItem,
+            this.importCustomViewsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -414,7 +420,7 @@
             // customViewEditorToolStripMenuItem
             // 
             this.customViewEditorToolStripMenuItem.Name = "customViewEditorToolStripMenuItem";
-            this.customViewEditorToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.customViewEditorToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.customViewEditorToolStripMenuItem.Text = "&Custom View Editor";
             this.customViewEditorToolStripMenuItem.Click += new System.EventHandler(this.customViewEditorToolStripMenuItem_Click);
             // 
@@ -615,6 +621,25 @@
             this.btnCustomGridsView.Text = "Custom Views";
             this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
             // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(188, 6);
+            // 
+            // backupCustomViewsToolStripMenuItem
+            // 
+            this.backupCustomViewsToolStripMenuItem.Name = "backupCustomViewsToolStripMenuItem";
+            this.backupCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.backupCustomViewsToolStripMenuItem.Text = "Backup Custom Views";
+            this.backupCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.backupCustomViewsToolStripMenuItem_Click);
+            // 
+            // importCustomViewsToolStripMenuItem
+            // 
+            this.importCustomViewsToolStripMenuItem.Name = "importCustomViewsToolStripMenuItem";
+            this.importCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.importCustomViewsToolStripMenuItem.Text = "Import Custom Views";
+            this.importCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.importCustomViewsToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -711,6 +736,9 @@
         private System.Windows.Forms.ToolStripMenuItem thisWeekToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem todayToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem logFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+        private System.Windows.Forms.ToolStripMenuItem backupCustomViewsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importCustomViewsToolStripMenuItem;
     }
 }
 
