@@ -45,6 +45,7 @@
             this.pnlFields = new System.Windows.Forms.Panel();
             this.lstFields = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.btnHideAllColumns = new System.Windows.Forms.Button();
             this.lblIndex = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.txtDisplayIndex = new System.Windows.Forms.TextBox();
@@ -60,6 +61,7 @@
             this.cboGridSelection = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlGridSettings = new System.Windows.Forms.Panel();
+            this.chkEnabled = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbSortAscending = new System.Windows.Forms.RadioButton();
             this.rbSortDescending = new System.Windows.Forms.RadioButton();
@@ -80,7 +82,6 @@
             this.txtGridName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.btnHideAllColumns = new System.Windows.Forms.Button();
             this.pnlDialogButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -299,6 +300,17 @@
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTip1.SetToolTip(this.label4, "List of all the available fields from the selected data source");
             // 
+            // btnHideAllColumns
+            // 
+            this.btnHideAllColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnHideAllColumns.Location = new System.Drawing.Point(18, 299);
+            this.btnHideAllColumns.Name = "btnHideAllColumns";
+            this.btnHideAllColumns.Size = new System.Drawing.Size(130, 23);
+            this.btnHideAllColumns.TabIndex = 11;
+            this.btnHideAllColumns.Text = "Hide All Columns";
+            this.btnHideAllColumns.UseVisualStyleBackColor = true;
+            this.btnHideAllColumns.Click += new System.EventHandler(this.btnHideAllColumns_Click);
+            // 
             // lblIndex
             // 
             this.lblIndex.AutoSize = true;
@@ -408,6 +420,7 @@
             // 
             // pnlSelector
             // 
+            this.pnlSelector.BackColor = System.Drawing.Color.Silver;
             this.pnlSelector.Controls.Add(this.cboGridSelection);
             this.pnlSelector.Controls.Add(this.label6);
             this.pnlSelector.Dock = System.Windows.Forms.DockStyle.Top;
@@ -437,7 +450,9 @@
             // 
             // pnlGridSettings
             // 
+            this.pnlGridSettings.BackColor = System.Drawing.Color.Gainsboro;
             this.pnlGridSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlGridSettings.Controls.Add(this.chkEnabled);
             this.pnlGridSettings.Controls.Add(this.groupBox1);
             this.pnlGridSettings.Controls.Add(this.cboSortBy);
             this.pnlGridSettings.Controls.Add(this.label14);
@@ -459,6 +474,17 @@
             this.pnlGridSettings.Name = "pnlGridSettings";
             this.pnlGridSettings.Size = new System.Drawing.Size(1134, 173);
             this.pnlGridSettings.TabIndex = 4;
+            // 
+            // chkEnabled
+            // 
+            this.chkEnabled.AutoSize = true;
+            this.chkEnabled.Location = new System.Drawing.Point(337, 130);
+            this.chkEnabled.Name = "chkEnabled";
+            this.chkEnabled.Size = new System.Drawing.Size(74, 21);
+            this.chkEnabled.TabIndex = 16;
+            this.chkEnabled.Text = "Enabled";
+            this.toolTip1.SetToolTip(this.chkEnabled, "If unchecked, grid will not load in the custom view.");
+            this.chkEnabled.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -589,7 +615,7 @@
             // chkHideRowSelectors
             // 
             this.chkHideRowSelectors.AutoSize = true;
-            this.chkHideRowSelectors.Location = new System.Drawing.Point(341, 130);
+            this.chkHideRowSelectors.Location = new System.Drawing.Point(518, 130);
             this.chkHideRowSelectors.Name = "chkHideRowSelectors";
             this.chkHideRowSelectors.Size = new System.Drawing.Size(140, 21);
             this.chkHideRowSelectors.TabIndex = 6;
@@ -659,17 +685,6 @@
             this.label7.Size = new System.Drawing.Size(72, 17);
             this.label7.TabIndex = 0;
             this.label7.Text = "Grid Name";
-            // 
-            // btnHideAllColumns
-            // 
-            this.btnHideAllColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnHideAllColumns.Location = new System.Drawing.Point(18, 299);
-            this.btnHideAllColumns.Name = "btnHideAllColumns";
-            this.btnHideAllColumns.Size = new System.Drawing.Size(130, 23);
-            this.btnHideAllColumns.TabIndex = 11;
-            this.btnHideAllColumns.Text = "Hide All Columns";
-            this.btnHideAllColumns.UseVisualStyleBackColor = true;
-            this.btnHideAllColumns.Click += new System.EventHandler(this.btnHideAllColumns_Click);
             // 
             // GridSettingsDialog
             // 
@@ -760,5 +775,6 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnHideAllColumns;
+        private System.Windows.Forms.CheckBox chkEnabled;
     }
 }

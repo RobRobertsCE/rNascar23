@@ -243,11 +243,51 @@
     <Compile Include="ViewModels\PositionChangeViewModel.cs" />
     <Compile Include="ViewModels\RaceVehicleViewModel.cs" />
     <Compile Include="ViewModels\SeriesEventScheduleViewModel.cs" />
+    <Compile Include="Views\DriverPointsGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\DriverPointsGridView.Designer.cs">
+      <DependentUpon>DriverPointsGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FlagsGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\FlagsGridView.Designer.cs">
+      <DependentUpon>FlagsGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GridViewColumnBuilder.cs" />
+    <Compile Include="Views\GridViewDataSource.cs" />
+    <Compile Include="Views\FastestLapsGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\FastestLapsGridView.Designer.cs">
+      <DependentUpon>FastestLapsGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\GridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\GridView.Designer.cs">
       <DependentUpon>GridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GridViewTableBuilder.cs" />
+    <Compile Include="Views\IGridView.cs" />
+    <Compile Include="Views\LapLeadersGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\LapLeadersGridView.Designer.cs">
+      <DependentUpon>LapLeadersGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MoversFallersGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\MoversFallersGridView.Designer.cs">
+      <DependentUpon>MoversFallersGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NLapsGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\NLapsGridView.Designer.cs">
+      <DependentUpon>NLapsGridView.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Dialogs\GridSettingsDialog.resx">
       <DependentUpon>GridSettingsDialog.cs</DependentUpon>
@@ -265,8 +305,26 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\DriverPointsGridView.resx">
+      <DependentUpon>DriverPointsGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FastestLapsGridView.resx">
+      <DependentUpon>FastestLapsGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FlagsGridView.resx">
+      <DependentUpon>FlagsGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\GridView.resx">
       <DependentUpon>GridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\LapLeadersGridView.resx">
+      <DependentUpon>LapLeadersGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MoversFallersGridView.resx">
+      <DependentUpon>MoversFallersGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\NLapsGridView.resx">
+      <DependentUpon>NLapsGridView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

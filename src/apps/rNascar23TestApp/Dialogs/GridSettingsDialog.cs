@@ -626,6 +626,7 @@ namespace rNascar23TestApp.Dialogs
             cboDataSource.SelectedIndex = -1;
             txtGridWidth.Clear();
             chkHideRowSelectors.Checked = false;
+            chkEnabled.Checked = false;
             txtDisplayOrder.Clear();
             cboLocation.SelectedIndex = -1;
 
@@ -652,6 +653,7 @@ namespace rNascar23TestApp.Dialogs
             cboDataSource.SelectedIndex = (int)settings.ApiSource;
             txtGridWidth.Text = settings.GridWidth.ToString();
             chkHideRowSelectors.Checked = settings.HideRowSelector;
+            chkEnabled.Checked = settings.Enabled;
             txtDisplayOrder.Text = settings.DisplayOrder.ToString();
             cboLocation.SelectedIndex = (int)settings.Location;
 
@@ -698,6 +700,7 @@ namespace rNascar23TestApp.Dialogs
                 _selectedGridSettings.ApiSource = (ApiSources)cboDataSource.SelectedIndex;
                 _selectedGridSettings.GridWidth = int.Parse(txtGridWidth.Text);
                 _selectedGridSettings.HideRowSelector = chkHideRowSelectors.Checked;
+                _selectedGridSettings.Enabled = chkEnabled.Checked;
                 _selectedGridSettings.Location = (GridLocations)cboLocation.SelectedIndex;
                 _selectedGridSettings.DisplayOrder = int.Parse(txtDisplayOrder.Text);
                 if (cboSortBy.SelectedValue == null)
@@ -805,8 +808,6 @@ namespace rNascar23TestApp.Dialogs
         {
             return obj.GetType().GetProperties().ToList();
         }
-
-        #endregion
 
         private void cboDataSource_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -921,5 +922,7 @@ namespace rNascar23TestApp.Dialogs
                 column.Visible = false;
             }
         }
+
+        #endregion
     }
 }

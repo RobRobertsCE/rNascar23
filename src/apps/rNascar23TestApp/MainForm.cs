@@ -32,7 +32,11 @@ namespace rNascar23TestApp
 {
     public partial class MainForm : Form
     {
+        #region consts
+
         private const string LogFileName = "rNascar23Log.{0}.txt";
+
+        #endregion
 
         #region enums
 
@@ -72,8 +76,6 @@ namespace rNascar23TestApp
             Today
         }
 
-
-
         #endregion
 
         #region fields
@@ -83,27 +85,17 @@ namespace rNascar23TestApp
         private DataGridView _genericDataGridView = null;
         private DataGridView _seriesScheduleDataGridView = null;
         private DataGridView _eventScheduleDataGridView = null;
-        private DataGridView _fastestLapsDataGridView = null;
-        private DataGridView _biggestMoversDataGridView = null;
-        private DataGridView _biggestFallersDataGridView = null;
-        private DataGridView _cautionsDataGridView = null;
-        private DataGridView _lapLeadersDataGridView = null;
-        private DataGridView _5LapAverageTimeDataGridView = null;
-        private DataGridView _10LapAverageTimeDataGridView = null;
-        private DataGridView _15LapAverageTimeDataGridView = null;
-        private DataGridView _livePointsDataGridView = null;
+
         private ViewState _viewState = ViewState.None;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
         private ScheduleType _selectedScheduleType = ScheduleType.All;
-        IList<FastestLapViewModel> _fastestLaps;
-        IList<PositionChangeViewModel> _biggestMovers;
-        IList<PositionChangeViewModel> _biggestFallers;
-        private LapStateViewModel _lapStates = new LapStateViewModel();
+
         private IList<GridSettings> _customGridSettings = null;
         private IList<GridView> _gridViews = null;
-
-
         private FormState _formState = new FormState();
+
+        private LapStateViewModel _lapStates = new LapStateViewModel();
+
         private readonly ILogger<MainForm> _logger = null;
         private readonly ILapTimesRepository _lapTimeRepository = null;
         private readonly ILapAveragesRepository _lapAveragesRepository = null;
@@ -139,11 +131,13 @@ namespace rNascar23TestApp
             _pointsRepository = pointsRepository ?? throw new ArgumentNullException(nameof(pointsRepository));
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private async void MainForm_Load(object sender, EventArgs e)
         {
             try
             {
-                SetViewState(ViewState.None, true);
+                lblEventName.Text = "";
+
+                await SetViewStateAsync(ViewState.None, true);
             }
             catch (Exception ex)
             {
@@ -153,7 +147,7 @@ namespace rNascar23TestApp
 
         #endregion
 
-        #region private [event handlers]
+        #region private [ Event Handlers ]
 
         // timer
         private async void AutoUpdateTimer_Tick(object sender, EventArgs e)
@@ -508,7 +502,7 @@ namespace rNascar23TestApp
         {
             try
             {
-                DisplayCustomGridsView();
+                await DisplayCustomGridsViewAsync();
 
                 await SetCustomGridViewDataAsync();
             }
@@ -535,7 +529,7 @@ namespace rNascar23TestApp
             try
             {
                 _selectedScheduleType = ScheduleType.Trucks;
-                SetViewState(ViewState.SeriesSchedule, true);
+                await SetViewStateAsync(ViewState.SeriesSchedule, true);
                 await DisplaySeriesScheduleAsync(_selectedScheduleType);
             }
             catch (Exception ex)
@@ -549,7 +543,7 @@ namespace rNascar23TestApp
             try
             {
                 _selectedScheduleType = ScheduleType.Xfinity;
-                SetViewState(ViewState.SeriesSchedule, true);
+                await SetViewStateAsync(ViewState.SeriesSchedule, true);
                 await DisplaySeriesScheduleAsync(_selectedScheduleType);
             }
             catch (Exception ex)
@@ -563,7 +557,7 @@ namespace rNascar23TestApp
             try
             {
                 _selectedScheduleType = ScheduleType.Cup;
-                SetViewState(ViewState.SeriesSchedule, true);
+                await SetViewStateAsync(ViewState.SeriesSchedule, true);
                 await DisplaySeriesScheduleAsync(_selectedScheduleType);
             }
             catch (Exception ex)
@@ -577,7 +571,7 @@ namespace rNascar23TestApp
             try
             {
                 _selectedScheduleType = ScheduleType.All;
-                SetViewState(ViewState.SeriesSchedule, true);
+                await SetViewStateAsync(ViewState.SeriesSchedule, true);
                 await DisplaySeriesScheduleAsync(_selectedScheduleType);
             }
             catch (Exception ex)
@@ -591,7 +585,7 @@ namespace rNascar23TestApp
             try
             {
                 _selectedScheduleType = ScheduleType.ThisWeek;
-                SetViewState(ViewState.SeriesSchedule, true);
+                await SetViewStateAsync(ViewState.SeriesSchedule, true);
                 await DisplaySeriesScheduleAsync(_selectedScheduleType);
 
                 DisplayEventSchedule();
@@ -607,7 +601,7 @@ namespace rNascar23TestApp
             try
             {
                 _selectedScheduleType = ScheduleType.Today;
-                SetViewState(ViewState.SeriesSchedule, true);
+                await SetViewStateAsync(ViewState.SeriesSchedule, true);
                 await DisplaySeriesScheduleAsync(_selectedScheduleType);
 
                 DisplayEventSchedule();
@@ -632,7 +626,7 @@ namespace rNascar23TestApp
 
         #endregion
 
-        #region private [build controls]
+        #region private [ Build Controls ]
 
         private DataGridView BuildRaceViewGrid()
         {
@@ -973,264 +967,9 @@ namespace rNascar23TestApp
             return dataGridView;
         }
 
-        private DataGridView BuildFastestLapsViewGrid()
-        {
-            var dataGridView = new DataGridView();
-
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                Column1,
-                Column2,
-                Column3,
-            });
-
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
-
-            ConfigureColumn(Column1, "Position", 25);
-
-            ConfigureColumn(Column2, "Driver", 150, "Fastest Laps");
-
-            ConfigureColumn(Column3, "Speed", 75, "M.P.H.");
-
-            return dataGridView;
-        }
-
-        private DataGridView BuildBiggestMoversViewGrid()
-        {
-            var dataGridView = new DataGridView();
-
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                Column1,
-                Column2,
-                Column3,
-            });
-
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
-
-            ConfigureColumn(Column1, "Position", 25);
-
-            ConfigureColumn(Column2, "Driver", 150, "Biggest Movers");
-
-            ConfigureColumn(Column3, "Change", 75, "Gain");
-
-            return dataGridView;
-        }
-
-        //_livePointsDataGridView
-        private DataGridView BuildLivePointsViewGrid()
-        {
-            var dataGridView = new DataGridView();
-
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                Column1,
-                Column2,
-                Column3,
-                Column4,
-            });
-
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
-
-            ConfigureColumn(Column1, "Position", 25, "");
-
-            ConfigureColumn(Column2, "Driver", 150, "Driver");
-
-            ConfigureColumn(Column3, "Points", 75, "Points");
-
-            ConfigureColumn(Column4, "Bonus", 75, "Bonus");
-
-            return dataGridView;
-        }
-
-        private DataGridView BuildBiggestFallersViewGrid()
-        {
-            var dataGridView = new DataGridView();
-
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                Column1,
-                Column2,
-                Column3,
-            });
-
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
-
-            ConfigureColumn(Column1, "Position", 25);
-
-            ConfigureColumn(Column2, "Driver", 150, "Biggest Fallers");
-
-            ConfigureColumn(Column3, "Change", 75, "Loss");
-
-            return dataGridView;
-        }
-
-        private DataGridView BuildCautionsViewGrid()
-        {
-            var dataGridView = new DataGridView();
-
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.AllowUserToResizeColumns = true;
-
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                Column1,
-                Column2,
-                Column3,
-            });
-
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
-
-            ConfigureColumn(Column1, "LapNumber", 50, "Lap");
-
-            ConfigureColumn(Column2, "Comment", 165, "Caution For");
-
-            ConfigureColumn(Column3, "Beneficiary", 65, "Lucky Dog");
-
-            return dataGridView;
-        }
-
-        private DataGridView BuildLapLeadersViewGrid()
-        {
-            var dataGridView = new DataGridView();
-
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.AllowUserToResizeColumns = true;
-
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                Column1,
-                Column2,
-            });
-
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
-
-            ConfigureColumn(Column1, "Driver", 200, "Lap Leaders");
-
-            ConfigureColumn(Column2, "Laps", 50, "Laps");
-
-            return dataGridView;
-        }
-
-        private DataGridView Build5LapAverageTimeViewGrid()
-        {
-            return BuildLastNLapAverageViewGrid(5, "Lap Time");
-        }
-        private DataGridView Build5LapAverageMphViewGrid()
-        {
-            return BuildLastNLapAverageViewGrid(5, "M.P.H.");
-        }
-        private DataGridView Build10LapAverageTimeViewGrid()
-        {
-            return BuildLastNLapAverageViewGrid(10, "Lap Time");
-        }
-        private DataGridView Build10LapAverageMphViewGrid()
-        {
-            return BuildLastNLapAverageViewGrid(10, "M.P.H.");
-        }
-        private DataGridView Build15LapAverageTimeViewGrid()
-        {
-            return BuildLastNLapAverageViewGrid(15, "Lap Time");
-        }
-        private DataGridView Build15LapAverageMphViewGrid()
-        {
-            return BuildLastNLapAverageViewGrid(15, "M.P.H.");
-        }
-        private DataGridView BuildLastNLapAverageViewGrid(int count, string averageTitle)
-        {
-            var dataGridView = new DataGridView();
-
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.AllowUserToResizeColumns = true;
-
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
-            {
-                Column1,
-                Column2,
-            });
-
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
-
-            ConfigureColumn(Column1, "Driver", 190, $"Last {count} Lap Avg");
-
-            ConfigureColumn(Column2, "Average", 75, averageTitle);
-
-            return dataGridView;
-        }
-
-        private void ConfigureColumn(
-            DataGridViewTextBoxColumn column,
-            string propertyName,
-            int? width = 125,
-            string headerText = "")
-        {
-            column.HeaderText = headerText;
-            column.Name = propertyName;
-            column.DataPropertyName = propertyName;
-
-            if (width.HasValue)
-            {
-                column.Width = width.Value;
-                column.Resizable = DataGridViewTriState.False;
-            }
-            else
-            {
-                column.Visible = false;
-            }
-        }
-
         #endregion
 
-        #region private [read data]
+        #region private [ Read Data ]
 
         private async Task<bool> ReadDataAsync()
         {
@@ -1331,11 +1070,238 @@ namespace rNascar23TestApp
 
         #endregion
 
-        #region private [display data]
+        #region private [ Display Screens ]
 
-        private async Task UpdateUiAsync()
+        private void DisplayPracticeScreen()
         {
-            var hasNewData = await ReadDataAsync();
+            /*** Main ***/
+            if (_rightRaceDataGridView != null)
+            {
+                _rightRaceDataGridView.Dispose();
+                _rightRaceDataGridView = null;
+            }
+            _rightRaceDataGridView = BuildPracticeViewGrid();
+            pnlMain.Controls.Add(_rightRaceDataGridView);
+            _rightRaceDataGridView.Width = 850;
+            _rightRaceDataGridView.Dock = DockStyle.Left;
+
+            if (_leftRaceDataGridView != null)
+            {
+                _leftRaceDataGridView.Dispose();
+                _leftRaceDataGridView = null;
+            }
+            _leftRaceDataGridView = BuildPracticeViewGrid();
+            pnlMain.Controls.Add(_leftRaceDataGridView);
+            _leftRaceDataGridView.Width = 850;
+            _leftRaceDataGridView.Dock = DockStyle.Left;
+
+            /*** Right ***/
+            FastestLapsGridView fastestLapsGridView = new FastestLapsGridView();
+            pnlRight.Controls.Add(fastestLapsGridView);
+            fastestLapsGridView.Dock = DockStyle.Top;
+
+            /*** Bottom ***/
+            FlagsGridView flagsGridView = new FlagsGridView();
+            pnlBottom.Controls.Add(flagsGridView);
+            flagsGridView.Dock = DockStyle.Left;
+            flagsGridView.BringToFront();
+
+            DriverPointsGridView driverPointsGridView = new DriverPointsGridView();
+            pnlBottom.Controls.Add(driverPointsGridView);
+            driverPointsGridView.Dock = DockStyle.Left;
+            flagsGridView.BringToFront();
+
+            NLapsGridView last5LapsGridView = new NLapsGridView(NLapsGridView.ViewTypes.Last5Laps, NLapsGridView.ComparisonTypes.Speed);
+            pnlBottom.Controls.Add(last5LapsGridView);
+            last5LapsGridView.Dock = DockStyle.Left;
+            last5LapsGridView.BringToFront();
+
+            NLapsGridView best10LapsGridView = new NLapsGridView(NLapsGridView.ViewTypes.Best10Laps, NLapsGridView.ComparisonTypes.Time);
+            pnlBottom.Controls.Add(best10LapsGridView);
+            best10LapsGridView.Dock = DockStyle.Left;
+            best10LapsGridView.BringToFront();
+
+            pnlMain.Visible = true;
+            pnlRight.Visible = true;
+            pnlBottom.Visible = true;
+            pnlHeader.Visible = true;
+
+            picGreenYelllowLapIndicator.Visible = false;
+        }
+
+        private void DisplayQualifyingScreen()
+        {
+            /*** main panel ***/
+            if (_rightRaceDataGridView != null)
+            {
+                _rightRaceDataGridView.Dispose();
+                _rightRaceDataGridView = null;
+            }
+            _rightRaceDataGridView = BuildQualifyingViewGrid();
+            pnlMain.Controls.Add(_rightRaceDataGridView);
+            _rightRaceDataGridView.Width = 850;
+            _rightRaceDataGridView.Dock = DockStyle.Left;
+
+            if (_leftRaceDataGridView != null)
+            {
+                _leftRaceDataGridView.Dispose();
+                _leftRaceDataGridView = null;
+            }
+            _leftRaceDataGridView = BuildQualifyingViewGrid();
+            pnlMain.Controls.Add(_leftRaceDataGridView);
+            _leftRaceDataGridView.Width = 850;
+            _leftRaceDataGridView.Dock = DockStyle.Left;
+
+            /*** right panel ***/
+            FastestLapsGridView fastestLapsGridView = new FastestLapsGridView();
+            pnlRight.Controls.Add(fastestLapsGridView);
+            fastestLapsGridView.Dock = DockStyle.Top;
+
+            pnlMain.Visible = true;
+            pnlRight.Visible = true;
+            pnlBottom.Visible = true;
+            pnlHeader.Visible = true;
+        }
+
+        private void DisplayRaceScreen()
+        {
+            /*** main panel ***/
+            if (_rightRaceDataGridView != null)
+            {
+                _rightRaceDataGridView.Dispose();
+                _rightRaceDataGridView = null;
+            }
+            _rightRaceDataGridView = BuildRaceViewGrid();
+            pnlMain.Controls.Add(_rightRaceDataGridView);
+            _rightRaceDataGridView.Width = 835;
+            _rightRaceDataGridView.Dock = DockStyle.Left;
+
+            if (_leftRaceDataGridView != null)
+            {
+                _leftRaceDataGridView.Dispose();
+                _leftRaceDataGridView = null;
+            }
+            _leftRaceDataGridView = BuildRaceViewGrid();
+            pnlMain.Controls.Add(_leftRaceDataGridView);
+            _leftRaceDataGridView.Width = 835;
+            _leftRaceDataGridView.Dock = DockStyle.Left;
+
+            // right panel
+            FastestLapsGridView fastestLapsGridView = new FastestLapsGridView();
+            pnlRight.Controls.Add(fastestLapsGridView);
+            fastestLapsGridView.Height = 270;
+            fastestLapsGridView.Dock = DockStyle.Top;
+
+            LapLeadersGridView lapLeadersGridView = new LapLeadersGridView();
+            pnlRight.Controls.Add(lapLeadersGridView);
+            lapLeadersGridView.Dock = DockStyle.Top;
+            lapLeadersGridView.BringToFront();
+
+            // bottom panel
+            DriverPointsGridView driverPointsGridView = new DriverPointsGridView();
+            pnlBottom.Controls.Add(driverPointsGridView);
+            driverPointsGridView.Dock = DockStyle.Left;
+
+            MoversFallersGridView moversGridViewGridView = new MoversFallersGridView(MoversFallersGridView.ViewTypes.Movers);
+            pnlBottom.Controls.Add(moversGridViewGridView);
+            moversGridViewGridView.Dock = DockStyle.Left;
+            moversGridViewGridView.BringToFront();
+
+            MoversFallersGridView fallersGridViewGridView = new MoversFallersGridView(MoversFallersGridView.ViewTypes.Fallers);
+            pnlBottom.Controls.Add(fallersGridViewGridView);
+            fallersGridViewGridView.Dock = DockStyle.Left;
+            fallersGridViewGridView.BringToFront();
+
+            FlagsGridView flagsGridView = new FlagsGridView();
+            pnlBottom.Controls.Add(flagsGridView);
+            flagsGridView.Dock = DockStyle.Left;
+            flagsGridView.BringToFront();
+
+            NLapsGridView last5LapsGridView = new NLapsGridView(NLapsGridView.ViewTypes.Last5Laps, NLapsGridView.ComparisonTypes.Speed);
+            pnlBottom.Controls.Add(last5LapsGridView);
+            last5LapsGridView.Dock = DockStyle.Left;
+            last5LapsGridView.BringToFront();
+
+            NLapsGridView best10LapsGridView = new NLapsGridView(NLapsGridView.ViewTypes.Best10Laps, NLapsGridView.ComparisonTypes.Time);
+            pnlBottom.Controls.Add(best10LapsGridView);
+            best10LapsGridView.Dock = DockStyle.Left;
+            best10LapsGridView.BringToFront();
+
+            pnlMain.Visible = true;
+            pnlRight.Visible = true;
+            pnlBottom.Visible = true;
+            pnlHeader.Visible = true;
+
+            lblRaceLaps.Visible = true;
+            lblRaceLaps.Text = "-";
+
+            lblStageLaps.Visible = true;
+            lblStageLaps.Text = "-";
+
+            picGreenYelllowLapIndicator.Visible = true;
+        }
+
+        private void DisplayInfoScreen()
+        {
+            if (_genericDataGridView != null)
+            {
+                _genericDataGridView.Dispose();
+                _genericDataGridView = null;
+            }
+
+            _genericDataGridView = new DataGridView();
+            pnlMain.Controls.Add(_genericDataGridView);
+            _genericDataGridView.Dock = DockStyle.Fill;
+        }
+
+        #endregion
+
+        #region private [ Display Data ]
+
+        private async Task UpdateUiAsync(bool refreshData = true)
+        {
+            var hasNewData = refreshData || _formState.LiveFeed == null ? await ReadDataAsync() : true;
+
+            List<IGridView> gridViews = new List<IGridView>();
+            gridViews.AddRange(pnlMain.Controls.OfType<IGridView>());
+            gridViews.AddRange(pnlRight.Controls.OfType<IGridView>());
+            gridViews.AddRange(pnlBottom.Controls.OfType<IGridView>());
+
+            foreach (IGridView gridView in gridViews.Where(g => g.IsCustomGrid == false))
+            {
+                switch (gridView.Settings.ApiSource)
+                {
+                    case ApiSources.DriverStatistics:
+                        ((IGridView<rNascar23.DriverStatistics.Models.Driver>)gridView).Data = _formState.EventStatistics.drivers;
+                        break;
+                    case ApiSources.Flags:
+                        ((IGridView<FlagState>)gridView).Data = _formState.FlagStates;
+                        break;
+                    case ApiSources.LapTimes:
+                        ((IGridView<DriverLaps>)gridView).Data = _formState.LapTimes.Drivers;
+                        break;
+                    case ApiSources.LiveFeed:
+                        ((IGridView<LiveFeed>)gridView).Data = new List<LiveFeed>() { _formState.LiveFeed };
+                        break;
+                    case ApiSources.RaceLists:
+                        ((IGridView<Series>)gridView).Data = _formState.SeriesSchedules;
+                        break;
+                    case ApiSources.Vehicles:
+                        ((IGridView<Vehicle>)gridView).Data = _formState.LiveFeed.Vehicles;
+                        break;
+                    case ApiSources.LapAverages:
+                        ((IGridView<LapAverages>)gridView).Data = _formState.LapAverages;
+                        break;
+                    case ApiSources.DriverPoints:
+                        ((IGridView<DriverPoints>)gridView).Data = _formState.LivePoints;
+                        break;
+                    case ApiSources.StagePoints:
+                        ((IGridView<rNascar23.Points.Models.Stage>)gridView).Data = _formState.StagePoints;
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             if (!hasNewData)
                 return;
@@ -1392,246 +1358,6 @@ namespace rNascar23TestApp
 
             pnlBottom.Controls.Add(_eventScheduleDataGridView);
             _eventScheduleDataGridView.Dock = DockStyle.Fill;
-        }
-
-        private void DisplayPracticeViewState()
-        {
-            if (_rightRaceDataGridView != null)
-            {
-                _rightRaceDataGridView.Dispose();
-                _rightRaceDataGridView = null;
-            }
-            _rightRaceDataGridView = BuildPracticeViewGrid();
-            pnlMain.Controls.Add(_rightRaceDataGridView);
-            _rightRaceDataGridView.Width = 850;
-            _rightRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_leftRaceDataGridView != null)
-            {
-                _leftRaceDataGridView.Dispose();
-                _leftRaceDataGridView = null;
-            }
-            _leftRaceDataGridView = BuildPracticeViewGrid();
-            pnlMain.Controls.Add(_leftRaceDataGridView);
-            _leftRaceDataGridView.Width = 850;
-            _leftRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_fastestLapsDataGridView != null)
-            {
-                _fastestLapsDataGridView.Dispose();
-                _fastestLapsDataGridView = null;
-            }
-            _fastestLapsDataGridView = BuildFastestLapsViewGrid();
-            pnlRight.Controls.Add(_fastestLapsDataGridView);
-            _fastestLapsDataGridView.Height = 275;
-            _fastestLapsDataGridView.Dock = DockStyle.Top;
-
-            if (_5LapAverageTimeDataGridView != null)
-            {
-                _5LapAverageTimeDataGridView.Dispose();
-                _5LapAverageTimeDataGridView = null;
-            }
-            _5LapAverageTimeDataGridView = Build5LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_5LapAverageTimeDataGridView);
-            _5LapAverageTimeDataGridView.Width = 275;
-            _5LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _5LapAverageTimeDataGridView.BringToFront();
-
-            if (_10LapAverageTimeDataGridView != null)
-            {
-                _10LapAverageTimeDataGridView.Dispose();
-                _10LapAverageTimeDataGridView = null;
-            }
-            _10LapAverageTimeDataGridView = Build10LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_10LapAverageTimeDataGridView);
-            _10LapAverageTimeDataGridView.Width = 275;
-            _10LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _10LapAverageTimeDataGridView.BringToFront();
-
-            if (_15LapAverageTimeDataGridView != null)
-            {
-                _15LapAverageTimeDataGridView.Dispose();
-                _15LapAverageTimeDataGridView = null;
-            }
-            _15LapAverageTimeDataGridView = Build15LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_15LapAverageTimeDataGridView);
-            _15LapAverageTimeDataGridView.Width = 275;
-            _15LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _15LapAverageTimeDataGridView.BringToFront();
-
-            pnlRight.Visible = true;
-            pnlHeader.Visible = true;
-
-            picGreenYelllowLapIndicator.Visible = false;
-        }
-
-        private void DisplayQualifyingViewState()
-        {
-            if (_rightRaceDataGridView != null)
-            {
-                _rightRaceDataGridView.Dispose();
-                _rightRaceDataGridView = null;
-            }
-            _rightRaceDataGridView = BuildQualifyingViewGrid();
-            pnlMain.Controls.Add(_rightRaceDataGridView);
-            _rightRaceDataGridView.Width = 850;
-            _rightRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_leftRaceDataGridView != null)
-            {
-                _leftRaceDataGridView.Dispose();
-                _leftRaceDataGridView = null;
-            }
-            _leftRaceDataGridView = BuildQualifyingViewGrid();
-            pnlMain.Controls.Add(_leftRaceDataGridView);
-            _leftRaceDataGridView.Width = 850;
-            _leftRaceDataGridView.Dock = DockStyle.Left;
-
-            pnlHeader.Visible = true;
-        }
-
-        private void DisplayRaceViewState()
-        {
-            // main panel
-            if (_rightRaceDataGridView != null)
-            {
-                _rightRaceDataGridView.Dispose();
-                _rightRaceDataGridView = null;
-            }
-            _rightRaceDataGridView = BuildRaceViewGrid();
-            pnlMain.Controls.Add(_rightRaceDataGridView);
-            _rightRaceDataGridView.Width = 835;
-            _rightRaceDataGridView.Dock = DockStyle.Left;
-
-            if (_leftRaceDataGridView != null)
-            {
-                _leftRaceDataGridView.Dispose();
-                _leftRaceDataGridView = null;
-            }
-            _leftRaceDataGridView = BuildRaceViewGrid();
-            pnlMain.Controls.Add(_leftRaceDataGridView);
-            _leftRaceDataGridView.Width = 835;
-            _leftRaceDataGridView.Dock = DockStyle.Left;
-
-            // right panel
-            if (_livePointsDataGridView != null)
-            {
-                _livePointsDataGridView.Dispose();
-                _livePointsDataGridView = null;
-            }
-            _livePointsDataGridView = BuildLivePointsViewGrid();
-            pnlRight.Controls.Add(_livePointsDataGridView);
-            _livePointsDataGridView.Height = 275;
-            _livePointsDataGridView.Dock = DockStyle.Top;
-
-            if (_fastestLapsDataGridView != null)
-            {
-                _fastestLapsDataGridView.Dispose();
-                _fastestLapsDataGridView = null;
-            }
-            _fastestLapsDataGridView = BuildFastestLapsViewGrid();
-            pnlRight.Controls.Add(_fastestLapsDataGridView);
-            _fastestLapsDataGridView.Height = 275;
-            _fastestLapsDataGridView.Dock = DockStyle.Top;
-
-            // bottom panel
-            if (_biggestMoversDataGridView != null)
-            {
-                _biggestMoversDataGridView.Dispose();
-                _biggestMoversDataGridView = null;
-            }
-            _biggestMoversDataGridView = BuildBiggestMoversViewGrid();
-            pnlBottom.Controls.Add(_biggestMoversDataGridView);
-            _biggestMoversDataGridView.Width = 265;
-            _biggestMoversDataGridView.Dock = DockStyle.Left;
-
-            if (_biggestFallersDataGridView != null)
-            {
-                _biggestFallersDataGridView.Dispose();
-                _biggestFallersDataGridView = null;
-            }
-            _biggestFallersDataGridView = BuildBiggestFallersViewGrid();
-            pnlBottom.Controls.Add(_biggestFallersDataGridView);
-            _biggestFallersDataGridView.Width = 265;
-            _biggestFallersDataGridView.Dock = DockStyle.Left;
-
-            if (_cautionsDataGridView != null)
-            {
-                _cautionsDataGridView.Dispose();
-                _cautionsDataGridView = null;
-            }
-            _cautionsDataGridView = BuildCautionsViewGrid();
-            pnlBottom.Controls.Add(_cautionsDataGridView);
-            _cautionsDataGridView.Width = 290;
-            _cautionsDataGridView.Dock = DockStyle.Left;
-            _cautionsDataGridView.BringToFront();
-
-            if (_lapLeadersDataGridView != null)
-            {
-                _lapLeadersDataGridView.Dispose();
-                _lapLeadersDataGridView = null;
-            }
-            _lapLeadersDataGridView = BuildLapLeadersViewGrid();
-            pnlBottom.Controls.Add(_lapLeadersDataGridView);
-            _lapLeadersDataGridView.Width = 275;
-            _lapLeadersDataGridView.Dock = DockStyle.Left;
-            _lapLeadersDataGridView.BringToFront();
-
-            if (_5LapAverageTimeDataGridView != null)
-            {
-                _5LapAverageTimeDataGridView.Dispose();
-                _5LapAverageTimeDataGridView = null;
-            }
-            _5LapAverageTimeDataGridView = Build5LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_5LapAverageTimeDataGridView);
-            _5LapAverageTimeDataGridView.Width = 275;
-            _5LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _5LapAverageTimeDataGridView.BringToFront();
-
-            if (_10LapAverageTimeDataGridView != null)
-            {
-                _10LapAverageTimeDataGridView.Dispose();
-                _10LapAverageTimeDataGridView = null;
-            }
-            _10LapAverageTimeDataGridView = Build10LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_10LapAverageTimeDataGridView);
-            _10LapAverageTimeDataGridView.Width = 275;
-            _10LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _10LapAverageTimeDataGridView.BringToFront();
-
-            if (_15LapAverageTimeDataGridView != null)
-            {
-                _15LapAverageTimeDataGridView.Dispose();
-                _15LapAverageTimeDataGridView = null;
-            }
-            _15LapAverageTimeDataGridView = Build15LapAverageTimeViewGrid();
-            pnlBottom.Controls.Add(_15LapAverageTimeDataGridView);
-            _15LapAverageTimeDataGridView.Width = 275;
-            _15LapAverageTimeDataGridView.Dock = DockStyle.Left;
-            _15LapAverageTimeDataGridView.BringToFront();
-
-            lblRaceLaps.Visible = true;
-            lblRaceLaps.Text = "-";
-
-            lblStageLaps.Visible = true;
-            lblStageLaps.Text = "-";
-
-            picGreenYelllowLapIndicator.Visible = true;
-
-            pnlHeader.Visible = true;
-        }
-
-        private void DisplayInfoViewState()
-        {
-            if (_genericDataGridView != null)
-            {
-                _genericDataGridView.Dispose();
-                _genericDataGridView = null;
-            }
-
-            _genericDataGridView = new DataGridView();
-            pnlMain.Controls.Add(_genericDataGridView);
-            _genericDataGridView.Dock = DockStyle.Fill;
         }
 
         private async Task DisplaySeriesScheduleAsync(ScheduleType seriesType)
@@ -1776,7 +1502,7 @@ namespace rNascar23TestApp
         private async Task DisplayRawVehicleDataAsync()
         {
             if (AutoUpdateTimer.Enabled)
-                SetAutoUpdateStateAsync(false);
+                await SetAutoUpdateStateAsync(false);
 
             if (_viewState != ViewState.Info)
                 SetViewState(ViewState.Info);
@@ -1825,7 +1551,8 @@ namespace rNascar23TestApp
                 lastVehicle = vehicle;
             }
 
-            var bestLapTime = raceVehicles.OrderBy(v => v.LastLap).FirstOrDefault()?.LastLap;
+            var bestLapTime = raceVehicles.Where(v => v.BestLap > 0).OrderBy(v => v.BestLap).FirstOrDefault()?.BestLap;
+            var bestLastLapTime = raceVehicles.Where(v => v.LastLap > 0).OrderBy(v => v.LastLap).FirstOrDefault()?.LastLap;
 
             try
             {
@@ -1852,13 +1579,22 @@ namespace rNascar23TestApp
                             if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                             {
                                 row.Cells[9].Style.BackColor = Color.LimeGreen;
-
-                                // Best lap for driver for the race
-                                if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
-                                {
-                                    row.Cells[8].Style.BackColor = Color.LimeGreen;
-                                }
                             }
+                        }
+
+                        if (bestLastLapTime.HasValue)
+                        {
+                            // Fastest this lap.
+                            if ((float)row.Cells[8].Value == bestLastLapTime && bestLastLapTime > 0)
+                            {
+                                row.Cells[8].Style.BackColor = Color.Green;
+                            }
+                        }
+
+                        // Best lap for driver for the race
+                        if ((float)row.Cells[9].Value == (float)row.Cells[8].Value && (float)row.Cells[8].Value > 0)
+                        {
+                            row.Cells[8].Style.BackColor = Color.LimeGreen;
                         }
 
                         // off track
@@ -1908,12 +1644,22 @@ namespace rNascar23TestApp
                             if ((float)row.Cells[9].Value == bestLapTime && bestLapTime > 0)
                             {
                                 row.Cells[9].Style.BackColor = Color.LimeGreen;
-
-                                if ((float)row.Cells[9].Value == (float)row.Cells[8].Value)
-                                {
-                                    row.Cells[8].Style.BackColor = Color.LimeGreen;
-                                }
                             }
+                        }
+
+                        if (bestLastLapTime.HasValue)
+                        {
+                            // Fastest this lap.
+                            if ((float)row.Cells[8].Value == bestLastLapTime && bestLastLapTime > 0)
+                            {
+                                row.Cells[8].Style.BackColor = Color.Green;
+                            }
+                        }
+
+                        // Best lap for driver for the race
+                        if ((float)row.Cells[9].Value == (float)row.Cells[8].Value && (float)row.Cells[8].Value > 0)
+                        {
+                            row.Cells[8].Style.BackColor = Color.LimeGreen;
                         }
 
                         // off track
@@ -1930,7 +1676,6 @@ namespace rNascar23TestApp
             }
             catch (Exception)
             {
-
                 throw;
             }
             finally
@@ -1939,160 +1684,7 @@ namespace rNascar23TestApp
                     _rightRaceDataGridView.ResumeLayout(false);
             }
 
-            var fastestLaps = _formState.LiveFeed.Vehicles.OrderByDescending(v => v.best_lap_speed).Take(10).Select(v => new FastestLapViewModel()
-            {
-                Driver = v.driver.full_name,
-                Speed = Math.Round(v.best_lap_speed, 3).ToString("N3")
-            }).ToList();
-
-            for (int i = 0; i < fastestLaps.Count; i++)
-            {
-                fastestLaps[i].Position = i + 1;
-            }
-
-            DisplayFastestLaps(fastestLaps);
-
-            DisplayDriverPoints();
-
-            // DisplayBiggestMovers
-
-            var biggestMovers = _formState.LiveFeed.Vehicles.OrderByDescending(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
-            {
-                Driver = v.driver.full_name,
-                Change = v.position_differential_last_10_percent
-            }).ToList();
-
-            for (int i = 0; i < biggestMovers.Count; i++)
-            {
-                biggestMovers[i].Position = i + 1;
-            }
-
-            DisplayBiggestMovers(biggestMovers);
-
-            var biggestFallers = _formState.LiveFeed.Vehicles.OrderBy(v => v.position_differential_last_10_percent).Take(10).Select(v => new PositionChangeViewModel()
-            {
-                Driver = v.driver.full_name,
-                Change = v.position_differential_last_10_percent
-            }).ToList();
-
-            for (int i = 0; i < biggestFallers.Count; i++)
-            {
-                biggestFallers[i].Position = i + 1;
-            }
-
-            DisplayBiggestFallers(biggestFallers);
-
             UpdateGreenYellowLapIndicator();
-
-            DisplayCautionsList();
-
-            DisplayLapLeadersList();
-
-            DisplayBestNLapAverages();
-
-            //DisplayLastNLapAverages();
-        }
-
-        private void DisplayLastNLapAverages()
-        {
-            if (_formState.CurrentSeriesRace == null)
-                return;
-
-            if (_formState.LapTimes == null)
-                return;
-
-            // 5 lap avg time
-            var last5LapTimeAverages = _formState.LapTimes.
-                Drivers.
-                OrderBy(d => d.AverageTimeLast5Laps().GetValueOrDefault(999)).
-                Take(10).
-                Select(d => new LapAverageViewModel()
-                {
-                    Driver = d.FullName,
-                    Average = (float)Math.Round(d.AverageTimeLast5Laps().GetValueOrDefault(999), 3)
-                }).
-                ToList();
-
-            _5LapAverageTimeDataGridView.DataSource = last5LapTimeAverages;
-
-            // 10 lap avg time
-            var last10LapTimeAverages = _formState.LapTimes.
-               Drivers.
-               OrderBy(d => d.AverageTimeLast10Laps().GetValueOrDefault(999)).
-               Take(10).
-               Select(d => new LapAverageViewModel()
-               {
-                   Driver = d.FullName,
-                   Average = (float)Math.Round(d.AverageTimeLast10Laps().GetValueOrDefault(999), 3)
-               }).
-               ToList();
-
-            _10LapAverageTimeDataGridView.DataSource = last10LapTimeAverages;
-
-            // 15 lap avg time
-            var last15LapTimeAverages = _formState.LapTimes.
-               Drivers.
-               OrderBy(d => d.AverageTimeLast15Laps().GetValueOrDefault(999)).
-               Take(10).
-               Select(d => new LapAverageViewModel()
-               {
-                   Driver = d.FullName,
-                   Average = (float)Math.Round(d.AverageTimeLast15Laps().GetValueOrDefault(999), 3)
-               }).
-               ToList();
-
-            _15LapAverageTimeDataGridView.DataSource = last15LapTimeAverages;
-        }
-
-        private void DisplayBestNLapAverages()
-        {
-            if (_formState.CurrentSeriesRace == null)
-                return;
-
-            if (_formState.LapTimes == null)
-                return;
-
-            // 5 lap avg Speed
-            var best5LapTimeAverages = _formState.LapTimes.
-                Drivers.
-                OrderByDescending(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1)).
-                Take(10).
-                Select(d => new LapAverageViewModel()
-                {
-                    Driver = d.FullName,
-                    Average = (float)Math.Round(d.Best5LapAverageSpeed().GetValueOrDefault(-1), 3)
-                }).
-                ToList();
-
-            _5LapAverageTimeDataGridView.DataSource = best5LapTimeAverages;
-
-            // 10 lap avg Speed
-            var best10LapTimeAverages = _formState.LapTimes.
-               Drivers.
-               OrderByDescending(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1)).
-               Take(10).
-               Select(d => new LapAverageViewModel()
-               {
-                   Driver = d.FullName,
-                   Average = (float)Math.Round(d.Best10LapAverageSpeed().GetValueOrDefault(-1), 3)
-               }).
-               ToList();
-
-            _10LapAverageTimeDataGridView.DataSource = best10LapTimeAverages;
-
-            // 15 lap avg Speed
-            var best15LapTimeAverages = _formState.LapTimes.
-               Drivers.
-               OrderByDescending(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1)).
-               Take(10).
-               Select(d => new LapAverageViewModel()
-               {
-                   Driver = d.FullName,
-                   Average = (float)Math.Round(d.Best15LapAverageSpeed().GetValueOrDefault(-1), 3)
-               }).
-               ToList();
-
-            _15LapAverageTimeDataGridView.DataSource = best15LapTimeAverages;
         }
 
         private void DisplayHeaderData()
@@ -2118,7 +1710,10 @@ namespace rNascar23TestApp
 
                 DisplayRaceLaps(_formState.LiveFeed.LapNumber, _formState.LiveFeed.LapsInRace);
 
-                DisplayStageLaps(_formState.LiveFeed.Stage.Number, _formState.LiveFeed.LapNumber, _formState.LiveFeed.Stage.FinishAtLap, _formState.LiveFeed.Stage.LapsInStage);
+                var stageNumber = _formState.LiveFeed.LapNumber >= _lapStates.Stage1Laps + _lapStates.Stage2Laps ?
+                    3 : _formState.LiveFeed.LapNumber >= _lapStates.Stage1Laps ? 2 : 1;
+
+                DisplayStageLaps(stageNumber, _formState.LiveFeed.LapNumber, _formState.LiveFeed.Stage.FinishAtLap, _formState.LiveFeed.Stage.LapsInStage);
             }
             else
             {
@@ -2147,86 +1742,6 @@ namespace rNascar23TestApp
             var stageStartLap = stageFinishAtLap - lapsInStage;
 
             lblStageLaps.Text = $"Stage {stageNumber}: Lap {lapNumber - stageStartLap} of {lapsInStage}";
-        }
-
-        private void DisplayFastestLaps(IList<FastestLapViewModel> laps)
-        {
-            _fastestLaps = laps;
-
-            if (_fastestLapsDataGridView != null && _fastestLapsDataGridView.DataSource == null)
-                _fastestLapsDataGridView.DataSource = _fastestLaps;
-        }
-
-        private void DisplayDriverPoints()
-        {
-            if (_livePointsDataGridView != null && _livePointsDataGridView.DataSource == null)
-                _livePointsDataGridView.DataSource = _formState.LivePoints.
-                    Select(p => new DriverPointsViewModel()
-                    {
-                        Position = p.points_position,
-                        Driver = p.Driver,
-                        Points = p.points,
-                        Bonus = p.bonus_points
-                    }).OrderBy(p => p.Position).ToList();
-        }
-
-        private void DisplayBiggestMovers(IList<PositionChangeViewModel> biggestMovers)
-        {
-            _biggestMovers = biggestMovers;
-
-            if (_biggestMoversDataGridView != null && _biggestMoversDataGridView.DataSource == null)
-                _biggestMoversDataGridView.DataSource = _biggestMovers;
-        }
-
-        private void DisplayBiggestFallers(IList<PositionChangeViewModel> biggestFallers)
-        {
-            _biggestFallers = biggestFallers;
-
-            if (_biggestFallersDataGridView != null && _biggestFallersDataGridView.DataSource == null)
-                _biggestFallersDataGridView.DataSource = _biggestFallers;
-        }
-
-        private void DisplayCautionsList()
-        {
-            if (_cautionsDataGridView == null)
-                return;
-
-            IList<CautionFlagViewModel> cautions = new List<CautionFlagViewModel>();
-
-            foreach (var item in _formState.FlagStates.Where(f => f.State == 2).OrderBy(f => f.LapNumber))
-            {
-                var caution = new CautionFlagViewModel()
-                {
-                    LapNumber = item.LapNumber,
-                    Comment = item.Comment,
-                    Beneficiary = item.Beneficiary,
-                };
-
-                cautions.Add(caution);
-            }
-
-            _cautionsDataGridView.DataSource = cautions;
-        }
-
-        private void DisplayLapLeadersList()
-        {
-            if (_lapLeadersDataGridView == null)
-                return;
-
-            IList<LapLeaderViewModel> lapLeaders = new List<LapLeaderViewModel>();
-
-            foreach (var lapLedLeader in _formState.LiveFeed.Vehicles.Where(v => v.laps_led.Length > 0))
-            {
-                var lapLeader = new LapLeaderViewModel()
-                {
-                    Driver = lapLedLeader.driver.full_name,
-                    Laps = lapLedLeader.laps_led.Sum(l => l.end_lap - l.start_lap) + 1
-                };
-
-                lapLeaders.Add(lapLeader);
-            }
-
-            _lapLeadersDataGridView.DataSource = lapLeaders.OrderByDescending(l => l.Laps).ToList();
         }
 
         private void UpdateGreenYellowLapIndicator()
@@ -2261,6 +1776,18 @@ namespace rNascar23TestApp
                 }
             }
 
+            // Add one for current flag state
+            _lapStates.LapSegments.Add(new LapStateViewModel.LapSegment
+            {
+                StartLapNumber = lap,
+                Laps = _formState.LiveFeed.LapNumber - lap,
+                Stage = lap >= _lapStates.Stage1Laps + _lapStates.Stage2Laps ?
+                            3 : lap >= _lapStates.Stage1Laps ?
+                            2 :
+                            1,
+                FlagState = previousFlagState
+            });
+
             if (lap == (_lapStates.Stage1Laps + _lapStates.Stage2Laps + _lapStates.Stage3Laps - 1))
             {
                 var lastLapSegment = new LapStateViewModel.LapSegment
@@ -2294,7 +1821,7 @@ namespace rNascar23TestApp
             dialog.ShowDialog();
         }
 
-        private void DisplayCustomGridsView()
+        private async Task DisplayCustomGridsViewAsync()
         {
             var service = Program.Services.GetRequiredService<CustomViewSettingsService>();
             _customGridSettings = service.GetCustomViewSettings();
@@ -2303,7 +1830,7 @@ namespace rNascar23TestApp
 
             _gridViews = factory.GetCustomGridViews(_customGridSettings);
 
-            SetViewState(ViewState.None, true);
+            await SetViewStateAsync(ViewState.None, true);
 
             foreach (var customGridView in _gridViews.OrderBy(g => g.Settings.Location).ThenBy(g => g.Settings.DisplayOrder))
             {
@@ -2350,7 +1877,7 @@ namespace rNascar23TestApp
                     case ApiSources.DriverStatistics:
                         if (_formState.EventStatistics != null && _formState.EventStatistics.drivers != null)
                         {
-                            var driversDataSource = new DataSource<rNascar23.DriverStatistics.Models.Driver>()
+                            var driversDataSource = new GridViewDataSource<rNascar23.DriverStatistics.Models.Driver>()
                             {
                                 Values = _formState.EventStatistics.drivers
                             };
@@ -2358,14 +1885,14 @@ namespace rNascar23TestApp
                         }
                         break;
                     case ApiSources.Flags:
-                        var flagsDataSource = new DataSource<FlagState>()
+                        var flagsDataSource = new GridViewDataSource<FlagState>()
                         {
                             Values = _formState.FlagStates
                         };
                         gridView.SetDataSource(flagsDataSource);
                         break;
                     case ApiSources.LapTimes:
-                        var lapsDataSource = new DataSource<LapDetails>()
+                        var lapsDataSource = new GridViewDataSource<LapDetails>()
                         {
                             Values = _formState.LapTimes.Drivers.SelectMany(d => d.Laps).ToList()
                         };
@@ -2373,28 +1900,28 @@ namespace rNascar23TestApp
                         break;
 
                     case ApiSources.LapAverages:
-                        var lapAveragesDataSource = new DataSource<LapAverages>()
+                        var lapAveragesDataSource = new GridViewDataSource<LapAverages>()
                         {
                             Values = _formState.LapAverages.ToList()
                         };
                         gridView.SetDataSource(lapAveragesDataSource);
                         break;
                     case ApiSources.LiveFeed:
-                        var liveFeedDataSource = new DataSource<LiveFeed>()
+                        var liveFeedDataSource = new GridViewDataSource<LiveFeed>()
                         {
                             Values = new List<LiveFeed>() { _formState.LiveFeed }
                         };
                         gridView.SetDataSource(liveFeedDataSource);
                         break;
                     case ApiSources.RaceLists:
-                        var schedulesDataSource = new DataSource<Series>()
+                        var schedulesDataSource = new GridViewDataSource<Series>()
                         {
                             Values = _formState.SeriesSchedules
                         };
                         gridView.SetDataSource(schedulesDataSource);
                         break;
                     case ApiSources.Vehicles:
-                        var vehicleDataSource = new DataSource<Vehicle>()
+                        var vehicleDataSource = new GridViewDataSource<Vehicle>()
                         {
                             Values = _formState.LiveFeed.Vehicles
                         };
@@ -2472,9 +1999,9 @@ namespace rNascar23TestApp
 
         private void SetViewState(ViewState newViewState)
         {
-            SetViewState(newViewState, false);
+            SetViewStateAsync(newViewState, false);
         }
-        private void SetViewState(ViewState newViewState, bool forceRefresh = false)
+        private async Task SetViewStateAsync(ViewState newViewState, bool forceRefresh = false)
         {
             if (newViewState == _viewState && forceRefresh == false)
                 return;
@@ -2484,6 +2011,8 @@ namespace rNascar23TestApp
             _viewState = newViewState;
 
             lblViewState.Text = $"View: {_viewState}";
+
+            await UpdateUiAsync(false);
         }
 
         private void SetUiView(ViewState viewState)
@@ -2495,16 +2024,16 @@ namespace rNascar23TestApp
                 case ViewState.None:
                     break;
                 case ViewState.Practice:
-                    DisplayPracticeViewState();
+                    DisplayPracticeScreen();
                     break;
                 case ViewState.Qualifying:
-                    DisplayQualifyingViewState();
+                    DisplayQualifyingScreen();
                     break;
                 case ViewState.Race:
-                    DisplayRaceViewState();
+                    DisplayRaceScreen();
                     break;
                 case ViewState.Info:
-                    DisplayInfoViewState();
+                    DisplayInfoScreen();
                     break;
                 case ViewState.SeriesSchedule:
                     DisplaySeriesScheduleViewState();

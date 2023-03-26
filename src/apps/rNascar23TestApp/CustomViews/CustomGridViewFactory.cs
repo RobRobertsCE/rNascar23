@@ -37,7 +37,7 @@ namespace rNascar23TestApp.CustomViews
 
             try
             {
-                foreach (GridSettings customGridSetting in customGridSettings)
+                foreach (GridSettings customGridSetting in customGridSettings.Where(g => g.Enabled))
                 {
                     var customGridView = GetCustomGridView(customGridSetting);
 
@@ -81,7 +81,7 @@ namespace rNascar23TestApp.CustomViews
                     }
                     dgvc.HeaderText = columnSettings.HeaderTitle;
 
-                    customGridView.Grid.Columns.Add(dgvc);  
+                    customGridView.Grid.Columns.Add(dgvc);
                 }
 
                 customGridView.Settings = customGridSettings;

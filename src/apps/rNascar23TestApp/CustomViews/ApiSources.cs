@@ -8,6 +8,8 @@
         LiveFeed,
         RaceLists,
         Vehicles,
-        LapAverages
+        LapAverages,
+        DriverPoints,
+        StagePoints
     }
 }

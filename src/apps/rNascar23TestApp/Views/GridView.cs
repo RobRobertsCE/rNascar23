@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
@@ -14,8 +12,9 @@ using System.Windows.Markup;
 
 namespace rNascar23TestApp.Views
 {
-    public partial class GridView : UserControl
+    public partial class GridView : UserControl, IGridView
     {
+        public bool IsCustomGrid { get; set; } = true;
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
@@ -25,7 +24,7 @@ namespace rNascar23TestApp.Views
             InitializeComponent();
         }
 
-        public void SetDataSource<T>(DataSource<T> source)
+        public void SetDataSource<T>(GridViewDataSource<T> source)
         {
             var dataTable = source.ToDataTable();
 
@@ -52,45 +51,13 @@ namespace rNascar23TestApp.Views
             }
         }
 
-      
-
-        public void ResetDataBindings()
+        public void RefreshBindings()
         {
-            GridBindingSource.ResetBindings(false);
+            RefreshBindings(false);
         }
-    }
-
-    public class DataSource<T>
-    {
-        public IList<T> Values { get; set; }
-
-        public DataTable ToDataTable()
+        public void RefreshBindings(bool metadataChanged)
         {
-            List<T> items = (List<T>)Values.ToList();
-
-            DataTable dataTable = new DataTable(typeof(T).Name);
-
-            //Get all the properties
-            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo prop in Props)
-            {
-                //Defining type of data column gives proper data table 
-                var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
-                //Setting column names as Property names
-                dataTable.Columns.Add(prop.Name, type);
-            }
-            foreach (T item in items)
-            {
-                var values = new object[Props.Length];
-                for (int i = 0; i < Props.Length; i++)
-                {
-                    //inserting property values to datatable rows
-                    values[i] = Props[i].GetValue(item, null);
-                }
-                dataTable.Rows.Add(values);
-            }
-            //put a breakpoint here and check datatable
-            return dataTable;
+            GridBindingSource.ResetBindings(metadataChanged);
         }
     }
 }

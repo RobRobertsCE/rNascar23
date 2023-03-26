@@ -8,6 +8,7 @@ namespace rNascar23TestApp.CustomViews
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public bool Enabled { get; set; } = true;
         public ApiSources ApiSource { get; set; }
         public string Title { get; set; }
         public GridLocations Location { get; set; }

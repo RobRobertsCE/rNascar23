@@ -65,6 +65,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.infoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customViewEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -89,7 +90,6 @@
             this.todayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
-            this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -107,7 +107,7 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 49);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1292, 97);
+            this.pnlHeader.Size = new System.Drawing.Size(1292, 76);
             this.pnlHeader.TabIndex = 2;
             // 
             // panel1
@@ -119,25 +119,25 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1292, 42);
+            this.panel1.Size = new System.Drawing.Size(1292, 22);
             this.panel1.TabIndex = 15;
             // 
             // lblEventName
             // 
             this.lblEventName.AutoSize = true;
             this.lblEventName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEventName.Location = new System.Drawing.Point(3, 10);
+            this.lblEventName.Location = new System.Drawing.Point(3, 0);
             this.lblEventName.Name = "lblEventName";
-            this.lblEventName.Size = new System.Drawing.Size(15, 20);
+            this.lblEventName.Size = new System.Drawing.Size(114, 20);
             this.lblEventName.TabIndex = 11;
-            this.lblEventName.Text = "-";
+            this.lblEventName.Text = "<Event Title>";
             // 
             // lblStageLaps
             // 
             this.lblStageLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStageLaps.AutoSize = true;
             this.lblStageLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStageLaps.Location = new System.Drawing.Point(1090, 12);
+            this.lblStageLaps.Location = new System.Drawing.Point(1090, 2);
             this.lblStageLaps.Name = "lblStageLaps";
             this.lblStageLaps.Size = new System.Drawing.Size(102, 16);
             this.lblStageLaps.TabIndex = 13;
@@ -149,7 +149,7 @@
             this.lblRaceLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRaceLaps.AutoSize = true;
             this.lblRaceLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRaceLaps.Location = new System.Drawing.Point(879, 12);
+            this.lblRaceLaps.Location = new System.Drawing.Point(879, 2);
             this.lblRaceLaps.Name = "lblRaceLaps";
             this.lblRaceLaps.Size = new System.Drawing.Size(98, 16);
             this.lblRaceLaps.TabIndex = 12;
@@ -162,7 +162,7 @@
             this.pnlFlagGreenYellow.Controls.Add(this.picStatus);
             this.pnlFlagGreenYellow.Controls.Add(this.picGreenYelllowLapIndicator);
             this.pnlFlagGreenYellow.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlFlagGreenYellow.Location = new System.Drawing.Point(0, 38);
+            this.pnlFlagGreenYellow.Location = new System.Drawing.Point(0, 17);
             this.pnlFlagGreenYellow.Name = "pnlFlagGreenYellow";
             this.pnlFlagGreenYellow.Padding = new System.Windows.Forms.Padding(2);
             this.pnlFlagGreenYellow.Size = new System.Drawing.Size(1292, 59);
@@ -175,18 +175,18 @@
             this.picStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picStatus.Location = new System.Drawing.Point(2, 2);
             this.picStatus.Name = "picStatus";
-            this.picStatus.Size = new System.Drawing.Size(1288, 29);
+            this.picStatus.Size = new System.Drawing.Size(1288, 35);
             this.picStatus.TabIndex = 8;
             this.picStatus.TabStop = false;
             // 
             // picGreenYelllowLapIndicator
             // 
-            this.picGreenYelllowLapIndicator.BackColor = System.Drawing.Color.DimGray;
+            this.picGreenYelllowLapIndicator.BackColor = System.Drawing.Color.Gray;
             this.picGreenYelllowLapIndicator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picGreenYelllowLapIndicator.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.picGreenYelllowLapIndicator.Location = new System.Drawing.Point(2, 31);
+            this.picGreenYelllowLapIndicator.Location = new System.Drawing.Point(2, 37);
             this.picGreenYelllowLapIndicator.Name = "picGreenYelllowLapIndicator";
-            this.picGreenYelllowLapIndicator.Size = new System.Drawing.Size(1288, 26);
+            this.picGreenYelllowLapIndicator.Size = new System.Drawing.Size(1288, 20);
             this.picGreenYelllowLapIndicator.TabIndex = 9;
             this.picGreenYelllowLapIndicator.TabStop = false;
             this.picGreenYelllowLapIndicator.Paint += new System.Windows.Forms.PaintEventHandler(this.picGreenYelllowLapIndicator_Paint);
@@ -354,47 +354,54 @@
             // noneToolStripMenuItem
             // 
             this.noneToolStripMenuItem.Name = "noneToolStripMenuItem";
-            this.noneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.noneToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.noneToolStripMenuItem.Text = "None";
             this.noneToolStripMenuItem.Click += new System.EventHandler(this.noneToolStripMenuItem_Click);
             // 
             // practiceToolStripMenuItem
             // 
             this.practiceToolStripMenuItem.Name = "practiceToolStripMenuItem";
-            this.practiceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.practiceToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.practiceToolStripMenuItem.Text = "Practice";
             this.practiceToolStripMenuItem.Click += new System.EventHandler(this.practiceToolStripMenuItem_Click);
             // 
             // qualifyingToolStripMenuItem
             // 
             this.qualifyingToolStripMenuItem.Name = "qualifyingToolStripMenuItem";
-            this.qualifyingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.qualifyingToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.qualifyingToolStripMenuItem.Text = "Qualifying";
             this.qualifyingToolStripMenuItem.Click += new System.EventHandler(this.qualifyingToolStripMenuItem_Click);
             // 
             // raceToolStripMenuItem
             // 
             this.raceToolStripMenuItem.Name = "raceToolStripMenuItem";
-            this.raceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.raceToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.raceToolStripMenuItem.Text = "Race";
             this.raceToolStripMenuItem.Click += new System.EventHandler(this.raceToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(126, 6);
             // 
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.infoToolStripMenuItem.Text = "Info";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(126, 6);
+            // 
+            // logFileToolStripMenuItem
+            // 
+            this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.logFileToolStripMenuItem.Text = "Log File";
+            this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -407,7 +414,7 @@
             // customViewEditorToolStripMenuItem
             // 
             this.customViewEditorToolStripMenuItem.Name = "customViewEditorToolStripMenuItem";
-            this.customViewEditorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.customViewEditorToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.customViewEditorToolStripMenuItem.Text = "&Custom View Editor";
             this.customViewEditorToolStripMenuItem.Click += new System.EventHandler(this.customViewEditorToolStripMenuItem_Click);
             // 
@@ -449,21 +456,22 @@
             this.pnlMain.BackColor = System.Drawing.Color.DimGray;
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Location = new System.Drawing.Point(0, 146);
+            this.pnlMain.Location = new System.Drawing.Point(0, 125);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlMain.Size = new System.Drawing.Size(1032, 440);
+            this.pnlMain.Size = new System.Drawing.Size(1292, 720);
             this.pnlMain.TabIndex = 6;
             // 
             // pnlBottom
             // 
+            this.pnlBottom.AutoScroll = true;
             this.pnlBottom.BackColor = System.Drawing.Color.DimGray;
             this.pnlBottom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 586);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 471);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlBottom.Size = new System.Drawing.Size(1292, 259);
+            this.pnlBottom.Size = new System.Drawing.Size(1032, 374);
             this.pnlBottom.TabIndex = 7;
             // 
             // pnlRight
@@ -471,10 +479,10 @@
             this.pnlRight.BackColor = System.Drawing.Color.DimGray;
             this.pnlRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(1032, 146);
+            this.pnlRight.Location = new System.Drawing.Point(1032, 125);
             this.pnlRight.Name = "pnlRight";
             this.pnlRight.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlRight.Size = new System.Drawing.Size(260, 440);
+            this.pnlRight.Size = new System.Drawing.Size(260, 720);
             this.pnlRight.TabIndex = 8;
             // 
             // toolStrip1
@@ -607,21 +615,14 @@
             this.btnCustomGridsView.Text = "Custom Views";
             this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
             // 
-            // logFileToolStripMenuItem
-            // 
-            this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.logFileToolStripMenuItem.Text = "Log File";
-            this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1292, 869);
-            this.Controls.Add(this.pnlMain);
-            this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlBottom);
+            this.Controls.Add(this.pnlRight);
+            this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.pnlHeader);
             this.Controls.Add(this.toolStrip1);
@@ -630,6 +631,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "rNASCAR23";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.pnlHeader.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
