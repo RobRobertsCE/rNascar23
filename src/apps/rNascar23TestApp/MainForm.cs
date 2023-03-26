@@ -35,6 +35,7 @@ namespace rNascar23TestApp
         #region consts
 
         private const string LogFileName = "rNascar23Log.{0}.txt";
+        private const string BackupFolderName = "rNascar23\\Backups\\";
 
         #endregion
 
@@ -617,6 +618,30 @@ namespace rNascar23TestApp
             try
             {
                 DisplayLogFile();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private void backupCustomViewsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BackupCustomViews();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private void importCustomViewsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ImportCustomViews();
             }
             catch (Exception ex)
             {
@@ -2090,6 +2115,65 @@ namespace rNascar23TestApp
 
             lblEventName.Text = "-";
             pnlHeader.Visible = false;
+        }
+
+        private void BackupCustomViews()
+        {
+            var backupFolder = GetDefaultBackupPath();
+
+            var backupFileName = $"CustomViews {DateTime.Now.ToString("yyyy-MM-dd HH-mm-tt")} Backup.json";
+
+            var dialog = new SaveFileDialog()
+            {
+                FileName = backupFileName,
+                Filter = "Backup file (*Backup.json)|*Backup.json|All Files (*.*)|*.*",
+                FilterIndex = 1,
+                DefaultExt = ".json",
+                InitialDirectory = backupFolder,
+                Title = "Backup Custom Views"
+            };
+
+            var result = dialog.ShowDialog(this);
+
+            if (result == DialogResult.OK)
+            {
+                File.Copy(CustomViewSettingsService.CustomViewsFile, dialog.FileName);
+            }
+        }
+
+        private void ImportCustomViews()
+        {
+            var backupFolder = GetDefaultBackupPath();
+
+            var dialog = new OpenFileDialog()
+            {
+                Filter = "Backup file (*Backup.json)|*Backup.json|All Files (*.*)|*.*",
+                FilterIndex = 1,
+                DefaultExt = ".json",
+                InitialDirectory = backupFolder,
+                Title = "Backup Custom Views"
+            };
+
+            var result = dialog.ShowDialog(this);
+
+            if (result == DialogResult.OK)
+            {
+                File.Copy(dialog.FileName, CustomViewSettingsService.CustomViewsFile, true);
+            }
+        }
+
+        private string GetDefaultBackupPath()
+        {
+            var myDocumentsFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\\";
+
+            var backupFolderPath = Path.Combine(myDocumentsFolder, BackupFolderName);
+
+            if (!Directory.Exists(backupFolderPath))
+            {
+                Directory.CreateDirectory(backupFolderPath);
+            }
+
+            return backupFolderPath;
         }
 
         #endregion

@@ -18,6 +18,18 @@ namespace rNascar23TestApp.CustomViews
 
         #endregion
 
+        #region properties
+
+        public static string CustomViewsFile
+        {
+            get
+            {
+                return GetCustomViewFilePath();
+            }
+        }
+
+        #endregion
+
         #region fields
 
         private readonly ILogger<CustomViewSettingsService> _logger = null;
@@ -96,7 +108,7 @@ namespace rNascar23TestApp.CustomViews
             return customGridSettings;
         }
 
-        protected virtual string GetCustomViewFilePath()
+        protected static string GetCustomViewFilePath()
         {
             string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
