@@ -1222,6 +1222,11 @@ namespace rNascar23TestApp
             lapLeadersGridView.Dock = DockStyle.Top;
             lapLeadersGridView.BringToFront();
 
+            StagePointsGridView stagePointsGridView = new StagePointsGridView();
+            pnlRight.Controls.Add(stagePointsGridView);
+            stagePointsGridView.Dock = DockStyle.Top;
+            stagePointsGridView.BringToFront();
+
             // bottom panel
             DriverPointsGridView driverPointsGridView = new DriverPointsGridView();
             pnlBottom.Controls.Add(driverPointsGridView);
@@ -1287,6 +1292,14 @@ namespace rNascar23TestApp
         {
             var hasNewData = refreshData || _formState.LiveFeed == null ? await ReadDataAsync() : true;
 
+            if (_formState.LiveFeed == null)
+                return;
+
+            if (_viewState == ViewState.None)
+            {
+                SetViewState((ViewState)_formState.LiveFeed.RunType);
+            }
+
             List<IGridView> gridViews = new List<IGridView>();
             gridViews.AddRange(pnlMain.Controls.OfType<IGridView>());
             gridViews.AddRange(pnlRight.Controls.OfType<IGridView>());
@@ -1321,7 +1334,7 @@ namespace rNascar23TestApp
                         ((IGridView<DriverPoints>)gridView).Data = _formState.LivePoints;
                         break;
                     case ApiSources.StagePoints:
-                        ((IGridView<rNascar23.Points.Models.Stage>)gridView).Data = _formState.StagePoints;
+                        ((IGridView<rNascar23.Points.Models.Stage>)gridView).Data = GetCurrentStagePoints();
                         break;
                     default:
                         break;
@@ -1336,6 +1349,19 @@ namespace rNascar23TestApp
             DisplayVehicleData();
 
             await SetCustomGridViewDataAsync();
+        }
+
+        private IList<rNascar23.Points.Models.Stage> GetCurrentStagePoints()
+        {
+            if (_formState.LiveFeed == null)
+                return new List<rNascar23.Points.Models.Stage>();
+
+            var stage = _formState.StagePoints.FirstOrDefault(s => s.race_id == _formState.LiveFeed.RaceId && s.run_id == _formState.LiveFeed.RunId && s.stage_number == _formState.LiveFeed.Stage.Number);
+
+            if (stage == null)
+                return new List<rNascar23.Points.Models.Stage>();
+            else
+                return new List<rNascar23.Points.Models.Stage>() { stage };
         }
 
         private async Task DisplayDriverStatisticsAsync()

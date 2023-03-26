@@ -1,6 +1,6 @@
 ﻿namespace rNascar23TestApp.Views
 {
-    partial class MoversFallersGridView
+    partial class StagePointsGridView
     {
         /// <summary> 
         /// Required designer variable.
@@ -42,32 +42,32 @@
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grid.Location = new System.Drawing.Point(0, 25);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(401, 410);
-            this.Grid.TabIndex = 7;
+            this.Grid.Size = new System.Drawing.Size(359, 307);
+            this.Grid.TabIndex = 9;
             this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Grid_RowsAdded);
             // 
             // TitleLabel
             // 
-            this.TitleLabel.BackColor = System.Drawing.Color.DarkGreen;
+            this.TitleLabel.BackColor = System.Drawing.Color.LemonChiffon;
             this.TitleLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.TitleLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleLabel.ForeColor = System.Drawing.Color.White;
+            this.TitleLabel.ForeColor = System.Drawing.Color.Black;
             this.TitleLabel.Location = new System.Drawing.Point(0, 0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(401, 25);
-            this.TitleLabel.TabIndex = 6;
-            this.TitleLabel.Text = "Biggest Movers";
+            this.TitleLabel.Size = new System.Drawing.Size(359, 25);
+            this.TitleLabel.TabIndex = 8;
+            this.TitleLabel.Text = "Stage Points";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // MoversFallersGridView
+            // StagePointsGridView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.TitleLabel);
-            this.Name = "MoversFallersGridView";
-            this.Size = new System.Drawing.Size(401, 435);
+            this.Name = "StagePointsGridView";
+            this.Size = new System.Drawing.Size(359, 332);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
             this.ResumeLayout(false);

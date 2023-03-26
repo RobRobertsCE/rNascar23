@@ -44,6 +44,7 @@
             this.Grid.Name = "Grid";
             this.Grid.Size = new System.Drawing.Size(447, 240);
             this.Grid.TabIndex = 5;
+            this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Grid_RowsAdded);
             // 
             // TitleLabel
             // 
