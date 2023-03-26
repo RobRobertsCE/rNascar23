@@ -107,7 +107,7 @@ namespace rNascar23.LapTimes.Models
 
                 for (int i = 0; i < Laps.Count - range; i++)
                 {
-                    var rangeAverage = Laps.Where(l => l.Lap > 0).Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
+                    var rangeAverage = Laps.Where(l => !string.IsNullOrEmpty(l.LapSpeed) && l.Lap > 0).Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
 
                     if (rangeAverage > maxAverage)
                     {
