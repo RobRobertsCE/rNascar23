@@ -68,6 +68,9 @@
             this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customViewEditorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
+            this.backupCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblAutoUpdateStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewState = new System.Windows.Forms.ToolStripStatusLabel();
@@ -90,9 +93,6 @@
             this.todayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
-            this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
-            this.backupCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -357,52 +357,52 @@
             // noneToolStripMenuItem
             // 
             this.noneToolStripMenuItem.Name = "noneToolStripMenuItem";
-            this.noneToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.noneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.noneToolStripMenuItem.Text = "None";
             this.noneToolStripMenuItem.Click += new System.EventHandler(this.noneToolStripMenuItem_Click);
             // 
             // practiceToolStripMenuItem
             // 
             this.practiceToolStripMenuItem.Name = "practiceToolStripMenuItem";
-            this.practiceToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.practiceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.practiceToolStripMenuItem.Text = "Practice";
             this.practiceToolStripMenuItem.Click += new System.EventHandler(this.practiceToolStripMenuItem_Click);
             // 
             // qualifyingToolStripMenuItem
             // 
             this.qualifyingToolStripMenuItem.Name = "qualifyingToolStripMenuItem";
-            this.qualifyingToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.qualifyingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.qualifyingToolStripMenuItem.Text = "Qualifying";
             this.qualifyingToolStripMenuItem.Click += new System.EventHandler(this.qualifyingToolStripMenuItem_Click);
             // 
             // raceToolStripMenuItem
             // 
             this.raceToolStripMenuItem.Name = "raceToolStripMenuItem";
-            this.raceToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.raceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.raceToolStripMenuItem.Text = "Race";
             this.raceToolStripMenuItem.Click += new System.EventHandler(this.raceToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(126, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // infoToolStripMenuItem
             // 
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.infoToolStripMenuItem.Text = "Info";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(126, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
             // 
             // logFileToolStripMenuItem
             // 
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logFileToolStripMenuItem.Text = "Log File";
             this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
@@ -423,6 +423,25 @@
             this.customViewEditorToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.customViewEditorToolStripMenuItem.Text = "&Custom View Editor";
             this.customViewEditorToolStripMenuItem.Click += new System.EventHandler(this.customViewEditorToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(188, 6);
+            // 
+            // backupCustomViewsToolStripMenuItem
+            // 
+            this.backupCustomViewsToolStripMenuItem.Name = "backupCustomViewsToolStripMenuItem";
+            this.backupCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.backupCustomViewsToolStripMenuItem.Text = "Backup Custom Views";
+            this.backupCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.backupCustomViewsToolStripMenuItem_Click);
+            // 
+            // importCustomViewsToolStripMenuItem
+            // 
+            this.importCustomViewsToolStripMenuItem.Name = "importCustomViewsToolStripMenuItem";
+            this.importCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.importCustomViewsToolStripMenuItem.Text = "Import Custom Views";
+            this.importCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.importCustomViewsToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -620,25 +639,6 @@
             this.btnCustomGridsView.Size = new System.Drawing.Size(86, 22);
             this.btnCustomGridsView.Text = "Custom Views";
             this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
-            // 
-            // toolStripMenuItem7
-            // 
-            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
-            this.toolStripMenuItem7.Size = new System.Drawing.Size(188, 6);
-            // 
-            // backupCustomViewsToolStripMenuItem
-            // 
-            this.backupCustomViewsToolStripMenuItem.Name = "backupCustomViewsToolStripMenuItem";
-            this.backupCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.backupCustomViewsToolStripMenuItem.Text = "Backup Custom Views";
-            this.backupCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.backupCustomViewsToolStripMenuItem_Click);
-            // 
-            // importCustomViewsToolStripMenuItem
-            // 
-            this.importCustomViewsToolStripMenuItem.Name = "importCustomViewsToolStripMenuItem";
-            this.importCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.importCustomViewsToolStripMenuItem.Text = "Import Custom Views";
-            this.importCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.importCustomViewsToolStripMenuItem_Click);
             // 
             // MainForm
             // 
