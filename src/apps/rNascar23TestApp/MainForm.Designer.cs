@@ -71,6 +71,7 @@
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
             this.backupCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importCustomViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dumdStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblAutoUpdateStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewState = new System.Windows.Forms.ToolStripStatusLabel();
@@ -93,7 +94,6 @@
             this.todayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
-            this.dumdStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -445,6 +445,13 @@
             this.importCustomViewsToolStripMenuItem.Text = "Import Custom Views";
             this.importCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.importCustomViewsToolStripMenuItem_Click);
             // 
+            // dumdStateToolStripMenuItem
+            // 
+            this.dumdStateToolStripMenuItem.Name = "dumdStateToolStripMenuItem";
+            this.dumdStateToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.dumdStateToolStripMenuItem.Text = "Dump State";
+            this.dumdStateToolStripMenuItem.Click += new System.EventHandler(this.dumpStateToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -641,13 +648,6 @@
             this.btnCustomGridsView.Size = new System.Drawing.Size(86, 22);
             this.btnCustomGridsView.Text = "Custom Views";
             this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
-            // 
-            // dumdStateToolStripMenuItem
-            // 
-            this.dumdStateToolStripMenuItem.Name = "dumdStateToolStripMenuItem";
-            this.dumdStateToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.dumdStateToolStripMenuItem.Text = "Dumd State";
-            this.dumdStateToolStripMenuItem.Click += new System.EventHandler(this.dumpStateToolStripMenuItem_Click);
             // 
             // MainForm
             // 

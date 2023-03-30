@@ -2024,6 +2024,8 @@ namespace rNascar23TestApp
 
                 _logger.LogError(ex, errorMessage);
             }
+
+            DumpState();
         }
 
         private async Task SetAutoUpdateStateAsync(bool isEnabled)
@@ -2209,14 +2211,32 @@ namespace rNascar23TestApp
         {
             try
             {
-                var json = JsonConvert.SerializeObject(_formState);
+                var fileName = DumpState();
 
-                File.WriteAllText("Dump.json", json);
+                MessageBox.Show($"Dumped state data to {fileName}");
             }
             catch (Exception ex)
             {
                 ExceptionHandler(ex);
             }
+        }
+        private string DumpState()
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(_formState, Formatting.Indented);
+
+                var fileName = $"Dump {DateTime.Now.ToString("yyyy-MM-dd HHmmss.fff")}.json";
+
+                File.WriteAllText(fileName, json);
+
+                return fileName;
+            }
+            catch (Exception)
+            {
+            }
+
+            return string.Empty;
         }
     }
 }
