@@ -278,6 +278,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Best5Laps:
                     return data.
                         OrderBy(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1)).
+                        Where(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -289,6 +290,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Best10Laps:
                     return data.
                         OrderBy(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1)).
+                        Where(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -300,6 +302,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Best15Laps:
                     return data.
                         OrderBy(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1)).
+                        Where(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -311,17 +314,19 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Last5Laps:
                     return data.
                         OrderBy(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1)).
+                        Where(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
                             Driver = d.FullName,
-                            Average = (float)Math.Round(d.AverageSpeedLast10Laps().GetValueOrDefault(-1), 3)
+                            Average = (float)Math.Round(d.AverageSpeedLast5Laps().GetValueOrDefault(-1), 3)
                         }).
                         ToList();
 
                 case ViewTypes.Last10Laps:
                     return data.
                         OrderBy(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1)).
+                        Where(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -333,6 +338,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Last15Laps:
                     return data.
                         OrderBy(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1)).
+                        Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {

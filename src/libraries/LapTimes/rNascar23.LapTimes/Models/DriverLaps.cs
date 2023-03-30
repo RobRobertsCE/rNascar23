@@ -93,29 +93,15 @@ namespace rNascar23.LapTimes.Models
                 if (lastNLaps.Any(l => !l.LapTime.HasValue))
                     return null;
 
-                return (float?)Math.Round(lastNLaps.Average(l => float.Parse(l.LapSpeed)), 3);
-            }
-        }
+                if (lastNLaps.Any(l => l.LapSpeed == "-1"))
+                    return null;
 
-        private float? BestSpeedOverNLaps(int range)
-        {
-            if (Laps == null || Laps.Count < range)
-                return null;
-            else
-            {
-                float maxAverage = -1;
+                var averageSpeedLastNLaps = (float?)Math.Round(lastNLaps.Average(l => float.Parse(l.LapSpeed)), 3);
 
-                for (int i = 0; i < Laps.Count - range; i++)
-                {
-                    var rangeAverage = Laps.Where(l => !string.IsNullOrEmpty(l.LapSpeed) && l.Lap > 0).Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
+                if (averageSpeedLastNLaps == -1)
+                    return null;
 
-                    if (rangeAverage > maxAverage)
-                    {
-                        maxAverage = rangeAverage;
-                    }
-                }
-
-                return (float?)Math.Round(maxAverage, 3);
+                return averageSpeedLastNLaps;
             }
         }
 
@@ -127,17 +113,78 @@ namespace rNascar23.LapTimes.Models
             {
                 float minAverage = 9999;
 
-                for (int i = 0; i < Laps.Count - range; i++)
+                for (int x = 0; x < Laps.Count - range; x++)
                 {
-                    var rangeAverage = Laps.Where(l => !string.IsNullOrEmpty(l.LapSpeed)).Skip(i).Take(range).Average(l => float.Parse(l.LapSpeed));
+                    List<float> lapSet = new List<float>();
 
-                    if (rangeAverage < minAverage)
+                    for (int y = 0; y < range; y++)
                     {
-                        minAverage = rangeAverage;
+                        var lap = Laps[x + y];
+
+                        if (lap.LapTime.HasValue)
+                        {
+                            lapSet.Add(lap.LapTime.Value);
+                        }
+                        else
+                            break;
+                    }
+
+                    if (lapSet.Count == range)
+                    {
+                        var lapSetAverage = lapSet.Average(l => l);
+
+                        if (lapSetAverage < minAverage)
+                        {
+                            minAverage = lapSetAverage;
+                        }
                     }
                 }
 
                 return (float?)Math.Round(minAverage, 3);
+            }
+        }
+
+        private float? BestSpeedOverNLaps(int range)
+        {
+            if (Laps == null || Laps.Count < range)
+                return null;
+            else
+            {
+                float maxAverage = -1;
+
+                for (int x = 0; x < Laps.Count - range; x++)
+                {
+                    List<float> lapSet = new List<float>();
+
+                    for (int y = 0; y < range; y++)
+                    {
+                        var lap = Laps[x + y];
+
+                        float lapSpeed;
+
+                        if (float.TryParse(lap.LapSpeed, out lapSpeed))
+                        {
+                            lapSet.Add(lapSpeed);
+                        }
+                        else
+                            break;
+                    }
+
+                    if (lapSet.Count == range)
+                    {
+                        var lapSetAverage = lapSet.Average(l => l);
+
+                        if (lapSetAverage > maxAverage)
+                        {
+                            maxAverage = lapSetAverage;
+                        }
+                    }
+                }
+
+                if (maxAverage == -1)
+                    return null;
+                else
+                    return (float?)Math.Round(maxAverage, 3);
             }
         }
     }
