@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.DriverStatistics.Models;
@@ -2203,5 +2204,19 @@ namespace rNascar23TestApp
         }
 
         #endregion
+
+        private void dumpStateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(_formState);
+
+                File.WriteAllText("Dump.json", json);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
     }
 }

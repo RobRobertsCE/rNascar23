@@ -88,7 +88,7 @@ namespace rNascar23.LapTimes.Models
                 return null;
             else
             {
-                var lastNLaps = Laps.OrderByDescending(l => l.Lap).Take(lapCount);
+                var lastNLaps = Laps.OrderByDescending(l => l.Lap).Take(lapCount).ToList();
 
                 if (lastNLaps.Any(l => !l.LapTime.HasValue))
                     return null;
@@ -96,12 +96,33 @@ namespace rNascar23.LapTimes.Models
                 if (lastNLaps.Any(l => l.LapSpeed == "-1"))
                     return null;
 
-                var averageSpeedLastNLaps = (float?)Math.Round(lastNLaps.Average(l => float.Parse(l.LapSpeed)), 3);
+                List<float> lapSet = new List<float>();
 
-                if (averageSpeedLastNLaps == -1)
+                for (int i = 0; i < lastNLaps.Count(); i++)
+                {
+                    float lapSpeed;
+
+                    if (float.TryParse(lastNLaps[i].LapSpeed, out lapSpeed))
+                    {
+                        lapSet.Add(lapSpeed);
+                    }
+                    else
+                        break;
+                }
+
+                if (lapSet.Count == lapCount)
+                {
+                    try
+                    {
+                        return lapSet.Average(l => l);
+                    }
+                    catch (Exception)
+                    {
+                        return null;
+                    }
+                }
+                else
                     return null;
-
-                return averageSpeedLastNLaps;
             }
         }
 
