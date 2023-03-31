@@ -94,6 +94,7 @@
             this.todayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCustomGridsView = new System.Windows.Forms.ToolStripButton();
+            this.importStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -414,7 +415,8 @@
             this.toolStripMenuItem7,
             this.backupCustomViewsToolStripMenuItem,
             this.importCustomViewsToolStripMenuItem,
-            this.dumdStateToolStripMenuItem});
+            this.dumdStateToolStripMenuItem,
+            this.importStateToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -649,6 +651,13 @@
             this.btnCustomGridsView.Text = "Custom Views";
             this.btnCustomGridsView.Click += new System.EventHandler(this.btnCustomGridsView_Click);
             // 
+            // importStateToolStripMenuItem
+            // 
+            this.importStateToolStripMenuItem.Name = "importStateToolStripMenuItem";
+            this.importStateToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.importStateToolStripMenuItem.Text = "Import State";
+            this.importStateToolStripMenuItem.Click += new System.EventHandler(this.importStateToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -749,6 +758,7 @@
         private System.Windows.Forms.ToolStripMenuItem backupCustomViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importCustomViewsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dumdStateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importStateToolStripMenuItem;
     }
 }
 

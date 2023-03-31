@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace rNascar23.LapTimes.Models
@@ -100,11 +101,11 @@ namespace rNascar23.LapTimes.Models
 
                 for (int i = 0; i < lastNLaps.Count(); i++)
                 {
-                    float lapSpeed;
+                    float? lapSpeed = TryParseFloat(lastNLaps[i].LapSpeed);
 
-                    if (float.TryParse(lastNLaps[i].LapSpeed, out lapSpeed))
+                    if (lapSpeed.HasValue)
                     {
-                        lapSet.Add(lapSpeed);
+                        lapSet.Add(lapSpeed.Value);
                     }
                     else
                         break;
@@ -207,6 +208,25 @@ namespace rNascar23.LapTimes.Models
                 else
                     return (float?)Math.Round(maxAverage, 3);
             }
+        }
+
+        private float? TryParseFloat(string floatString)
+        {
+            float? parsedFloat = 0;
+            float result;
+
+            if (float.TryParse(floatString, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
+            {
+                parsedFloat = result;
+            }
+            else if (float.TryParse(floatString, out result))
+            {
+                parsedFloat = result;
+            }
+            else
+                parsedFloat = null;
+
+            return parsedFloat;
         }
     }
 }

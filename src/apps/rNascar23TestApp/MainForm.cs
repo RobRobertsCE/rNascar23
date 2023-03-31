@@ -2238,5 +2238,82 @@ namespace rNascar23TestApp
 
             return string.Empty;
         }
+
+        private async void importStateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dialog = new OpenFileDialog();
+
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    var fileName = dialog.FileName;
+
+                    var json = File.ReadAllText(fileName);
+
+                    _formState = JsonConvert.DeserializeObject<FormState>(json);
+
+                    if (_formState.LiveFeed == null)
+                        return;
+
+                    if (_viewState == ViewState.None)
+                    {
+                        SetViewState((ViewState)_formState.LiveFeed.RunType);
+                    }
+
+                    List<IGridView> gridViews = new List<IGridView>();
+                    gridViews.AddRange(pnlMain.Controls.OfType<IGridView>());
+                    gridViews.AddRange(pnlRight.Controls.OfType<IGridView>());
+                    gridViews.AddRange(pnlBottom.Controls.OfType<IGridView>());
+
+                    foreach (IGridView gridView in gridViews.Where(g => g.IsCustomGrid == false))
+                    {
+                        switch (gridView.Settings.ApiSource)
+                        {
+                            case ApiSources.DriverStatistics:
+                                ((IGridView<rNascar23.DriverStatistics.Models.Driver>)gridView).Data = _formState.EventStatistics.drivers;
+                                break;
+                            case ApiSources.Flags:
+                                ((IGridView<FlagState>)gridView).Data = _formState.FlagStates;
+                                break;
+                            case ApiSources.LapTimes:
+                                ((IGridView<DriverLaps>)gridView).Data = _formState.LapTimes.Drivers;
+                                break;
+                            case ApiSources.LiveFeed:
+                                ((IGridView<LiveFeed>)gridView).Data = new List<LiveFeed>() { _formState.LiveFeed };
+                                break;
+                            case ApiSources.RaceLists:
+                                ((IGridView<Series>)gridView).Data = _formState.SeriesSchedules;
+                                break;
+                            case ApiSources.Vehicles:
+                                ((IGridView<Vehicle>)gridView).Data = _formState.LiveFeed.Vehicles;
+                                break;
+                            case ApiSources.LapAverages:
+                                ((IGridView<LapAverages>)gridView).Data = _formState.LapAverages;
+                                break;
+                            case ApiSources.DriverPoints:
+                                ((IGridView<DriverPoints>)gridView).Data = _formState.LivePoints;
+                                break;
+                            case ApiSources.StagePoints:
+                                ((IGridView<rNascar23.Points.Models.Stage>)gridView).Data = GetCurrentStagePoints();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    DisplayHeaderData();
+
+                    DisplayVehicleData();
+
+                    await SetCustomGridViewDataAsync();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
     }
 }
