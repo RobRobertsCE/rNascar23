@@ -7,12 +7,18 @@ namespace rNascar23.LapTimes.Models
 {
     public class DriverLaps
     {
+        #region properties
+
         public string Number { get; set; }
         public string FullName { get; set; }
         public string Manufacturer { get; set; }
         public int RunningPos { get; set; }
         public int NASCARDriverID { get; set; }
         public IList<LapDetails> Laps { get; set; } = new List<LapDetails>();
+
+        #endregion
+
+        #region public
 
         public float? AverageTimeLast15Laps()
         {
@@ -67,6 +73,10 @@ namespace rNascar23.LapTimes.Models
         {
             return BestTimeOverNLaps(15);
         }
+
+        #endregion
+
+        #region private
 
         private float? AverageTimeLastNLaps(int lapCount)
         {
@@ -182,11 +192,11 @@ namespace rNascar23.LapTimes.Models
                     {
                         var lap = Laps[x + y];
 
-                        float lapSpeed;
+                        float? lapSpeed = TryParseFloat(lap.LapSpeed);
 
-                        if (float.TryParse(lap.LapSpeed, out lapSpeed))
+                        if (lapSpeed.HasValue)
                         {
-                            lapSet.Add(lapSpeed);
+                            lapSet.Add(lapSpeed.Value);
                         }
                         else
                             break;
@@ -228,5 +238,7 @@ namespace rNascar23.LapTimes.Models
 
             return parsedFloat;
         }
+
+        #endregion
     }
 }
