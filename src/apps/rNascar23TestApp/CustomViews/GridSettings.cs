@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using rNascar23TestApp.ViewModels;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Text.Json.Serialization;
 
 namespace rNascar23TestApp.CustomViews
 {
-    public class GridSettings
+    public class GridSettings : INamedItem
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -17,8 +18,10 @@ namespace rNascar23TestApp.CustomViews
         public int TitleBackColorInt { get; set; } = -1;
         public int GridWidth { get; set; } = 250;
         public bool HideRowSelector { get; set; } = false;
+        public bool HideColumnHeaders { get; set; } = false;
         public int SortOrder { get; set; } = 0;
         public string SortOrderField { get; set; }
+        public string Style { get; set; }
 
         [JsonIgnore()]
         public Color TitleForeColor

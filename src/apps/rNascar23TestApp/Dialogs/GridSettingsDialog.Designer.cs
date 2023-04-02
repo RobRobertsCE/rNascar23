@@ -29,19 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridSettingsDialog));
             this.pnlDialogButtons = new System.Windows.Forms.Panel();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.btnCancelClose = new System.Windows.Forms.Button();
             this.btnEditSave = new System.Windows.Forms.Button();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.pnlGridTitle = new System.Windows.Forms.Panel();
             this.txtGridTitle = new System.Windows.Forms.TextBox();
             this.btnTitleForeColor = new System.Windows.Forms.Button();
             this.btnTitleBackColor = new System.Windows.Forms.Button();
-            this.splitter1 = new System.Windows.Forms.Splitter();
             this.pnlFields = new System.Windows.Forms.Panel();
             this.lstFields = new System.Windows.Forms.ListBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -61,6 +60,10 @@
             this.cboGridSelection = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.pnlGridSettings = new System.Windows.Forms.Panel();
+            this.btnClearStyle = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.cboStyles = new System.Windows.Forms.ComboBox();
+            this.btnGridStyle = new System.Windows.Forms.Button();
             this.chkEnabled = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rbSortAscending = new System.Windows.Forms.RadioButton();
@@ -82,31 +85,41 @@
             this.txtGridName = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.chkHideColumnHeaders = new System.Windows.Forms.CheckBox();
+            this.splLeft = new System.Windows.Forms.Splitter();
+            this.pnlDataGrid = new System.Windows.Forms.Panel();
+            this.pnlColumnDetails = new System.Windows.Forms.Panel();
+            this.splRight = new System.Windows.Forms.Splitter();
+            this.pnlGridAndFields = new System.Windows.Forms.Panel();
+            this.picTitleText = new System.Windows.Forms.PictureBox();
+            this.picTitleBackground = new System.Windows.Forms.PictureBox();
             this.pnlDialogButtons.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.pnlGridTitle.SuspendLayout();
             this.pnlFields.SuspendLayout();
             this.pnlSelector.SuspendLayout();
             this.pnlGridSettings.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.pnlDataGrid.SuspendLayout();
+            this.pnlColumnDetails.SuspendLayout();
+            this.pnlGridAndFields.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picTitleText)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTitleBackground)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlDialogButtons
             // 
+            this.pnlDialogButtons.BackColor = System.Drawing.Color.SteelBlue;
             this.pnlDialogButtons.Controls.Add(this.btnDelete);
             this.pnlDialogButtons.Controls.Add(this.btnCopy);
             this.pnlDialogButtons.Controls.Add(this.btnNew);
             this.pnlDialogButtons.Controls.Add(this.btnCancelClose);
             this.pnlDialogButtons.Controls.Add(this.btnEditSave);
             this.pnlDialogButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlDialogButtons.Location = new System.Drawing.Point(0, 574);
+            this.pnlDialogButtons.Location = new System.Drawing.Point(0, 628);
             this.pnlDialogButtons.Margin = new System.Windows.Forms.Padding(4);
             this.pnlDialogButtons.Name = "pnlDialogButtons";
-            this.pnlDialogButtons.Size = new System.Drawing.Size(1134, 37);
+            this.pnlDialogButtons.Size = new System.Drawing.Size(1141, 37);
             this.pnlDialogButtons.TabIndex = 0;
             // 
             // btnDelete
@@ -145,7 +158,7 @@
             // btnCancelClose
             // 
             this.btnCancelClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancelClose.Location = new System.Drawing.Point(1047, 6);
+            this.btnCancelClose.Location = new System.Drawing.Point(1054, 6);
             this.btnCancelClose.Name = "btnCancelClose";
             this.btnCancelClose.Size = new System.Drawing.Size(75, 28);
             this.btnCancelClose.TabIndex = 1;
@@ -163,49 +176,18 @@
             this.btnEditSave.UseVisualStyleBackColor = true;
             this.btnEditSave.Click += new System.EventHandler(this.btnEditSave_Click);
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 244);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridView);
-            this.splitContainer1.Panel1.Controls.Add(this.pnlGridTitle);
-            this.splitContainer1.Panel1.Controls.Add(this.splitter1);
-            this.splitContainer1.Panel1.Controls.Add(this.pnlFields);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.btnHideAllColumns);
-            this.splitContainer1.Panel2.Controls.Add(this.lblIndex);
-            this.splitContainer1.Panel2.Controls.Add(this.label13);
-            this.splitContainer1.Panel2.Controls.Add(this.txtDisplayIndex);
-            this.splitContainer1.Panel2.Controls.Add(this.label5);
-            this.splitContainer1.Panel2.Controls.Add(this.chkColumnVisible);
-            this.splitContainer1.Panel2.Controls.Add(this.txtColumnWidth);
-            this.splitContainer1.Panel2.Controls.Add(this.label3);
-            this.splitContainer1.Panel2.Controls.Add(this.txtDataPropertyName);
-            this.splitContainer1.Panel2.Controls.Add(this.label2);
-            this.splitContainer1.Panel2.Controls.Add(this.txtColumnHeader);
-            this.splitContainer1.Panel2.Controls.Add(this.label1);
-            this.splitContainer1.Size = new System.Drawing.Size(1134, 330);
-            this.splitContainer1.SplitterDistance = 819;
-            this.splitContainer1.TabIndex = 2;
-            // 
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView.Location = new System.Drawing.Point(138, 25);
+            this.dataGridView.EnableHeadersVisualStyles = false;
+            this.dataGridView.Location = new System.Drawing.Point(0, 25);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(679, 303);
+            this.dataGridView.Size = new System.Drawing.Size(675, 359);
             this.dataGridView.TabIndex = 1;
             this.toolTip1.SetToolTip(this.dataGridView, "The example of how the grid will look.\r\n\r\nClick a column header to edit the colum" +
         "n.\r\n");
@@ -215,12 +197,10 @@
             // pnlGridTitle
             // 
             this.pnlGridTitle.Controls.Add(this.txtGridTitle);
-            this.pnlGridTitle.Controls.Add(this.btnTitleForeColor);
-            this.pnlGridTitle.Controls.Add(this.btnTitleBackColor);
             this.pnlGridTitle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlGridTitle.Location = new System.Drawing.Point(138, 0);
+            this.pnlGridTitle.Location = new System.Drawing.Point(0, 0);
             this.pnlGridTitle.Name = "pnlGridTitle";
-            this.pnlGridTitle.Size = new System.Drawing.Size(679, 25);
+            this.pnlGridTitle.Size = new System.Drawing.Size(675, 25);
             this.pnlGridTitle.TabIndex = 0;
             // 
             // txtGridTitle
@@ -229,41 +209,31 @@
             this.txtGridTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGridTitle.Location = new System.Drawing.Point(0, 0);
             this.txtGridTitle.Name = "txtGridTitle";
-            this.txtGridTitle.Size = new System.Drawing.Size(631, 25);
+            this.txtGridTitle.Size = new System.Drawing.Size(675, 25);
             this.txtGridTitle.TabIndex = 2;
             this.toolTip1.SetToolTip(this.txtGridTitle, "The title of the grid. (Editable)");
             // 
             // btnTitleForeColor
             // 
-            this.btnTitleForeColor.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnTitleForeColor.Location = new System.Drawing.Point(631, 0);
+            this.btnTitleForeColor.Location = new System.Drawing.Point(880, 87);
             this.btnTitleForeColor.Name = "btnTitleForeColor";
-            this.btnTitleForeColor.Size = new System.Drawing.Size(24, 25);
+            this.btnTitleForeColor.Size = new System.Drawing.Size(161, 28);
             this.btnTitleForeColor.TabIndex = 1;
-            this.btnTitleForeColor.Text = "F";
+            this.btnTitleForeColor.Text = "Title Text Color";
             this.toolTip1.SetToolTip(this.btnTitleForeColor, "Sets the grid title text color");
             this.btnTitleForeColor.UseVisualStyleBackColor = true;
             this.btnTitleForeColor.Click += new System.EventHandler(this.btnTitleForeColor_Click);
             // 
             // btnTitleBackColor
             // 
-            this.btnTitleBackColor.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnTitleBackColor.Location = new System.Drawing.Point(655, 0);
+            this.btnTitleBackColor.Location = new System.Drawing.Point(882, 121);
             this.btnTitleBackColor.Name = "btnTitleBackColor";
-            this.btnTitleBackColor.Size = new System.Drawing.Size(24, 25);
+            this.btnTitleBackColor.Size = new System.Drawing.Size(161, 28);
             this.btnTitleBackColor.TabIndex = 0;
-            this.btnTitleBackColor.Text = "B";
+            this.btnTitleBackColor.Text = "Title Background Color";
             this.toolTip1.SetToolTip(this.btnTitleBackColor, "Sets the grid title background color");
             this.btnTitleBackColor.UseVisualStyleBackColor = true;
             this.btnTitleBackColor.Click += new System.EventHandler(this.btnTitleBackColor_Click);
-            // 
-            // splitter1
-            // 
-            this.splitter1.Location = new System.Drawing.Point(135, 0);
-            this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 328);
-            this.splitter1.TabIndex = 3;
-            this.splitter1.TabStop = false;
             // 
             // pnlFields
             // 
@@ -272,7 +242,7 @@
             this.pnlFields.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlFields.Location = new System.Drawing.Point(0, 0);
             this.pnlFields.Name = "pnlFields";
-            this.pnlFields.Size = new System.Drawing.Size(135, 328);
+            this.pnlFields.Size = new System.Drawing.Size(194, 384);
             this.pnlFields.TabIndex = 2;
             // 
             // lstFields
@@ -282,7 +252,7 @@
             this.lstFields.ItemHeight = 17;
             this.lstFields.Location = new System.Drawing.Point(0, 25);
             this.lstFields.Name = "lstFields";
-            this.lstFields.Size = new System.Drawing.Size(135, 303);
+            this.lstFields.Size = new System.Drawing.Size(194, 359);
             this.lstFields.TabIndex = 1;
             this.toolTip1.SetToolTip(this.lstFields, "List of all the available fields from the selected data source. Click to select.");
             this.lstFields.SelectedValueChanged += new System.EventHandler(this.lstFields_SelectedValueChanged);
@@ -294,7 +264,7 @@
             this.label4.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(0, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(135, 25);
+            this.label4.Size = new System.Drawing.Size(194, 25);
             this.label4.TabIndex = 0;
             this.label4.Text = "Fields";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -302,8 +272,7 @@
             // 
             // btnHideAllColumns
             // 
-            this.btnHideAllColumns.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnHideAllColumns.Location = new System.Drawing.Point(18, 299);
+            this.btnHideAllColumns.Location = new System.Drawing.Point(21, 203);
             this.btnHideAllColumns.Name = "btnHideAllColumns";
             this.btnHideAllColumns.Size = new System.Drawing.Size(130, 23);
             this.btnHideAllColumns.TabIndex = 11;
@@ -314,7 +283,7 @@
             // lblIndex
             // 
             this.lblIndex.AutoSize = true;
-            this.lblIndex.Location = new System.Drawing.Point(211, 32);
+            this.lblIndex.Location = new System.Drawing.Point(214, 28);
             this.lblIndex.Name = "lblIndex";
             this.lblIndex.Size = new System.Drawing.Size(15, 17);
             this.lblIndex.TabIndex = 10;
@@ -324,7 +293,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(211, 8);
+            this.label13.Location = new System.Drawing.Point(214, 4);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(39, 17);
             this.label13.TabIndex = 9;
@@ -332,7 +301,7 @@
             // 
             // txtDisplayIndex
             // 
-            this.txtDisplayIndex.Location = new System.Drawing.Point(18, 176);
+            this.txtDisplayIndex.Location = new System.Drawing.Point(21, 172);
             this.txtDisplayIndex.Name = "txtDisplayIndex";
             this.txtDisplayIndex.Size = new System.Drawing.Size(45, 25);
             this.txtDisplayIndex.TabIndex = 8;
@@ -343,7 +312,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(15, 155);
+            this.label5.Location = new System.Drawing.Point(18, 151);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(133, 17);
             this.label5.TabIndex = 7;
@@ -352,7 +321,7 @@
             // chkColumnVisible
             // 
             this.chkColumnVisible.AutoSize = true;
-            this.chkColumnVisible.Location = new System.Drawing.Point(140, 129);
+            this.chkColumnVisible.Location = new System.Drawing.Point(143, 125);
             this.chkColumnVisible.Name = "chkColumnVisible";
             this.chkColumnVisible.Size = new System.Drawing.Size(65, 21);
             this.chkColumnVisible.TabIndex = 6;
@@ -363,7 +332,7 @@
             // 
             // txtColumnWidth
             // 
-            this.txtColumnWidth.Location = new System.Drawing.Point(18, 127);
+            this.txtColumnWidth.Location = new System.Drawing.Point(21, 123);
             this.txtColumnWidth.Name = "txtColumnWidth";
             this.txtColumnWidth.Size = new System.Drawing.Size(87, 25);
             this.txtColumnWidth.TabIndex = 5;
@@ -374,7 +343,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 106);
+            this.label3.Location = new System.Drawing.Point(18, 102);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(90, 17);
             this.label3.TabIndex = 4;
@@ -383,7 +352,7 @@
             // txtDataPropertyName
             // 
             this.txtDataPropertyName.BackColor = System.Drawing.Color.Silver;
-            this.txtDataPropertyName.Location = new System.Drawing.Point(18, 29);
+            this.txtDataPropertyName.Location = new System.Drawing.Point(21, 25);
             this.txtDataPropertyName.Name = "txtDataPropertyName";
             this.txtDataPropertyName.ReadOnly = true;
             this.txtDataPropertyName.Size = new System.Drawing.Size(187, 25);
@@ -393,7 +362,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(15, 8);
+            this.label2.Location = new System.Drawing.Point(18, 4);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 17);
             this.label2.TabIndex = 2;
@@ -401,7 +370,7 @@
             // 
             // txtColumnHeader
             // 
-            this.txtColumnHeader.Location = new System.Drawing.Point(18, 78);
+            this.txtColumnHeader.Location = new System.Drawing.Point(21, 74);
             this.txtColumnHeader.Name = "txtColumnHeader";
             this.txtColumnHeader.Size = new System.Drawing.Size(187, 25);
             this.txtColumnHeader.TabIndex = 1;
@@ -412,7 +381,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 57);
+            this.label1.Location = new System.Drawing.Point(18, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(126, 17);
             this.label1.TabIndex = 0;
@@ -420,13 +389,13 @@
             // 
             // pnlSelector
             // 
-            this.pnlSelector.BackColor = System.Drawing.Color.Silver;
+            this.pnlSelector.BackColor = System.Drawing.Color.SteelBlue;
             this.pnlSelector.Controls.Add(this.cboGridSelection);
             this.pnlSelector.Controls.Add(this.label6);
             this.pnlSelector.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlSelector.Location = new System.Drawing.Point(0, 0);
             this.pnlSelector.Name = "pnlSelector";
-            this.pnlSelector.Size = new System.Drawing.Size(1134, 71);
+            this.pnlSelector.Size = new System.Drawing.Size(1141, 71);
             this.pnlSelector.TabIndex = 3;
             // 
             // cboGridSelection
@@ -442,6 +411,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(5, 9);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(82, 17);
@@ -450,8 +420,17 @@
             // 
             // pnlGridSettings
             // 
-            this.pnlGridSettings.BackColor = System.Drawing.Color.Gainsboro;
+            this.pnlGridSettings.BackColor = System.Drawing.Color.LightSteelBlue;
             this.pnlGridSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlGridSettings.Controls.Add(this.picTitleBackground);
+            this.pnlGridSettings.Controls.Add(this.picTitleText);
+            this.pnlGridSettings.Controls.Add(this.btnTitleBackColor);
+            this.pnlGridSettings.Controls.Add(this.btnTitleForeColor);
+            this.pnlGridSettings.Controls.Add(this.chkHideColumnHeaders);
+            this.pnlGridSettings.Controls.Add(this.btnClearStyle);
+            this.pnlGridSettings.Controls.Add(this.label15);
+            this.pnlGridSettings.Controls.Add(this.cboStyles);
+            this.pnlGridSettings.Controls.Add(this.btnGridStyle);
             this.pnlGridSettings.Controls.Add(this.chkEnabled);
             this.pnlGridSettings.Controls.Add(this.groupBox1);
             this.pnlGridSettings.Controls.Add(this.cboSortBy);
@@ -472,8 +451,48 @@
             this.pnlGridSettings.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlGridSettings.Location = new System.Drawing.Point(0, 71);
             this.pnlGridSettings.Name = "pnlGridSettings";
-            this.pnlGridSettings.Size = new System.Drawing.Size(1134, 173);
+            this.pnlGridSettings.Size = new System.Drawing.Size(1141, 173);
             this.pnlGridSettings.TabIndex = 4;
+            // 
+            // btnClearStyle
+            // 
+            this.btnClearStyle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearStyle.ForeColor = System.Drawing.Color.Red;
+            this.btnClearStyle.Location = new System.Drawing.Point(1106, 22);
+            this.btnClearStyle.Name = "btnClearStyle";
+            this.btnClearStyle.Size = new System.Drawing.Size(23, 25);
+            this.btnClearStyle.TabIndex = 20;
+            this.btnClearStyle.Text = "X";
+            this.btnClearStyle.UseVisualStyleBackColor = true;
+            this.btnClearStyle.Click += new System.EventHandler(this.btnClearStyle_Click);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(879, 2);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(35, 17);
+            this.label15.TabIndex = 19;
+            this.label15.Text = "Style";
+            // 
+            // cboStyles
+            // 
+            this.cboStyles.FormattingEnabled = true;
+            this.cboStyles.Location = new System.Drawing.Point(880, 22);
+            this.cboStyles.Name = "cboStyles";
+            this.cboStyles.Size = new System.Drawing.Size(222, 25);
+            this.cboStyles.TabIndex = 18;
+            this.cboStyles.SelectedIndexChanged += new System.EventHandler(this.cboStyles_SelectedIndexChanged);
+            // 
+            // btnGridStyle
+            // 
+            this.btnGridStyle.Location = new System.Drawing.Point(880, 53);
+            this.btnGridStyle.Name = "btnGridStyle";
+            this.btnGridStyle.Size = new System.Drawing.Size(115, 28);
+            this.btnGridStyle.TabIndex = 17;
+            this.btnGridStyle.Text = "Edit Styles";
+            this.btnGridStyle.UseVisualStyleBackColor = true;
+            this.btnGridStyle.Click += new System.EventHandler(this.btnGridStyleSettings_Click);
             // 
             // chkEnabled
             // 
@@ -622,6 +641,7 @@
             this.chkHideRowSelectors.Text = "Hide Row Selectors";
             this.toolTip1.SetToolTip(this.chkHideRowSelectors, "Hide the first column in the grid, which is the row selector.");
             this.chkHideRowSelectors.UseVisualStyleBackColor = true;
+            this.chkHideRowSelectors.CheckStateChanged += new System.EventHandler(this.chkHideRowSelectors_CheckStateChanged);
             // 
             // cboDataSource
             // 
@@ -686,27 +706,111 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Grid Name";
             // 
+            // chkHideColumnHeaders
+            // 
+            this.chkHideColumnHeaders.AutoSize = true;
+            this.chkHideColumnHeaders.Location = new System.Drawing.Point(518, 101);
+            this.chkHideColumnHeaders.Name = "chkHideColumnHeaders";
+            this.chkHideColumnHeaders.Size = new System.Drawing.Size(155, 21);
+            this.chkHideColumnHeaders.TabIndex = 21;
+            this.chkHideColumnHeaders.Text = "Hide Column Headers";
+            this.toolTip1.SetToolTip(this.chkHideColumnHeaders, "Hides the column headers");
+            this.chkHideColumnHeaders.UseVisualStyleBackColor = true;
+            this.chkHideColumnHeaders.CheckStateChanged += new System.EventHandler(this.chkHideColumnHeaders_CheckStateChanged);
+            // 
+            // splLeft
+            // 
+            this.splLeft.Location = new System.Drawing.Point(194, 0);
+            this.splLeft.Name = "splLeft";
+            this.splLeft.Size = new System.Drawing.Size(3, 384);
+            this.splLeft.TabIndex = 5;
+            this.splLeft.TabStop = false;
+            // 
+            // pnlDataGrid
+            // 
+            this.pnlDataGrid.Controls.Add(this.dataGridView);
+            this.pnlDataGrid.Controls.Add(this.pnlGridTitle);
+            this.pnlDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlDataGrid.Location = new System.Drawing.Point(197, 0);
+            this.pnlDataGrid.Name = "pnlDataGrid";
+            this.pnlDataGrid.Size = new System.Drawing.Size(675, 384);
+            this.pnlDataGrid.TabIndex = 6;
+            // 
+            // pnlColumnDetails
+            // 
+            this.pnlColumnDetails.Controls.Add(this.btnHideAllColumns);
+            this.pnlColumnDetails.Controls.Add(this.label2);
+            this.pnlColumnDetails.Controls.Add(this.lblIndex);
+            this.pnlColumnDetails.Controls.Add(this.label1);
+            this.pnlColumnDetails.Controls.Add(this.label13);
+            this.pnlColumnDetails.Controls.Add(this.txtColumnHeader);
+            this.pnlColumnDetails.Controls.Add(this.txtDisplayIndex);
+            this.pnlColumnDetails.Controls.Add(this.txtDataPropertyName);
+            this.pnlColumnDetails.Controls.Add(this.label5);
+            this.pnlColumnDetails.Controls.Add(this.label3);
+            this.pnlColumnDetails.Controls.Add(this.chkColumnVisible);
+            this.pnlColumnDetails.Controls.Add(this.txtColumnWidth);
+            this.pnlColumnDetails.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pnlColumnDetails.Location = new System.Drawing.Point(875, 0);
+            this.pnlColumnDetails.Name = "pnlColumnDetails";
+            this.pnlColumnDetails.Size = new System.Drawing.Size(266, 384);
+            this.pnlColumnDetails.TabIndex = 7;
+            // 
+            // splRight
+            // 
+            this.splRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.splRight.Location = new System.Drawing.Point(872, 0);
+            this.splRight.Name = "splRight";
+            this.splRight.Size = new System.Drawing.Size(3, 384);
+            this.splRight.TabIndex = 8;
+            this.splRight.TabStop = false;
+            // 
+            // pnlGridAndFields
+            // 
+            this.pnlGridAndFields.Controls.Add(this.pnlDataGrid);
+            this.pnlGridAndFields.Controls.Add(this.splRight);
+            this.pnlGridAndFields.Controls.Add(this.pnlColumnDetails);
+            this.pnlGridAndFields.Controls.Add(this.splLeft);
+            this.pnlGridAndFields.Controls.Add(this.pnlFields);
+            this.pnlGridAndFields.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlGridAndFields.Location = new System.Drawing.Point(0, 244);
+            this.pnlGridAndFields.Name = "pnlGridAndFields";
+            this.pnlGridAndFields.Size = new System.Drawing.Size(1141, 384);
+            this.pnlGridAndFields.TabIndex = 9;
+            // 
+            // picTitleText
+            // 
+            this.picTitleText.Location = new System.Drawing.Point(1047, 87);
+            this.picTitleText.Name = "picTitleText";
+            this.picTitleText.Size = new System.Drawing.Size(34, 28);
+            this.picTitleText.TabIndex = 22;
+            this.picTitleText.TabStop = false;
+            // 
+            // picTitleBackground
+            // 
+            this.picTitleBackground.Location = new System.Drawing.Point(1047, 121);
+            this.picTitleBackground.Name = "picTitleBackground";
+            this.picTitleBackground.Size = new System.Drawing.Size(34, 28);
+            this.picTitleBackground.TabIndex = 23;
+            this.picTitleBackground.TabStop = false;
+            // 
             // GridSettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1134, 611);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(1141, 665);
+            this.Controls.Add(this.pnlGridAndFields);
             this.Controls.Add(this.pnlGridSettings);
             this.Controls.Add(this.pnlSelector);
             this.Controls.Add(this.pnlDialogButtons);
             this.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "GridSettingsDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Grid Settings";
             this.Load += new System.EventHandler(this.GridSettingsDialog_Load);
             this.pnlDialogButtons.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.pnlGridTitle.ResumeLayout(false);
             this.pnlGridTitle.PerformLayout();
@@ -717,6 +821,12 @@
             this.pnlGridSettings.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.pnlDataGrid.ResumeLayout(false);
+            this.pnlColumnDetails.ResumeLayout(false);
+            this.pnlColumnDetails.PerformLayout();
+            this.pnlGridAndFields.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picTitleText)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picTitleBackground)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -726,7 +836,6 @@
         private System.Windows.Forms.Panel pnlDialogButtons;
         private System.Windows.Forms.Button btnCancelClose;
         private System.Windows.Forms.Button btnEditSave;
-        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Panel pnlGridTitle;
         private System.Windows.Forms.TextBox txtGridTitle;
         private System.Windows.Forms.Button btnTitleForeColor;
@@ -739,7 +848,6 @@
         private System.Windows.Forms.TextBox txtColumnWidth;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkColumnVisible;
-        private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Panel pnlFields;
         private System.Windows.Forms.ListBox lstFields;
         private System.Windows.Forms.Label label4;
@@ -776,5 +884,17 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button btnHideAllColumns;
         private System.Windows.Forms.CheckBox chkEnabled;
+        private System.Windows.Forms.Button btnGridStyle;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox cboStyles;
+        private System.Windows.Forms.Button btnClearStyle;
+        private System.Windows.Forms.CheckBox chkHideColumnHeaders;
+        private System.Windows.Forms.Splitter splLeft;
+        private System.Windows.Forms.Panel pnlDataGrid;
+        private System.Windows.Forms.Panel pnlColumnDetails;
+        private System.Windows.Forms.Splitter splRight;
+        private System.Windows.Forms.Panel pnlGridAndFields;
+        private System.Windows.Forms.PictureBox picTitleText;
+        private System.Windows.Forms.PictureBox picTitleBackground;
     }
 }

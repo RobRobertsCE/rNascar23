@@ -10,8 +10,11 @@ using rNascar23.Service.LiveFeeds;
 using rNascar23.Service.Points;
 using rNascar23TestApp.CustomViews;
 using rNascar23TestApp.Dialogs;
+using rNascar23TestApp.Screens;
+using rNascar23TestApp.Settings;
 using Serilog;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace rNascar23TestApp
@@ -41,15 +44,21 @@ namespace rNascar23TestApp
                     services
                         .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
                         .AddFlagState()
-                        .AddRaceLists()
+                        .AddSchedules()
                         .AddLiveFeed()
                         .AddLapTimes()
                         .AddPoints()
                         .AddDriverStatistics()
+                        .AddTransient<IScreenService, ScreenService>()
+                        .AddTransient<ICustomViewSettingsService, CustomViewSettingsService>()
+                        .AddTransient<ICustomGridViewFactory, CustomGridViewFactory>()
+                        .AddTransient<IStyleService, StyleService>()
                         .AddTransient<MainForm>()
                         .AddTransient<GridSettingsDialog>()
-                        .AddTransient<CustomGridViewFactory>()
-                        .AddTransient<CustomViewSettingsService>();
+                        .AddTransient<ScreenEditor>()
+                        .AddTransient<StyleEditor>()
+                        .AddTransient<ImportExportDialog>()
+                        .AddTransient<UserSettingsDialog>();
 
                     /*
                     SERILOG (Set in appsettings.json):
@@ -64,6 +73,12 @@ namespace rNascar23TestApp
                     var configuration = new ConfigurationBuilder()
                         .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
                         .Build();
+
+                    var userSettings = UserSettingsService.LoadUserSettings();
+
+                    var logFilePath = Path.Combine($"{userSettings.LogDirectory}\\", "rNascar23Log..txt");
+
+                    configuration["Serilog:WriteTo:1:Args:path"] = logFilePath;
 
                     var serilogLogger = new LoggerConfiguration()
                         .ReadFrom.Configuration(configuration)

@@ -4,6 +4,6 @@
     {
         public int Position { get; set; }
         public string Driver { get; set; }
-        public string Speed { get; set; }
+        public string Value { get; set; }
     }
 }

@@ -23,6 +23,9 @@ namespace rNascar23TestApp.Views
 
         #region properties
 
+        public ApiSources ApiSource => ApiSources.StagePoints;
+        public string Title => "Stage Points";
+
         private IList<Stage> _data = new List<Stage>();
         public IList<Stage> Data
         {
@@ -34,16 +37,27 @@ namespace rNascar23TestApp.Views
             {
                 _data = value;
 
-                var stage = _data.FirstOrDefault();
 
-                if (stage != null)
-                    SetDataSource(stage.StagePoints);
+                if (_data != null)
+                {
+                    var stage = _data.FirstOrDefault();
+
+                    if (stage != null)
+                        SetDataSource(stage.StagePoints);
+                }
             }
         }
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
         public bool IsCustomGrid { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
 
         #endregion
 
@@ -61,8 +75,6 @@ namespace rNascar23TestApp.Views
                 SortOrderField = "Position",
                 SortOrder = 1
             };
-
-            this.Height = 310;
         }
 
         #endregion
@@ -136,33 +148,19 @@ namespace rNascar23TestApp.Views
 
             GridViewColumnBuilder.ConfigureColumn(Column1, "Position", 25, "");
 
-            GridViewColumnBuilder.ConfigureColumn(Column2, "Driver", 150, "Driver");
+            GridViewColumnBuilder.ConfigureColumn(Column2, "Driver", 125, "Driver");
 
-            GridViewColumnBuilder.ConfigureColumn(Column3, "Points", 75, "Stage Points");
+            GridViewColumnBuilder.ConfigureColumn(Column3, "Points", 55, "Stage Points");
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
             dataGridView.AutoGenerateColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
 
             return dataGridView;
-        }
-
-        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                var row = Grid.Rows[i];
-
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
-            }
         }
 
         #endregion

@@ -68,7 +68,7 @@ namespace rNascar23.Data
             {
                 var errorObject = (Error)new XmlSerializer(typeof(Error)).Deserialize(new StringReader(xml));
 
-                _logger.LogInformation($"Error reading lap time data from {url}:\r\nCode: {errorObject.Code}\r\nMessage: {errorObject.Message}\r\nKey: {errorObject.Key}");
+                _logger.LogInformation($"Error reading data from {url}:\r\nCode: {errorObject.Code}\r\nMessage: {errorObject.Message}\r\nKey: {errorObject.Key}");
             }
             catch (Exception ex)
             {

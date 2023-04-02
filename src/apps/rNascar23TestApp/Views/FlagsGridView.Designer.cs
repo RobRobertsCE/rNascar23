@@ -38,13 +38,13 @@
             // 
             // Grid
             // 
+            this.Grid.BackgroundColor = System.Drawing.Color.Black;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grid.Location = new System.Drawing.Point(0, 25);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(447, 240);
+            this.Grid.Size = new System.Drawing.Size(335, 225);
             this.Grid.TabIndex = 5;
-            this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Grid_RowsAdded);
             // 
             // TitleLabel
             // 
@@ -55,7 +55,7 @@
             this.TitleLabel.ForeColor = System.Drawing.Color.Black;
             this.TitleLabel.Location = new System.Drawing.Point(0, 0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(447, 25);
+            this.TitleLabel.Size = new System.Drawing.Size(335, 25);
             this.TitleLabel.TabIndex = 4;
             this.TitleLabel.Text = "Flags";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -67,7 +67,7 @@
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.TitleLabel);
             this.Name = "FlagsGridView";
-            this.Size = new System.Drawing.Size(447, 265);
+            this.Size = new System.Drawing.Size(335, 250);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
             this.ResumeLayout(false);

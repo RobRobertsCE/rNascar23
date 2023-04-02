@@ -11,7 +11,12 @@ namespace rNascar23.LiveFeeds.Mappings
         {
             CreateMap<PitStopModel, PitStop>();
 
-            CreateMap<DriverModel, Driver>();
+            CreateMap<DriverModel, Driver>()
+              .ForMember(m => m.DriverId, opts => opts.MapFrom(src => (long)src.driver_id))
+              .ForMember(m => m.IsInChase, opts => opts.MapFrom(src => src.is_in_chase))
+              .ForMember(m => m.FirstName, opts => opts.MapFrom(src => src.first_name))
+              .ForMember(m => m.LastName, opts => opts.MapFrom(src => src.last_name))
+              .ForMember(m => m.FullName, opts => opts.MapFrom(src => src.full_name));
 
             CreateMap<LapsLedModel, LapsLed>();
 

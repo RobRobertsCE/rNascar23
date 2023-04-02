@@ -222,10 +222,8 @@ namespace rNascar23.LapTimes.Models
 
         private float? TryParseFloat(string floatString)
         {
-            float? parsedFloat = 0;
-            float result;
-
-            if (float.TryParse(floatString, NumberStyles.Float, CultureInfo.InvariantCulture, out result))
+            float? parsedFloat;
+            if (float.TryParse(floatString, NumberStyles.Float, CultureInfo.InvariantCulture, out float result))
             {
                 parsedFloat = result;
             }

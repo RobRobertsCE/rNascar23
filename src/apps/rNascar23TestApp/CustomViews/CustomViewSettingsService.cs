@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using rNascar23TestApp.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,15 +9,8 @@ using System.Windows.Forms;
 
 namespace rNascar23TestApp.CustomViews
 {
-    public class CustomViewSettingsService
+    public class CustomViewSettingsService : ICustomViewSettingsService
     {
-        #region consts
-
-        private const string CustomViewFolderName = "CustomViews";
-        private const string CustomViewFileName = "CustomViews.json";
-
-        #endregion
-
         #region properties
 
         public static string CustomViewsFile
@@ -75,6 +68,15 @@ namespace rNascar23TestApp.CustomViews
             }
         }
 
+        public static string GetCustomViewFilePath()
+        {
+            var settings = UserSettingsService.LoadUserSettings();
+
+            string filePath = Path.Combine(settings.DataDirectory, JsonFileHelper.GetCustomViewsDataFile());
+
+            return filePath;
+        }
+
         #endregion
 
         #region protected
@@ -108,30 +110,10 @@ namespace rNascar23TestApp.CustomViews
             return customGridSettings;
         }
 
-        protected static string GetCustomViewFilePath()
-        {
-            string assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            string customViewsFolderPath = Path.Combine(assemblyPath, CustomViewFolderName);
-
-            if (!Directory.Exists(customViewsFolderPath))
-            {
-                Directory.CreateDirectory(customViewsFolderPath);
-            }
-
-            string customViewsFilePath = Path.Combine(customViewsFolderPath, CustomViewFileName);
-
-            return customViewsFilePath;
-        }
-
         #endregion
 
         #region private
 
-        private void ExceptionHandler(Exception ex)
-        {
-            ExceptionHandler(ex, String.Empty, true);
-        }
         private void ExceptionHandler(Exception ex, string message = "")
         {
             ExceptionHandler(ex, message, true);

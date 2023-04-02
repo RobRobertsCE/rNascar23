@@ -1,17 +1,13 @@
 ﻿using rNascar23.LapTimes.Models;
-using rNascar23.LiveFeeds.Models;
 using rNascar23TestApp.CustomViews;
+using rNascar23TestApp.Settings;
 using rNascar23TestApp.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static rNascar23TestApp.Views.NLapsGridView;
 
 namespace rNascar23TestApp.Views
 {
@@ -28,19 +24,16 @@ namespace rNascar23TestApp.Views
             Last10Laps,
             Last15Laps,
         }
-
-        public enum ComparisonTypes
-        {
-            Time,
-            Speed
-        }
-
+             
         #endregion
 
         #region properties
 
-        private ComparisonTypes _comparisonType = ComparisonTypes.Time;
-        public ComparisonTypes ComparisonType
+        public ApiSources ApiSource => ApiSources.LapTimes;
+        public string Title => "NLaps";
+
+        private SpeedTimeType _comparisonType = SpeedTimeType.Seconds ;
+        public SpeedTimeType ComparisonType
         {
             get
             {
@@ -75,24 +68,33 @@ namespace rNascar23TestApp.Views
             {
                 _data = value;
 
-                SetDataSource(_data);
+                if (_data != null)
+                    SetDataSource(_data);
             }
         }
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
         public bool IsCustomGrid { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
+        public SpeedTimeType DisplayType { get; set; }
 
         #endregion
 
         #region ctor
 
         public NLapsGridView()
-            : this(ViewTypes.Last5Laps, ComparisonTypes.Speed)
+            : this(ViewTypes.Last5Laps, SpeedTimeType.MPH)
         {
 
         }
-        public NLapsGridView(ViewTypes viewType, ComparisonTypes comparisonType)
+        public NLapsGridView(ViewTypes viewType, SpeedTimeType comparisonType)
         {
             InitializeComponent();
 
@@ -105,12 +107,12 @@ namespace rNascar23TestApp.Views
             {
                 ApiSource = ApiSources.LapTimes,
                 SortOrderField = "Average",
-                SortOrder = _comparisonType == ComparisonTypes.Speed ? 2 : 1
+                SortOrder = _comparisonType == SpeedTimeType.MPH ? 2 : 1
             };
 
-            this.Width = 260;
-
             SetGridTitle(_viewType);
+
+            this.Width = 190;
         }
 
         #endregion
@@ -119,37 +121,39 @@ namespace rNascar23TestApp.Views
 
         private void SetGridTitle(ViewTypes viewType)
         {
+            var scale = _comparisonType == SpeedTimeType.MPH ? " (Avg M.P.H.)" : " (Avg Lap Time)";
+
             switch (viewType)
             {
                 case ViewTypes.Best5Laps:
-                    TitleLabel.Text = "Best 5 Laps";
+                    TitleLabel.Text = $"Best 5 Laps{scale}";
                     TitleLabel.ForeColor = Color.Black;
-                    TitleLabel.BackColor = Color.White;
+                    TitleLabel.BackColor = Color.FromArgb(0, 148, 255);
                     break;
                 case ViewTypes.Best10Laps:
-                    TitleLabel.Text = "Best 10 Laps";
-                    TitleLabel.ForeColor = Color.White;
-                    TitleLabel.BackColor = Color.Black;
+                    TitleLabel.Text = $"Best 10 Laps{scale}";
+                    TitleLabel.ForeColor = Color.Black;
+                    TitleLabel.BackColor = Color.FromArgb(0, 148, 255);
                     break;
                 case ViewTypes.Best15Laps:
-                    TitleLabel.Text = "Best 15 Laps";
+                    TitleLabel.Text = $"Best 15 Laps{scale}";
                     TitleLabel.ForeColor = Color.Black;
-                    TitleLabel.BackColor = Color.White;
+                    TitleLabel.BackColor = Color.FromArgb(0, 148, 255);
                     break;
                 case ViewTypes.Last5Laps:
-                    TitleLabel.Text = "Last 5 Laps";
+                    TitleLabel.Text = $"Last 5 Laps{scale}";
                     TitleLabel.ForeColor = Color.White;
-                    TitleLabel.BackColor = Color.Black;
+                    TitleLabel.BackColor = Color.FromArgb(0, 74, 127);
                     break;
                 case ViewTypes.Last10Laps:
-                    TitleLabel.Text = "Last 10 Laps";
-                    TitleLabel.ForeColor = Color.Black;
-                    TitleLabel.BackColor = Color.White;
+                    TitleLabel.Text = $"Last 10 Laps{scale}";
+                    TitleLabel.ForeColor = Color.White;
+                    TitleLabel.BackColor = Color.FromArgb(0, 74, 127);
                     break;
                 case ViewTypes.Last15Laps:
-                    TitleLabel.Text = "Last 15 Laps";
+                    TitleLabel.Text = $"Last 15 Laps{scale}";
                     TitleLabel.ForeColor = Color.White;
-                    TitleLabel.BackColor = Color.Black;
+                    TitleLabel.BackColor = Color.FromArgb(0, 74, 127);
                     break;
                 default:
                     break;
@@ -183,15 +187,17 @@ namespace rNascar23TestApp.Views
 
                 GridBindingSource.Sort = sortString;
             }
+
+            Grid.ClearSelection();
         }
 
         private IList<LapAverageViewModel> BuildViewModels(IList<DriverLaps> data)
         {
             switch (ComparisonType)
             {
-                case ComparisonTypes.Time:
+                case SpeedTimeType.Seconds:
                     return BuildViewModelsByTime(data);
-                case ComparisonTypes.Speed:
+                case SpeedTimeType.MPH:
                     return BuildViewModelsBySpeed(data);
                 default:
                     return new List<LapAverageViewModel>();
@@ -208,7 +214,7 @@ namespace rNascar23TestApp.Views
                         Select(d => new LapAverageViewModel()
                         {
                             Driver = d.FullName,
-                            Average = (float)Math.Round(d.Best5LapAverageSpeed().GetValueOrDefault(999), 3)
+                            Average = (float)Math.Round(d.Best5LapAverageTime().GetValueOrDefault(999), 3)
                         }).
                         ToList();
 
@@ -278,7 +284,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Best5Laps:
                     return data.
                         OrderBy(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1)).
-                        Where(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1) != -1).
+                        Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -290,7 +296,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Best10Laps:
                     return data.
                         OrderBy(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1)).
-                        Where(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1) != -1).
+                        Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -302,7 +308,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Best15Laps:
                     return data.
                         OrderBy(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1)).
-                        Where(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1) != -1).
+                        Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -314,7 +320,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Last5Laps:
                     return data.
                         OrderBy(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1)).
-                        Where(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1) != -1).
+                        Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -326,7 +332,7 @@ namespace rNascar23TestApp.Views
                 case ViewTypes.Last10Laps:
                     return data.
                         OrderBy(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1)).
-                        Where(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1) != -1).
+                        Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new LapAverageViewModel()
                         {
@@ -365,33 +371,19 @@ namespace rNascar23TestApp.Views
 
             dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
 
-            GridViewColumnBuilder.ConfigureColumn(Column1, "Driver", 150);
+            GridViewColumnBuilder.ConfigureColumn(Column1, "Driver", 120);
 
-            GridViewColumnBuilder.ConfigureColumn(Column2, "Average", 75, "Average");
+            GridViewColumnBuilder.ConfigureColumn(Column2, "Average", 65, "Avg.", "N3");
 
-            dataGridView.ColumnHeadersVisible = true;
+            dataGridView.ColumnHeadersVisible = false;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
             dataGridView.AutoGenerateColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
 
             return dataGridView;
-        }
-
-        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                var row = Grid.Rows[i];
-
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
-            }
         }
 
         #endregion

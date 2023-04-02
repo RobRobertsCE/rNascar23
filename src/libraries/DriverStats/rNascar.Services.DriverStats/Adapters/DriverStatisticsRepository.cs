@@ -32,6 +32,9 @@ namespace rNascar23.Service.DriverStatistics.Adapters
 
             var json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
+            if (string.IsNullOrEmpty(json))
+                return null;
+
             var model = JsonConvert.DeserializeObject<EventStatsModel[]>(json);
 
             var raceStats = model.FirstOrDefault();

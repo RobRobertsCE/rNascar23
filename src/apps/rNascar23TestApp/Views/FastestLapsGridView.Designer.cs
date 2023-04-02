@@ -38,13 +38,13 @@
             // 
             // Grid
             // 
+            this.Grid.BackgroundColor = System.Drawing.Color.Black;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Grid.Location = new System.Drawing.Point(0, 25);
             this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(431, 392);
+            this.Grid.Size = new System.Drawing.Size(300, 285);
             this.Grid.TabIndex = 3;
-            this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Grid_RowsAdded);
             // 
             // TitleLabel
             // 
@@ -55,7 +55,7 @@
             this.TitleLabel.ForeColor = System.Drawing.Color.LightGray;
             this.TitleLabel.Location = new System.Drawing.Point(0, 0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(431, 25);
+            this.TitleLabel.Size = new System.Drawing.Size(300, 25);
             this.TitleLabel.TabIndex = 2;
             this.TitleLabel.Text = "Fastest Laps";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -67,7 +67,7 @@
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.TitleLabel);
             this.Name = "FastestLapsGridView";
-            this.Size = new System.Drawing.Size(431, 417);
+            this.Size = new System.Drawing.Size(300, 310);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -75,9 +75,8 @@
         }
 
         #endregion
-
-        internal System.Windows.Forms.DataGridView Grid;
         public System.Windows.Forms.Label TitleLabel;
         public System.Windows.Forms.BindingSource GridBindingSource;
+        public System.Windows.Forms.DataGridView Grid;
     }
 }

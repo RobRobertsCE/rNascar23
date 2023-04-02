@@ -2,15 +2,15 @@
 {
     public class Driver
     {
-        public int driver_id { get; set; }
-        public string full_name { get; set; }
-        public string first_name { get; set; }
-        public string last_name { get; set; }
-        public bool is_in_chase { get; set; }
+        public int DriverId { get; set; }
+        public string FullName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public bool IsInChase { get; set; }
 
         public override string ToString()
         {
-            return full_name;
+            return FullName;
         }
     }
 }

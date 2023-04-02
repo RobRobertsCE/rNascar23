@@ -13,7 +13,7 @@ namespace rNascar23TestApp.ViewModels
             White = 4,
             Checkered = 5,
             Hot = 8,
-            Other = 9
+            Cold = 9
         }
 
         public int Stage1Laps { get; set; }

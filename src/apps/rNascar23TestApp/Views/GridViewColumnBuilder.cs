@@ -13,7 +13,8 @@ namespace rNascar23TestApp.Views
             DataGridViewTextBoxColumn column,
             string propertyName,
             int? width = 125,
-            string headerText = "")
+            string headerText = "",
+            string cellFormat = "")
         {
             column.HeaderText = headerText;
             column.Name = propertyName;
@@ -28,6 +29,11 @@ namespace rNascar23TestApp.Views
             {
                 column.Width = 0;
                 column.Visible = false;
+            }
+
+            if (!String.IsNullOrEmpty(cellFormat))
+            {
+                column.DefaultCellStyle.Format = cellFormat;
             }
         }
     }

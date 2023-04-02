@@ -12,19 +12,25 @@ using System.Windows.Forms;
 
 namespace rNascar23TestApp.CustomViews
 {
-    internal class CustomGridViewFactory
+    internal class CustomGridViewFactory : ICustomGridViewFactory
     {
         #region fields
 
         private readonly ILogger<CustomGridViewFactory> _logger = null;
+        private readonly IStyleService _styleService = null;
+        private IList<GridStyleSettings> _styles = new List<GridStyleSettings>();
 
         #endregion
 
         #region ctor
 
-        public CustomGridViewFactory(ILogger<CustomGridViewFactory> logger)
+        public CustomGridViewFactory(ILogger<CustomGridViewFactory> logger,
+            IStyleService styleService)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _styleService = styleService ?? throw new ArgumentNullException(nameof(styleService));
+
+            _styles = _styleService.GetStyles();
         }
 
         #endregion
@@ -85,6 +91,13 @@ namespace rNascar23TestApp.CustomViews
                 }
 
                 customGridView.Settings = customGridSettings;
+
+                //var style = _styles.FirstOrDefault(s => s.Name == customGridView.Settings.Style);
+
+                //if (style != null)
+                //{
+                //    GridStyleHelper.ApplyGridStyleSettings(customGridView.Grid, style);
+                //}
             }
             catch (Exception ex)
             {

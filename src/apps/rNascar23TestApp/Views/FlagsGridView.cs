@@ -25,6 +25,9 @@ namespace rNascar23TestApp.Views
 
         #region properties
 
+        public ApiSources ApiSource => ApiSources.Flags;
+        public string Title => "Flags";
+
         private IList<FlagState> _data = new List<FlagState>();
         public IList<FlagState> Data
         {
@@ -36,13 +39,21 @@ namespace rNascar23TestApp.Views
             {
                 _data = value;
 
-                SetDataSource(_data);
+                if (_data != null)
+                    SetDataSource(_data);
             }
         }
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
         public bool IsCustomGrid { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
 
         #endregion
 
@@ -61,7 +72,7 @@ namespace rNascar23TestApp.Views
                 SortOrder = 1
             };
 
-            this.Width = 335;
+            this.Width = 425;
         }
 
         #endregion
@@ -101,8 +112,9 @@ namespace rNascar23TestApp.Views
         {
             IList<CautionFlagViewModel> cautions = new List<CautionFlagViewModel>();
 
-            //foreach (var item in flagStates.Where(f => f.State == CautionFlag).OrderBy(f => f.TimeOfDayOs))
-            foreach (var item in flagStates.OrderBy(f => f.ElapsedTime))
+            foreach (var item in flagStates.
+                Where(f=>f.State >= 1 && f.State <= 3).
+                OrderBy(f => f.ElapsedTime))
             {
                 var caution = new CautionFlagViewModel()
                 {
@@ -125,10 +137,6 @@ namespace rNascar23TestApp.Views
             DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 
-            dataGridView.RowHeadersVisible = false;
-
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
             {
                 Column1,
@@ -141,35 +149,21 @@ namespace rNascar23TestApp.Views
 
             GridViewColumnBuilder.ConfigureColumn(Column1, "Flag", 50, "Flag");
 
-            GridViewColumnBuilder.ConfigureColumn(Column2, "LapNumber", 50, "Lap");
+            GridViewColumnBuilder.ConfigureColumn(Column2, "LapNumber", 35, "Lap");
 
-            GridViewColumnBuilder.ConfigureColumn(Column3, "Comment", 200, "Caution For");
+            GridViewColumnBuilder.ConfigureColumn(Column3, "Comment", 275, "Caution For");
 
-            GridViewColumnBuilder.ConfigureColumn(Column4, "Beneficiary", 85, "Lucky Dog");
+            GridViewColumnBuilder.ConfigureColumn(Column4, "Beneficiary", 45, "Lucky Dog");
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.RowHeaderSelect;
+            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView.ReadOnly = true;
             dataGridView.AutoGenerateColumns = false;
+            dataGridView.AllowUserToResizeRows = false;
+            dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
 
             return dataGridView;
-        }
-
-        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            for (int i = 0; i < Grid.Rows.Count; i++)
-            {
-                var row = Grid.Rows[i];
-
-                if (row.Index % 2 == 0)
-                {
-                    row.DefaultCellStyle.BackColor = Color.LightGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.BackColor = Color.White;
-                }
-            }
         }
 
         #endregion

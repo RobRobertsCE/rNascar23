@@ -18,6 +18,17 @@ namespace rNascar23TestApp.Views
         public string CustomGridName { get; set; }
         public string Description { get; set; }
         public GridSettings Settings { get; set; }
+        public DataGridView DataGridView
+        {
+            get
+            {
+                return Grid;
+            }
+        }
+
+        public ApiSources ApiSource => ApiSources.LiveFeed;
+
+        public string Title => "Generic Grid";
 
         public GridView()
         {

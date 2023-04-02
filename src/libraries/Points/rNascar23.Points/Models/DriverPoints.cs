@@ -2,39 +2,39 @@
 {
     public class DriverPoints
     {
-        public int bonus_points { get; set; }
-        public string car_number { get; set; }
-        public int delta_leader { get; set; }
-        public int delta_next { get; set; }
-        public string first_name { get; set; }
-        public int driver_id { get; set; }
-        public bool is_in_chase { get; set; }
-        public bool is_points_eligible { get; set; }
-        public bool is_rookie { get; set; }
-        public string last_name { get; set; }
-        public int membership_id { get; set; }
-        public int points { get; set; }
-        public int points_position { get; set; }
-        public int points_earned_this_race { get; set; }
-        public int stage_1_points { get; set; }
-        public bool stage_1_winner { get; set; }
-        public int stage_2_points { get; set; }
-        public bool stage_2_winner { get; set; }
-        public int stage_3_points { get; set; }
-        public bool stage_3_winner { get; set; }
-        public int wins { get; set; }
-        public int top_5 { get; set; }
-        public int top_10 { get; set; }
-        public int poles { get; set; }
-        public int series_id { get; set; }
-        public int race_id { get; set; }
-        public int run_id { get; set; }
+        public int BonusPoints { get; set; }
+        public string CarNumber { get; set; }
+        public int DeltaLeader { get; set; }
+        public int DeltaNext { get; set; }
+        public string FirstName { get; set; }
+        public int DriverId { get; set; }
+        public bool IsInChase { get; set; }
+        public bool IsPointsEligible { get; set; }
+        public bool IsRookie { get; set; }
+        public string LastName { get; set; }
+        public int MembershipId { get; set; }
+        public int Points { get; set; }
+        public int PointsPosition { get; set; }
+        public int PointsEarnedThisRace { get; set; }
+        public int Stage1Points { get; set; }
+        public bool Stage1Winner { get; set; }
+        public int Stage2Points { get; set; }
+        public bool Stage2Winner { get; set; }
+        public int Stage3Points { get; set; }
+        public bool Stage3Winner { get; set; }
+        public int Wins { get; set; }
+        public int Top5 { get; set; }
+        public int Top10 { get; set; }
+        public int Poles { get; set; }
+        public int SeriesId { get; set; }
+        public int RaceId { get; set; }
+        public int RunId { get; set; }
 
         public string Driver
         {
             get
             {
-                return $"{first_name} {last_name}";
+                return $"{FirstName} {LastName}";
             }
         }
     }

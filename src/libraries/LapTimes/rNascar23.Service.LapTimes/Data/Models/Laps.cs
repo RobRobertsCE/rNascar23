@@ -1,9 +1,9 @@
 ﻿namespace rNascar23.Service.LapTimes.Data.Models
 {
-    public class Rootobject
+    internal class Rootobject
     {
-        public Lap[] laps { get; set; }
-        public Flag[] flags { get; set; }
+        public Lap[] Laps { get; set; }
+        public Flag[] Flags { get; set; }
     }
 
     public class Lap
