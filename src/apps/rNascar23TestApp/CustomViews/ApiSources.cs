@@ -5,6 +5,7 @@
         DriverStatistics,
         Flags,
         LapTimes,
+        LapTimeData,
         LiveFeed,
         RaceLists,
         Vehicles,

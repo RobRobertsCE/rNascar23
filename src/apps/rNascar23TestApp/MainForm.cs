@@ -895,7 +895,8 @@ namespace rNascar23TestApp
                 // right panel
                 AddGridToPanel(pnlRight, new FastestLapsGridView(), DockStyle.Top);
                 AddGridToPanel(pnlRight, new LapLeadersGridView(), DockStyle.Top);
-                AddGridToPanel(pnlRight, new DriverPointsGridView(), DockStyle.Top);
+                //AddGridToPanel(pnlRight, new DriverPointsGridView(), DockStyle.Top);
+                AddGridToPanel(pnlRight, new MoversFallersGridView(), DockStyle.Top);
 
                 // bottom panel
                 AddGridToPanel(pnlBottom, new FlagsGridView(), DockStyle.Left);
@@ -1050,6 +1051,9 @@ namespace rNascar23TestApp
                     case ApiSources.LapTimes:
                         ((IGridView<DriverLaps>)gridView).Data = _formState.LapTimes.Drivers;
                         break;
+                    case ApiSources.LapTimeData:
+                        ((IGridView<LapTimeData>)gridView).Data = new List<LapTimeData>() { _formState.LapTimes};
+                        break;
                     case ApiSources.LiveFeed:
                         ((IGridView<LiveFeed>)gridView).Data = new List<LiveFeed>() { _formState.LiveFeed };
                         break;
@@ -1163,44 +1167,6 @@ namespace rNascar23TestApp
             ((Control)scheduleView).BackColor = Color.White;
 
             scheduleView.Data = schedule;
-        }
-
-        private async Task DisplaySeriesScheduleAsync(ScheduleType seriesType)
-        {
-            if (AutoUpdateTimer.Enabled)
-                await SetAutoUpdateStateAsync(false);
-
-            UpdateViewStatusLabel("Schedules");
-
-            LoadDefaultPanels();
-
-            pnlRight.Visible = false;
-            pnlHeader.Visible = false;
-            pnlEventInfo.Visible = false;
-            picFlagStatus.Visible = false;
-            picGreenYelllowLapIndicator.Visible = false;
-
-            if (_viewState != ViewState.SeriesSchedule)
-                await SetViewStateAsync(ViewState.SeriesSchedule);
-
-            var schedule = await GetSeriesScheduleAsync(seriesType);
-
-            _seriesScheduleDataGridView.DataSource = schedule.OrderBy(s => s.DateScheduled).ToList();
-
-            _seriesScheduleDataGridView.SelectionChanged += seriesScheduleDataGridView_SelectionChanged;
-
-            foreach (DataGridViewRow row in _seriesScheduleDataGridView.Rows)
-            {
-                // event complete
-                if (row.Cells[43].Value != null && !String.IsNullOrEmpty(row.Cells[43].Value.ToString()))
-                {
-                    row.DefaultCellStyle.ForeColor = Color.DarkGray;
-                }
-                else
-                {
-                    row.DefaultCellStyle.ForeColor = Color.Black;
-                }
-            }
         }
 
         private void DisplayEventSchedule()
@@ -1764,12 +1730,9 @@ namespace rNascar23TestApp
                         break;
                     case "Flags":
                         gridViewControl = new FlagsGridView();
-                        break;
-                    case "Movers":
-                        gridViewControl = new MoversFallersGridView(MoversFallersGridView.ViewTypes.Movers);
-                        break;
-                    case "Fallers":
-                        gridViewControl = new MoversFallersGridView(MoversFallersGridView.ViewTypes.Fallers);
+                        break;                  
+                    case "MoversFallers":
+                        gridViewControl = new MoversFallersGridView();
                         break;
                     case "Lap Leaders":
                         gridViewControl = new LapLeadersGridView();
@@ -1967,29 +1930,6 @@ namespace rNascar23TestApp
             }
         }
 
-        private void DumpState()
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(_formState, Formatting.Indented);
-
-                var fileName = $"Dump {DateTime.Now:yyyyMMdd hmmss.fff tt}.json";
-
-                var settings = UserSettingsService.LoadUserSettings();
-
-                var dumpFilePath = Path.Combine(settings.LogDirectory, fileName);
-
-                File.WriteAllText(dumpFilePath, json);
-
-                MessageBox.Show($"Saved form state to {fileName}");
-
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler(ex);
-            }
-        }
-
         private void GoFullscreen(bool fullscreen)
         {
             if (fullscreen)
@@ -2046,8 +1986,6 @@ namespace rNascar23TestApp
 
                 _logger.LogError(ex, errorMessage);
             }
-
-            DumpState();
         }
 
         private async Task SetAutoUpdateStateAsync(bool isEnabled)
@@ -2326,6 +2264,29 @@ namespace rNascar23TestApp
             dialog.ShowDialog();
         }
 
+        private string DumpState()
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(_formState, Formatting.Indented);
+
+                var fileName = $"Dump {DateTime.Now:yyyy-MM-dd HHmmss.fff}.json";
+
+                var settings = UserSettingsService.LoadUserSettings();
+
+                var dumpFilePath = Path.Combine(settings.LogDirectory, fileName);
+
+                File.WriteAllText(dumpFilePath, json);
+
+                return fileName;
+            }
+            catch (Exception)
+            {
+            }
+
+            return string.Empty;
+        }
+
         #endregion
 
         #region user settings
@@ -2355,114 +2316,5 @@ namespace rNascar23TestApp
         }
 
         #endregion
-
-        private void dumpStateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var fileName = DumpState();
-
-                MessageBox.Show($"Dumped state data to {fileName}");
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler(ex);
-            }
-        }
-        private string DumpState()
-        {
-            try
-            {
-                var json = JsonConvert.SerializeObject(_formState, Formatting.Indented);
-
-                var fileName = $"Dump {DateTime.Now.ToString("yyyy-MM-dd HHmmss.fff")}.json";
-
-                File.WriteAllText(fileName, json);
-
-                return fileName;
-            }
-            catch (Exception)
-            {
-            }
-
-            return string.Empty;
-        }
-
-        private async void importStateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var dialog = new OpenFileDialog();
-
-                if (dialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    var fileName = dialog.FileName;
-
-                    var json = File.ReadAllText(fileName);
-
-                    _formState = JsonConvert.DeserializeObject<FormState>(json);
-
-                    if (_formState.LiveFeed == null)
-                        return;
-
-                    if (_viewState == ViewState.None)
-                    {
-                        SetViewState((ViewState)_formState.LiveFeed.RunType);
-                    }
-
-                    List<IGridView> gridViews = new List<IGridView>();
-                    gridViews.AddRange(pnlMain.Controls.OfType<IGridView>());
-                    gridViews.AddRange(pnlRight.Controls.OfType<IGridView>());
-                    gridViews.AddRange(pnlBottom.Controls.OfType<IGridView>());
-
-                    foreach (IGridView gridView in gridViews.Where(g => g.IsCustomGrid == false))
-                    {
-                        switch (gridView.Settings.ApiSource)
-                        {
-                            case ApiSources.DriverStatistics:
-                                ((IGridView<rNascar23.DriverStatistics.Models.Driver>)gridView).Data = _formState.EventStatistics.drivers;
-                                break;
-                            case ApiSources.Flags:
-                                ((IGridView<FlagState>)gridView).Data = _formState.FlagStates;
-                                break;
-                            case ApiSources.LapTimes:
-                                ((IGridView<DriverLaps>)gridView).Data = _formState.LapTimes.Drivers;
-                                break;
-                            case ApiSources.LiveFeed:
-                                ((IGridView<LiveFeed>)gridView).Data = new List<LiveFeed>() { _formState.LiveFeed };
-                                break;
-                            case ApiSources.RaceLists:
-                                ((IGridView<Series>)gridView).Data = _formState.SeriesSchedules;
-                                break;
-                            case ApiSources.Vehicles:
-                                ((IGridView<Vehicle>)gridView).Data = _formState.LiveFeed.Vehicles;
-                                break;
-                            case ApiSources.LapAverages:
-                                ((IGridView<LapAverages>)gridView).Data = _formState.LapAverages;
-                                break;
-                            case ApiSources.DriverPoints:
-                                ((IGridView<DriverPoints>)gridView).Data = _formState.LivePoints;
-                                break;
-                            case ApiSources.StagePoints:
-                                ((IGridView<rNascar23.Points.Models.Stage>)gridView).Data = GetCurrentStagePoints();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    DisplayHeaderData();
-
-                    DisplayVehicleData();
-
-                    await SetCustomGridViewDataAsync();
-
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler(ex);
-            }
-        }
     }
 }
