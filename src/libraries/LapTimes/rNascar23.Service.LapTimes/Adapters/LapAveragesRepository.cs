@@ -22,7 +22,7 @@ namespace rNascar23.Service.LapTimes.Adapters
         public string Url { get => @"https://cf.nascar.com/cacher/{0}/{1}/{2}/lap-averages.json"; }
 
         public LapAveragesRepository(IMapper mapper, ILogger<LapAveragesRepository> logger)
-            :base(logger)
+            : base(logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -37,6 +37,9 @@ namespace rNascar23.Service.LapTimes.Adapters
                 var absoluteUrl = BuildUrl(seriesId, eventId);
 
                 json = await GetAsync(absoluteUrl).ConfigureAwait(false);
+
+                if (String.IsNullOrEmpty(json))
+                    return new List<LapAverages>();
 
                 var model = JsonConvert.DeserializeObject<LapAveragesDataModel[]>(json);
 
