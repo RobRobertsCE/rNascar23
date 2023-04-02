@@ -450,14 +450,7 @@
             this.importCustomViewsToolStripMenuItem.Name = "importCustomViewsToolStripMenuItem";
             this.importCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
             this.importCustomViewsToolStripMenuItem.Text = "Import Custom Views";
-            this.importCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.importCustomViewsToolStripMenuItem_Click);
-            // 
-            // dumdStateToolStripMenuItem
-            // 
-            this.dumdStateToolStripMenuItem.Name = "dumdStateToolStripMenuItem";
-            this.dumdStateToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
-            this.dumdStateToolStripMenuItem.Text = "Dump State";
-            this.dumdStateToolStripMenuItem.Click += new System.EventHandler(this.dumpStateToolStripMenuItem_Click);
+            this.importCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.importCustomViewsToolStripMenuItem_Click);           
             // 
             // statusStrip1
             // 
