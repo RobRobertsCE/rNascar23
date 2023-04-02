@@ -433,6 +433,32 @@
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem7
+            // 
+            this.toolStripMenuItem7.Name = "toolStripMenuItem7";
+            this.toolStripMenuItem7.Size = new System.Drawing.Size(188, 6);
+            // 
+            // backupCustomViewsToolStripMenuItem
+            // 
+            this.backupCustomViewsToolStripMenuItem.Name = "backupCustomViewsToolStripMenuItem";
+            this.backupCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.backupCustomViewsToolStripMenuItem.Text = "Backup Custom Views";
+            this.backupCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.backupCustomViewsToolStripMenuItem_Click);
+            // 
+            // importCustomViewsToolStripMenuItem
+            // 
+            this.importCustomViewsToolStripMenuItem.Name = "importCustomViewsToolStripMenuItem";
+            this.importCustomViewsToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.importCustomViewsToolStripMenuItem.Text = "Import Custom Views";
+            this.importCustomViewsToolStripMenuItem.Click += new System.EventHandler(this.importCustomViewsToolStripMenuItem_Click);
+            // 
+            // dumdStateToolStripMenuItem
+            // 
+            this.dumdStateToolStripMenuItem.Name = "dumdStateToolStripMenuItem";
+            this.dumdStateToolStripMenuItem.Size = new System.Drawing.Size(191, 22);
+            this.dumdStateToolStripMenuItem.Text = "Dump State";
+            this.dumdStateToolStripMenuItem.Click += new System.EventHandler(this.dumpStateToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {

@@ -325,7 +325,7 @@ namespace rNascar23TestApp.Views
                         Select(d => new LapAverageViewModel()
                         {
                             Driver = d.FullName,
-                            Average = (float)Math.Round(d.AverageSpeedLast10Laps().GetValueOrDefault(-1), 3)
+                            Average = (float)Math.Round(d.AverageSpeedLast5Laps().GetValueOrDefault(-1), 3)
                         }).
                         ToList();
 
