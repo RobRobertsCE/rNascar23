@@ -104,18 +104,22 @@ namespace rNascar23TestApp.Views
         {
             IList<LapLeaderViewModel> lapLeaders = new List<LapLeaderViewModel>();
 
-            int i = 1;
             foreach (var lapLedLeader in vehicles.Where(v => v.laps_led.Length > 0))
             {
                 var lapLeader = new LapLeaderViewModel()
                 {
-                    Position = i,
                     Driver = lapLedLeader.driver.FullName,
                     Laps = lapLedLeader.laps_led.Sum(l => l.end_lap - l.start_lap) + 1
                 };
 
                 lapLeaders.Add(lapLeader);
 
+            }
+
+            int i = 1;
+            foreach (LapLeaderViewModel lapLeader in lapLeaders.OrderByDescending(l => l.Laps))
+            {
+                lapLeader.Position = i;
                 i++;
             }
 
