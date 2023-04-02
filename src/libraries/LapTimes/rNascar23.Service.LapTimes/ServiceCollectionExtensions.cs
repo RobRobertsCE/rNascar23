@@ -9,6 +9,7 @@ namespace rNascar23.Service.LapTimes
         public static IServiceCollection AddLapTimes(this IServiceCollection services)
         {
             services
+                .AddTransient<IMoversFallersService, MoversFallersService>()
                 .AddTransient<ILapTimesRepository, LapTimesRepository>()
                 .AddTransient<ILapAveragesRepository, LapAveragesRepository>();
 
