@@ -124,27 +124,23 @@ namespace rNascar23TestApp.Views
             DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
+            
             dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
             {
                 Column1,
                 Column2,
                 Column3,
-                Column4,
             });
 
             dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Regular);
 
             GridViewColumnBuilder.ConfigureColumn(Column1, "Position", 25, "");
 
-            GridViewColumnBuilder.ConfigureColumn(Column2, "Driver", 125, "Driver");
+            GridViewColumnBuilder.ConfigureColumn(Column2, "Driver", 150, "Driver");
 
             GridViewColumnBuilder.ConfigureColumn(Column3, "Points", 45, "Pts");
 
-            GridViewColumnBuilder.ConfigureColumn(Column4, "Bonus", 45, "Bonus");
-
-            dataGridView.ColumnHeadersVisible = true;
+            dataGridView.ColumnHeadersVisible = false;
             dataGridView.RowHeadersVisible = false;
             dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView.ReadOnly = true;

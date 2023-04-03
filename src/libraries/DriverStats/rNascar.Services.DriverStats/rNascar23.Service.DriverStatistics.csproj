@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\rNascar23.Data\rNascar23.Data.csproj" />
+    <ProjectReference Include="..\..\Schedules\rNascar23.RaceLists\rNascar23.Schedules.csproj" />
+    <ProjectReference Include="..\..\Schedules\rNascar23.Service.RaceLists\rNascar23.Service.Schedules.csproj" />
     <ProjectReference Include="..\rNascar23.DriverStats\rNascar23.DriverStatistics.csproj" />
   </ItemGroup>
 

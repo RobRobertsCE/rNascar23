@@ -11,11 +11,12 @@ using rNascar23.Service.Points;
 using rNascar23TestApp.CustomViews;
 using rNascar23TestApp.Dialogs;
 using rNascar23TestApp.Screens;
-using rNascar23TestApp.Settings;
+using rNascar23.Common;
 using Serilog;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using rNascar23TestApp.Configuration;
 
 namespace rNascar23TestApp
 {
@@ -88,6 +89,8 @@ namespace rNascar23TestApp
                     {
                         x.AddSerilog(logger: serilogLogger, dispose: true);
                     });
+
+                    services.Configure<Features>(configuration.GetSection("Features"));
                 });
         }
     }

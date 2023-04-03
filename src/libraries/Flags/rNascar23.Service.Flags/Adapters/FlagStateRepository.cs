@@ -28,6 +28,9 @@ namespace rNascar23.Service.Flags.Adapters
             {
                 var json = await GetAsync(Url).ConfigureAwait(false);
 
+                if (string.IsNullOrEmpty(json))
+                    return new List<FlagState>();
+
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<FlagStateModel[]>(json);
 
                 var flagStates = _mapper.Map<List<FlagState>>(model);

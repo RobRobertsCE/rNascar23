@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using rNascar23TestApp.Settings;
+using rNascar23.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;

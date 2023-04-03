@@ -15,8 +15,19 @@ namespace rNascar23.Service.LapTimes.Adapters
 {
     internal class LapAveragesRepository : JsonDataRepository, ILapAveragesRepository
     {
+        private const int CircuitBreakerLimit = 2;
+
         private readonly IMapper _mapper;
         private readonly ILogger<LapAveragesRepository> _logger;
+        private int _errorCount = 0;
+
+        protected bool CircuitBreakerTripped
+        {
+            get
+            {
+                return _errorCount >= CircuitBreakerLimit;
+            }
+        }
 
         // https://cf.nascar.com/cacher/2023/2/5314/lap-times.json
         public string Url { get => @"https://cf.nascar.com/cacher/{0}/{1}/{2}/lap-averages.json"; }
@@ -34,12 +45,21 @@ namespace rNascar23.Service.LapTimes.Adapters
 
             try
             {
+                if (CircuitBreakerTripped)
+                {
+                    return new List<LapAverages>();
+                }
+
                 var absoluteUrl = BuildUrl(seriesId, eventId);
 
                 json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
                 if (String.IsNullOrEmpty(json))
+                {
+                    IncrementErrorCount();
                     return new List<LapAverages>();
+                }
+                    
 
                 var model = JsonConvert.DeserializeObject<LapAveragesDataModel[]>(json);
 
@@ -49,7 +69,12 @@ namespace rNascar23.Service.LapTimes.Adapters
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error reading lap average data: {ex.Message}\r\n\r\njson: {json}\r\n");
+                ExceptionHandler
+                (
+                    ex,
+                    $"Error reading lap average data: {ex.Message}",
+                    json
+                );
             }
 
             return new List<LapAverages>();
@@ -58,6 +83,21 @@ namespace rNascar23.Service.LapTimes.Adapters
         private string BuildUrl(int seriesId, int eventId)
         {
             return String.Format(Url, DateTime.Now.Year, seriesId, eventId);
+        }
+
+        private void ExceptionHandler(Exception ex, string message, string json)
+        {
+            _logger.LogError(ex, $"{message}\r\n\r\njson: {json}\r\nError Count: {_errorCount}");
+
+            IncrementErrorCount();
+        }
+
+        private void IncrementErrorCount()
+        {
+            _errorCount += 1;
+
+            if (CircuitBreakerTripped)
+                _logger.LogError("*** Circuit Breaker Tripped in LapAveragesRepository ***");
         }
     }
 }

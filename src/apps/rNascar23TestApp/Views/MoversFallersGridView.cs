@@ -90,6 +90,7 @@ namespace rNascar23TestApp.Views
             // Movers
             var moversModels = changes.
                 OrderByDescending(c => c.ChangeSinceFlagChange).
+                Where(c => c.ChangeSinceFlagChange > 0).
                 Take(MoversCount).
                 ToList();
 
@@ -111,6 +112,7 @@ namespace rNascar23TestApp.Views
             // Fallers
             var fallersModels = changes.
                 OrderBy(c => c.ChangeSinceFlagChange).
+                Where(c => c.ChangeSinceFlagChange < 0).
                 Take(FallersCount).
                 ToList();
 

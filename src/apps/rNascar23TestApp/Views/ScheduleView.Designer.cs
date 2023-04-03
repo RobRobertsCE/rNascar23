@@ -43,29 +43,29 @@
             this.pnlEventWinnerAndComments = new System.Windows.Forms.Panel();
             this.lblComments = new System.Windows.Forms.Label();
             this.tlpCompletedEventDetails = new System.Windows.Forms.TableLayoutPanel();
-            this.lblWinner = new System.Windows.Forms.Label();
-            this.lblMargin = new System.Windows.Forms.Label();
-            this.lblCautionLaps = new System.Windows.Forms.Label();
             this.lblLeaders = new System.Windows.Forms.Label();
-            this.lblCarsInField = new System.Windows.Forms.Label();
-            this.lblPoleWinner = new System.Windows.Forms.Label();
-            this.lblPoleSpeed = new System.Windows.Forms.Label();
             this.lblCautions = new System.Windows.Forms.Label();
+            this.lblPoleWinner = new System.Windows.Forms.Label();
             this.lblAverageSpeed = new System.Windows.Forms.Label();
-            this.lblLeadChanges = new System.Windows.Forms.Label();
             this.lblRaceTime = new System.Windows.Forms.Label();
-            this.lblCompletedEventDetails = new System.Windows.Forms.Label();
+            this.lblWinner = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.lblLeadChanges = new System.Windows.Forms.Label();
+            this.lblCautionLaps = new System.Windows.Forms.Label();
+            this.lblPoleSpeed = new System.Windows.Forms.Label();
+            this.lblMargin = new System.Windows.Forms.Label();
+            this.lblCarsInField = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.lblCompletedEventDetails = new System.Windows.Forms.Label();
             this.pnlEventSchedule.SuspendLayout();
             this.pnlRight.SuspendLayout();
             this.pnlEventWinnerAndComments.SuspendLayout();
@@ -92,14 +92,14 @@
             this.flpScheduledEvents.Dock = System.Windows.Forms.DockStyle.Left;
             this.flpScheduledEvents.Location = new System.Drawing.Point(0, 23);
             this.flpScheduledEvents.Name = "flpScheduledEvents";
-            this.flpScheduledEvents.Size = new System.Drawing.Size(876, 893);
+            this.flpScheduledEvents.Size = new System.Drawing.Size(876, 1083);
             this.flpScheduledEvents.TabIndex = 1;
             // 
             // splitter1
             // 
             this.splitter1.Location = new System.Drawing.Point(876, 23);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(3, 893);
+            this.splitter1.Size = new System.Drawing.Size(3, 1083);
             this.splitter1.TabIndex = 2;
             this.splitter1.TabStop = false;
             // 
@@ -112,10 +112,11 @@
             this.chNotes,
             this.chDescription});
             this.lvSchedule.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvSchedule.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvSchedule.HideSelection = false;
             this.lvSchedule.Location = new System.Drawing.Point(0, 23);
             this.lvSchedule.Name = "lvSchedule";
-            this.lvSchedule.Size = new System.Drawing.Size(607, 456);
+            this.lvSchedule.Size = new System.Drawing.Size(607, 573);
             this.lvSchedule.TabIndex = 3;
             this.lvSchedule.UseCompatibleStateImageBehavior = false;
             this.lvSchedule.View = System.Windows.Forms.View.Details;
@@ -133,12 +134,12 @@
             // chEventName
             // 
             this.chEventName.Text = "Event";
-            this.chEventName.Width = 200;
+            this.chEventName.Width = 500;
             // 
             // chNotes
             // 
             this.chNotes.Text = "Notes";
-            this.chNotes.Width = 200;
+            this.chNotes.Width = 350;
             // 
             // chDescription
             // 
@@ -152,7 +153,7 @@
             this.pnlEventSchedule.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEventSchedule.Location = new System.Drawing.Point(0, 0);
             this.pnlEventSchedule.Name = "pnlEventSchedule";
-            this.pnlEventSchedule.Size = new System.Drawing.Size(607, 479);
+            this.pnlEventSchedule.Size = new System.Drawing.Size(607, 596);
             this.pnlEventSchedule.TabIndex = 4;
             // 
             // lblEventSchedule
@@ -176,7 +177,7 @@
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRight.Location = new System.Drawing.Point(879, 23);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(607, 893);
+            this.pnlRight.Size = new System.Drawing.Size(607, 1083);
             this.pnlRight.TabIndex = 5;
             // 
             // pnlEventWinnerAndComments
@@ -186,21 +187,21 @@
             this.pnlEventWinnerAndComments.Controls.Add(this.tlpCompletedEventDetails);
             this.pnlEventWinnerAndComments.Controls.Add(this.lblCompletedEventDetails);
             this.pnlEventWinnerAndComments.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlEventWinnerAndComments.Location = new System.Drawing.Point(0, 479);
+            this.pnlEventWinnerAndComments.Location = new System.Drawing.Point(0, 596);
             this.pnlEventWinnerAndComments.Name = "pnlEventWinnerAndComments";
-            this.pnlEventWinnerAndComments.Size = new System.Drawing.Size(607, 414);
+            this.pnlEventWinnerAndComments.Size = new System.Drawing.Size(607, 285);
             this.pnlEventWinnerAndComments.TabIndex = 8;
             this.pnlEventWinnerAndComments.Visible = false;
             // 
             // lblComments
             // 
-            this.lblComments.BackColor = System.Drawing.Color.Gainsboro;
+            this.lblComments.BackColor = System.Drawing.Color.White;
             this.lblComments.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblComments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblComments.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblComments.Location = new System.Drawing.Point(0, 203);
+            this.lblComments.Location = new System.Drawing.Point(0, 165);
             this.lblComments.Name = "lblComments";
-            this.lblComments.Size = new System.Drawing.Size(605, 209);
+            this.lblComments.Size = new System.Drawing.Size(605, 118);
             this.lblComments.TabIndex = 7;
             // 
             // tlpCompletedEventDetails
@@ -235,47 +236,15 @@
             this.tlpCompletedEventDetails.Dock = System.Windows.Forms.DockStyle.Top;
             this.tlpCompletedEventDetails.Location = new System.Drawing.Point(0, 23);
             this.tlpCompletedEventDetails.Name = "tlpCompletedEventDetails";
-            this.tlpCompletedEventDetails.RowCount = 7;
+            this.tlpCompletedEventDetails.RowCount = 6;
             this.tlpCompletedEventDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tlpCompletedEventDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tlpCompletedEventDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tlpCompletedEventDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tlpCompletedEventDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
             this.tlpCompletedEventDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 22F));
-            this.tlpCompletedEventDetails.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpCompletedEventDetails.Size = new System.Drawing.Size(605, 180);
+            this.tlpCompletedEventDetails.Size = new System.Drawing.Size(605, 142);
             this.tlpCompletedEventDetails.TabIndex = 7;
-            // 
-            // lblWinner
-            // 
-            this.lblWinner.AutoSize = true;
-            this.tlpCompletedEventDetails.SetColumnSpan(this.lblWinner, 2);
-            this.lblWinner.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblWinner.Location = new System.Drawing.Point(126, 0);
-            this.lblWinner.Name = "lblWinner";
-            this.lblWinner.Size = new System.Drawing.Size(67, 21);
-            this.lblWinner.TabIndex = 5;
-            this.lblWinner.Text = "Winner:";
-            // 
-            // lblMargin
-            // 
-            this.lblMargin.AutoSize = true;
-            this.lblMargin.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMargin.Location = new System.Drawing.Point(466, 88);
-            this.lblMargin.Name = "lblMargin";
-            this.lblMargin.Size = new System.Drawing.Size(143, 21);
-            this.lblMargin.TabIndex = 6;
-            this.lblMargin.Text = "Margin of Victory:";
-            // 
-            // lblCautionLaps
-            // 
-            this.lblCautionLaps.AutoSize = true;
-            this.lblCautionLaps.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCautionLaps.Location = new System.Drawing.Point(466, 44);
-            this.lblCautionLaps.Name = "lblCautionLaps";
-            this.lblCautionLaps.Size = new System.Drawing.Size(107, 21);
-            this.lblCautionLaps.TabIndex = 7;
-            this.lblCautionLaps.Text = "Caution Laps:";
             // 
             // lblLeaders
             // 
@@ -287,15 +256,15 @@
             this.lblLeaders.TabIndex = 8;
             this.lblLeaders.Text = "Leaders:";
             // 
-            // lblCarsInField
+            // lblCautions
             // 
-            this.lblCarsInField.AutoSize = true;
-            this.lblCarsInField.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCarsInField.Location = new System.Drawing.Point(466, 110);
-            this.lblCarsInField.Name = "lblCarsInField";
-            this.lblCarsInField.Size = new System.Drawing.Size(101, 21);
-            this.lblCarsInField.TabIndex = 9;
-            this.lblCarsInField.Text = "Cars in Field:";
+            this.lblCautions.AutoSize = true;
+            this.lblCautions.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCautions.Location = new System.Drawing.Point(126, 44);
+            this.lblCautions.Name = "lblCautions";
+            this.lblCautions.Size = new System.Drawing.Size(77, 21);
+            this.lblCautions.TabIndex = 12;
+            this.lblCautions.Text = "Cautions:";
             // 
             // lblPoleWinner
             // 
@@ -307,26 +276,6 @@
             this.lblPoleWinner.TabIndex = 10;
             this.lblPoleWinner.Text = "Pole Winner:";
             // 
-            // lblPoleSpeed
-            // 
-            this.lblPoleSpeed.AutoSize = true;
-            this.lblPoleSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPoleSpeed.Location = new System.Drawing.Point(466, 66);
-            this.lblPoleSpeed.Name = "lblPoleSpeed";
-            this.lblPoleSpeed.Size = new System.Drawing.Size(96, 21);
-            this.lblPoleSpeed.TabIndex = 11;
-            this.lblPoleSpeed.Text = "Pole Speed:";
-            // 
-            // lblCautions
-            // 
-            this.lblCautions.AutoSize = true;
-            this.lblCautions.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCautions.Location = new System.Drawing.Point(126, 44);
-            this.lblCautions.Name = "lblCautions";
-            this.lblCautions.Size = new System.Drawing.Size(77, 21);
-            this.lblCautions.TabIndex = 12;
-            this.lblCautions.Text = "Cautions:";
-            // 
             // lblAverageSpeed
             // 
             this.lblAverageSpeed.AutoSize = true;
@@ -336,16 +285,6 @@
             this.lblAverageSpeed.Size = new System.Drawing.Size(126, 21);
             this.lblAverageSpeed.TabIndex = 13;
             this.lblAverageSpeed.Text = "Average Speed:";
-            // 
-            // lblLeadChanges
-            // 
-            this.lblLeadChanges.AutoSize = true;
-            this.lblLeadChanges.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLeadChanges.Location = new System.Drawing.Point(466, 22);
-            this.lblLeadChanges.Name = "lblLeadChanges";
-            this.lblLeadChanges.Size = new System.Drawing.Size(115, 21);
-            this.lblLeadChanges.TabIndex = 14;
-            this.lblLeadChanges.Text = "Lead Changes:";
             // 
             // lblRaceTime
             // 
@@ -357,19 +296,16 @@
             this.lblRaceTime.TabIndex = 15;
             this.lblRaceTime.Text = "Race Time:";
             // 
-            // lblCompletedEventDetails
+            // lblWinner
             // 
-            this.lblCompletedEventDetails.BackColor = System.Drawing.Color.SteelBlue;
-            this.lblCompletedEventDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCompletedEventDetails.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblCompletedEventDetails.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCompletedEventDetails.ForeColor = System.Drawing.Color.Silver;
-            this.lblCompletedEventDetails.Location = new System.Drawing.Point(0, 0);
-            this.lblCompletedEventDetails.Name = "lblCompletedEventDetails";
-            this.lblCompletedEventDetails.Size = new System.Drawing.Size(605, 23);
-            this.lblCompletedEventDetails.TabIndex = 9;
-            this.lblCompletedEventDetails.Text = "Event Details";
-            this.lblCompletedEventDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblWinner.AutoSize = true;
+            this.tlpCompletedEventDetails.SetColumnSpan(this.lblWinner, 2);
+            this.lblWinner.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWinner.Location = new System.Drawing.Point(126, 0);
+            this.lblWinner.Name = "lblWinner";
+            this.lblWinner.Size = new System.Drawing.Size(67, 21);
+            this.lblWinner.TabIndex = 5;
+            this.lblWinner.Text = "Winner:";
             // 
             // label1
             // 
@@ -431,6 +367,56 @@
             this.label6.TabIndex = 21;
             this.label6.Text = "Race Time:";
             // 
+            // lblLeadChanges
+            // 
+            this.lblLeadChanges.AutoSize = true;
+            this.lblLeadChanges.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLeadChanges.Location = new System.Drawing.Point(466, 22);
+            this.lblLeadChanges.Name = "lblLeadChanges";
+            this.lblLeadChanges.Size = new System.Drawing.Size(115, 21);
+            this.lblLeadChanges.TabIndex = 14;
+            this.lblLeadChanges.Text = "Lead Changes:";
+            // 
+            // lblCautionLaps
+            // 
+            this.lblCautionLaps.AutoSize = true;
+            this.lblCautionLaps.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCautionLaps.Location = new System.Drawing.Point(466, 44);
+            this.lblCautionLaps.Name = "lblCautionLaps";
+            this.lblCautionLaps.Size = new System.Drawing.Size(107, 21);
+            this.lblCautionLaps.TabIndex = 7;
+            this.lblCautionLaps.Text = "Caution Laps:";
+            // 
+            // lblPoleSpeed
+            // 
+            this.lblPoleSpeed.AutoSize = true;
+            this.lblPoleSpeed.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPoleSpeed.Location = new System.Drawing.Point(466, 66);
+            this.lblPoleSpeed.Name = "lblPoleSpeed";
+            this.lblPoleSpeed.Size = new System.Drawing.Size(96, 21);
+            this.lblPoleSpeed.TabIndex = 11;
+            this.lblPoleSpeed.Text = "Pole Speed:";
+            // 
+            // lblMargin
+            // 
+            this.lblMargin.AutoSize = true;
+            this.lblMargin.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMargin.Location = new System.Drawing.Point(466, 88);
+            this.lblMargin.Name = "lblMargin";
+            this.lblMargin.Size = new System.Drawing.Size(143, 21);
+            this.lblMargin.TabIndex = 6;
+            this.lblMargin.Text = "Margin of Victory:";
+            // 
+            // lblCarsInField
+            // 
+            this.lblCarsInField.AutoSize = true;
+            this.lblCarsInField.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCarsInField.Location = new System.Drawing.Point(466, 110);
+            this.lblCarsInField.Name = "lblCarsInField";
+            this.lblCarsInField.Size = new System.Drawing.Size(101, 21);
+            this.lblCarsInField.TabIndex = 9;
+            this.lblCarsInField.Text = "Cars in Field:";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -481,6 +467,20 @@
             this.label11.TabIndex = 26;
             this.label11.Text = "Cars in Field:";
             // 
+            // lblCompletedEventDetails
+            // 
+            this.lblCompletedEventDetails.BackColor = System.Drawing.Color.SteelBlue;
+            this.lblCompletedEventDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCompletedEventDetails.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblCompletedEventDetails.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCompletedEventDetails.ForeColor = System.Drawing.Color.Silver;
+            this.lblCompletedEventDetails.Location = new System.Drawing.Point(0, 0);
+            this.lblCompletedEventDetails.Name = "lblCompletedEventDetails";
+            this.lblCompletedEventDetails.Size = new System.Drawing.Size(605, 23);
+            this.lblCompletedEventDetails.TabIndex = 9;
+            this.lblCompletedEventDetails.Text = "Event Details";
+            this.lblCompletedEventDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // ScheduleView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -490,7 +490,7 @@
             this.Controls.Add(this.flpScheduledEvents);
             this.Controls.Add(this.lblTitle);
             this.Name = "ScheduleView";
-            this.Size = new System.Drawing.Size(1486, 916);
+            this.Size = new System.Drawing.Size(1486, 1106);
             this.Load += new System.EventHandler(this.ScheduleView_Load);
             this.pnlEventSchedule.ResumeLayout(false);
             this.pnlRight.ResumeLayout(false);

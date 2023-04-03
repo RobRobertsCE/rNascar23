@@ -1,4 +1,4 @@
-﻿namespace rNascar23TestApp.Settings
+﻿namespace rNascar23.Common
 {
     public enum SpeedTimeType
     {

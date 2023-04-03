@@ -2,9 +2,9 @@
 using System;
 using System.IO;
 
-namespace rNascar23TestApp.Settings
+namespace rNascar23.Common
 {
-    internal class UserSettingsService
+    public class UserSettingsService
     {
         #region consts
 
@@ -33,6 +33,10 @@ namespace rNascar23TestApp.Settings
                 else
                 {
                     var userSettings = JsonConvert.DeserializeObject<UserSettings>(json);
+
+                    EnsureDirectoryExists(userSettings.BackupDirectory);
+                    EnsureDirectoryExists(userSettings.DataDirectory);
+                    EnsureDirectoryExists(userSettings.LogDirectory);
 
                     if (userSettings == null)
                         return GetDefaultUSerSettings();
@@ -76,7 +80,7 @@ namespace rNascar23TestApp.Settings
 
         private static void EnsureDirectoryExists(string directory)
         {
-            if (!Directory.Exists(directory)) 
+            if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
@@ -86,12 +90,18 @@ namespace rNascar23TestApp.Settings
         {
             var rootDirectory = GetDefaultRootDirectory();
 
-            return new UserSettings()
+            var userSettings = new UserSettings()
             {
                 LogDirectory = Path.Combine(rootDirectory, DefaultLogDirectory),
                 DataDirectory = Path.Combine(rootDirectory, DefaultDataDirectory),
                 BackupDirectory = Path.Combine(rootDirectory, DefaultBackupDirectory)
             };
+
+            EnsureDirectoryExists(userSettings.BackupDirectory);
+            EnsureDirectoryExists(userSettings.DataDirectory);
+            EnsureDirectoryExists(userSettings.LogDirectory);
+
+            return userSettings;
         }
     }
 }

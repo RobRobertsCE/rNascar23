@@ -1,6 +1,6 @@
 ﻿using rNascar23.LiveFeeds.Models;
 using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.Settings;
+using rNascar23.Common;
 using rNascar23TestApp.ViewModels;
 using System;
 using System.Collections.Generic;

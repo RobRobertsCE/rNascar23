@@ -48,8 +48,8 @@
             this.btnLogDirectory = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rbFastestLapsSpeed = new System.Windows.Forms.RadioButton();
             this.rbFastestLapsTime = new System.Windows.Forms.RadioButton();
+            this.rbFastestLapsSpeed = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rbLastNLapsTime = new System.Windows.Forms.RadioButton();
             this.rbLastNLapsSpeed = new System.Windows.Forms.RadioButton();
@@ -66,6 +66,8 @@
             this.rbLeaderboardBestLapTime = new System.Windows.Forms.RadioButton();
             this.rbLeaderboardBestLapSpeed = new System.Windows.Forms.RadioButton();
             this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lstFavoriteDrivers = new System.Windows.Forms.CheckedListBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -86,7 +88,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 461);
             this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(677, 68);
+            this.panel1.Size = new System.Drawing.Size(990, 68);
             this.panel1.TabIndex = 1;
             // 
             // btnSave
@@ -94,7 +96,7 @@
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(565, 11);
+            this.btnSave.Location = new System.Drawing.Point(878, 11);
             this.btnSave.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(94, 45);
@@ -124,7 +126,7 @@
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(2257, 11);
+            this.button2.Location = new System.Drawing.Point(2570, 11);
             this.button2.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(255, 64);
@@ -153,7 +155,7 @@
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.Location = new System.Drawing.Point(1338, 19);
+            this.btnClose.Location = new System.Drawing.Point(1651, 19);
             this.btnClose.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(255, 64);
@@ -273,6 +275,16 @@
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             // 
+            // rbFastestLapsTime
+            // 
+            this.rbFastestLapsTime.AutoSize = true;
+            this.rbFastestLapsTime.Location = new System.Drawing.Point(166, 16);
+            this.rbFastestLapsTime.Name = "rbFastestLapsTime";
+            this.rbFastestLapsTime.Size = new System.Drawing.Size(135, 24);
+            this.rbFastestLapsTime.TabIndex = 1;
+            this.rbFastestLapsTime.Text = "Time in Seconds";
+            this.rbFastestLapsTime.UseVisualStyleBackColor = true;
+            // 
             // rbFastestLapsSpeed
             // 
             this.rbFastestLapsSpeed.AutoSize = true;
@@ -284,16 +296,6 @@
             this.rbFastestLapsSpeed.TabStop = true;
             this.rbFastestLapsSpeed.Text = "Speed in M.P.H.";
             this.rbFastestLapsSpeed.UseVisualStyleBackColor = true;
-            // 
-            // rbFastestLapsTime
-            // 
-            this.rbFastestLapsTime.AutoSize = true;
-            this.rbFastestLapsTime.Location = new System.Drawing.Point(166, 16);
-            this.rbFastestLapsTime.Name = "rbFastestLapsTime";
-            this.rbFastestLapsTime.Size = new System.Drawing.Size(135, 24);
-            this.rbFastestLapsTime.TabIndex = 1;
-            this.rbFastestLapsTime.Text = "Time in Seconds";
-            this.rbFastestLapsTime.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -467,12 +469,33 @@
             this.label8.TabIndex = 13;
             this.label8.Text = "Leaderboard Best Lap displays:";
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(679, 9);
+            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(120, 20);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Favorite Drivers";
+            // 
+            // lstFavoriteDrivers
+            // 
+            this.lstFavoriteDrivers.FormattingEnabled = true;
+            this.lstFavoriteDrivers.Location = new System.Drawing.Point(683, 32);
+            this.lstFavoriteDrivers.Name = "lstFavoriteDrivers";
+            this.lstFavoriteDrivers.Size = new System.Drawing.Size(217, 246);
+            this.lstFavoriteDrivers.TabIndex = 18;
+            // 
             // UserSettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(677, 529);
+            this.ClientSize = new System.Drawing.Size(990, 529);
+            this.Controls.Add(this.lstFavoriteDrivers);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.groupBox4);
@@ -554,5 +577,7 @@
         private System.Windows.Forms.RadioButton rbLeaderboardBestLapTime;
         private System.Windows.Forms.RadioButton rbLeaderboardBestLapSpeed;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckedListBox lstFavoriteDrivers;
     }
 }
