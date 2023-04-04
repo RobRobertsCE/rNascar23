@@ -1,6 +1,6 @@
-﻿using rNascar23.LapTimes.Models;
+﻿using rNascar23.Common;
+using rNascar23.LapTimes.Models;
 using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.Settings;
 using rNascar23TestApp.ViewModels;
 using System;
 using System.Collections.Generic;

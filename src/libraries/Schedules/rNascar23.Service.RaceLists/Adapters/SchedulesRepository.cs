@@ -5,6 +5,7 @@ using rNascar23.Schedules.Models;
 using rNascar23.Schedules.Ports;
 using rNascar23.Service.RaceLists.Data.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace rNascar23.Service.RaceLists.Adapters
@@ -28,6 +29,9 @@ namespace rNascar23.Service.RaceLists.Adapters
             try
             {
                 var json = await GetAsync(Url).ConfigureAwait(false);
+
+                if (string.IsNullOrEmpty(json))
+                    return new SeriesSchedules();
 
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<RaceListModel>(json);
 

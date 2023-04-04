@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper.Features;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using rNascar23.Common;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.DriverStatistics.Ports;
@@ -12,10 +15,10 @@ using rNascar23.Points.Models;
 using rNascar23.Points.Ports;
 using rNascar23.Schedules.Models;
 using rNascar23.Schedules.Ports;
+using rNascar23TestApp.Configuration;
 using rNascar23TestApp.CustomViews;
 using rNascar23TestApp.Dialogs;
 using rNascar23TestApp.Screens;
-using rNascar23TestApp.Settings;
 using rNascar23TestApp.ViewModels;
 using rNascar23TestApp.Views;
 using System;
@@ -101,6 +104,7 @@ namespace rNascar23TestApp
         private readonly ICustomViewSettingsService _customViewSettingsService = null;
         private readonly ICustomGridViewFactory _customGridViewFactory = null;
         private readonly IStyleService _styleService = null;
+        private readonly IOptions<Features> _features = null;
 
         #endregion
 
@@ -118,7 +122,8 @@ namespace rNascar23TestApp
             IScreenService screenService,
             ICustomViewSettingsService customViewSettingsService,
             ICustomGridViewFactory customGridViewFactory,
-            IStyleService styleService)
+            IStyleService styleService,
+            IOptions<Features> features)
         {
             InitializeComponent();
 
@@ -134,19 +139,22 @@ namespace rNascar23TestApp
             _customViewSettingsService = customViewSettingsService ?? throw new ArgumentNullException(nameof(customViewSettingsService));
             _customGridViewFactory = customGridViewFactory ?? throw new ArgumentNullException(nameof(customGridViewFactory));
             _styleService = styleService ?? throw new ArgumentNullException(nameof(styleService));
+            _features = features ?? throw new ArgumentNullException(nameof(features));
         }
 
         private async void MainForm_Load(object sender, EventArgs e)
         {
             try
             {
+                SetDeveloperFeaturesStatus(_features.Value);
+
                 lblEventName.Text = "";
 
                 await SetViewStateAsync(ViewState.None, true);
 
                 ReloadScreenDefinitions();
 
-                await DisplayTodaysScheduleAsync();
+                await DisplayTodaysScheduleAsync(true);
             }
             catch (Exception ex)
             {
@@ -487,11 +495,18 @@ namespace rNascar23TestApp
             }
         }
 
-        private async Task DisplayTodaysScheduleAsync()
+        private async Task DisplayTodaysScheduleAsync(bool switchToThisWeekIfEmpty = false)
         {
             _selectedScheduleType = ScheduleType.Today;
 
-            await DisplayScheduleViewAsync(_selectedScheduleType);
+            var hasEventsScheduledToday = await DisplayScheduleViewAsync(_selectedScheduleType, !switchToThisWeekIfEmpty);
+
+            if (!hasEventsScheduledToday && switchToThisWeekIfEmpty)
+            {
+                _selectedScheduleType = ScheduleType.ThisWeek;
+
+                await DisplayScheduleViewAsync(_selectedScheduleType);
+            }
         }
 
         private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -685,7 +700,9 @@ namespace rNascar23TestApp
                     }
                 case ScheduleType.ThisWeek:
                     {
-                        var firstDayOfThisWeek = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+                        var startingDate = DateTime.Today;
+
+                        var firstDayOfThisWeek = startingDate.AddDays(-(int)DateTime.Today.DayOfWeek).AddDays(1);
 
                         return raceLists.CupSeries.
                             Concat(raceLists.XfinitySeries).
@@ -1015,6 +1032,8 @@ namespace rNascar23TestApp
             if (!hasNewData)
                 return;
 
+            lblLastUpdate.Text = $"Last Update: {_formState.LiveFeed.TimeOfDayOs}";
+
             if (_formState.LiveFeed == null)
                 return;
 
@@ -1052,7 +1071,7 @@ namespace rNascar23TestApp
                         ((IGridView<DriverLaps>)gridView).Data = _formState.LapTimes.Drivers;
                         break;
                     case ApiSources.LapTimeData:
-                        ((IGridView<LapTimeData>)gridView).Data = new List<LapTimeData>() { _formState.LapTimes};
+                        ((IGridView<LapTimeData>)gridView).Data = new List<LapTimeData>() { _formState.LapTimes };
                         break;
                     case ApiSources.LiveFeed:
                         ((IGridView<LiveFeed>)gridView).Data = new List<LiveFeed>() { _formState.LiveFeed };
@@ -1144,17 +1163,17 @@ namespace rNascar23TestApp
             _eventScheduleDataGridView.Dock = DockStyle.Fill;
         }
 
-        private async Task DisplayScheduleViewAsync(ScheduleType scheduleType)
+        private async Task<bool> DisplayScheduleViewAsync(ScheduleType scheduleType, bool displayEmptySchedule = true)
         {
-            if (AutoUpdateTimer.Enabled)
-                await SetAutoUpdateStateAsync(false);
-
             UpdateViewStatusLabel("Schedules");
 
             if (_viewState != ViewState.ScheduleView)
                 await SetViewStateAsync(ViewState.ScheduleView);
 
             var schedule = await GetSeriesScheduleAsync(scheduleType);
+
+            if (!displayEmptySchedule && schedule.Count == 0)
+                return false;
 
             IApiDataView<SeriesEvent> scheduleView = new ScheduleView(scheduleType);
 
@@ -1167,6 +1186,8 @@ namespace rNascar23TestApp
             ((Control)scheduleView).BackColor = Color.White;
 
             scheduleView.Data = schedule;
+
+            return true;
         }
 
         private void DisplayEventSchedule()
@@ -1344,9 +1365,10 @@ namespace rNascar23TestApp
 
                 DisplayEventName(_formState.LiveFeed.RunName, GetSeriesName(_formState.LiveFeed.SeriesId), _formState.LiveFeed.TrackName, _formState.CurrentSeriesRace?.Stage1Laps, _formState.CurrentSeriesRace?.Stage2Laps, _formState.CurrentSeriesRace?.Stage3Laps);
 
-                DisplayRaceLaps(_formState.LiveFeed.LapNumber, _formState.LiveFeed.LapsInRace);
+                if (_viewState == ViewState.Race)
+                    DisplayRaceLaps(_formState.LiveFeed.LapNumber, _formState.LiveFeed.LapsInRace);
 
-                if (_lapStates.Stage1Laps > 0 && _lapStates.Stage1Laps > 0)
+                if (_viewState == ViewState.Race && _lapStates.Stage1Laps > 0 && _lapStates.Stage1Laps > 0)
                 {
                     DisplayStageLaps(_formState.LiveFeed.Stage.Number, _formState.LiveFeed.LapNumber, _formState.LiveFeed.Stage.FinishAtLap, _formState.LiveFeed.Stage.LapsInStage);
                 }
@@ -1730,7 +1752,7 @@ namespace rNascar23TestApp
                         break;
                     case "Flags":
                         gridViewControl = new FlagsGridView();
-                        break;                  
+                        break;
                     case "MoversFallers":
                         gridViewControl = new MoversFallersGridView();
                         break;
@@ -1985,6 +2007,34 @@ namespace rNascar23TestApp
                 string errorMessage = String.IsNullOrEmpty(message) ? ex.Message : message;
 
                 _logger.LogError(ex, errorMessage);
+            }
+        }
+
+        private void SetDeveloperFeaturesStatus(Features features)
+        {
+            if (features.EnableDeveloperFeatures)
+            {
+                toolsToolStripMenuItem1.Visible = false;
+                toolsToolStripMenuItem.Visible = true;
+
+                rawLiveFeedDataToolStripMenuItem.Visible = true;
+                rawVehicleListToolStripMenuItem.Visible = true;
+                rawLoopDataToolStripMenuItem.Visible = true;
+                formattedLiveFeedDataToolStripMenuItem.Visible = true;
+                toolStripMenuItem3.Visible = true;
+                toolStripMenuItem2.Visible = true;
+            }
+            else
+            {
+                toolsToolStripMenuItem1.Visible = true;
+                toolsToolStripMenuItem.Visible = false;
+
+                rawLiveFeedDataToolStripMenuItem.Visible = false;
+                rawVehicleListToolStripMenuItem.Visible = false;
+                rawLoopDataToolStripMenuItem.Visible = false;
+                formattedLiveFeedDataToolStripMenuItem.Visible = false;
+                toolStripMenuItem3.Visible = false;
+                toolStripMenuItem2.Visible = false;
             }
         }
 
@@ -2292,6 +2342,18 @@ namespace rNascar23TestApp
         #region user settings
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplaySettingsDialog();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             try
             {

@@ -106,6 +106,8 @@ namespace rNascar23TestApp.Views
 
                 GridBindingSource.Sort = sortString;
             }
+
+            Grid.FirstDisplayedScrollingRowIndex = Grid.RowCount - 1;
         }
 
         private IList<CautionFlagViewModel> BuildViewModels(IList<FlagState> flagStates)

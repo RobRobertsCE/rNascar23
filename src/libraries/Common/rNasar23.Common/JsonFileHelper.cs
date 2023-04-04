@@ -2,13 +2,14 @@
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Settings
+namespace rNascar23.Common
 {
-    internal static class JsonFileHelper
+    public static class JsonFileHelper
     {
         #region consts
 
         public const string CustomViewsPrefix = "CustomViews";
+        public const string DriverInfoPrefix = "DriverInfo";
         public const string StylesPrefix = "Styles";
         public const string ScreensPrefix = "Screens";
         public const string BackupSuffix = "Backup";
@@ -26,6 +27,10 @@ namespace rNascar23TestApp.Settings
             return $".{DataFileExtension}";
         }
 
+        public static string GetDriverInfoDataFile()
+        {
+            return $"{DriverInfoPrefix}.{DataFileExtension}";
+        }
         public static string GetScreensDataFile()
         {
             return $"{ScreensPrefix}.{DataFileExtension}";

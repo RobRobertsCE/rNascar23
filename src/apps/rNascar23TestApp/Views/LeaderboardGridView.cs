@@ -1,6 +1,7 @@
-﻿using rNascar23.LiveFeeds.Models;
+﻿using rNasar23.Common;
+using rNascar23.Common;
+using rNascar23.LiveFeeds.Models;
 using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.Settings;
 using rNascar23TestApp.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -135,6 +136,83 @@ namespace rNascar23TestApp.Views
 
                 GridBindingSource.Sort = sortString;
             }
+
+            var settings = UserSettingsService.LoadUserSettings();
+
+            foreach (DataGridViewRow row in Grid.Rows)
+            {
+                if (settings.FavoriteDrivers.Contains(row.Cells["Driver"]?.Value?.ToString()))
+                {
+                    row.Cells["Driver"].Style.BackColor = Color.Gold;
+                }
+
+                if (row.Cells["FastestLapInRace"]?.Value?.ToString() == "True")
+                {
+                    row.Cells["BestLap"].Style.BackColor = Color.LimeGreen;
+                }
+                if (row.Cells["PersonalBestLapThisLap"]?.Value?.ToString() == "True")
+                {
+                    row.Cells["BestLap"].Style.BackColor = Color.LimeGreen;
+                    row.Cells["BestLapNumber"].Style.BackColor = Color.LimeGreen;
+                }
+                if (row.Cells["FastestCarThisLap"]?.Value?.ToString() == "True")
+                {
+                    row.Cells["LastLap"].Style.BackColor = Color.LawnGreen;
+                }
+
+                if (row.Cells["IsOnDvp"]?.Value?.ToString() == "True")
+                {
+                    row.Cells["VehicleStatusImage"].Style.BackColor = Color.Red;
+                }
+                if (row.Cells["IsOnTrack"]?.Value?.ToString() == "False")
+                {
+                    row.DefaultCellStyle.ForeColor = Color.Silver;
+                }
+
+                if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Chv")
+                {
+                    ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Chevrolet_Small;
+                }
+                else if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Frd")
+                {
+                    ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Ford_Small;
+                }
+                else if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Tyt")
+                {
+                    ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Toyota_Small;
+                }
+                else
+                {
+                    ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.TransparentPixel;
+                }
+
+                if (row.Cells["VehicleStatus"]?.Value != null)
+                {
+                    if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.InPits)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DimGray;
+                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Tire;
+                    }
+                    else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Garage)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Garage;
+                    }
+                    else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Retired)
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Retired;
+                    }
+                    else
+                    {
+                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.TransparentPixel;
+                    }
+                }
+                else
+                {
+                    ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.TransparentPixel;
+                }
+            }
         }
 
         private IList<RaceVehicleViewModel> BuildViewModels(IList<Vehicle> vehicles)
@@ -143,13 +221,17 @@ namespace rNascar23TestApp.Views
 
             Vehicle lastVehicle = null;
 
+            var bestLapSpeedInRace = vehicles.Max(v => v.best_lap_speed);
+            var currentLap = vehicles.Max(v => v.laps_completed);
+            var bestLapSpeedThisLap = vehicles.Max(v => v.last_lap_speed);
+
             var splitVehiclesList = LeaderboardSide == LeaderboardSides.Left ?
                 vehicles.OrderBy(v => v.running_position).Take(VehicleCountPerLeaderboardSide) :
                 vehicles.OrderBy(v => v.running_position).Skip(VehicleCountPerLeaderboardSide);
 
             foreach (var vehicle in splitVehiclesList)
             {
-                raceVehicles.Add(new RaceVehicleViewModel()
+                var model = new RaceVehicleViewModel()
                 {
                     RunningPosition = vehicle.running_position,
                     CarManufacturer = vehicle.vehicle_manufacturer,
@@ -158,12 +240,19 @@ namespace rNascar23TestApp.Views
                     DeltaNext = (float)Math.Round(lastVehicle == null ? 0 : vehicle.delta - lastVehicle.delta, 3),
                     Driver = vehicle.driver.FullName,
                     LapsCompleted = vehicle.laps_completed,
+                    VehicleStatus = (VehicleEventStatus)vehicle.status,
                     IsOnTrack = vehicle.is_on_track,
+                    IsOnDvp = vehicle.is_on_dvp,
                     LastLap = LastLapDisplayType == SpeedTimeType.Seconds ? vehicle.last_lap_time : vehicle.last_lap_speed,
                     BestLap = BestLapDisplayType == SpeedTimeType.Seconds ? vehicle.best_lap_time : vehicle.best_lap_speed,
                     BestLapNumber = vehicle.best_lap,
-                    LastPit = vehicle.last_pit
-                });
+                    LastPit = vehicle.last_pit,
+                    PersonalBestLapThisLap = vehicle.best_lap == vehicle.laps_completed,
+                    FastestLapInRace = vehicle.best_lap_speed == bestLapSpeedInRace,
+                    FastestCarThisLap = vehicle.last_lap_speed == bestLapSpeedThisLap
+                };
+
+                raceVehicles.Add(model);
 
                 lastVehicle = vehicle;
             }
@@ -186,12 +275,22 @@ namespace rNascar23TestApp.Views
             DataGridViewTextBoxColumn Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 
+            DataGridViewTextBoxColumn Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewImageColumn colManufacturerImage = new System.Windows.Forms.DataGridViewImageColumn();
+            DataGridViewImageColumn colVehicleStatusImage = new System.Windows.Forms.DataGridViewImageColumn();
+
             dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
             {
                 Column1,
                 Column2,
                 Column3,
                 Column4,
+                colManufacturerImage,
                 Column5,
                 Column6,
                 Column7,
@@ -199,7 +298,14 @@ namespace rNascar23TestApp.Views
                 Column9,
                 Column10,
                 Column11,
-                Column12
+                Column12,
+                Column13,
+                Column14,
+                Column15,
+                Column16,
+                Column17,
+                Column18,
+                colVehicleStatusImage
             });
 
             dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 12, FontStyle.Bold);
@@ -223,7 +329,8 @@ namespace rNascar23TestApp.Views
 
             Column4.HeaderText = "Car";
             Column4.Name = "CarManufacturer";
-            Column4.Width = 50;
+            Column4.Width = 0;
+            Column4.Visible = false;
             Column4.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
             Column4.DataPropertyName = "CarManufacturer";
 
@@ -241,7 +348,7 @@ namespace rNascar23TestApp.Views
 
             Column7.HeaderText = "To Next";
             Column7.Name = "DeltaNext";
-            Column7.Width = 75;
+            Column7.Width = 65;
             Column7.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
             Column7.DataPropertyName = "DeltaNext";
 
@@ -267,15 +374,65 @@ namespace rNascar23TestApp.Views
 
             Column11.HeaderText = "On Lap";
             Column11.Name = "BestLapNumber";
-            Column11.Width = 65;
+            Column11.Width = 45;
             Column11.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
             Column11.DataPropertyName = "BestLapNumber";
 
             Column12.HeaderText = "Last Pit";
             Column12.Name = "LastPit";
-            Column12.Width = 50;
+            Column12.Width = 45;
             Column12.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
             Column12.DataPropertyName = "LastPit";
+
+            Column13.HeaderText = "PersonalBestLapThisLap";
+            Column13.Name = "PersonalBestLapThisLap";
+            Column13.Width = 0;
+            Column13.Visible = false;
+            Column13.DataPropertyName = "PersonalBestLapThisLap";
+
+            Column14.HeaderText = "FastestLapInRace";
+            Column14.Name = "FastestLapInRace";
+            Column14.Width = 0;
+            Column14.Visible = false;
+            Column14.DataPropertyName = "FastestLapInRace";
+
+            Column15.HeaderText = "FastestCarThisLap";
+            Column15.Name = "FastestCarThisLap";
+            Column15.Width = 0;
+            Column15.Visible = false;
+            Column15.DataPropertyName = "FastestCarThisLap";
+
+            Column16.HeaderText = "VehicleStatus";
+            Column16.Name = "VehicleStatus";
+            Column16.Width = 0;
+            Column16.Visible = false;
+            Column16.DataPropertyName = "VehicleStatus";
+
+            Column17.HeaderText = "IsOnDvp";
+            Column17.Name = "IsOnDvp";
+            Column17.Width = 0;
+            Column17.Visible = false;
+            Column17.DataPropertyName = "IsOnDvp";
+
+            Column18.HeaderText = "Status";
+            Column18.Name = "Status";
+            Column18.Width = 0;
+            Column18.Visible = false;
+            Column18.DataPropertyName = "StatusLabel";
+
+            ((DataGridViewImageColumn)colManufacturerImage).HeaderText = "";
+            ((DataGridViewImageColumn)colManufacturerImage).Name = "CarManufacturerImage";
+            ((DataGridViewImageColumn)colManufacturerImage).Width = 30;
+            ((DataGridViewImageColumn)colManufacturerImage).Visible = true;
+            ((DataGridViewImageColumn)colManufacturerImage).ImageLayout = DataGridViewImageCellLayout.Zoom;
+            ((DataGridViewImageColumn)colManufacturerImage).DataPropertyName = "CarManufacturerImage";
+
+            ((DataGridViewImageColumn)colVehicleStatusImage).HeaderText = "Status";
+            ((DataGridViewImageColumn)colVehicleStatusImage).Name = "VehicleStatusImage";
+            ((DataGridViewImageColumn)colVehicleStatusImage).Width = 40;
+            ((DataGridViewImageColumn)colVehicleStatusImage).Visible = true;
+            ((DataGridViewImageColumn)colVehicleStatusImage).ImageLayout = DataGridViewImageCellLayout.Zoom;
+            ((DataGridViewImageColumn)colVehicleStatusImage).DataPropertyName = "VehicleStatusImage";
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;

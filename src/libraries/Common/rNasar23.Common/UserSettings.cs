@@ -1,6 +1,7 @@
-﻿using rNascar23TestApp.Settings;
+﻿using System.Collections;
+using System.Collections.Generic;
 
-namespace rNascar23TestApp
+namespace rNascar23.Common
 {
     public class UserSettings
     {
@@ -12,5 +13,6 @@ namespace rNascar23TestApp
         public SpeedTimeType BestNLapsDisplayType { get; set; }
         public SpeedTimeType LeaderboardLastLapDisplayType { get; set; }
         public SpeedTimeType LeaderboardBestLapDisplayType { get; set; }
+        public IList<string> FavoriteDrivers { get; set; } = new List<string>();
     }
 }

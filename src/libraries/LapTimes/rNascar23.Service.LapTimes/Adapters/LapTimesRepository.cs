@@ -42,17 +42,13 @@ namespace rNascar23.Service.LapTimes.Adapters
                 json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
                 if (string.IsNullOrEmpty(json))
-                {
                     return new LapTimeData();
-                }
-                else
-                {
-                    var model = JsonConvert.DeserializeObject<Rootobject>(json);
 
-                    var lapTimeData = _mapper.Map<LapTimeData>(model);
+                var model = JsonConvert.DeserializeObject<Rootobject>(json);
 
-                    return lapTimeData;
-                }
+                var lapTimeData = _mapper.Map<LapTimeData>(model);
+
+                return lapTimeData;
             }
             catch (Exception ex)
             {

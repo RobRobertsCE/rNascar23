@@ -1,4 +1,6 @@
-﻿using rNascar23.LiveFeeds.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using rNascar23.DriverStatistics.Ports;
+using rNascar23.LiveFeeds.Models;
 using rNascar23.Schedules.Models;
 using rNascar23TestApp.CustomViews;
 using rNascar23TestApp.ViewModels;
@@ -18,6 +20,12 @@ namespace rNascar23TestApp.Views
 {
     public partial class ScheduleView : UserControl, IApiDataView<SeriesEvent>
     {
+        #region fields
+
+        private readonly IDriverInfoRepository _driverInfoRepository = null;
+
+        #endregion
+
         #region properties
 
         public ApiSources ApiSource => ApiSources.Vehicles;
@@ -60,6 +68,8 @@ namespace rNascar23TestApp.Views
             ScheduleType = scheduleType;
 
             this.Height = 225;
+
+            _driverInfoRepository = Program.Services.GetRequiredService<IDriverInfoRepository>();
         }
 
         private void ScheduleView_Load(object sender, EventArgs e)
@@ -130,15 +140,18 @@ namespace rNascar23TestApp.Views
                 view.ViewModel = viewModel;
             }
 
-            // Auto-display event schedule if only one event
-            if (flpScheduledEvents.Controls.OfType<ScheduledEventView>().Count() == 1)
+            // Auto-display first event schedule if any
+            if (flpScheduledEvents.Controls.OfType<ScheduledEventView>().Count() >= 1)
             {
                 var view = flpScheduledEvents.Controls.OfType<ScheduledEventView>().ToList()[0];
+
+                view.Selected = true;
+
                 View_ViewSelected(view, EventArgs.Empty);
             }
         }
 
-        private void View_ViewSelected(object sender, EventArgs e)
+        private async void View_ViewSelected(object sender, EventArgs e)
         {
             var selectedView = sender as ScheduledEventView;
 
@@ -148,10 +161,17 @@ namespace rNascar23TestApp.Views
 
             DisplayEventSchedule(seriesEvent.Schedule);
 
-            DisplayEventDetails(seriesEvent);
+            await DisplayEventDetailsAsync(seriesEvent);
+
+            foreach (ScheduledEventView view in flpScheduledEvents.Controls.OfType<ScheduledEventView>())
+            {
+                view.Selected = false;
+            }
+
+            selectedView.Selected = true;
         }
 
-        private void DisplayEventDetails(SeriesEvent seriesEvent)
+        private async Task DisplayEventDetailsAsync(SeriesEvent seriesEvent)
         {
             if (seriesEvent.WinnerDriverId == null)
             {
@@ -161,13 +181,17 @@ namespace rNascar23TestApp.Views
             {
                 pnlEventWinnerAndComments.Visible = true;
 
-                lblWinner.Text = $"{seriesEvent.WinnerDriverId.GetValueOrDefault(0)}";
+                var raceWinningDriver = await GetDriverNameAsync(seriesEvent.WinnerDriverId.GetValueOrDefault(0));
+
+                var poleWinningDriver = await GetDriverNameAsync(seriesEvent.PoleWinnerDriverId);
+
+                lblWinner.Text = $"{raceWinningDriver}";
 
                 lblLeaders.Text = $"{seriesEvent.NumberOfLeaders}";
                 lblLeadChanges.Text = $"{seriesEvent.NumberOfLeadChanges}";
                 lblCautions.Text = $"{seriesEvent.NumberOfCautions}";
                 lblCautionLaps.Text = $"{seriesEvent.NumberOfCautionLaps}";
-                lblPoleWinner.Text = $"{seriesEvent.PoleWinnerDriverId}";
+                lblPoleWinner.Text = $"{poleWinningDriver}";
                 lblPoleSpeed.Text = $"{seriesEvent.PoleWinnerSpeed.ToString("N3")}";
                 lblAverageSpeed.Text = $"{seriesEvent.AverageSpeed.ToString("N3")}";
                 lblMargin.Text = $"{seriesEvent.MarginOfVictory}";
@@ -176,6 +200,13 @@ namespace rNascar23TestApp.Views
 
                 lblComments.Text = seriesEvent.RaceComments;
             }
+        }
+
+        private async Task<string> GetDriverNameAsync(int driverId)
+        {
+            var driver = await _driverInfoRepository.GetDriverAsync(driverId);
+
+            return driver == null ? "None" : driver.Name;
         }
 
         private void DisplayEventSchedule(Schedule[] schedule)

@@ -9,6 +9,13 @@ namespace rNascar23TestApp.Views
 {
     public partial class ScheduledEventView : UserControl
     {
+        #region fields
+
+        private Color _selectedBoxColor = Color.Gold;
+        private int _selectionBoxThickness = 4;
+
+        #endregion
+
         #region properties
 
         private ScheduledEventViewModel _viewModel = null;
@@ -28,7 +35,20 @@ namespace rNascar23TestApp.Views
                     DisplayScheduledEvent(_viewModel);
             }
         }
+        private bool _selected = false;
+        public bool Selected
+        {
+            get
+            {
+                return _selected;
+            }
+            set
+            {
+                _selected = value;
 
+                this.Invalidate();
+            }
+        }
         #endregion
 
         #region ctol/load
@@ -159,6 +179,22 @@ namespace rNascar23TestApp.Views
         {
             if (this.ViewSelected != null)
                 this.ViewSelected(this, e);
+        }
+
+        [Browsable(false)]
+        private void ScheduledEventView_Paint(object sender, PaintEventArgs e)
+        {
+            if (_selected)
+            {
+                using (var myPen = new Pen(_selectedBoxColor, (float)_selectionBoxThickness))
+                {
+                    var area = new Rectangle(
+                        new Point(_selectionBoxThickness - 1, _selectionBoxThickness - 1),
+                        new Size(this.Size.Width - (_selectionBoxThickness * 2), this.Size.Height - (_selectionBoxThickness * 2)));
+
+                    e.Graphics.DrawRectangle(myPen, area);
+                }
+            }
         }
 
         #endregion

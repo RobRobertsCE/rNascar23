@@ -123,6 +123,16 @@ namespace rNascar23TestApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Garage {
+            get {
+                object obj = ResourceManager.GetObject("Garage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap MRN_Small {
             get {
                 object obj = ResourceManager.GetObject("MRN_Small", resourceCulture);
@@ -173,6 +183,16 @@ namespace rNascar23TestApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Retired {
+            get {
+                object obj = ResourceManager.GetObject("Retired", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Sirius_Small {
             get {
                 object obj = ResourceManager.GetObject("Sirius_Small", resourceCulture);
@@ -183,9 +203,29 @@ namespace rNascar23TestApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Tire {
+            get {
+                object obj = ResourceManager.GetObject("Tire", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Toyota_Small {
             get {
                 object obj = ResourceManager.GetObject("Toyota_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TransparentPixel {
+            get {
+                object obj = ResourceManager.GetObject("TransparentPixel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

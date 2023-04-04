@@ -30,6 +30,9 @@ namespace rNascar23.Service.LiveFeeds.Adapters
             {
                 var json = await GetAsync(Url).ConfigureAwait(false);
 
+                if (string.IsNullOrEmpty(json))
+                    return new LiveFeed();
+
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<LiveFeedModel>(json);
 
                 var liveFeed = _mapper.Map<LiveFeed>(model);

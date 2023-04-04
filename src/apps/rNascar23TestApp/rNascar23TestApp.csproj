@@ -213,6 +213,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Features.cs" />
     <Compile Include="Dialogs\ImportExportDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -225,9 +226,6 @@
     <Compile Include="Dialogs\UserSettingsDialog.Designer.cs">
       <DependentUpon>UserSettingsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\JsonFileHelper.cs" />
-    <Compile Include="Settings\SpeedTimeType.cs" />
-    <Compile Include="Settings\UserSettings.cs" />
     <Compile Include="CustomViews\ApiSources.cs" />
     <Compile Include="CustomViews\CustomGridViewFactory.cs" />
     <Compile Include="CustomViews\CustomViewSettingsService.cs" />
@@ -282,7 +280,6 @@
     <Compile Include="Screens\ScreenPanel.cs" />
     <Compile Include="Screens\ScreenPanelGridDefinition.cs" />
     <Compile Include="Screens\ScreenService.cs" />
-    <Compile Include="Settings\UserSettingsService.cs" />
     <Compile Include="ViewModels\DriverPointsViewModel.cs" />
     <Compile Include="ViewModels\INamedItem.cs" />
     <Compile Include="ViewModels\LapAverageViewModel.cs" />
@@ -452,6 +449,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libraries\Common\rNasar23.Common\rNasar23.Common.csproj">
+      <Project>{cee31643-f997-44d3-9c39-89a30eb656bb}</Project>
+      <Name>rNasar23.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\libraries\DriverStats\rNascar.Services.DriverStats\rNascar23.Service.DriverStatistics.csproj">
       <Project>{bbbdab8f-8764-4ebd-9fe5-7aaf3dd29d1b}</Project>
       <Name>rNascar23.Service.DriverStatistics</Name>
@@ -545,6 +546,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FS2_Small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TransparentPixel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Garage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Retired.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tire.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

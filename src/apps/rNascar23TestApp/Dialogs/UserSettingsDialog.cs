@@ -1,7 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
-using rNascar23TestApp.Settings;
+using rNascar23.Common;
+using rNascar23.DriverStatistics.Ports;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace rNascar23TestApp.Dialogs
@@ -12,6 +17,7 @@ namespace rNascar23TestApp.Dialogs
 
         private string _previousRootDirectory = String.Empty;
         private readonly ILogger<UserSettingsDialog> _logger = null;
+        private readonly IDriverInfoRepository _driverRepository = null;
 
         #endregion
 
@@ -34,17 +40,20 @@ namespace rNascar23TestApp.Dialogs
 
         #region ctor/load
 
-        public UserSettingsDialog(ILogger<UserSettingsDialog> logger)
+        public UserSettingsDialog(ILogger<UserSettingsDialog> logger, IDriverInfoRepository driverRepository)
         {
             InitializeComponent();
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _driverRepository = driverRepository ?? throw new ArgumentNullException(nameof(driverRepository));
         }
 
-        private void UserSettingsDialog_Load(object sender, EventArgs e)
+        private async void UserSettingsDialog_Load(object sender, EventArgs e)
         {
             try
             {
+                await LoadFavoriteDriversAsync();
+
                 if (_userSettings == null)
                 {
                     _userSettings = UserSettingsService.LoadUserSettings();
@@ -72,6 +81,33 @@ namespace rNascar23TestApp.Dialogs
             rbBestNLapsTime.Checked = settings.BestNLapsDisplayType == SpeedTimeType.Seconds;
             rbLeaderboardLastLapTime.Checked = settings.LeaderboardLastLapDisplayType == SpeedTimeType.Seconds;
             rbLeaderboardBestLapTime.Checked = settings.LeaderboardBestLapDisplayType == SpeedTimeType.Seconds;
+
+            DisplayFavoriteDrivers(settings.FavoriteDrivers);
+        }
+
+        private void DisplayFavoriteDrivers(IList<string> favoriteDrivers)
+        {
+            for (int i = 0; i < lstFavoriteDrivers.Items.Count; i++)
+            {
+                var listItem = lstFavoriteDrivers.Items[i];
+
+                if (favoriteDrivers.Contains(listItem.ToString()))
+                {
+                    lstFavoriteDrivers.SetItemChecked(i, true);
+                }
+            }
+        }
+
+        private async Task LoadFavoriteDriversAsync()
+        {
+            var driverList = await _driverRepository.GetDriversAsync();
+
+            lstFavoriteDrivers.Items.Clear();
+
+            foreach (var driver in driverList.OrderBy(d => d.Name))
+            {
+                lstFavoriteDrivers.Items.Add(driver);
+            }
         }
 
         private void btnDataDirectory_Click(object sender, EventArgs e)
@@ -175,6 +211,15 @@ namespace rNascar23TestApp.Dialogs
             _userSettings.BestNLapsDisplayType = rbBestNLapsTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
             _userSettings.LeaderboardLastLapDisplayType = rbLeaderboardLastLapTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
             _userSettings.LeaderboardBestLapDisplayType = rbLeaderboardBestLapTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
+
+            _userSettings.FavoriteDrivers = new List<string>();
+
+            for (int i = 0; i < lstFavoriteDrivers.CheckedItems.Count; i++)
+            {
+                var listItem = lstFavoriteDrivers.CheckedItems[i];
+
+                _userSettings.FavoriteDrivers.Add(listItem.ToString());
+            }
         }
 
         #endregion
@@ -198,7 +243,5 @@ namespace rNascar23TestApp.Dialogs
 
 
         #endregion
-
-
     }
 }

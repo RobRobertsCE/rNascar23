@@ -33,6 +33,9 @@ namespace rNascar23.Service.Points.Adapters
 
                 var json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
+                if (string.IsNullOrEmpty(json))
+                    return new List<DriverPoints>();
+
                 var model = JsonConvert.DeserializeObject<DriverPointsModel[]>(json);
 
                 var liveFeed = _mapper.Map<IList<DriverPoints>>(model);
