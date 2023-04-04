@@ -6,7 +6,7 @@ using rNascar23.Points.Models;
 using rNascar23.Schedules.Models;
 using System.Collections.Generic;
 
-namespace rNascar23TestApp
+namespace rNascar23
 {
     internal class FormState
     {

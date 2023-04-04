@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D0A433D9-67CC-4047-B837-B90318ACF599}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>rNascar23TestApp</RootNamespace>
-    <AssemblyName>rNascar23TestApp</AssemblyName>
+    <RootNamespace>rNascar23</RootNamespace>
+    <AssemblyName>rNascar23</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,6 +32,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>rNascar-logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -558,6 +561,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="rNascar-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

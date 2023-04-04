@@ -1,4 +1,4 @@
-﻿namespace rNascar23TestApp.Configuration
+﻿namespace rNascar23.Configuration
 {
     public class Features
     {

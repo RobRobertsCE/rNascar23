@@ -1,4 +1,4 @@
-﻿namespace rNascar23TestApp.Dialogs
+﻿namespace rNascar23.Dialogs
 {
     partial class UserSettingsDialog
     {

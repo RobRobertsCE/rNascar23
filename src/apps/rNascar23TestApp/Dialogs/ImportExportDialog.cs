@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.Screens;
-using rNascar23TestApp.ViewModels;
+using rNascar23.CustomViews;
+using rNascar23.Screens;
+using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Dialogs
+namespace rNascar23.Dialogs
 {
     public partial class ImportExportDialog : Form
     {

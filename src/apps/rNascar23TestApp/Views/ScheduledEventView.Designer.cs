@@ -1,4 +1,4 @@
-﻿namespace rNascar23TestApp.Views
+﻿namespace rNascar23.Views
 {
     partial class ScheduledEventView
     {
@@ -49,7 +49,7 @@
             // picSeries
             // 
             this.picSeries.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picSeries.Image = global::rNascar23TestApp.Properties.Resources.NCS_Small;
+            this.picSeries.Image = global::rNascar23.Properties.Resources.NCS_Small;
             this.picSeries.Location = new System.Drawing.Point(43, 13);
             this.picSeries.Name = "picSeries";
             this.picSeries.Size = new System.Drawing.Size(70, 35);
@@ -92,7 +92,7 @@
             // 
             // picTv
             // 
-            this.picTv.Image = global::rNascar23TestApp.Properties.Resources.FS1_Small;
+            this.picTv.Image = global::rNascar23.Properties.Resources.FS1_Small;
             this.picTv.Location = new System.Drawing.Point(704, 13);
             this.picTv.Name = "picTv";
             this.picTv.Size = new System.Drawing.Size(48, 23);
@@ -123,7 +123,7 @@
             // 
             // picRadio
             // 
-            this.picRadio.Image = global::rNascar23TestApp.Properties.Resources.MRN_Small;
+            this.picRadio.Image = global::rNascar23.Properties.Resources.MRN_Small;
             this.picRadio.Location = new System.Drawing.Point(704, 43);
             this.picRadio.Name = "picRadio";
             this.picRadio.Size = new System.Drawing.Size(48, 23);
@@ -144,7 +144,7 @@
             // 
             // picSatellite
             // 
-            this.picSatellite.Image = global::rNascar23TestApp.Properties.Resources.Sirius_Small;
+            this.picSatellite.Image = global::rNascar23.Properties.Resources.Sirius_Small;
             this.picSatellite.Location = new System.Drawing.Point(704, 72);
             this.picSatellite.Name = "picSatellite";
             this.picSatellite.Size = new System.Drawing.Size(48, 23);

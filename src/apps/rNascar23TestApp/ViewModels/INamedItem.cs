@@ -1,4 +1,4 @@
-﻿namespace rNascar23TestApp.ViewModels
+﻿namespace rNascar23.ViewModels
 {
     public interface INamedItem
     {

@@ -1,8 +1,8 @@
-﻿using rNascar23TestApp.ViewModels;
+﻿using rNascar23.ViewModels;
 using System.Collections.Generic;
-using static rNascar23TestApp.Dialogs.ScreenEditor;
+using static rNascar23.Dialogs.ScreenEditor;
 
-namespace rNascar23TestApp.Screens
+namespace rNascar23.Screens
 {
     public class ScreenDefinition : INamedItem
     {

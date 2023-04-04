@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Screens
+namespace rNascar23.Screens
 {
     public class ScreenService : IScreenService
     {

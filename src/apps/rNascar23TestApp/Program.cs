@@ -8,17 +8,17 @@ using rNascar23.Service.Flags;
 using rNascar23.Service.LapTimes;
 using rNascar23.Service.LiveFeeds;
 using rNascar23.Service.Points;
-using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.Dialogs;
-using rNascar23TestApp.Screens;
+using rNascar23.CustomViews;
+using rNascar23.Dialogs;
+using rNascar23.Screens;
 using rNascar23.Common;
 using Serilog;
 using System;
 using System.IO;
 using System.Windows.Forms;
-using rNascar23TestApp.Configuration;
+using rNascar23.Configuration;
 
-namespace rNascar23TestApp
+namespace rNascar23
 {
     internal static class Program
     {

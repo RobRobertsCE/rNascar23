@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{AFCB8FBA-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rNascar23.Data", "libraries\Data\rNascar23.Data\rNascar23.Data.csproj", "{CFE5FEFA-A0C0-462A-85BE-F9FCBB9B0F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascar23TestApp", "apps\rNascar23TestApp\rNascar23TestApp.csproj", "{D0A433D9-67CC-4047-B837-B90318ACF599}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascar23", "apps\rNascar23TestApp\rNascar23.csproj", "{D0A433D9-67CC-4047-B837-B90318ACF599}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Flags", "Flags", "{9B2377A4-48D8-4A2C-B613-0AC249BBB418}"
 EndProject
@@ -47,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rNascar23.Service.Schedules
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{1C0DCD6C-62D7-49C1-8BB4-F74D3E46377D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNasar23.Common", "libraries\Common\rNasar23.Common\rNasar23.Common.csproj", "{CEE31643-F997-44D3-9C39-89A30EB656BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rNasar23.Common", "libraries\Common\rNasar23.Common\rNasar23.Common.csproj", "{CEE31643-F997-44D3-9C39-89A30EB656BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using static rNascar23TestApp.CustomViews.GridRowStyle;
+using static rNascar23.CustomViews.GridRowStyle;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     public class GridStyle
     {

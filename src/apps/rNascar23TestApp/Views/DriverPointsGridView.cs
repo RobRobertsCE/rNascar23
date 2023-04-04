@@ -1,6 +1,6 @@
 ﻿using rNascar23.Points.Models;
-using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.ViewModels;
+using rNascar23.CustomViews;
+using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public partial class DriverPointsGridView : UserControl, IGridView<DriverPoints>
     {

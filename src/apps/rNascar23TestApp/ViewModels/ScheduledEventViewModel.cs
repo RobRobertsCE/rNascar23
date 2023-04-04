@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace rNascar23TestApp.ViewModels
+namespace rNascar23.ViewModels
 {
     public class ScheduledEventViewModel
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using static rNascar23TestApp.Dialogs.ScreenEditor;
+using static rNascar23.Dialogs.ScreenEditor;
 
-namespace rNascar23TestApp.Screens
+namespace rNascar23.Screens
 {
     public class ScreenPanel
     {

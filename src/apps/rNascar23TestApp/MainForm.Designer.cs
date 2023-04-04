@@ -1,4 +1,4 @@
-﻿namespace rNascar23TestApp
+﻿namespace rNascar23
 {
     partial class MainForm
     {

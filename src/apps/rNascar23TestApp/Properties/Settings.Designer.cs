@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace rNascar23TestApp.Properties {
+namespace rNascar23.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

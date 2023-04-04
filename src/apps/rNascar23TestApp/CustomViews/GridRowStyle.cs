@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     public partial class GridRowStyle
     {

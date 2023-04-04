@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public class GridViewDataSource<T>
     {

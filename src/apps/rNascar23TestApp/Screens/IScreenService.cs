@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace rNascar23TestApp.Screens
+namespace rNascar23.Screens
 {
     public interface IScreenService
     {

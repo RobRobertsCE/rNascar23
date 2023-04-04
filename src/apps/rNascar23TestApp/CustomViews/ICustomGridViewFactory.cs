@@ -1,7 +1,7 @@
-﻿using rNascar23TestApp.Views;
+﻿using rNascar23.Views;
 using System.Collections.Generic;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     public interface ICustomGridViewFactory
     {

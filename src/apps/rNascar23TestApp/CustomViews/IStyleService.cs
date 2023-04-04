@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     public interface IStyleService
     {

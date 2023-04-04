@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Dialogs
+namespace rNascar23.Dialogs
 {
     public partial class NewScreenNameDialog : Form
     {
