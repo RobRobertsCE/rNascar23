@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     public class CustomViewSettingsService : ICustomViewSettingsService
     {

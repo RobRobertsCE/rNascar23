@@ -5,7 +5,7 @@ using rNascar23.LapTimes.Models;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.Points.Models;
 using rNascar23.Schedules.Models;
-using rNascar23TestApp.CustomViews;
+using rNascar23.CustomViews;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Dialogs
+namespace rNascar23.Dialogs
 {
     public partial class GridSettingsDialog : Form
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace rNascar23TestApp.ViewModels
+namespace rNascar23.ViewModels
 {
     internal class LapStateViewModel
     {

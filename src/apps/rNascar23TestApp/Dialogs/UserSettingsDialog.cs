@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Dialogs
+namespace rNascar23.Dialogs
 {
     public partial class UserSettingsDialog : Form
     {

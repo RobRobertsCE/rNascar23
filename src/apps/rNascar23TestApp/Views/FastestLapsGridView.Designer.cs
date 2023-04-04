@@ -1,4 +1,4 @@
-﻿namespace rNascar23TestApp.Views
+﻿namespace rNascar23.Views
 {
     partial class FastestLapsGridView
     {

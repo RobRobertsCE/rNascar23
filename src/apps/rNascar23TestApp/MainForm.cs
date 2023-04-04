@@ -15,12 +15,12 @@ using rNascar23.Points.Models;
 using rNascar23.Points.Ports;
 using rNascar23.Schedules.Models;
 using rNascar23.Schedules.Ports;
-using rNascar23TestApp.Configuration;
-using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.Dialogs;
-using rNascar23TestApp.Screens;
-using rNascar23TestApp.ViewModels;
-using rNascar23TestApp.Views;
+using rNascar23.Configuration;
+using rNascar23.CustomViews;
+using rNascar23.Dialogs;
+using rNascar23.Screens;
+using rNascar23.ViewModels;
+using rNascar23.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,7 +30,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp
+namespace rNascar23
 {
     public partial class MainForm : Form
     {

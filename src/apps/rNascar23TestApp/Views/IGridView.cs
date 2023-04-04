@@ -1,8 +1,8 @@
-﻿using rNascar23TestApp.CustomViews;
+﻿using rNascar23.CustomViews;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public interface IGridView<T> : IGridView
     {

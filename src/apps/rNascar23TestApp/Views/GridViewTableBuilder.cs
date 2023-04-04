@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     internal static class GridViewTableBuilder
     {

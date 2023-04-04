@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.Screens;
+using rNascar23.CustomViews;
+using rNascar23.Screens;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
-namespace rNascar23TestApp.Dialogs
+namespace rNascar23.Dialogs
 {
     public partial class ScreenEditor : Form
     {

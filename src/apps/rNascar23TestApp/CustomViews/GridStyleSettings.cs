@@ -1,6 +1,6 @@
-﻿using rNascar23TestApp.ViewModels;
+﻿using rNascar23.ViewModels;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     public class GridStyleSettings : INamedItem
     {

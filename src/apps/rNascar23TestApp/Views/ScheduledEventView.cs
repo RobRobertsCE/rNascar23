@@ -1,11 +1,11 @@
-﻿using rNascar23TestApp.Properties;
-using rNascar23TestApp.ViewModels;
+﻿using rNascar23.Properties;
+using rNascar23.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public partial class ScheduledEventView : UserControl
     {

@@ -1,9 +1,9 @@
-﻿using rNascar23TestApp.ViewModels;
+﻿using rNascar23.ViewModels;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text.Json.Serialization;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     public class GridSettings : INamedItem
     {

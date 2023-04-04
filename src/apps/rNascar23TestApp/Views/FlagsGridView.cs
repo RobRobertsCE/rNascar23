@@ -1,7 +1,7 @@
 ﻿using rNascar23.Flags.Models;
 using rNascar23.LiveFeeds.Models;
-using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.ViewModels;
+using rNascar23.CustomViews;
+using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public partial class FlagsGridView : UserControl, IGridView<FlagState>
     {

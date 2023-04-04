@@ -1,4 +1,4 @@
-﻿using rNascar23TestApp.CustomViews;
+﻿using rNascar23.CustomViews;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using System.Windows.Markup;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public partial class GridView : UserControl, IGridView
     {

@@ -1,7 +1,7 @@
 ﻿using rNascar23.LiveFeeds.Models;
-using rNascar23TestApp.CustomViews;
+using rNascar23.CustomViews;
 using rNascar23.Common;
-using rNascar23TestApp.ViewModels;
+using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public partial class FastestLapsGridView : UserControl, IGridView<Vehicle>
     {

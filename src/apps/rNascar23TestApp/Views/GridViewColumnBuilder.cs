@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     internal static class GridViewColumnBuilder
     {

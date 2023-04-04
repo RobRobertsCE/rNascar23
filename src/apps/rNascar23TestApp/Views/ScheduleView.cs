@@ -2,8 +2,8 @@
 using rNascar23.DriverStatistics.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.Schedules.Models;
-using rNascar23TestApp.CustomViews;
-using rNascar23TestApp.ViewModels;
+using rNascar23.CustomViews;
+using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +16,7 @@ using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace rNascar23TestApp.Views
+namespace rNascar23.Views
 {
     public partial class ScheduleView : UserControl, IApiDataView<SeriesEvent>
     {

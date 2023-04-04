@@ -1,6 +1,6 @@
 ﻿using rNasar23.Common;
 
-namespace rNascar23TestApp.ViewModels
+namespace rNascar23.ViewModels
 {
     internal class RaceVehicleViewModel
     {

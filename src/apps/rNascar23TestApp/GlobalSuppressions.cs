@@ -5,5 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:rNascar23TestApp.MainForm.screenDefinitionButton_Click(System.Object,System.EventArgs)")]
-[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>", Scope = "member", Target = "~M:rNascar23TestApp.Dialogs.GridSettingsDialog.ExceptionHandler(System.Exception,System.String)")]
+[assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:rNascar23.MainForm.screenDefinitionButton_Click(System.Object,System.EventArgs)")]
+[assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>", Scope = "member", Target = "~M:rNascar23.Dialogs.GridSettingsDialog.ExceptionHandler(System.Exception,System.String)")]

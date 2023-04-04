@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using rNascar23TestApp.Views;
+using rNascar23.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace rNascar23TestApp.CustomViews
+namespace rNascar23.CustomViews
 {
     internal class CustomGridViewFactory : ICustomGridViewFactory
     {
