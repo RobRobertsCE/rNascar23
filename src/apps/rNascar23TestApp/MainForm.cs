@@ -29,6 +29,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using rNascar23.PitStops.Ports;
+using PitStop = rNascar23.PitStops.Models.PitStop;
 
 namespace rNascar23
 {
@@ -52,7 +54,8 @@ namespace rNascar23
             SeriesSchedule,
             EventSchedule,
             ScreenDefinition,
-            ScheduleView
+            ScheduleView,
+            PitStops
         }
 
         private enum RunType
@@ -100,6 +103,7 @@ namespace rNascar23
         private readonly IFlagStateRepository _flagStateRepository = null;
         private readonly ISchedulesRepository _raceScheduleRepository = null;
         private readonly IPointsRepository _pointsRepository = null;
+        private readonly IPitStopsRepository _pitStopsRepository = null;
         private readonly IScreenService _screenService = null;
         private readonly ICustomViewSettingsService _customViewSettingsService = null;
         private readonly ICustomGridViewFactory _customGridViewFactory = null;
@@ -119,6 +123,7 @@ namespace rNascar23
             IFlagStateRepository flagStateRepository,
             ISchedulesRepository raceScheduleRepository,
             IPointsRepository pointsRepository,
+            IPitStopsRepository pitStopsRepository,
             IScreenService screenService,
             ICustomViewSettingsService customViewSettingsService,
             ICustomGridViewFactory customGridViewFactory,
@@ -135,6 +140,7 @@ namespace rNascar23
             _flagStateRepository = flagStateRepository ?? throw new ArgumentNullException(nameof(flagStateRepository));
             _raceScheduleRepository = raceScheduleRepository ?? throw new ArgumentNullException(nameof(raceScheduleRepository));
             _pointsRepository = pointsRepository ?? throw new ArgumentNullException(nameof(pointsRepository));
+            _pitStopsRepository = pitStopsRepository ?? throw new ArgumentNullException(nameof(pitStopsRepository));
             _screenService = screenService ?? throw new ArgumentNullException(nameof(screenService));
             _customViewSettingsService = customViewSettingsService ?? throw new ArgumentNullException(nameof(customViewSettingsService));
             _customGridViewFactory = customGridViewFactory ?? throw new ArgumentNullException(nameof(customGridViewFactory));
@@ -400,6 +406,18 @@ namespace rNascar23
             }
         }
 
+        private async void btnPitStopsView_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await SetViewStateAsync(ViewState.PitStops);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
         private async void customViewEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
@@ -633,6 +651,7 @@ namespace rNascar23
 
         #region private [ read data ]
 
+        // TODO: Only read data if we are displaying it on a visible view
         private async Task<bool> ReadDataAsync()
         {
             _formState.LiveFeed = await _liveFeedRepository.GetLiveFeedAsync();
@@ -648,7 +667,7 @@ namespace rNascar23
 
                 var currentRace = _formState.SeriesSchedules.FirstOrDefault(s => s.RaceId == _formState.LiveFeed.RaceId);
 
-                _formState.CurrentSeriesRace = currentRace;// == null ? new SeriesEvent() : currentRace; ;
+                _formState.CurrentSeriesRace = currentRace;
             }
 
             _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
@@ -672,6 +691,8 @@ namespace rNascar23
             _formState.LivePoints = await _pointsRepository.GetDriverPoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
 
             _formState.StagePoints = await _pointsRepository.GetStagePoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
+
+            _formState.PitStops = await _pitStopsRepository.GetPitStopsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
             return true;
         }
@@ -1091,6 +1112,9 @@ namespace rNascar23
                     case ApiSources.StagePoints:
                         ((IGridView<rNascar23.Points.Models.Stage>)gridView).Data = GetCurrentStagePoints();
                         break;
+                    case ApiSources.PitStops:
+                        ((IGridView<PitStop>)gridView).Data = _formState.PitStops;
+                        break;
                     default:
                         break;
                 }
@@ -1147,6 +1171,36 @@ namespace rNascar23
             _seriesScheduleDataGridView.Dock = DockStyle.Fill;
 
             DisplayEventScheduleViewState();
+        }
+
+        private void DisplayPitStopsViewScreen()
+        {
+            pnlMain.Visible = false;
+            pnlRight.Visible = false;
+            pnlBottom.Visible = false;
+            pnlHeader.Visible = true;
+            pnlFlagGreenYellow.Visible = true;
+            picGreenYelllowLapIndicator.Visible = true;
+
+            pnlHost.Controls.Clear();
+            pnlHost.Visible = true;
+            pnlHost.Dock = DockStyle.Fill;
+
+            UpdateViewStatusLabel("Pit Stops");
+
+            IApiDataView<PitStop> pitStopsView = (IApiDataView<PitStop>)new PitStopView()
+            {
+                CurrentLap = _formState.LiveFeed.LapNumber,
+                SeriesId = _formState.LiveFeed.SeriesId,
+                RaceId = _formState.LiveFeed.RaceId,
+            };
+
+            pnlHost.Controls.Add((Control)pitStopsView);
+
+            ((Control)pitStopsView).Dock = DockStyle.Fill;
+            ((Control)pitStopsView).BackColor = Color.White;
+
+            pitStopsView.Data = _formState.PitStops;
         }
 
         private void DisplayEventScheduleViewState()
@@ -1933,6 +1987,10 @@ namespace rNascar23
                 {
                     ddbSchedules.ShowDropDown();
                 }
+                else if (e.KeyCode == Keys.F5)
+                {
+                    await SetViewStateAsync(ViewState.PitStops);
+                }
                 else if (e.KeyCode == Keys.D && e.Modifiers == (Keys.Control | Keys.Shift))
                 {
                     DumpState();
@@ -2116,6 +2174,9 @@ namespace rNascar23
                     break;
                 case ViewState.ScheduleView:
                     DisplayScheduleViewScreen();
+                    break;
+                case ViewState.PitStops:
+                    DisplayPitStopsViewScreen();
                     break;
                 default:
                     break;

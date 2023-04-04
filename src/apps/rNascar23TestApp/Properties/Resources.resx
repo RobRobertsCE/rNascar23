@@ -127,6 +127,9 @@
   <data name="Ford_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ford_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="FourTires" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FourTires.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="FOX_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FOX_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -138,6 +141,9 @@
   </data>
   <data name="Garage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Garage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LeftSides" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LeftSides.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MRN_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MRN_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,11 +157,17 @@
   <data name="NCS_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NCS_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="NoTires" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NoTires.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="PRN_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PRN_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Retired" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Retired.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RightSides" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RightSides.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Sirius_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sirius_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

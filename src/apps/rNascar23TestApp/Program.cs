@@ -17,6 +17,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using rNascar23.Configuration;
+using rNascar23.Service.PitStops;
 
 namespace rNascar23
 {
@@ -50,6 +51,7 @@ namespace rNascar23
                         .AddLapTimes()
                         .AddPoints()
                         .AddDriverStatistics()
+                        .AddPitStops()
                         .AddTransient<IScreenService, ScreenService>()
                         .AddTransient<ICustomViewSettingsService, CustomViewSettingsService>()
                         .AddTransient<ICustomGridViewFactory, CustomGridViewFactory>()

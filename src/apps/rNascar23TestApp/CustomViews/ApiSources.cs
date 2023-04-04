@@ -11,6 +11,7 @@
         Vehicles,
         LapAverages,
         DriverPoints,
-        StagePoints
+        StagePoints,
+        PitStops
     }
 }

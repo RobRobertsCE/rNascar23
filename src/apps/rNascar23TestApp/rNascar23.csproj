@@ -283,6 +283,7 @@
     <Compile Include="Screens\ScreenPanel.cs" />
     <Compile Include="Screens\ScreenPanelGridDefinition.cs" />
     <Compile Include="Screens\ScreenService.cs" />
+    <Compile Include="ViewModels\DriverPitStopViewModel.cs" />
     <Compile Include="ViewModels\DriverPointsViewModel.cs" />
     <Compile Include="ViewModels\INamedItem.cs" />
     <Compile Include="ViewModels\LapAverageViewModel.cs" />
@@ -299,11 +300,23 @@
     <Compile Include="ViewModels\SeriesEventScheduleViewModel.cs" />
     <Compile Include="ViewModels\SeriesTypes.cs" />
     <Compile Include="ViewModels\TvTypes.cs" />
+    <Compile Include="Views\DriverPitStopView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\DriverPitStopView.Designer.cs">
+      <DependentUpon>DriverPitStopView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LeaderboardGridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Views\LeaderboardGridView.Designer.cs">
       <DependentUpon>LeaderboardGridView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PitStopView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\PitStopView.Designer.cs">
+      <DependentUpon>PitStopView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ScheduledEventView.cs">
       <SubType>UserControl</SubType>
@@ -400,8 +413,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\DriverPitStopView.resx">
+      <DependentUpon>DriverPitStopView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LeaderboardGridView.resx">
       <DependentUpon>LeaderboardGridView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\PitStopView.resx">
+      <DependentUpon>PitStopView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ScheduledEventView.resx">
       <DependentUpon>ScheduledEventView.cs</DependentUpon>
@@ -479,6 +498,14 @@
     <ProjectReference Include="..\..\libraries\LapTimes\rNascar23.Service.LapTimes\rNascar23.Service.LapTimes.csproj">
       <Project>{577055f5-2876-43d3-90a2-1dc5275da8ae}</Project>
       <Name>rNascar23.Service.LapTimes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libraries\PitStops\rNascar23.PitStops\rNascar23.PitStops.csproj">
+      <Project>{696d2b73-0514-41a3-bec1-c0ced6c60ae8}</Project>
+      <Name>rNascar23.PitStops</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libraries\PitStops\rNascar23.Service.PitStops\rNascar23.Service.PitStops.csproj">
+      <Project>{7bf784ca-a6c3-489d-bca2-f476cfb41e96}</Project>
+      <Name>rNascar23.Service.PitStops</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\libraries\Points\rNascar23.Points\rNascar23.Points.csproj">
       <Project>{c11708b9-b376-40a5-9124-8d29743d0384}</Project>
@@ -563,6 +590,10 @@
     <None Include="Resources\Tire.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\FourTires.png" />
+    <None Include="Resources\LeftSides.png" />
+    <None Include="Resources\RightSides.png" />
+    <None Include="Resources\NoTires.png" />
     <Content Include="rNascar-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

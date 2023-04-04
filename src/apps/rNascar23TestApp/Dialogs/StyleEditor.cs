@@ -431,16 +431,12 @@ namespace rNascar23.Dialogs
                 {
                     GridStyleSettings = cboStyles.SelectedItem as GridStyleSettings;
 
-                    Console.WriteLine($"Selected {GridStyleSettings.Name}");
-
                     DisplaySelectedStyle();
 
                     SetViewState(ViewStates.Viewing);
                 }
                 else
                 {
-                    Console.WriteLine($"Selected -NONE-");
-
                     ClearStyle();
 
                     SetViewState(ViewStates.Ready);

@@ -407,7 +407,7 @@ namespace rNascar23.Dialogs
                     foreach (var item in lst)
                     {
                         Panel targetPanel = (Panel)sender;
-                        Console.WriteLine($"Dropped {item} on panel {targetPanel.Name}");
+
                         DropGridOnPanel(targetPanel, item);
                     }
                     _dragging = false;
