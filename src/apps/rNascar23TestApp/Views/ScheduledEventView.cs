@@ -49,6 +49,7 @@ namespace rNascar23.Views
                 this.Invalidate();
             }
         }
+
         #endregion
 
         #region ctol/load

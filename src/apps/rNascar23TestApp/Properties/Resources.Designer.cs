@@ -93,6 +93,16 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FourTires {
+            get {
+                object obj = ResourceManager.GetObject("FourTires", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FOX_Small {
             get {
                 object obj = ResourceManager.GetObject("FOX_Small", resourceCulture);
@@ -126,6 +136,16 @@ namespace rNascar23.Properties {
         internal static System.Drawing.Bitmap Garage {
             get {
                 object obj = ResourceManager.GetObject("Garage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LeftSides {
+            get {
+                object obj = ResourceManager.GetObject("LeftSides", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,6 +193,16 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NoTires {
+            get {
+                object obj = ResourceManager.GetObject("NoTires", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PRN_Small {
             get {
                 object obj = ResourceManager.GetObject("PRN_Small", resourceCulture);
@@ -186,6 +216,16 @@ namespace rNascar23.Properties {
         internal static System.Drawing.Bitmap Retired {
             get {
                 object obj = ResourceManager.GetObject("Retired", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RightSides {
+            get {
+                object obj = ResourceManager.GetObject("RightSides", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
