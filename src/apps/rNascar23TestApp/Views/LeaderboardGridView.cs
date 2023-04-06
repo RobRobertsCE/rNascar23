@@ -9,6 +9,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using rNascar23.Media.Ports;
+using Microsoft.Extensions.DependencyInjection;
+using rNascar23.Media.Models;
+using rNascar23.Properties;
 
 namespace rNascar23.Views
 {
@@ -17,6 +21,14 @@ namespace rNascar23.Views
         #region consts
 
         private const int VehicleCountPerLeaderboardSide = 20;
+
+        #endregion
+
+        #region fields
+
+        private readonly IMediaRepository _mediaRepository = null;
+        private readonly IList<MediaImage> _mediaCache = new List<MediaImage>();
+        private readonly UserSettings _userSettings = null;
 
         #endregion
 
@@ -72,6 +84,7 @@ namespace rNascar23.Views
         }
         public SpeedTimeType LastLapDisplayType { get; set; }
         public SpeedTimeType BestLapDisplayType { get; set; }
+        public int SeriesId { get; set; }
 
         #endregion
 
@@ -87,6 +100,35 @@ namespace rNascar23.Views
         {
             InitializeComponent();
 
+            _userSettings = UserSettingsService.LoadUserSettings();
+
+            if (_userSettings.UseDarkTheme)
+            {
+                this.BackColor = Color.Black;
+                Grid.BackColor = Color.Black;
+                Grid.BackgroundColor = Color.Black;
+                Grid.RowsDefaultCellStyle.BackColor = Color.Black;
+                Grid.RowsDefaultCellStyle.ForeColor = Color.White;
+                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(16, 16, 16);
+                Grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.White;
+                Grid.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+                Grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            }
+            else
+            {
+                this.BackColor = Color.White;
+                Grid.BackColor = Color.White;
+                Grid.BackgroundColor = Color.White;
+                Grid.RowsDefaultCellStyle.BackColor = Color.White;
+                Grid.RowsDefaultCellStyle.ForeColor = Color.Black;
+                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.Silver;
+                Grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
+                Grid.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+                Grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            }
+
+            _mediaRepository = Program.Services.GetRequiredService<IMediaRepository>();
+
             LeaderboardSide = leaderboardSide;
             RunType = runType;
 
@@ -99,10 +141,8 @@ namespace rNascar23.Views
                 SortOrder = 1
             };
 
-            var userSettings = UserSettingsService.LoadUserSettings();
-
-            LastLapDisplayType = userSettings.LeaderboardLastLapDisplayType;
-            BestLapDisplayType = userSettings.LeaderboardBestLapDisplayType;
+            LastLapDisplayType = _userSettings.LeaderboardLastLapDisplayType;
+            BestLapDisplayType = _userSettings.LeaderboardBestLapDisplayType;
         }
 
         #endregion
@@ -112,6 +152,8 @@ namespace rNascar23.Views
         private void SetDataSource<T>(IList<T> values)
         {
             var models = BuildViewModels((IList<Vehicle>)values);
+
+            if (models == null || models.Count == 0) return;
 
             var dataTable = GridViewTableBuilder.ToDataTable<RaceVehicleViewModel>(models.ToList());
 
@@ -141,23 +183,47 @@ namespace rNascar23.Views
 
             foreach (DataGridViewRow row in Grid.Rows)
             {
+                if (_userSettings.UseGraphicalCarNumbers)
+                {
+                    int? carNumber = row.Cells["CarNumber"]?.Value != null ? (int?)int.Parse(row.Cells["CarNumber"].Value.ToString()) : null;
+
+                    if (row.Cells["CarNumber"].Value != null)
+                    {
+                        var carNumberImage = _mediaCache.FirstOrDefault(c => c.CarNumber == carNumber.Value && c.SeriesId == SeriesId && c.MediaType == MediaTypes.CarNumber);
+                        if (carNumberImage != null)
+                        {
+                            Image image = (Bitmap)((new ImageConverter()).ConvertFrom(carNumberImage.Image));
+                            ((DataGridViewImageCell)row.Cells["CarNumberImage"]).Value = image;
+                        }
+                        else
+                            ((DataGridViewImageCell)row.Cells["CarNumberImage"]).Value = Resources.TransparentPixel;
+                    }
+                    else
+                        ((DataGridViewImageCell)row.Cells["CarNumberImage"]).Value = Resources.TransparentPixel;
+                }
+
                 if (settings.FavoriteDrivers.Contains(row.Cells["Driver"]?.Value?.ToString()))
                 {
                     row.Cells["Driver"].Style.BackColor = Color.Gold;
+                    row.Cells["Driver"].Style.ForeColor = Color.Black;
                 }
 
                 if (row.Cells["FastestLapInRace"]?.Value?.ToString() == "True")
                 {
                     row.Cells["BestLap"].Style.BackColor = Color.LimeGreen;
+                    row.Cells["BestLap"].Style.ForeColor = Color.Black;
                 }
                 if (row.Cells["PersonalBestLapThisLap"]?.Value?.ToString() == "True")
                 {
                     row.Cells["BestLap"].Style.BackColor = Color.LimeGreen;
+                    row.Cells["BestLap"].Style.ForeColor = Color.Black;
                     row.Cells["BestLapNumber"].Style.BackColor = Color.LimeGreen;
+                    row.Cells["BestLapNumber"].Style.ForeColor = Color.Black;
                 }
                 if (row.Cells["FastestCarThisLap"]?.Value?.ToString() == "True")
                 {
                     row.Cells["LastLap"].Style.BackColor = Color.LawnGreen;
+                    row.Cells["LastLap"].Style.ForeColor = Color.Black;
                 }
 
                 if (row.Cells["IsOnDvp"]?.Value?.ToString() == "True")
@@ -166,7 +232,10 @@ namespace rNascar23.Views
                 }
                 if (row.Cells["IsOnTrack"]?.Value?.ToString() == "False")
                 {
-                    row.DefaultCellStyle.ForeColor = Color.Silver;
+                    if (_userSettings.UseDarkTheme)
+                        row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                    else
+                        row.DefaultCellStyle.ForeColor = Color.Silver;
                 }
 
                 if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Chv")
@@ -190,17 +259,29 @@ namespace rNascar23.Views
                 {
                     if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.InPits)
                     {
-                        row.DefaultCellStyle.ForeColor = Color.DimGray;
+                        if (_userSettings.UseDarkTheme)
+                            row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                        else
+                            row.DefaultCellStyle.ForeColor = Color.Silver;
+
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Tire;
                     }
                     else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Garage)
                     {
-                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                        if (_userSettings.UseDarkTheme)
+                            row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                        else
+                            row.DefaultCellStyle.ForeColor = Color.Silver;
+
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Garage;
                     }
                     else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Retired)
                     {
-                        row.DefaultCellStyle.ForeColor = Color.DarkGray;
+                        if (_userSettings.UseDarkTheme)
+                            row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                        else
+                            row.DefaultCellStyle.ForeColor = Color.Silver;
+
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Retired;
                     }
                     else
@@ -217,6 +298,8 @@ namespace rNascar23.Views
 
         private IList<RaceVehicleViewModel> BuildViewModels(IList<Vehicle> vehicles)
         {
+            if (vehicles == null || vehicles.Count == 0) return null;
+
             var raceVehicles = new List<RaceVehicleViewModel>();
 
             Vehicle lastVehicle = null;
@@ -254,6 +337,17 @@ namespace rNascar23.Views
 
                 raceVehicles.Add(model);
 
+                if (_userSettings.UseGraphicalCarNumbers)
+                {
+                    var carNumber = int.Parse(vehicle.vehicle_number);
+                    if (!_mediaCache.Any(c => c.CarNumber == carNumber && c.SeriesId == SeriesId && c.MediaType == MediaTypes.CarNumber))
+                    {
+                        var carNumberImage = _mediaRepository.GetCarNumberImage(SeriesId, carNumber);
+                        if (carNumberImage != null)
+                            _mediaCache.Add(carNumberImage);
+                    }
+                }
+
                 lastVehicle = vehicle;
             }
 
@@ -262,6 +356,12 @@ namespace rNascar23.Views
 
         private DataGridView BuildGridView(DataGridView dataGridView)
         {
+            if (_userSettings.UseGraphicalCarNumbers)
+            {
+                dataGridView.RowTemplate.Resizable = DataGridViewTriState.True;
+                dataGridView.RowTemplate.Height = 28;
+            }
+
             DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -283,10 +383,12 @@ namespace rNascar23.Views
             DataGridViewTextBoxColumn Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             DataGridViewImageColumn colManufacturerImage = new System.Windows.Forms.DataGridViewImageColumn();
             DataGridViewImageColumn colVehicleStatusImage = new System.Windows.Forms.DataGridViewImageColumn();
+            DataGridViewImageColumn colCarNumberImage = new System.Windows.Forms.DataGridViewImageColumn();
 
             dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
             {
                 Column1,
+                colCarNumberImage,
                 Column2,
                 Column3,
                 Column4,
@@ -316,9 +418,18 @@ namespace rNascar23.Views
             Column1.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
             Column1.DataPropertyName = "RunningPosition";
 
+            ((DataGridViewImageColumn)colCarNumberImage).HeaderText = "#";
+            ((DataGridViewImageColumn)colCarNumberImage).Name = "CarNumberImage";
+            ((DataGridViewImageColumn)colCarNumberImage).Width = dataGridView.RowTemplate.Height + 5;
+            ((DataGridViewImageColumn)colCarNumberImage).Visible = _userSettings.UseGraphicalCarNumbers;
+            ((DataGridViewImageColumn)colCarNumberImage).ImageLayout = DataGridViewImageCellLayout.Zoom;
+            ((DataGridViewImageColumn)colCarNumberImage).DataPropertyName = "CarNumberImage";
+            ((DataGridViewImageColumn)colCarNumberImage).DefaultCellStyle.BackColor = Color.White;
+
             Column2.HeaderText = "#";
             Column2.Name = "CarNumber";
             Column2.Width = 45;
+            Column2.Visible = !_userSettings.UseGraphicalCarNumbers;
             Column2.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
             Column2.DataPropertyName = "CarNumber";
 
@@ -422,7 +533,7 @@ namespace rNascar23.Views
 
             ((DataGridViewImageColumn)colManufacturerImage).HeaderText = "";
             ((DataGridViewImageColumn)colManufacturerImage).Name = "CarManufacturerImage";
-            ((DataGridViewImageColumn)colManufacturerImage).Width = 30;
+            ((DataGridViewImageColumn)colManufacturerImage).Width = dataGridView.RowTemplate.Height + 5;
             ((DataGridViewImageColumn)colManufacturerImage).Visible = true;
             ((DataGridViewImageColumn)colManufacturerImage).ImageLayout = DataGridViewImageCellLayout.Zoom;
             ((DataGridViewImageColumn)colManufacturerImage).DataPropertyName = "CarManufacturerImage";
@@ -441,6 +552,7 @@ namespace rNascar23.Views
             dataGridView.AutoGenerateColumns = false;
             dataGridView.AllowUserToResizeRows = false;
             dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
+            dataGridView.AllowUserToAddRows = false;
 
             return dataGridView;
         }

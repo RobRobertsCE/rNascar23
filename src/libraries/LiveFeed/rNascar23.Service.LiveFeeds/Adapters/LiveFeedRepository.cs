@@ -31,7 +31,7 @@ namespace rNascar23.Service.LiveFeeds.Adapters
                 var json = await GetAsync(Url).ConfigureAwait(false);
 
                 if (string.IsNullOrEmpty(json))
-                    return new LiveFeed();
+                    return null;
 
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<LiveFeedModel>(json);
 
@@ -50,8 +50,15 @@ namespace rNascar23.Service.LiveFeeds.Adapters
             }
             catch (Exception ex)
             {
-                throw ex;
+                ExceptionHandler(ex, "Error loading live feed");
             }
+
+            return null;
+        }
+
+        private void ExceptionHandler(Exception ex, string message = "")
+        {
+            _logger.LogError(ex, message);
         }
     }
 }

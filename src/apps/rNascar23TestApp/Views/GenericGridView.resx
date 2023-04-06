@@ -117,71 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Chevrolet_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Chevrolet_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="CTS_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CTS_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Ford_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Ford_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FourTires" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FourTires.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FOX_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FOX_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FS1_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FS1_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="FS2_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\FS2_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Garage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Garage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="LeftTires" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LeftTires.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MRN_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MRN_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NBCSports_Streaming_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NBCSports_Streaming_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NBC_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NBC_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="NCS_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NCS_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PRN_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PRN_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Retired" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Retired.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RightTires" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RightTires.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Sirius_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Sirius_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tire" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Tire.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Toyota_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Toyota_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TransparentPixel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TransparentPixel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="USA_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\USA_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="XFinity_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\XFinity_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
+  <metadata name="GridBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

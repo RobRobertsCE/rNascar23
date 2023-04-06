@@ -71,7 +71,14 @@ namespace rNascar23.CustomViews
                 customGridView.TitleLabel.Text = customGridSettings.Title;
                 customGridView.TitleLabel.ForeColor = customGridSettings.TitleForeColor;
                 customGridView.TitleLabel.BackColor = customGridSettings.TitleBackColor;
-                customGridView.Width = customGridSettings.GridWidth;
+                if (customGridSettings.GridWidth.HasValue)
+                    customGridView.DataGridView.Width = customGridSettings.GridWidth.Value;
+                if (customGridSettings.GridHeight.HasValue)
+                    customGridView.DataGridView.Height = customGridSettings.GridHeight.Value;
+                if (customGridSettings.ViewWidth.HasValue)
+                    customGridView.Width = customGridSettings.ViewWidth.Value;
+                if (customGridSettings.ViewHeight.HasValue)
+                    customGridView.Height = customGridSettings.ViewHeight.Value;
                 customGridView.Grid.RowHeadersVisible = !customGridSettings.HideRowSelector;
 
                 foreach (var columnSettings in customGridSettings.Columns.OrderBy(c => c.Index))

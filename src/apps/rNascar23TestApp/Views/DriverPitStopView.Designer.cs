@@ -115,7 +115,7 @@
             // 
             // picTires
             // 
-            this.picTires.BackColor = System.Drawing.Color.DimGray;
+            this.picTires.BackColor = System.Drawing.Color.Transparent;
             this.picTires.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picTires.Location = new System.Drawing.Point(259, 6);
             this.picTires.Name = "picTires";

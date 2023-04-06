@@ -16,9 +16,13 @@ namespace rNascar23.CustomViews
         public int DisplayOrder { get; set; } = 0;
         public int TitleForeColorInt { get; set; } = -16777216;
         public int TitleBackColorInt { get; set; } = -1;
-        public int GridWidth { get; set; } = 250;
+        public int? GridWidth { get; set; } = 200;
+        public int? ViewWidth { get; set; } = 228;
+        public int? GridHeight { get; set; } = 250;
+        public int? ViewHeight { get; set; } = 228;
         public bool HideRowSelector { get; set; } = false;
         public bool HideColumnHeaders { get; set; } = false;
+        public int? MaxRows { get; set; } = 8;
         public int SortOrder { get; set; } = 0;
         public string SortOrderField { get; set; }
         public string Style { get; set; }

@@ -68,35 +68,62 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lstFavoriteDrivers = new System.Windows.Forms.CheckedListBox();
+            this.chkUseGraphicalNumbers = new System.Windows.Forms.CheckBox();
+            this.chkUseDarkTheme = new System.Windows.Forms.CheckBox();
+            this.chkRaceViewsBottom = new System.Windows.Forms.CheckedListBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.chkQualifyingViewsBottom = new System.Windows.Forms.CheckedListBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.chkPracticeViewsBottom = new System.Windows.Forms.CheckedListBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tabSettings = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkPracticeViewsRight = new System.Windows.Forms.CheckedListBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.chkQualifyingViewsRight = new System.Windows.Forms.CheckedListBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.chkRaceViewsRight = new System.Windows.Forms.CheckedListBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.lblHelp = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.tabSettings.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.SteelBlue;
+            this.panel1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.panel1.Controls.Add(this.btnSave);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Controls.Add(this.btnClose);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 461);
+            this.panel1.Location = new System.Drawing.Point(0, 535);
             this.panel1.Margin = new System.Windows.Forms.Padding(6);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(990, 68);
+            this.panel1.Size = new System.Drawing.Size(820, 68);
             this.panel1.TabIndex = 1;
             // 
             // btnSave
             // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
             this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnSave.Location = new System.Drawing.Point(878, 11);
+            this.btnSave.Location = new System.Drawing.Point(18, 15);
             this.btnSave.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(94, 45);
@@ -108,10 +135,11 @@
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(23, 11);
+            this.button1.Location = new System.Drawing.Point(710, 15);
             this.button1.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 45);
@@ -126,7 +154,7 @@
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(2570, 11);
+            this.button2.Location = new System.Drawing.Point(2400, 11);
             this.button2.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(255, 64);
@@ -155,7 +183,7 @@
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.Location = new System.Drawing.Point(1651, 19);
+            this.btnClose.Location = new System.Drawing.Point(1481, 19);
             this.btnClose.Margin = new System.Windows.Forms.Padding(7, 8, 7, 8);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(255, 64);
@@ -168,7 +196,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(14, 9);
+            this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(116, 20);
@@ -177,17 +205,21 @@
             // 
             // txtDataDirectory
             // 
-            this.txtDataDirectory.Location = new System.Drawing.Point(18, 32);
+            this.txtDataDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDataDirectory.Location = new System.Drawing.Point(12, 31);
             this.txtDataDirectory.Name = "txtDataDirectory";
-            this.txtDataDirectory.Size = new System.Drawing.Size(587, 27);
+            this.txtDataDirectory.Size = new System.Drawing.Size(737, 27);
             this.txtDataDirectory.TabIndex = 3;
             this.toolTip1.SetToolTip(this.txtDataDirectory, "Directory where your json data files will be stored.");
             // 
             // txtBackupDirectory
             // 
-            this.txtBackupDirectory.Location = new System.Drawing.Point(18, 85);
+            this.txtBackupDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBackupDirectory.Location = new System.Drawing.Point(12, 84);
             this.txtBackupDirectory.Name = "txtBackupDirectory";
-            this.txtBackupDirectory.Size = new System.Drawing.Size(587, 27);
+            this.txtBackupDirectory.Size = new System.Drawing.Size(737, 27);
             this.txtBackupDirectory.TabIndex = 5;
             this.toolTip1.SetToolTip(this.txtBackupDirectory, "Directory where your backups will be written to.");
             // 
@@ -195,7 +227,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(14, 62);
+            this.label2.Location = new System.Drawing.Point(8, 61);
             this.label2.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(141, 20);
@@ -204,9 +236,11 @@
             // 
             // txtLogDirectory
             // 
-            this.txtLogDirectory.Location = new System.Drawing.Point(18, 138);
+            this.txtLogDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLogDirectory.Location = new System.Drawing.Point(12, 137);
             this.txtLogDirectory.Name = "txtLogDirectory";
-            this.txtLogDirectory.Size = new System.Drawing.Size(587, 27);
+            this.txtLogDirectory.Size = new System.Drawing.Size(737, 27);
             this.txtLogDirectory.TabIndex = 7;
             this.toolTip1.SetToolTip(this.txtLogDirectory, "Directory where your log files and debug dump files will be written to.");
             // 
@@ -214,7 +248,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(14, 115);
+            this.label3.Location = new System.Drawing.Point(8, 114);
             this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(137, 20);
@@ -223,8 +257,9 @@
             // 
             // btnDataDirectory
             // 
+            this.btnDataDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDataDirectory.Image = ((System.Drawing.Image)(resources.GetObject("btnDataDirectory.Image")));
-            this.btnDataDirectory.Location = new System.Drawing.Point(617, 32);
+            this.btnDataDirectory.Location = new System.Drawing.Point(755, 31);
             this.btnDataDirectory.Name = "btnDataDirectory";
             this.btnDataDirectory.Size = new System.Drawing.Size(43, 27);
             this.btnDataDirectory.TabIndex = 8;
@@ -234,8 +269,9 @@
             // 
             // btnBackupDirectory
             // 
+            this.btnBackupDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBackupDirectory.Image = ((System.Drawing.Image)(resources.GetObject("btnBackupDirectory.Image")));
-            this.btnBackupDirectory.Location = new System.Drawing.Point(617, 85);
+            this.btnBackupDirectory.Location = new System.Drawing.Point(755, 84);
             this.btnBackupDirectory.Name = "btnBackupDirectory";
             this.btnBackupDirectory.Size = new System.Drawing.Size(43, 27);
             this.btnBackupDirectory.TabIndex = 9;
@@ -245,8 +281,9 @@
             // 
             // btnLogDirectory
             // 
+            this.btnLogDirectory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogDirectory.Image = ((System.Drawing.Image)(resources.GetObject("btnLogDirectory.Image")));
-            this.btnLogDirectory.Location = new System.Drawing.Point(617, 138);
+            this.btnLogDirectory.Location = new System.Drawing.Point(755, 137);
             this.btnLogDirectory.Name = "btnLogDirectory";
             this.btnLogDirectory.Size = new System.Drawing.Size(43, 27);
             this.btnLogDirectory.TabIndex = 10;
@@ -258,7 +295,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(19, 191);
+            this.label4.Location = new System.Drawing.Point(10, 17);
             this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(159, 20);
@@ -269,16 +306,16 @@
             // 
             this.groupBox1.Controls.Add(this.rbFastestLapsTime);
             this.groupBox1.Controls.Add(this.rbFastestLapsSpeed);
-            this.groupBox1.Location = new System.Drawing.Point(295, 171);
+            this.groupBox1.Location = new System.Drawing.Point(291, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(310, 48);
+            this.groupBox1.Size = new System.Drawing.Size(279, 48);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             // 
             // rbFastestLapsTime
             // 
             this.rbFastestLapsTime.AutoSize = true;
-            this.rbFastestLapsTime.Location = new System.Drawing.Point(166, 16);
+            this.rbFastestLapsTime.Location = new System.Drawing.Point(142, 16);
             this.rbFastestLapsTime.Name = "rbFastestLapsTime";
             this.rbFastestLapsTime.Size = new System.Drawing.Size(135, 24);
             this.rbFastestLapsTime.TabIndex = 1;
@@ -301,16 +338,16 @@
             // 
             this.groupBox2.Controls.Add(this.rbLastNLapsTime);
             this.groupBox2.Controls.Add(this.rbLastNLapsSpeed);
-            this.groupBox2.Location = new System.Drawing.Point(295, 225);
+            this.groupBox2.Location = new System.Drawing.Point(291, 51);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(310, 48);
+            this.groupBox2.Size = new System.Drawing.Size(279, 48);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             // 
             // rbLastNLapsTime
             // 
             this.rbLastNLapsTime.AutoSize = true;
-            this.rbLastNLapsTime.Location = new System.Drawing.Point(166, 16);
+            this.rbLastNLapsTime.Location = new System.Drawing.Point(142, 16);
             this.rbLastNLapsTime.Name = "rbLastNLapsTime";
             this.rbLastNLapsTime.Size = new System.Drawing.Size(135, 24);
             this.rbLastNLapsTime.TabIndex = 1;
@@ -333,7 +370,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(19, 245);
+            this.label5.Location = new System.Drawing.Point(10, 65);
             this.label5.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(154, 20);
@@ -344,16 +381,16 @@
             // 
             this.groupBox3.Controls.Add(this.rbBestNLapsTime);
             this.groupBox3.Controls.Add(this.rbBestNLapsSpeed);
-            this.groupBox3.Location = new System.Drawing.Point(295, 279);
+            this.groupBox3.Location = new System.Drawing.Point(291, 100);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(310, 48);
+            this.groupBox3.Size = new System.Drawing.Size(279, 48);
             this.groupBox3.TabIndex = 14;
             this.groupBox3.TabStop = false;
             // 
             // rbBestNLapsTime
             // 
             this.rbBestNLapsTime.AutoSize = true;
-            this.rbBestNLapsTime.Location = new System.Drawing.Point(166, 16);
+            this.rbBestNLapsTime.Location = new System.Drawing.Point(142, 16);
             this.rbBestNLapsTime.Name = "rbBestNLapsTime";
             this.rbBestNLapsTime.Size = new System.Drawing.Size(135, 24);
             this.rbBestNLapsTime.TabIndex = 1;
@@ -376,7 +413,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(19, 299);
+            this.label6.Location = new System.Drawing.Point(10, 114);
             this.label6.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(156, 20);
@@ -387,16 +424,16 @@
             // 
             this.groupBox4.Controls.Add(this.rbLeaderboardLastLapTime);
             this.groupBox4.Controls.Add(this.radioButton6);
-            this.groupBox4.Location = new System.Drawing.Point(295, 333);
+            this.groupBox4.Location = new System.Drawing.Point(291, 149);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(310, 48);
+            this.groupBox4.Size = new System.Drawing.Size(279, 48);
             this.groupBox4.TabIndex = 16;
             this.groupBox4.TabStop = false;
             // 
             // rbLeaderboardLastLapTime
             // 
             this.rbLeaderboardLastLapTime.AutoSize = true;
-            this.rbLeaderboardLastLapTime.Location = new System.Drawing.Point(166, 16);
+            this.rbLeaderboardLastLapTime.Location = new System.Drawing.Point(142, 16);
             this.rbLeaderboardLastLapTime.Name = "rbLeaderboardLastLapTime";
             this.rbLeaderboardLastLapTime.Size = new System.Drawing.Size(135, 24);
             this.rbLeaderboardLastLapTime.TabIndex = 1;
@@ -419,7 +456,7 @@
             // 
             this.rbLeaderboardLastLapSpeed.AutoSize = true;
             this.rbLeaderboardLastLapSpeed.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rbLeaderboardLastLapSpeed.Location = new System.Drawing.Point(19, 353);
+            this.rbLeaderboardLastLapSpeed.Location = new System.Drawing.Point(10, 163);
             this.rbLeaderboardLastLapSpeed.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.rbLeaderboardLastLapSpeed.Name = "rbLeaderboardLastLapSpeed";
             this.rbLeaderboardLastLapSpeed.Size = new System.Drawing.Size(223, 20);
@@ -430,16 +467,16 @@
             // 
             this.groupBox5.Controls.Add(this.rbLeaderboardBestLapTime);
             this.groupBox5.Controls.Add(this.rbLeaderboardBestLapSpeed);
-            this.groupBox5.Location = new System.Drawing.Point(295, 387);
+            this.groupBox5.Location = new System.Drawing.Point(291, 197);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(310, 48);
+            this.groupBox5.Size = new System.Drawing.Size(279, 48);
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             // 
             // rbLeaderboardBestLapTime
             // 
             this.rbLeaderboardBestLapTime.AutoSize = true;
-            this.rbLeaderboardBestLapTime.Location = new System.Drawing.Point(166, 16);
+            this.rbLeaderboardBestLapTime.Location = new System.Drawing.Point(142, 16);
             this.rbLeaderboardBestLapTime.Name = "rbLeaderboardBestLapTime";
             this.rbLeaderboardBestLapTime.Size = new System.Drawing.Size(135, 24);
             this.rbLeaderboardBestLapTime.TabIndex = 1;
@@ -462,7 +499,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(19, 407);
+            this.label8.Location = new System.Drawing.Point(10, 211);
             this.label8.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(225, 20);
@@ -473,7 +510,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(679, 9);
+            this.label7.Location = new System.Drawing.Point(8, 8);
             this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(120, 20);
@@ -483,38 +520,288 @@
             // lstFavoriteDrivers
             // 
             this.lstFavoriteDrivers.FormattingEnabled = true;
-            this.lstFavoriteDrivers.Location = new System.Drawing.Point(683, 32);
+            this.lstFavoriteDrivers.Location = new System.Drawing.Point(12, 31);
             this.lstFavoriteDrivers.Name = "lstFavoriteDrivers";
-            this.lstFavoriteDrivers.Size = new System.Drawing.Size(217, 246);
+            this.lstFavoriteDrivers.Size = new System.Drawing.Size(319, 444);
             this.lstFavoriteDrivers.TabIndex = 18;
+            // 
+            // chkUseGraphicalNumbers
+            // 
+            this.chkUseGraphicalNumbers.AutoSize = true;
+            this.chkUseGraphicalNumbers.Location = new System.Drawing.Point(14, 265);
+            this.chkUseGraphicalNumbers.Name = "chkUseGraphicalNumbers";
+            this.chkUseGraphicalNumbers.Size = new System.Drawing.Size(314, 24);
+            this.chkUseGraphicalNumbers.TabIndex = 19;
+            this.chkUseGraphicalNumbers.Text = "Use Graphical Car Numbers in Leaderboard";
+            this.chkUseGraphicalNumbers.UseVisualStyleBackColor = true;
+            // 
+            // chkUseDarkTheme
+            // 
+            this.chkUseDarkTheme.AutoSize = true;
+            this.chkUseDarkTheme.Location = new System.Drawing.Point(14, 295);
+            this.chkUseDarkTheme.Name = "chkUseDarkTheme";
+            this.chkUseDarkTheme.Size = new System.Drawing.Size(136, 24);
+            this.chkUseDarkTheme.TabIndex = 20;
+            this.chkUseDarkTheme.Text = "Use Dark Theme";
+            this.chkUseDarkTheme.UseVisualStyleBackColor = true;
+            // 
+            // chkRaceViewsBottom
+            // 
+            this.chkRaceViewsBottom.FormattingEnabled = true;
+            this.chkRaceViewsBottom.Location = new System.Drawing.Point(16, 56);
+            this.chkRaceViewsBottom.Name = "chkRaceViewsBottom";
+            this.chkRaceViewsBottom.Size = new System.Drawing.Size(217, 180);
+            this.chkRaceViewsBottom.TabIndex = 22;
+            this.chkRaceViewsBottom.SelectedIndexChanged += new System.EventHandler(this.chkViewDetails_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(8, 8);
+            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(80, 20);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Race View";
+            // 
+            // chkQualifyingViewsBottom
+            // 
+            this.chkQualifyingViewsBottom.FormattingEnabled = true;
+            this.chkQualifyingViewsBottom.Location = new System.Drawing.Point(293, 56);
+            this.chkQualifyingViewsBottom.Name = "chkQualifyingViewsBottom";
+            this.chkQualifyingViewsBottom.Size = new System.Drawing.Size(217, 180);
+            this.chkQualifyingViewsBottom.TabIndex = 24;
+            this.chkQualifyingViewsBottom.SelectedIndexChanged += new System.EventHandler(this.chkViewDetails_SelectedIndexChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(285, 8);
+            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(119, 20);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "Qualifying View";
+            // 
+            // chkPracticeViewsBottom
+            // 
+            this.chkPracticeViewsBottom.FormattingEnabled = true;
+            this.chkPracticeViewsBottom.Location = new System.Drawing.Point(580, 56);
+            this.chkPracticeViewsBottom.Name = "chkPracticeViewsBottom";
+            this.chkPracticeViewsBottom.Size = new System.Drawing.Size(217, 180);
+            this.chkPracticeViewsBottom.TabIndex = 26;
+            this.chkPracticeViewsBottom.SelectedIndexChanged += new System.EventHandler(this.chkViewDetails_SelectedIndexChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(572, 8);
+            this.label11.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(102, 20);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "Practice View";
+            // 
+            // tabSettings
+            // 
+            this.tabSettings.Controls.Add(this.tabPage1);
+            this.tabSettings.Controls.Add(this.tabPage4);
+            this.tabSettings.Controls.Add(this.tabPage2);
+            this.tabSettings.Controls.Add(this.tabPage3);
+            this.tabSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabSettings.Location = new System.Drawing.Point(0, 0);
+            this.tabSettings.Name = "tabSettings";
+            this.tabSettings.SelectedIndex = 0;
+            this.tabSettings.Size = new System.Drawing.Size(820, 535);
+            this.tabSettings.TabIndex = 27;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.chkPracticeViewsRight);
+            this.tabPage1.Controls.Add(this.label17);
+            this.tabPage1.Controls.Add(this.chkQualifyingViewsRight);
+            this.tabPage1.Controls.Add(this.label16);
+            this.tabPage1.Controls.Add(this.chkRaceViewsRight);
+            this.tabPage1.Controls.Add(this.label15);
+            this.tabPage1.Controls.Add(this.label14);
+            this.tabPage1.Controls.Add(this.label13);
+            this.tabPage1.Controls.Add(this.label12);
+            this.tabPage1.Controls.Add(this.lblHelp);
+            this.tabPage1.Controls.Add(this.label9);
+            this.tabPage1.Controls.Add(this.chkPracticeViewsBottom);
+            this.tabPage1.Controls.Add(this.chkRaceViewsBottom);
+            this.tabPage1.Controls.Add(this.label11);
+            this.tabPage1.Controls.Add(this.label10);
+            this.tabPage1.Controls.Add(this.chkQualifyingViewsBottom);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(812, 502);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Views";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // chkPracticeViewsRight
+            // 
+            this.chkPracticeViewsRight.FormattingEnabled = true;
+            this.chkPracticeViewsRight.Location = new System.Drawing.Point(582, 263);
+            this.chkPracticeViewsRight.Name = "chkPracticeViewsRight";
+            this.chkPracticeViewsRight.Size = new System.Drawing.Size(217, 180);
+            this.chkPracticeViewsRight.TabIndex = 36;
+            this.chkPracticeViewsRight.SelectedIndexChanged += new System.EventHandler(this.chkViewDetails_SelectedIndexChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(576, 240);
+            this.label17.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(45, 20);
+            this.label17.TabIndex = 35;
+            this.label17.Text = "Right";
+            // 
+            // chkQualifyingViewsRight
+            // 
+            this.chkQualifyingViewsRight.FormattingEnabled = true;
+            this.chkQualifyingViewsRight.Location = new System.Drawing.Point(293, 263);
+            this.chkQualifyingViewsRight.Name = "chkQualifyingViewsRight";
+            this.chkQualifyingViewsRight.Size = new System.Drawing.Size(217, 180);
+            this.chkQualifyingViewsRight.TabIndex = 34;
+            this.chkQualifyingViewsRight.SelectedIndexChanged += new System.EventHandler(this.chkViewDetails_SelectedIndexChanged);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(289, 240);
+            this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(45, 20);
+            this.label16.TabIndex = 33;
+            this.label16.Text = "Right";
+            // 
+            // chkRaceViewsRight
+            // 
+            this.chkRaceViewsRight.FormattingEnabled = true;
+            this.chkRaceViewsRight.Location = new System.Drawing.Point(16, 263);
+            this.chkRaceViewsRight.Name = "chkRaceViewsRight";
+            this.chkRaceViewsRight.Size = new System.Drawing.Size(217, 180);
+            this.chkRaceViewsRight.TabIndex = 32;
+            this.chkRaceViewsRight.SelectedIndexChanged += new System.EventHandler(this.chkViewDetails_SelectedIndexChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(10, 240);
+            this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(45, 20);
+            this.label15.TabIndex = 31;
+            this.label15.Text = "Right";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(576, 33);
+            this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(57, 20);
+            this.label14.TabIndex = 30;
+            this.label14.Text = "Bottom";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(289, 33);
+            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(57, 20);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "Bottom";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(12, 33);
+            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(57, 20);
+            this.label12.TabIndex = 28;
+            this.label12.Text = "Bottom";
+            // 
+            // lblHelp
+            // 
+            this.lblHelp.Location = new System.Drawing.Point(16, 450);
+            this.lblHelp.Name = "lblHelp";
+            this.lblHelp.Size = new System.Drawing.Size(783, 49);
+            this.lblHelp.TabIndex = 27;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.label4);
+            this.tabPage4.Controls.Add(this.chkUseDarkTheme);
+            this.tabPage4.Controls.Add(this.groupBox1);
+            this.tabPage4.Controls.Add(this.chkUseGraphicalNumbers);
+            this.tabPage4.Controls.Add(this.label5);
+            this.tabPage4.Controls.Add(this.groupBox5);
+            this.tabPage4.Controls.Add(this.groupBox2);
+            this.tabPage4.Controls.Add(this.label8);
+            this.tabPage4.Controls.Add(this.label6);
+            this.tabPage4.Controls.Add(this.groupBox4);
+            this.tabPage4.Controls.Add(this.groupBox3);
+            this.tabPage4.Controls.Add(this.rbLeaderboardLastLapSpeed);
+            this.tabPage4.Location = new System.Drawing.Point(4, 29);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(812, 502);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "UI Options";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.lstFavoriteDrivers);
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(812, 502);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Favorites";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Controls.Add(this.txtDataDirectory);
+            this.tabPage3.Controls.Add(this.label2);
+            this.tabPage3.Controls.Add(this.txtBackupDirectory);
+            this.tabPage3.Controls.Add(this.label3);
+            this.tabPage3.Controls.Add(this.txtLogDirectory);
+            this.tabPage3.Controls.Add(this.btnDataDirectory);
+            this.tabPage3.Controls.Add(this.btnBackupDirectory);
+            this.tabPage3.Controls.Add(this.btnLogDirectory);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(812, 502);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Folders";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // UserSettingsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.ClientSize = new System.Drawing.Size(990, 529);
-            this.Controls.Add(this.lstFavoriteDrivers);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.rbLeaderboardLastLapSpeed);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.btnLogDirectory);
-            this.Controls.Add(this.btnBackupDirectory);
-            this.Controls.Add(this.btnDataDirectory);
-            this.Controls.Add(this.txtLogDirectory);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtBackupDirectory);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtDataDirectory);
-            this.Controls.Add(this.label1);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(820, 603);
+            this.Controls.Add(this.tabSettings);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -534,8 +821,16 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.tabSettings.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -579,5 +874,28 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckedListBox lstFavoriteDrivers;
+        private System.Windows.Forms.CheckBox chkUseGraphicalNumbers;
+        private System.Windows.Forms.CheckBox chkUseDarkTheme;
+        private System.Windows.Forms.CheckedListBox chkRaceViewsBottom;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckedListBox chkQualifyingViewsBottom;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckedListBox chkPracticeViewsBottom;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TabControl tabSettings;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Label lblHelp;
+        private System.Windows.Forms.CheckedListBox chkPracticeViewsRight;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.CheckedListBox chkQualifyingViewsRight;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckedListBox chkRaceViewsRight;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
     }
 }

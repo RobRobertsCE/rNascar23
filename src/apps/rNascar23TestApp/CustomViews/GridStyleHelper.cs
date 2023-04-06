@@ -24,7 +24,10 @@ namespace rNascar23.CustomViews
                     grid.BackgroundColor = Color.FromArgb(styleSettings.GridStyle.BackColor.Value);
 
                 if (styleSettings.GridStyle.LineColor.HasValue)
+                {
                     grid.GridColor = Color.FromArgb(styleSettings.GridStyle.LineColor.Value);
+                    grid.ForeColor = Color.FromArgb(styleSettings.GridStyle.LineColor.Value);
+                }
             }
 
             if (styleSettings.RowStyle != null)

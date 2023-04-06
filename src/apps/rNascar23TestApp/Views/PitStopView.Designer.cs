@@ -103,6 +103,14 @@
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.pnlDriverPitStopsTop = new System.Windows.Forms.Panel();
             this.pnlPitStopAverages = new System.Windows.Forms.Panel();
+            this.lblAvgInOutRank = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.lblAvgPitTimeRank = new System.Windows.Forms.Label();
+            this.lblAvgGainLossRank = new System.Windows.Forms.Label();
+            this.lblAvgTotalTimeRank = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.lblAvgInOut = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.lblAvgPitTime = new System.Windows.Forms.Label();
@@ -126,14 +134,6 @@
             this.chPitOut = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDelta = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lblDriverPitStopsTitle = new System.Windows.Forms.Label();
-            this.lblAvgInOutRank = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.lblAvgPitTimeRank = new System.Windows.Forms.Label();
-            this.lblAvgGainLossRank = new System.Windows.Forms.Label();
-            this.lblAvgTotalTimeRank = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
             this.pnlTop.SuspendLayout();
             this.pnlPitStops.SuspendLayout();
             this.pnlPitStopsListHeader.SuspendLayout();
@@ -454,12 +454,13 @@
             // 
             // lvAverageGreenTotalTime
             // 
+            this.lvAverageGreenTotalTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvAverageGreenTotalTime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader16,
             this.columnHeader17,
             this.columnHeader18});
             this.lvAverageGreenTotalTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvAverageGreenTotalTime.GridLines = true;
+            this.lvAverageGreenTotalTime.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvAverageGreenTotalTime.HideSelection = false;
             this.lvAverageGreenTotalTime.Location = new System.Drawing.Point(4, 33);
             this.lvAverageGreenTotalTime.Name = "lvAverageGreenTotalTime";
@@ -510,12 +511,13 @@
             // 
             // lvGreenOutTime
             // 
+            this.lvGreenOutTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvGreenOutTime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader13,
             this.columnHeader14,
             this.columnHeader15});
             this.lvGreenOutTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvGreenOutTime.GridLines = true;
+            this.lvGreenOutTime.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvGreenOutTime.HideSelection = false;
             this.lvGreenOutTime.Location = new System.Drawing.Point(4, 33);
             this.lvGreenOutTime.Name = "lvGreenOutTime";
@@ -566,12 +568,13 @@
             // 
             // lvAverageGreenPitTime
             // 
+            this.lvAverageGreenPitTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvAverageGreenPitTime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader10,
             this.columnHeader11,
             this.columnHeader12});
             this.lvAverageGreenPitTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvAverageGreenPitTime.GridLines = true;
+            this.lvAverageGreenPitTime.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvAverageGreenPitTime.HideSelection = false;
             this.lvAverageGreenPitTime.Location = new System.Drawing.Point(4, 33);
             this.lvAverageGreenPitTime.Name = "lvAverageGreenPitTime";
@@ -651,12 +654,13 @@
             // 
             // lvAverageTotalTime
             // 
+            this.lvAverageTotalTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvAverageTotalTime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6});
             this.lvAverageTotalTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvAverageTotalTime.GridLines = true;
+            this.lvAverageTotalTime.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvAverageTotalTime.HideSelection = false;
             this.lvAverageTotalTime.Location = new System.Drawing.Point(4, 33);
             this.lvAverageTotalTime.Name = "lvAverageTotalTime";
@@ -707,12 +711,13 @@
             // 
             // lvInOutTime
             // 
+            this.lvInOutTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvInOutTime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader7,
             this.columnHeader8,
             this.columnHeader9});
             this.lvInOutTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvInOutTime.GridLines = true;
+            this.lvInOutTime.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvInOutTime.HideSelection = false;
             this.lvInOutTime.Location = new System.Drawing.Point(4, 33);
             this.lvInOutTime.Name = "lvInOutTime";
@@ -763,12 +768,13 @@
             // 
             // lvAveragePitTime
             // 
+            this.lvAveragePitTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvAveragePitTime.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
             this.lvAveragePitTime.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvAveragePitTime.GridLines = true;
+            this.lvAveragePitTime.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvAveragePitTime.HideSelection = false;
             this.lvAveragePitTime.Location = new System.Drawing.Point(4, 33);
             this.lvAveragePitTime.Name = "lvAveragePitTime";
@@ -819,12 +825,13 @@
             // 
             // lvTotalGainLoss
             // 
+            this.lvTotalGainLoss.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvTotalGainLoss.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chPosition,
             this.chDriver,
             this.chGainLoss});
             this.lvTotalGainLoss.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvTotalGainLoss.GridLines = true;
+            this.lvTotalGainLoss.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.lvTotalGainLoss.HideSelection = false;
             this.lvTotalGainLoss.Location = new System.Drawing.Point(4, 33);
             this.lvTotalGainLoss.Name = "lvTotalGainLoss";
@@ -910,6 +917,82 @@
             this.pnlPitStopAverages.Name = "pnlPitStopAverages";
             this.pnlPitStopAverages.Size = new System.Drawing.Size(605, 279);
             this.pnlPitStopAverages.TabIndex = 2;
+            // 
+            // lblAvgInOutRank
+            // 
+            this.lblAvgInOutRank.AutoSize = true;
+            this.lblAvgInOutRank.Location = new System.Drawing.Point(306, 155);
+            this.lblAvgInOutRank.Name = "lblAvgInOutRank";
+            this.lblAvgInOutRank.Size = new System.Drawing.Size(16, 21);
+            this.lblAvgInOutRank.TabIndex = 20;
+            this.lblAvgInOutRank.Text = "-";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(250, 155);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(50, 21);
+            this.label25.TabIndex = 19;
+            this.label25.Text = "Rank:";
+            // 
+            // lblAvgPitTimeRank
+            // 
+            this.lblAvgPitTimeRank.AutoSize = true;
+            this.lblAvgPitTimeRank.Location = new System.Drawing.Point(306, 116);
+            this.lblAvgPitTimeRank.Name = "lblAvgPitTimeRank";
+            this.lblAvgPitTimeRank.Size = new System.Drawing.Size(16, 21);
+            this.lblAvgPitTimeRank.TabIndex = 18;
+            this.lblAvgPitTimeRank.Text = "-";
+            // 
+            // lblAvgGainLossRank
+            // 
+            this.lblAvgGainLossRank.AutoSize = true;
+            this.lblAvgGainLossRank.Location = new System.Drawing.Point(306, 194);
+            this.lblAvgGainLossRank.Name = "lblAvgGainLossRank";
+            this.lblAvgGainLossRank.Size = new System.Drawing.Size(16, 21);
+            this.lblAvgGainLossRank.TabIndex = 17;
+            this.lblAvgGainLossRank.Text = "-";
+            // 
+            // lblAvgTotalTimeRank
+            // 
+            this.lblAvgTotalTimeRank.AutoSize = true;
+            this.lblAvgTotalTimeRank.Location = new System.Drawing.Point(306, 77);
+            this.lblAvgTotalTimeRank.Name = "lblAvgTotalTimeRank";
+            this.lblAvgTotalTimeRank.Size = new System.Drawing.Size(16, 21);
+            this.lblAvgTotalTimeRank.TabIndex = 16;
+            this.lblAvgTotalTimeRank.Text = "-";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(250, 194);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(50, 21);
+            this.label29.TabIndex = 15;
+            this.label29.Text = "Rank:";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(250, 116);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(50, 21);
+            this.label30.TabIndex = 14;
+            this.label30.Text = "Rank:";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label31.Location = new System.Drawing.Point(250, 77);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(50, 21);
+            this.label31.TabIndex = 13;
+            this.label31.Text = "Rank:";
             // 
             // lblAvgInOut
             // 
@@ -1040,6 +1123,7 @@
             // 
             // lvDriverPitStops
             // 
+            this.lvDriverPitStops.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvDriverPitStops.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chLap,
             this.chFlag,
@@ -1050,7 +1134,6 @@
             this.chPitOut,
             this.chDelta});
             this.lvDriverPitStops.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvDriverPitStops.GridLines = true;
             this.lvDriverPitStops.HideSelection = false;
             this.lvDriverPitStops.Location = new System.Drawing.Point(0, 29);
             this.lvDriverPitStops.Name = "lvDriverPitStops";
@@ -1106,82 +1189,6 @@
             this.lblDriverPitStopsTitle.TabIndex = 2;
             this.lblDriverPitStopsTitle.Text = "Driver Pit Stops";
             this.lblDriverPitStopsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblAvgInOutRank
-            // 
-            this.lblAvgInOutRank.AutoSize = true;
-            this.lblAvgInOutRank.Location = new System.Drawing.Point(306, 155);
-            this.lblAvgInOutRank.Name = "lblAvgInOutRank";
-            this.lblAvgInOutRank.Size = new System.Drawing.Size(16, 21);
-            this.lblAvgInOutRank.TabIndex = 20;
-            this.lblAvgInOutRank.Text = "-";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(250, 155);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(50, 21);
-            this.label25.TabIndex = 19;
-            this.label25.Text = "Rank:";
-            // 
-            // lblAvgPitTimeRank
-            // 
-            this.lblAvgPitTimeRank.AutoSize = true;
-            this.lblAvgPitTimeRank.Location = new System.Drawing.Point(306, 116);
-            this.lblAvgPitTimeRank.Name = "lblAvgPitTimeRank";
-            this.lblAvgPitTimeRank.Size = new System.Drawing.Size(16, 21);
-            this.lblAvgPitTimeRank.TabIndex = 18;
-            this.lblAvgPitTimeRank.Text = "-";
-            // 
-            // lblAvgGainLossRank
-            // 
-            this.lblAvgGainLossRank.AutoSize = true;
-            this.lblAvgGainLossRank.Location = new System.Drawing.Point(306, 194);
-            this.lblAvgGainLossRank.Name = "lblAvgGainLossRank";
-            this.lblAvgGainLossRank.Size = new System.Drawing.Size(16, 21);
-            this.lblAvgGainLossRank.TabIndex = 17;
-            this.lblAvgGainLossRank.Text = "-";
-            // 
-            // lblAvgTotalTimeRank
-            // 
-            this.lblAvgTotalTimeRank.AutoSize = true;
-            this.lblAvgTotalTimeRank.Location = new System.Drawing.Point(306, 77);
-            this.lblAvgTotalTimeRank.Name = "lblAvgTotalTimeRank";
-            this.lblAvgTotalTimeRank.Size = new System.Drawing.Size(16, 21);
-            this.lblAvgTotalTimeRank.TabIndex = 16;
-            this.lblAvgTotalTimeRank.Text = "-";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(250, 194);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(50, 21);
-            this.label29.TabIndex = 15;
-            this.label29.Text = "Rank:";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(250, 116);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(50, 21);
-            this.label30.TabIndex = 14;
-            this.label30.Text = "Rank:";
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(250, 77);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(50, 21);
-            this.label31.TabIndex = 13;
-            this.label31.Text = "Rank:";
             // 
             // PitStopView
             // 

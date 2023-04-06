@@ -113,7 +113,6 @@ namespace rNascar23.Views
                 };
 
                 lapLeaders.Add(lapLeader);
-
             }
 
             int i = 1;

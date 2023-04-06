@@ -31,6 +31,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using rNascar23.PitStops.Ports;
 using PitStop = rNascar23.PitStops.Models.PitStop;
+using static rNascar23.Views.NLapsGridView;
+using rNascar23.Properties;
 
 namespace rNascar23
 {
@@ -86,8 +88,9 @@ namespace rNascar23
         private ScheduleType _selectedScheduleType = ScheduleType.All;
 
         private IList<GridSettings> _customGridSettings = null;
-        private readonly FormState _formState = new FormState();
+        private FormState _formState = new FormState();
         private bool _isFullScreen = false;
+        private bool _isImportedData = false;
         private FormWindowState _windowState = FormWindowState.Normal;
 
         private LapStateViewModel _lapStates = new LapStateViewModel();
@@ -109,6 +112,7 @@ namespace rNascar23
         private readonly ICustomGridViewFactory _customGridViewFactory = null;
         private readonly IStyleService _styleService = null;
         private readonly IOptions<Features> _features = null;
+        private readonly IMoversFallersService _moversFallersService = null;
 
         #endregion
 
@@ -128,6 +132,7 @@ namespace rNascar23
             ICustomViewSettingsService customViewSettingsService,
             ICustomGridViewFactory customGridViewFactory,
             IStyleService styleService,
+            IMoversFallersService moversFallersService,
             IOptions<Features> features)
         {
             InitializeComponent();
@@ -145,6 +150,7 @@ namespace rNascar23
             _customViewSettingsService = customViewSettingsService ?? throw new ArgumentNullException(nameof(customViewSettingsService));
             _customGridViewFactory = customGridViewFactory ?? throw new ArgumentNullException(nameof(customGridViewFactory));
             _styleService = styleService ?? throw new ArgumentNullException(nameof(styleService));
+            _moversFallersService = moversFallersService ?? throw new ArgumentNullException(nameof(moversFallersService));
             _features = features ?? throw new ArgumentNullException(nameof(features));
         }
 
@@ -651,9 +657,11 @@ namespace rNascar23
 
         #region private [ read data ]
 
-        // TODO: Only read data if we are displaying it on a visible view
         private async Task<bool> ReadDataAsync()
         {
+            if (_isImportedData)
+                return true;
+
             _formState.LiveFeed = await _liveFeedRepository.GetLiveFeedAsync();
 
             if (_formState.LiveFeed.TimeOfDayOs == _lastLiveFeedTimestamp)
@@ -787,7 +795,10 @@ namespace rNascar23
         {
             LeaderboardGridView leftLeaderboardGridView = new LeaderboardGridView(
               LeaderboardGridView.LeaderboardSides.Left,
-              runType);
+              runType)
+            {
+                SeriesId = _formState.LiveFeed.SeriesId
+            };
             panel.Controls.Add(leftLeaderboardGridView);
             leftLeaderboardGridView.Dock = DockStyle.Left;
             leftLeaderboardGridView.BringToFront();
@@ -802,7 +813,10 @@ namespace rNascar23
 
             LeaderboardGridView rightLeaderboardGridView = new LeaderboardGridView(
                 LeaderboardGridView.LeaderboardSides.Right,
-                runType);
+                runType)
+            {
+                SeriesId = _formState.LiveFeed.SeriesId
+            };
             panel.Controls.Add(rightLeaderboardGridView);
             rightLeaderboardGridView.Dock = DockStyle.Left;
             rightLeaderboardGridView.BringToFront();
@@ -831,9 +845,82 @@ namespace rNascar23
             pnlHost.Visible = false;
         }
 
+        private void LoadSelectedViews(Panel panel, IList<int> selectedViews, DockStyle dockStyle, UserSettings settings)
+        {
+            for (int i = 0; i < selectedViews.Count; i++)
+            {
+                var selectedView = selectedViews[i];
+
+                var viewType = (GridViewTypes)selectedView;
+
+                switch (viewType)
+                {
+                    case GridViewTypes.DriverPoints:
+                        AddGridToPanel(panel, ViewFactory.GetDriverPointsGridView(), dockStyle);
+                        break;
+                    case GridViewTypes.FastestLaps:
+                        AddGridToPanel(panel, ViewFactory.GetFastestLapsGridView(settings.FastestLapsDisplayType), dockStyle);
+                        break;
+                    case GridViewTypes.LapLeaders:
+                        AddGridToPanel(panel, ViewFactory.GetLapLeadersGridView(), dockStyle);
+                        break;
+                    case GridViewTypes.StagePoints:
+                        AddGridToPanel(panel, ViewFactory.GetStagePointsGridView(), dockStyle);
+                        break;
+                    case GridViewTypes.Best5Laps:
+                        AddGridToPanel(
+                            panel,
+                            ViewFactory.GetNLapsGridView(NLapsGridView.ViewTypes.Best5Laps, settings.BestNLapsDisplayType),
+                            dockStyle);
+                        break;
+                    case GridViewTypes.Best10Laps:
+                        AddGridToPanel(
+                            panel,
+                            ViewFactory.GetNLapsGridView(NLapsGridView.ViewTypes.Best10Laps, settings.BestNLapsDisplayType),
+                            dockStyle);
+                        break;
+                    case GridViewTypes.Best15Laps:
+                        AddGridToPanel(
+                            panel,
+                            ViewFactory.GetNLapsGridView(NLapsGridView.ViewTypes.Best15Laps, settings.BestNLapsDisplayType),
+                            dockStyle);
+                        break;
+                    case GridViewTypes.Last5Laps:
+                        AddGridToPanel(panel, ViewFactory.GetNLapsGridView(NLapsGridView.ViewTypes.Last5Laps, settings.LastNLapsDisplayType),
+                            dockStyle);
+                        break;
+                    case GridViewTypes.Last10Laps:
+                        AddGridToPanel(
+                            panel,
+                            ViewFactory.GetNLapsGridView(NLapsGridView.ViewTypes.Last10Laps, settings.LastNLapsDisplayType),
+                            dockStyle);
+                        break;
+                    case GridViewTypes.Last15Laps:
+                        AddGridToPanel(
+                            panel,
+                            ViewFactory.GetNLapsGridView(NLapsGridView.ViewTypes.Last15Laps, settings.LastNLapsDisplayType),
+                            dockStyle);
+                        break;
+                    case GridViewTypes.Movers:
+                        AddGridToPanel(panel, ViewFactory.GetMoversGridView(), dockStyle);
+                        break;
+                    case GridViewTypes.Fallers:
+                        AddGridToPanel(panel, ViewFactory.GetFallersGridView(), dockStyle);
+                        break;
+                    case GridViewTypes.Flags:
+                        AddGridToPanel(panel, ViewFactory.GetFlagsGridView(), dockStyle);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         private void DisplayPracticeScreen()
         {
-            UpdateViewStatusLabel("Practice Screen");
+            var settings = UserSettingsService.LoadUserSettings();
+
+            UpdateViewStatusLabel("Practice");
 
             LoadDefaultPanels();
 
@@ -841,25 +928,14 @@ namespace rNascar23
             LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Practice);
 
             /*** Right ***/
-            AddGridToPanel(pnlRight, new FastestLapsGridView(), DockStyle.Top);
-            AddGridToPanel(pnlRight, new DriverPointsGridView(), DockStyle.Top);
+            LoadSelectedViews(pnlRight, settings.PracticeViewRightGrids, DockStyle.Top, settings);
 
             /*** Bottom ***/
-            AddGridToPanel(pnlBottom, new FlagsGridView(), DockStyle.Left);
-
-            var settings = UserSettingsService.LoadUserSettings();
-
-            AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Last5Laps, settings.LastNLapsDisplayType), DockStyle.Left);
-            AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Last10Laps, settings.LastNLapsDisplayType), DockStyle.Left);
-            AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Last15Laps, settings.LastNLapsDisplayType), DockStyle.Left);
-
-            AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Best5Laps, settings.BestNLapsDisplayType), DockStyle.Left);
-            AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Best10Laps, settings.BestNLapsDisplayType), DockStyle.Left);
-            AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Best15Laps, settings.BestNLapsDisplayType), DockStyle.Left);
+            LoadSelectedViews(pnlBottom, settings.PracticeViewBottomGrids, DockStyle.Left, settings);
 
             pnlMain.Visible = true;
-            pnlRight.Visible = true;
-            pnlBottom.Visible = true;
+            pnlRight.Visible = pnlRight.Controls.Count > 0;
+            pnlBottom.Visible = pnlBottom.Controls.Count > 0;
             pnlHost.Visible = false;
 
             lblRaceLaps.Visible = false;
@@ -883,19 +959,24 @@ namespace rNascar23
 
         private void DisplayQualifyingScreen()
         {
-            UpdateViewStatusLabel("Qualifying Screen");
+            UpdateViewStatusLabel("Qualifying");
 
             LoadDefaultPanels();
+
+            var settings = UserSettingsService.LoadUserSettings();
 
             /*** main panel ***/
             LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Qualifying);
 
-            /*** right panel ***/
-            AddGridToPanel(pnlRight, new DriverPointsGridView(), DockStyle.Top);
+            /*** Right ***/
+            LoadSelectedViews(pnlRight, settings.QualifyingViewRightGrids, DockStyle.Top, settings);
+
+            /*** Bottom ***/
+            LoadSelectedViews(pnlBottom, settings.QualifyingViewBottomGrids, DockStyle.Left, settings);
 
             pnlMain.Visible = true;
-            pnlRight.Visible = true;
-            pnlBottom.Visible = true;
+            pnlRight.Visible = pnlRight.Controls.Count > 0;
+            pnlBottom.Visible = pnlBottom.Controls.Count > 0;
             pnlHost.Visible = false;
 
             lblRaceLaps.Visible = false;
@@ -921,37 +1002,26 @@ namespace rNascar23
         {
             try
             {
-                UpdateViewStatusLabel("Race Screen");
+                UpdateViewStatusLabel("Race");
 
                 this.SuspendLayout();
 
                 LoadDefaultPanels();
 
+                var settings = UserSettingsService.LoadUserSettings();
+
                 /*** main panel ***/
                 LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Race);
 
-                // right panel
-                AddGridToPanel(pnlRight, new FastestLapsGridView(), DockStyle.Top);
-                AddGridToPanel(pnlRight, new LapLeadersGridView(), DockStyle.Top);
-                //AddGridToPanel(pnlRight, new DriverPointsGridView(), DockStyle.Top);
-                AddGridToPanel(pnlRight, new MoversFallersGridView(), DockStyle.Top);
+                /*** Right ***/
+                LoadSelectedViews(pnlRight, settings.RaceViewRightGrids, DockStyle.Top, settings);
 
-                // bottom panel
-                AddGridToPanel(pnlBottom, new FlagsGridView(), DockStyle.Left);
-
-                var settings = UserSettingsService.LoadUserSettings();
-
-                AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Last5Laps, settings.LastNLapsDisplayType), DockStyle.Left);
-                AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Last10Laps, settings.LastNLapsDisplayType), DockStyle.Left);
-                AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Last15Laps, settings.LastNLapsDisplayType), DockStyle.Left);
-
-                AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Best5Laps, settings.BestNLapsDisplayType), DockStyle.Left);
-                AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Best10Laps, settings.BestNLapsDisplayType), DockStyle.Left);
-                AddGridToPanel(pnlBottom, new NLapsGridView(NLapsGridView.ViewTypes.Best15Laps, settings.BestNLapsDisplayType), DockStyle.Left);
+                /*** Bottom ***/
+                LoadSelectedViews(pnlBottom, settings.RaceViewBottomGrids, DockStyle.Left, settings);
 
                 pnlMain.Visible = true;
-                pnlRight.Visible = true;
-                pnlBottom.Visible = true;
+                pnlRight.Visible = pnlRight.Controls.Count > 0;
+                pnlBottom.Visible = pnlBottom.Controls.Count > 0;
                 pnlHost.Visible = false;
 
                 lblRaceLaps.Visible = true;
@@ -1109,9 +1179,6 @@ namespace rNascar23
                     case ApiSources.DriverPoints:
                         ((IGridView<DriverPoints>)gridView).Data = _formState.LivePoints;
                         break;
-                    case ApiSources.StagePoints:
-                        ((IGridView<rNascar23.Points.Models.Stage>)gridView).Data = GetCurrentStagePoints();
-                        break;
                     case ApiSources.PitStops:
                         ((IGridView<PitStop>)gridView).Data = _formState.PitStops;
                         break;
@@ -1120,20 +1187,429 @@ namespace rNascar23
                 }
             }
 
+            if (pnlBottom.Visible)
+                SetGridData(pnlBottom);
+            if (pnlRight.Visible)
+                SetGridData(pnlRight);
+            if (pnlMain.Visible)
+                SetGridData(pnlMain);
+            if (pnlHost.Visible)
+                SetGridData(pnlHost);
+
             DisplayHeaderData();
         }
 
-        private IList<rNascar23.Points.Models.Stage> GetCurrentStagePoints()
+        private void SetGridData(Panel panel)
         {
-            if (_formState.LiveFeed == null)
-                return new List<rNascar23.Points.Models.Stage>();
+            foreach (GenericGridView uc in panel.Controls.OfType<GenericGridView>())
+            {
+                switch (uc.GridViewType)
+                {
+                    case GridViewTypes.DriverPoints:
+                        uc.SetDataSource<GenericGridViewModel>(BuildDriverPointsData(_formState.LivePoints));
+                        break;
+                    case GridViewTypes.FastestLaps:
+                        uc.SetDataSource<GenericGridViewModel>(BuildFastestLapsData(_formState.LiveFeed.Vehicles));
+                        break;
+                    case GridViewTypes.LapLeaders:
+                        uc.SetDataSource<GenericGridViewModel>(BuildLapLeadersData(_formState.LiveFeed.Vehicles));
+                        break;
+                    case GridViewTypes.StagePoints:
+                        uc.SetDataSource<GenericGridViewModel>(BuildStagePointsData(_formState.StagePoints, _formState.LiveFeed?.RaceId));
+                        break;
+                    case GridViewTypes.Best5Laps:
+                    case GridViewTypes.Best10Laps:
+                    case GridViewTypes.Best15Laps:
+                    case GridViewTypes.Last5Laps:
+                    case GridViewTypes.Last10Laps:
+                    case GridViewTypes.Last15Laps:
+                        uc.SetDataSource<GenericGridViewModel>(BuildNLapsData(uc.GridViewType, _formState.LapTimes.Drivers));
+                        break;
+                    case GridViewTypes.Movers:
+                        uc.SetDataSource<GenericGridViewModel>(BuildMoversData(_formState.LapTimes));
+                        break;
+                    case GridViewTypes.Fallers:
+                        uc.SetDataSource<GenericGridViewModel>(BuildFallersData(_formState.LapTimes));
+                        break;
+                    default:
+                        break;
+                }
+            }
 
-            var stage = _formState.StagePoints.FirstOrDefault(s => s.race_id == _formState.LiveFeed.RaceId && s.run_id == _formState.LiveFeed.RunId && s.stage_number == _formState.LiveFeed.Stage.Number);
+            foreach (GridViewBase uc in panel.Controls.OfType<FlagsView>())
+            {
+                uc.SetDataSource<FlagState>(_formState.FlagStates.Where(m => m.State == 1 || m.State == 2 || m.State == 3).ToList());
+            }
+        }
 
-            if (stage == null)
-                return new List<rNascar23.Points.Models.Stage>();
+        private IList<GenericGridViewModel> BuildLapLeadersData(IList<Vehicle> vehicles)
+        {
+            var models = new List<GenericGridViewModel>();
+
+            int i = 1;
+            foreach (var lapLedLeader in vehicles.
+                Where(v => v.laps_led.Length > 0).
+                OrderByDescending(v => v.laps_led.Length))
+            {
+                var lapLeader = new GenericGridViewModel()
+                {
+                    Position = i,
+                    Driver = lapLedLeader.driver.FullName,
+                    Value = lapLedLeader.laps_led.Sum(l => l.end_lap - l.start_lap) + 1
+                };
+
+                models.Add(lapLeader);
+                i++;
+            }
+
+            return models;
+        }
+
+        private IList<GenericGridViewModel> BuildDriverPointsData(IList<DriverPoints> driverPoints)
+        {
+            return driverPoints.
+                Select(p => new GenericGridViewModel()
+                {
+                    Position = p.PointsPosition,
+                    Driver = p.Driver,
+                    Value = p.Points
+                }).OrderBy(p => p.Position).ToList();
+        }
+
+        private IList<GenericGridViewModel> BuildStagePointsData(IList<StagePoints2> stagePoints, int? raceId)
+        {
+            IList<GenericGridViewModel> models = new List<GenericGridViewModel>();
+
+            if (stagePoints == null || stagePoints.Count == 0)
+                return models;
+
+            if (raceId.HasValue && stagePoints.Any(s => s.race_id == raceId.Value))
+            {
+                stagePoints = stagePoints.Where(s => s.race_id == raceId.Value).ToList();
+            }
+
+            int i = 1;
+            foreach (var driverStagePoints in stagePoints.OrderByDescending(s => (s.stage_1_points + s.stage_2_points + s.stage_3_points)))
+            {
+                var model = new GenericGridViewModel()
+                {
+                    Position = i,
+                    Driver = $"{driverStagePoints.first_name} {driverStagePoints.last_name}",
+                    Value = driverStagePoints.stage_1_points + driverStagePoints.stage_2_points + driverStagePoints.stage_3_points
+                };
+
+                models.Add(model);
+
+                i++;
+            }
+
+            return models;
+        }
+
+        private IList<GenericGridViewModel> BuildFastestLapsData(IList<Vehicle> vehicles)
+        {
+            var models = new List<GenericGridViewModel>();
+
+            var settings = UserSettingsService.LoadUserSettings();
+
+            if (settings.FastestLapsDisplayType == SpeedTimeType.MPH)
+            {
+                models = vehicles.
+                    OrderByDescending(v => v.best_lap_speed).
+                    Take(10).
+                    Select(v => new GenericGridViewModel()
+                    {
+                        Driver = v.driver.FullName,
+                        Value = (float)Math.Round(v.best_lap_speed, 3)
+                    }).ToList();
+            }
             else
-                return new List<rNascar23.Points.Models.Stage>() { stage };
+            {
+                models = vehicles.
+                    Where(v => v.best_lap_time > 0).
+                    OrderBy(v => v.best_lap_time).
+                    Take(10).
+                    Select(v => new GenericGridViewModel()
+                    {
+                        Driver = v.driver.FullName,
+                        Value = (float)Math.Round(v.best_lap_time, 3)
+                    }).ToList();
+            }
+
+            for (int i = 0; i < models.Count; i++)
+            {
+                models[i].Position = i + 1;
+            }
+
+            return models;
+        }
+
+        private IList<GenericGridViewModel> BuildMoversData(LapTimeData lapTimeData)
+        {
+            var models = new List<GenericGridViewModel>();
+
+            var changes = _moversFallersService.GetDriverPositionChanges(lapTimeData);
+
+            // Movers
+            models = changes.
+                OrderByDescending(c => c.ChangeSinceFlagChange).
+                Where(c => c.ChangeSinceFlagChange > 0).
+                Select(c => new GenericGridViewModel()
+                {
+                    Driver = c.Driver,
+                    Value = c.ChangeSinceFlagChange
+                }).
+                ToList();
+
+            for (int i = 0; i < models.Count; i++)
+            {
+                models[i].Position = i + 1;
+            }
+
+            return models;
+        }
+
+        private IList<GenericGridViewModel> BuildFallersData(LapTimeData lapTimeData)
+        {
+            IList<GenericGridViewModel> models = new List<GenericGridViewModel>();
+
+            var changes = _moversFallersService.GetDriverPositionChanges(lapTimeData);
+
+            // Fallers
+            models = changes.
+                OrderBy(c => c.ChangeSinceFlagChange).
+                Where(c => c.ChangeSinceFlagChange < 0).
+                Select(c => new GenericGridViewModel()
+                {
+                    Driver = c.Driver,
+                    Value = c.ChangeSinceFlagChange
+                }).
+                ToList();
+
+            for (int i = 0; i < models.Count; i++)
+            {
+                models[i].Position = i + 1;
+            }
+
+            return models;
+        }
+
+        private IList<GenericGridViewModel> BuildNLapsData(GridViewTypes viewType, IList<DriverLaps> data)
+        {
+            IList<GenericGridViewModel> models = new List<GenericGridViewModel>();
+
+            var settings = UserSettingsService.LoadUserSettings();
+
+            var displayType = viewType == GridViewTypes.Best5Laps || viewType == GridViewTypes.Best10Laps || viewType == GridViewTypes.Best15Laps ?
+                settings.BestNLapsDisplayType : settings.LastNLapsDisplayType;
+
+            switch (displayType)
+            {
+                case SpeedTimeType.Seconds:
+                    models = BuildViewModelsByTime(viewType, data);
+                    break;
+                case SpeedTimeType.MPH:
+                    models = BuildViewModelsBySpeed(viewType, data);
+                    break;
+                default:
+                    models = new List<GenericGridViewModel>();
+                    break;
+            }
+
+            for (int i = 0; i < models.Count; i++)
+            {
+                models[i].Position = i;
+            }
+
+            return models;
+        }
+        private IList<GenericGridViewModel> BuildViewModelsByTime(GridViewTypes viewType, IList<DriverLaps> data)
+        {
+            switch (viewType)
+            {
+                case GridViewTypes.Best5Laps:
+                    return data.
+                        OrderBy(d => d.Best5LapAverageTime().GetValueOrDefault(999)).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.Best5LapAverageTime().GetValueOrDefault(999), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Best10Laps:
+                    return data.
+                        OrderBy(d => d.Best10LapAverageTime().GetValueOrDefault(999)).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.Best10LapAverageTime().GetValueOrDefault(999), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Best15Laps:
+                    return data.
+                        OrderBy(d => d.Best15LapAverageTime().GetValueOrDefault(999)).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.Best15LapAverageTime().GetValueOrDefault(999), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Last5Laps:
+                    return data.
+                        OrderBy(d => d.AverageTimeLast5Laps().GetValueOrDefault(999)).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.AverageTimeLast5Laps().GetValueOrDefault(999), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Last10Laps:
+                    return data.
+                        OrderBy(d => d.AverageTimeLast10Laps().GetValueOrDefault(999)).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.AverageTimeLast10Laps().GetValueOrDefault(999), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Last15Laps:
+                    return data.
+                        OrderBy(d => d.AverageTimeLast15Laps().GetValueOrDefault(999)).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.AverageTimeLast15Laps().GetValueOrDefault(999), 3)
+                        }).
+                        ToList();
+
+                default:
+                    return new List<GenericGridViewModel>();
+            }
+        }
+        private IList<GenericGridViewModel> BuildViewModelsBySpeed(GridViewTypes viewType, IList<DriverLaps> data)
+        {
+            switch (viewType)
+            {
+                case GridViewTypes.Best5Laps:
+                    return data.
+                        OrderBy(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1)).
+                        Where(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1) != -1).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.Best5LapAverageSpeed().GetValueOrDefault(-1), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Best10Laps:
+                    return data.
+                        OrderBy(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1)).
+                        Where(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1) != -1).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.Best10LapAverageSpeed().GetValueOrDefault(-1), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Best15Laps:
+                    return data.
+                        OrderBy(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1)).
+                        Where(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1) != -1).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.Best15LapAverageSpeed().GetValueOrDefault(-1), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Last5Laps:
+                    return data.
+                        OrderBy(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1)).
+                        Where(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1) != -1).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.AverageSpeedLast5Laps().GetValueOrDefault(-1), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Last10Laps:
+                    return data.
+                        OrderBy(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1)).
+                        Where(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1) != -1).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.AverageSpeedLast10Laps().GetValueOrDefault(-1), 3)
+                        }).
+                        ToList();
+
+                case GridViewTypes.Last15Laps:
+                    return data.
+                        OrderBy(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1)).
+                        Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Driver = d.FullName,
+                            Value = (float)Math.Round(d.AverageSpeedLast15Laps().GetValueOrDefault(-1), 3)
+                        }).
+                        ToList();
+
+                default:
+                    return new List<GenericGridViewModel>();
+            }
+        }
+
+        private void SetTheme()
+        {
+            var settings = UserSettingsService.LoadUserSettings();
+
+            if (settings.UseDarkTheme)
+            {
+                pnlBottom.BackColor = Color.Black;
+                pnlRight.BackColor = Color.Black;
+                pnlMain.BackColor = Color.Black;
+                pnlHost.BackColor = Color.Black;
+                lblEventName.ForeColor = Color.White;
+                lblEventName.BackColor = Color.Black;
+                lblRaceLaps.ForeColor = Color.WhiteSmoke;
+                lblRaceLaps.BackColor = Color.Black;
+                lblStageLaps.ForeColor = Color.WhiteSmoke;
+                lblStageLaps.BackColor = Color.Black;
+                pnlEventInfo.BackColor = Color.Black;
+            }
+            else
+            {
+                pnlBottom.BackColor = Color.White;
+                pnlRight.BackColor = Color.White;
+                pnlMain.BackColor = Color.White;
+                pnlHost.BackColor = Color.White;
+                lblEventName.ForeColor = Color.Black;
+                lblEventName.BackColor = Color.White;
+                lblRaceLaps.ForeColor = Color.Black;
+                lblRaceLaps.BackColor = Color.White;
+                lblStageLaps.ForeColor = Color.Black;
+                lblStageLaps.BackColor = Color.White;
+                pnlEventInfo.BackColor = Color.WhiteSmoke;
+            }
         }
 
         private async Task DisplayLoopDataAsync()
@@ -2081,6 +2557,7 @@ namespace rNascar23
                 formattedLiveFeedDataToolStripMenuItem.Visible = true;
                 toolStripMenuItem3.Visible = true;
                 toolStripMenuItem2.Visible = true;
+                importDumpToolStripMenuItem.Visible = true;
             }
             else
             {
@@ -2093,6 +2570,7 @@ namespace rNascar23
                 formattedLiveFeedDataToolStripMenuItem.Visible = false;
                 toolStripMenuItem3.Visible = false;
                 toolStripMenuItem2.Visible = false;
+                importDumpToolStripMenuItem.Visible = false;
             }
         }
 
@@ -2129,6 +2607,8 @@ namespace rNascar23
         {
             if (newViewState == _viewState && forceRefresh == false)
                 return;
+
+            SetTheme();
 
             SetUiView(newViewState);
 
@@ -2426,7 +2906,7 @@ namespace rNascar23
             }
         }
 
-        private void DisplaySettingsDialog()
+        private async void DisplaySettingsDialog()
         {
             var dialog = Program.Services.GetRequiredService<UserSettingsDialog>();
 
@@ -2435,9 +2915,41 @@ namespace rNascar23
             if (result == DialogResult.OK)
             {
                 _logger.LogInformation("User settings updated");
+
+                var viewState = _viewState;
+
+                await SetViewStateAsync(ViewState.None, true);
+
+                await SetViewStateAsync(viewState, true);
+
+                if (viewState == ViewState.ScheduleView)
+                    await DisplayScheduleViewAsync(_selectedScheduleType);
             }
         }
 
         #endregion
+
+        private async void importDumpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dialog = new OpenFileDialog();
+
+                if (dialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    var json = File.ReadAllText(dialog.FileName);
+
+                    _formState = JsonConvert.DeserializeObject<FormState>(json);
+
+                    _isImportedData = true;
+
+                    await UpdateUiAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
     }
 }

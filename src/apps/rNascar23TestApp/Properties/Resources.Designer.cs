@@ -143,9 +143,9 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap LeftSides {
+        internal static System.Drawing.Bitmap LeftTires {
             get {
-                object obj = ResourceManager.GetObject("LeftSides", resourceCulture);
+                object obj = ResourceManager.GetObject("LeftTires", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,16 +193,6 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap NoTires {
-            get {
-                object obj = ResourceManager.GetObject("NoTires", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap PRN_Small {
             get {
                 object obj = ResourceManager.GetObject("PRN_Small", resourceCulture);
@@ -223,9 +213,9 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RightSides {
+        internal static System.Drawing.Bitmap RightTires {
             get {
-                object obj = ResourceManager.GetObject("RightSides", resourceCulture);
+                object obj = ResourceManager.GetObject("RightTires", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

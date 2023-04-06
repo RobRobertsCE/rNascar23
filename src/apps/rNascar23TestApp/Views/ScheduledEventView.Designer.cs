@@ -33,10 +33,10 @@
             this.lblTrack = new System.Windows.Forms.Label();
             this.lblEventDistance = new System.Windows.Forms.Label();
             this.picTv = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblTv = new System.Windows.Forms.Label();
+            this.lblRadio = new System.Windows.Forms.Label();
             this.picRadio = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblSatellite = new System.Windows.Forms.Label();
             this.picSatellite = new System.Windows.Forms.PictureBox();
             this.lblEventDate = new System.Windows.Forms.Label();
             this.lblEventTime = new System.Windows.Forms.Label();
@@ -92,6 +92,7 @@
             // 
             // picTv
             // 
+            this.picTv.BackColor = System.Drawing.Color.White;
             this.picTv.Image = global::rNascar23.Properties.Resources.FS1_Small;
             this.picTv.Location = new System.Drawing.Point(704, 13);
             this.picTv.Name = "picTv";
@@ -101,28 +102,29 @@
             this.picTv.TabStop = false;
             this.picTv.Click += new System.EventHandler(this.View_Selected);
             // 
-            // label1
+            // lblTv
             // 
-            this.label1.Location = new System.Drawing.Point(639, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 18);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "TV:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label1.Click += new System.EventHandler(this.View_Selected);
+            this.lblTv.Location = new System.Drawing.Point(639, 15);
+            this.lblTv.Name = "lblTv";
+            this.lblTv.Size = new System.Drawing.Size(59, 18);
+            this.lblTv.TabIndex = 5;
+            this.lblTv.Text = "TV:";
+            this.lblTv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblTv.Click += new System.EventHandler(this.View_Selected);
             // 
-            // label2
+            // lblRadio
             // 
-            this.label2.Location = new System.Drawing.Point(639, 45);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 18);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Radio:";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label2.Click += new System.EventHandler(this.View_Selected);
+            this.lblRadio.Location = new System.Drawing.Point(639, 45);
+            this.lblRadio.Name = "lblRadio";
+            this.lblRadio.Size = new System.Drawing.Size(59, 18);
+            this.lblRadio.TabIndex = 7;
+            this.lblRadio.Text = "Radio:";
+            this.lblRadio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblRadio.Click += new System.EventHandler(this.View_Selected);
             // 
             // picRadio
             // 
+            this.picRadio.BackColor = System.Drawing.Color.White;
             this.picRadio.Image = global::rNascar23.Properties.Resources.MRN_Small;
             this.picRadio.Location = new System.Drawing.Point(704, 43);
             this.picRadio.Name = "picRadio";
@@ -132,18 +134,19 @@
             this.picRadio.TabStop = false;
             this.picRadio.Click += new System.EventHandler(this.View_Selected);
             // 
-            // label3
+            // lblSatellite
             // 
-            this.label3.Location = new System.Drawing.Point(639, 74);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 18);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Satellite:";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label3.Click += new System.EventHandler(this.View_Selected);
+            this.lblSatellite.Location = new System.Drawing.Point(639, 74);
+            this.lblSatellite.Name = "lblSatellite";
+            this.lblSatellite.Size = new System.Drawing.Size(59, 18);
+            this.lblSatellite.TabIndex = 9;
+            this.lblSatellite.Text = "Satellite:";
+            this.lblSatellite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblSatellite.Click += new System.EventHandler(this.View_Selected);
             // 
             // picSatellite
             // 
+            this.picSatellite.BackColor = System.Drawing.Color.White;
             this.picSatellite.Image = global::rNascar23.Properties.Resources.Sirius_Small;
             this.picSatellite.Location = new System.Drawing.Point(704, 72);
             this.picSatellite.Name = "picSatellite";
@@ -179,14 +182,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.lblEventTime);
             this.Controls.Add(this.lblEventDate);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblSatellite);
             this.Controls.Add(this.picSatellite);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblRadio);
             this.Controls.Add(this.picRadio);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblTv);
             this.Controls.Add(this.picTv);
             this.Controls.Add(this.lblEventDistance);
             this.Controls.Add(this.lblTrack);
@@ -212,10 +216,10 @@
         private System.Windows.Forms.Label lblTrack;
         private System.Windows.Forms.Label lblEventDistance;
         private System.Windows.Forms.PictureBox picTv;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTv;
+        private System.Windows.Forms.Label lblRadio;
         private System.Windows.Forms.PictureBox picRadio;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblSatellite;
         private System.Windows.Forms.PictureBox picSatellite;
         private System.Windows.Forms.Label lblEventDate;
         private System.Windows.Forms.Label lblEventTime;

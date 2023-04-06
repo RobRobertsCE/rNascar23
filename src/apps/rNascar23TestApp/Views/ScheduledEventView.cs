@@ -1,4 +1,5 @@
-﻿using rNascar23.Properties;
+﻿using rNascar23.Common;
+using rNascar23.Properties;
 using rNascar23.ViewModels;
 using System;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace rNascar23.Views
 
         private Color _selectedBoxColor = Color.Gold;
         private int _selectionBoxThickness = 4;
+        private UserSettings _settings = null;
 
         #endregion
 
@@ -61,6 +63,8 @@ namespace rNascar23.Views
 
         private void ScheduledEventView_Load(object sender, System.EventArgs e)
         {
+            SetTheme();
+
             if (_viewModel == null)
                 ClearScheduledEvent();
             else
@@ -70,6 +74,48 @@ namespace rNascar23.Views
         #endregion
 
         #region private
+
+        private void SetTheme()
+        {
+            _settings = UserSettingsService.LoadUserSettings();
+
+            Color backColor = Color.Empty;
+            Color foreColor = Color.Empty;
+
+            if (_settings.UseDarkTheme)
+            {
+                backColor = Color.Black;
+                foreColor = Color.Gainsboro;
+            }
+            else
+            {
+                backColor = Color.White;
+                foreColor = Color.Black;
+            }
+
+            lblEventDate.BackColor = backColor;
+            lblEventTime.BackColor = backColor;
+            lblEventName.BackColor = backColor;
+            lblTrack.BackColor = backColor;
+            lblEventDistance.BackColor = backColor;
+            lblTv.BackColor = backColor;
+            lblRadio.BackColor = backColor;
+            lblSatellite.BackColor = backColor;
+
+            this.BackColor = backColor;
+
+            lblEventDate.ForeColor = foreColor;
+            lblEventTime.ForeColor = foreColor;
+            lblEventName.ForeColor = foreColor;
+            lblTrack.ForeColor = foreColor;
+            lblEventDistance.ForeColor = foreColor;
+            lblTv.ForeColor = foreColor;
+            lblRadio.ForeColor = foreColor;
+            lblSatellite.ForeColor = foreColor;
+            picTv.BackColor = Color.White;
+            picRadio.BackColor = Color.White;
+            picSatellite.BackColor = Color.White;
+        }
 
         private void ClearScheduledEvent()
         {
@@ -158,12 +204,23 @@ namespace rNascar23.Views
 
             if (viewModel.EventDateTime.Date < DateTime.Now.Date)
             {
-                lblEventDate.ForeColor = Color.Silver;
-                lblEventTime.ForeColor = Color.Silver;
+                Color foreColor = Color.Empty;
 
-                lblEventName.ForeColor = Color.Silver;
-                lblTrack.ForeColor = Color.Silver;
-                lblEventDistance.ForeColor = Color.Silver;
+                if (_settings.UseDarkTheme)
+                {
+                    foreColor = Color.DimGray;
+                }
+                else
+                {
+                    foreColor = Color.Silver;
+                }
+
+                lblEventDate.ForeColor = foreColor;
+                lblEventTime.ForeColor = foreColor;
+
+                lblEventName.ForeColor = foreColor;
+                lblTrack.ForeColor = foreColor;
+                lblEventDistance.ForeColor = foreColor;
             }
         }
 

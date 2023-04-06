@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using rNascar23.Common;
 using rNascar23.CustomViews;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
+using rNascar23.DriverStatistics.Models;
 using rNascar23.DriverStatistics.Ports;
 using rNascar23.Flags.Models;
 using rNascar23.PitStops.Models;
@@ -38,7 +40,8 @@ namespace rNascar23.Views
         private readonly IFlagStateRepository _flagStateRepository = null;
         private readonly IPitStopsRepository _pitStopsRepository = null;
         private readonly ILiveFeedRepository _liveFeedRepository = null;
-        private readonly Color _alternateRowColor = Color.Gainsboro;
+        private Color _alternateRowBackColor = Color.Gainsboro;
+        private Color _alternateRowForeColor = Color.Black;
         IList<PitStopAverages> _averages = new List<PitStopAverages>();
 
         #endregion
@@ -123,6 +126,8 @@ namespace rNascar23.Views
         {
             InitializeComponent();
 
+            SetTheme();
+
             _startLap = startLap;
             _endLap = endLap;
             _currentLap = currentLap;
@@ -150,6 +155,65 @@ namespace rNascar23.Views
         #endregion
 
         #region private
+
+        private void SetTheme()
+        {
+            var settings = UserSettingsService.LoadUserSettings();
+
+            Color backColor = Color.Empty;
+            Color foreColor = Color.Empty;
+
+            if (settings.UseDarkTheme)
+            {
+                backColor = Color.Black;
+                foreColor = Color.Gainsboro;
+                _alternateRowBackColor = Color.FromArgb(16, 16, 16);
+                _alternateRowForeColor = Color.Gainsboro;
+            }
+            else
+            {
+                backColor = Color.White;
+                foreColor = Color.Black;
+                _alternateRowBackColor = Color.Gainsboro;
+                _alternateRowForeColor = Color.Black;
+            }
+
+            flpPitStops.BackColor = backColor;
+            pnlTop.BackColor = backColor;
+            pnlDriverPitStops.BackColor = backColor;
+            pnlPitStopAverages.BackColor = backColor;
+            pnlBottomGrids.BackColor = backColor;
+            pnlTopGrids.BackColor = backColor;
+
+            this.BackColor = backColor;
+
+            flpPitStops.ForeColor = foreColor;
+            pnlTop.ForeColor = foreColor;
+            pnlDriverPitStops.ForeColor = foreColor;
+            pnlPitStopAverages.ForeColor = foreColor;
+            pnlBottomGrids.ForeColor = foreColor;
+            pnlTopGrids.ForeColor = foreColor;
+
+
+            btnUpdateByLaps.ForeColor = Color.Black;
+            btnUpdateByCaution.ForeColor = Color.Black;
+            btnUpdateByDriver.ForeColor = Color.Black;
+
+            SetListViewTheme(lvDriverPitStops, backColor, foreColor);
+            SetListViewTheme(lvTotalGainLoss, backColor, foreColor);
+            SetListViewTheme(lvAveragePitTime, backColor, foreColor);
+            SetListViewTheme(lvAverageTotalTime, backColor, foreColor);
+            SetListViewTheme(lvInOutTime, backColor, foreColor);
+            SetListViewTheme(lvAverageGreenPitTime, backColor, foreColor);
+            SetListViewTheme(lvAverageGreenTotalTime, backColor, foreColor);
+            SetListViewTheme(lvGreenOutTime, backColor, foreColor);            
+        }
+
+        private void SetListViewTheme(ListView listView, Color backColor, Color foreColor)
+        {
+            listView.BackColor = backColor;
+            listView.ForeColor = foreColor;
+        }
 
         private async Task SetupRangeAsync()
         {
@@ -493,7 +557,7 @@ namespace rNascar23.Views
                         pitStop.positions_gained_lost > 0 ? Color.Green :
                         Color.Black;
 
-                    var gainLossSubItem = new ListViewItem.ListViewSubItem(lvi, pitStop.positions_gained_lost.ToString(), gainLossColor, lvi.BackColor, lvDriverPitStops.Font);
+                    var gainLossSubItem = new ListViewItem.ListViewSubItem(lvi, pitStop.positions_gained_lost.ToString(), gainLossColor, lvDriverPitStops.BackColor, lvDriverPitStops.Font);
 
                     lvi.SubItems.Add(gainLossSubItem);
 
@@ -501,11 +565,11 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
 
                         for (int x = 2; x < lvi.SubItems.Count; x++)
                         {
-                            lvi.SubItems[x].BackColor = _alternateRowColor;
+                            lvi.SubItems[x].BackColor = _alternateRowBackColor;
                         }
                     }
 
@@ -542,7 +606,6 @@ namespace rNascar23.Views
             {
                 lvDriverPitStops.EndUpdate();
             }
-
         }
 
         private async Task UpdateGridsAsync()
@@ -602,7 +665,7 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
                     }
 
                     lvTotalGainLoss.Items.Add(lvi);
@@ -639,7 +702,7 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
                     }
 
                     lvAveragePitTime.Items.Add(lvi);
@@ -676,7 +739,7 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
                     }
 
                     lvAverageTotalTime.Items.Add(lvi);
@@ -713,7 +776,7 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
                     }
 
                     lvInOutTime.Items.Add(lvi);
@@ -750,7 +813,7 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
                     }
 
                     lvAverageGreenPitTime.Items.Add(lvi);
@@ -787,7 +850,7 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
                     }
 
                     lvAverageGreenTotalTime.Items.Add(lvi);
@@ -824,7 +887,7 @@ namespace rNascar23.Views
 
                     if (i % 2 == 0)
                     {
-                        lvi.BackColor = _alternateRowColor;
+                        lvi.BackColor = _alternateRowBackColor;
                     }
 
                     lvGreenOutTime.Items.Add(lvi);
