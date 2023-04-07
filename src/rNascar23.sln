@@ -60,6 +60,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rNascar23.Media", "libraries\Media\rNascar23.Media\rNascar23.Media.csproj", "{CDDC0808-2AD8-4AF3-8AD6-4BB828EB72AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascar23.Services.Media", "libraries\Media\rNascar23.Services.Media\rNascar23.Services.Media.csproj", "{916D96A7-831D-4864-A272-312C08E194D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{386C3710-31C8-4F7C-B221-F449DD9FD96B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rNascar23.RaceLogger", "apps\rNascar23.RaceLogger\rNascar23.RaceLogger.csproj", "{0041F37D-43EE-4AEA-A01D-CCFB0E73400F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +146,10 @@ Global
 		{916D96A7-831D-4864-A272-312C08E194D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{916D96A7-831D-4864-A272-312C08E194D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{916D96A7-831D-4864-A272-312C08E194D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0041F37D-43EE-4AEA-A01D-CCFB0E73400F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0041F37D-43EE-4AEA-A01D-CCFB0E73400F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0041F37D-43EE-4AEA-A01D-CCFB0E73400F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0041F37D-43EE-4AEA-A01D-CCFB0E73400F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -166,6 +173,7 @@ Global
 		{7BF784CA-A6C3-489D-BCA2-F476CFB41E96} = {01379B87-CBB8-4F66-B839-89893B4A4086}
 		{CDDC0808-2AD8-4AF3-8AD6-4BB828EB72AC} = {A6D1BBB4-C7A4-4412-8803-9B50AB5C114C}
 		{916D96A7-831D-4864-A272-312C08E194D5} = {A6D1BBB4-C7A4-4412-8803-9B50AB5C114C}
+		{0041F37D-43EE-4AEA-A01D-CCFB0E73400F} = {386C3710-31C8-4F7C-B221-F449DD9FD96B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59148673-1722-424A-8A9E-80655C2537C3}
