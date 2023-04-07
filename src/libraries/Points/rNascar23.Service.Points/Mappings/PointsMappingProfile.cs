@@ -12,6 +12,8 @@ namespace rNascar23.Service.Points.Mappings
 
             CreateMap<StagePointsModel, StagePoints>();
 
+            CreateMap<StagePointsModel2, StagePoints2>();
+
             CreateMap<DriverPointsModel, DriverPoints>()
                .ForMember(m => m.BonusPoints, opts => opts.MapFrom(src => src.bonus_points))
                .ForMember(m => m.CarNumber, opts => opts.MapFrom(src => src.car_number))

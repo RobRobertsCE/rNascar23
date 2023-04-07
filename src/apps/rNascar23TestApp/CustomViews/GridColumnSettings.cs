@@ -8,5 +8,6 @@
         public int DisplayIndex { get; set; }
         public int Width { get; set; }
         public bool Visible { get; set; }
+        public string Format { get; set; }
     }
 }

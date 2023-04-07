@@ -112,15 +112,15 @@ namespace rNascar23.Views
 
             if (viewModel.Changes == PitStopChanges.Other)
             {
-                picTires.Image = Resources.NoTires;
+                picTires.Image = Resources.TransparentPixel;
             }
             else if (viewModel.Changes == PitStopChanges.LeftSide)
             {
-                picTires.Image = Resources.LeftSides;
+                picTires.Image = Resources.LeftTires;
             }
             else if (viewModel.Changes == PitStopChanges.RightSide)
             {
-                picTires.Image = Resources.RightSides;
+                picTires.Image = Resources.RightTires;
             }
             else if (viewModel.Changes == PitStopChanges.FourTires)
             {

@@ -7,6 +7,6 @@ namespace rNascar23.Points.Ports
     public interface IPointsRepository
     {
         Task<IList<DriverPoints>> GetDriverPoints(int raceId, int seriesId);
-        Task<IList<Stage>> GetStagePoints(int raceId, int seriesId);
+        Task<IList<StagePoints2>> GetStagePoints(int raceId, int seriesId);
     }
 }

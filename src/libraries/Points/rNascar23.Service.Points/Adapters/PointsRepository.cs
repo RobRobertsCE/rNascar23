@@ -48,7 +48,7 @@ namespace rNascar23.Service.Points.Adapters
             }
         }
 
-        public async Task<IList<Stage>> GetStagePoints(int raceId, int seriesId)
+        public async Task<IList<StagePoints2>> GetStagePoints(int raceId, int seriesId)
         {
             string json = string.Empty;
 
@@ -59,11 +59,11 @@ namespace rNascar23.Service.Points.Adapters
 
                 json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
-                var model = JsonConvert.DeserializeObject<StageModel[]>(json);
+                var models = JsonConvert.DeserializeObject<StagePointsModel2[]>(json);
 
-                var liveFeed = _mapper.Map<IList<Stage>>(model);
+                var stagePoints = _mapper.Map<IList<StagePoints2>>(models);
 
-                return liveFeed;
+                return stagePoints;
             }
             catch (Exception ex)
             {

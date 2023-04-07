@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using rNascar23.Common;
 
 namespace rNascar23.Views
 {
@@ -75,11 +76,47 @@ namespace rNascar23.Views
         private void ScheduleView_Load(object sender, EventArgs e)
         {
             SetTitle(ScheduleType);
+
+            SetTheme();
         }
 
         #endregion
 
         #region private
+
+        private void SetTheme()
+        {
+            var settings = UserSettingsService.LoadUserSettings();
+
+            Color backColor = Color.Empty;
+            Color foreColor = Color.Empty;
+
+            if (settings.UseDarkTheme)
+            {
+                backColor = Color.Black;
+                foreColor = Color.Gainsboro;
+            }
+            else
+            {
+                backColor = Color.White;
+                foreColor = Color.Black;
+            }
+
+            flpScheduledEvents.BackColor = backColor;
+            pnlEventWinnerAndComments.BackColor = backColor;
+            lvSchedule.BackColor = backColor;
+
+            pnlRight.BackColor = backColor;
+            tlpCompletedEventDetails.BackColor = backColor;
+            lblComments.BackColor = backColor;
+
+            this.BackColor = backColor;
+
+            pnlRight.ForeColor = foreColor;
+            lvSchedule.ForeColor = foreColor;
+            tlpCompletedEventDetails.ForeColor = foreColor;
+            lblComments.ForeColor = foreColor;
+        }
 
         private void SetTitle(ScheduleType scheduleType)
         {

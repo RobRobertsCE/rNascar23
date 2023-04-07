@@ -1,6 +1,6 @@
 ﻿namespace rNascar23.Views
 {
-    partial class LeaderboardGridView
+    partial class GridViewBase
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,47 +29,46 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.Grid = new System.Windows.Forms.DataGridView();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TitleLabel = new System.Windows.Forms.Label();
+            this.Grid = new System.Windows.Forms.DataGridView();
             this.GridBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // Grid
-            // 
-            this.Grid.BackgroundColor = System.Drawing.Color.Black;
-            this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Grid.GridColor = System.Drawing.Color.Black;
-            this.Grid.Location = new System.Drawing.Point(0, 25);
-            this.Grid.Name = "Grid";
-            this.Grid.Size = new System.Drawing.Size(825, 392);
-            this.Grid.TabIndex = 3;
-            // 
             // TitleLabel
             // 
-            this.TitleLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.TitleLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TitleLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TitleLabel.ForeColor = System.Drawing.Color.LightGray;
+            this.TitleLabel.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TitleLabel.Location = new System.Drawing.Point(0, 0);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(825, 25);
-            this.TitleLabel.TabIndex = 2;
-            this.TitleLabel.Text = "Fastest Laps";
+            this.TitleLabel.Size = new System.Drawing.Size(332, 23);
+            this.TitleLabel.TabIndex = 0;
+            this.TitleLabel.Text = "Basic Display Grid";
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.TitleLabel.Visible = false;
             // 
-            // LeaderboardGridView
+            // Grid
+            // 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            this.Grid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grid.Location = new System.Drawing.Point(0, 23);
+            this.Grid.Name = "Grid";
+            this.Grid.Size = new System.Drawing.Size(332, 292);
+            this.Grid.TabIndex = 1;
+            // 
+            // GridViewBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.TitleLabel);
-            this.Name = "LeaderboardGridView";
-            this.Size = new System.Drawing.Size(825, 417);
+            this.Name = "GridViewBase";
+            this.Size = new System.Drawing.Size(332, 315);
+            this.Load += new System.EventHandler(this.BasicGrid_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -78,8 +77,8 @@
 
         #endregion
 
-        internal System.Windows.Forms.DataGridView Grid;
         public System.Windows.Forms.Label TitleLabel;
+        public System.Windows.Forms.DataGridView Grid;
         public System.Windows.Forms.BindingSource GridBindingSource;
     }
 }

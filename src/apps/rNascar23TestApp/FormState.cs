@@ -20,7 +20,7 @@ namespace rNascar23
         public LapTimeData LapTimes { get; set; }
         public EventStats EventStatistics { get; set; }
         public IList<DriverPoints> LivePoints { get; set; }
-        public IList<Stage> StagePoints { get; set; }
+        public IList<StagePoints2> StagePoints { get; set; }
         public IList<PitStop> PitStops { get; set; }
 
         public SeriesEvent CurrentSeriesRace { get; set; }

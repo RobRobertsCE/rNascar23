@@ -18,6 +18,7 @@ using System.IO;
 using System.Windows.Forms;
 using rNascar23.Configuration;
 using rNascar23.Service.PitStops;
+using rNascar23.Services.Media;
 
 namespace rNascar23
 {
@@ -52,6 +53,7 @@ namespace rNascar23
                         .AddPoints()
                         .AddDriverStatistics()
                         .AddPitStops()
+                        .AddMedia()
                         .AddTransient<IScreenService, ScreenService>()
                         .AddTransient<ICustomViewSettingsService, CustomViewSettingsService>()
                         .AddTransient<ICustomGridViewFactory, CustomGridViewFactory>()
