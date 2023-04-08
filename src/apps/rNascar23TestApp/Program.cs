@@ -63,7 +63,8 @@ namespace rNascar23
                         .AddTransient<ScreenEditor>()
                         .AddTransient<StyleEditor>()
                         .AddTransient<ImportExportDialog>()
-                        .AddTransient<UserSettingsDialog>();
+                        .AddTransient<UserSettingsDialog>()
+                        .AddTransient<ReplaySelectionDialog>();
 
                     /*
                     SERILOG (Set in appsettings.json):

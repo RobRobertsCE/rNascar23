@@ -33,6 +33,8 @@ using rNascar23.PitStops.Ports;
 using PitStop = rNascar23.PitStops.Models.PitStop;
 using static rNascar23.Views.NLapsGridView;
 using rNascar23.Properties;
+using rNascar23.Replay;
+using System.IO.Compression;
 
 namespace rNascar23
 {
@@ -87,6 +89,8 @@ namespace rNascar23
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
         private ScheduleType _selectedScheduleType = ScheduleType.All;
 
+        private EventReplay _eventReplay = null;
+        private int _replayFrameIndex = 0;
         private IList<GridSettings> _customGridSettings = null;
         private FormState _formState = new FormState();
         private bool _isFullScreen = false;
@@ -2441,7 +2445,7 @@ namespace rNascar23
             {
                 if (e.KeyCode == Keys.F11)
                 {
-                    GoFullscreen(!_isFullScreen);
+                    ToggleFullscreen(!_isFullScreen);
                 }
                 else if (e.KeyCode == Keys.F12)
                 {
@@ -2486,7 +2490,12 @@ namespace rNascar23
             }
         }
 
-        private void GoFullscreen(bool fullscreen)
+        private void tsbFullScreen_Click(object sender, EventArgs e)
+        {
+            ToggleFullscreen(!_isFullScreen);
+        }
+
+        private void ToggleFullscreen(bool fullscreen)
         {
             if (fullscreen)
             {
@@ -2512,9 +2521,236 @@ namespace rNascar23
             tsbFullScreen.Checked = _isFullScreen;
         }
 
-        private void tsbFullScreen_Click(object sender, EventArgs e)
+        #endregion
+
+        #region private [ user settings ]
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GoFullscreen(!_isFullScreen);
+            try
+            {
+                DisplaySettingsDialog();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplaySettingsDialog();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void DisplaySettingsDialog()
+        {
+            var dialog = Program.Services.GetRequiredService<UserSettingsDialog>();
+
+            var result = dialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                _logger.LogInformation("User settings updated");
+
+                var viewState = _viewState;
+
+                await SetViewStateAsync(ViewState.None, true);
+
+                await SetViewStateAsync(viewState, true);
+
+                if (viewState == ViewState.ScheduleView)
+                    await DisplayScheduleViewAsync(_selectedScheduleType);
+            }
+        }
+
+        #endregion
+
+        #region [ replay ]
+
+        private async void replayEventToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var replay = SelectEventReplay();
+
+                if (replay != null)
+                    await BeginReplayEventAsync(replay);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception selecting event replay");
+            }
+        }
+
+        private void playToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PlayEventReplay();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception playing replay event");
+            }
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                PauseEventReplay();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception pausing replay event");
+            }
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CloseEventReplay();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception closing replay event");
+            }
+        }
+
+        private async void timEventReplay_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                await LoadEventReplayFrameAsync();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception playing event replay frame");
+            }
+        }
+
+        private EventReplay SelectEventReplay()
+        {
+            var dialog = Program.Services.GetRequiredService<ReplaySelectionDialog>();
+
+            dialog.ReplayDirectory = "C:\\Users\\Rob\\Documents\\rNascar23\\Events";
+
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+                return dialog.SelectedReplay;
+            else
+                return null;
+        }
+
+        private async Task BeginReplayEventAsync(EventReplay replay)
+        {
+            _eventReplay = replay;
+            _replayFrameIndex = -1;
+
+            playToolStripMenuItem.Enabled = true;
+            pauseToolStripMenuItem.Enabled = true;
+            closeToolStripMenuItem.Enabled = true;
+
+            lblEventReplayStatus.Visible = true;
+
+            _isImportedData = true;
+
+            await SetAutoUpdateStateAsync(false);
+
+            PlayEventReplay();
+        }
+
+        private void PlayEventReplay()
+        {
+            playToolStripMenuItem.Enabled = false;
+            pauseToolStripMenuItem.Enabled = true;
+            closeToolStripMenuItem.Enabled = true;
+            importDumpFileToolStripMenuItem.Enabled = false;
+            replayEventToolStripMenuItem.Enabled = false;
+
+            timEventReplay.Enabled = true;
+        }
+
+        private void PauseEventReplay()
+        {
+            timEventReplay.Enabled = false;
+
+            playToolStripMenuItem.Enabled = true;
+            pauseToolStripMenuItem.Enabled = false;
+            closeToolStripMenuItem.Enabled = true;
+        }
+
+        private void CloseEventReplay()
+        {
+            timEventReplay.Enabled = false;
+
+            playToolStripMenuItem.Enabled = false;
+            pauseToolStripMenuItem.Enabled = false;
+            closeToolStripMenuItem.Enabled = false;
+            importDumpFileToolStripMenuItem.Enabled = true;
+            replayEventToolStripMenuItem.Enabled = true;
+
+            _isImportedData = false;
+
+            lblEventReplayStatus.Visible = false;
+        }
+
+        private async Task LoadEventReplayFrameAsync()
+        {
+            timEventReplay.Enabled = false;
+
+            if (_replayFrameIndex >= _eventReplay.Frames.Count - 1)
+                _replayFrameIndex = 0;
+            else
+                _replayFrameIndex += 1;
+
+            UpdateReplayLabel(_eventReplay, _replayFrameIndex);
+
+            var frame = _eventReplay.Frames[_replayFrameIndex];
+
+            if (frame != null)
+                await LoadStateFromReplayFrameAsync(frame);
+
+            timEventReplay.Enabled = true;
+        }
+
+        private async Task LoadStateFromReplayFrameAsync(EventReplayFrame frame)
+        {
+            var jsonFileName = Path.GetFileNameWithoutExtension(frame.FileName);
+
+            using (FileStream compressedFileStream = File.Open(frame.FileName, FileMode.Open))
+            {
+                using (FileStream outputFileStream = File.Create(jsonFileName))
+                {
+                    using (var decompressor = new GZipStream(compressedFileStream, CompressionMode.Decompress))
+                    {
+                        decompressor.CopyTo(outputFileStream);
+                    }
+                }
+            }
+
+            LoadStateFromJsonFile(jsonFileName);
+
+            await UpdateUiAsync();
+        }
+
+        private void LoadStateFromJsonFile(string jsonFileName)
+        {
+            var json = File.ReadAllText(jsonFileName);
+
+            _formState = JsonConvert.DeserializeObject<FormState>(json);
+        }
+
+        private void UpdateReplayLabel(EventReplay replay, int index)
+        {
+            lblEventReplayStatus.Text = $"Replaying {replay.EventName} {replay.TrackName} {replay.Series} {replay.EventType} {replay.EventDate.ToString("yyyy-M-d")} [Frame {index} of {replay.Frames.Count - 1}]";
         }
 
         #endregion
@@ -2557,7 +2793,7 @@ namespace rNascar23
                 formattedLiveFeedDataToolStripMenuItem.Visible = true;
                 toolStripMenuItem3.Visible = true;
                 toolStripMenuItem2.Visible = true;
-                importDumpToolStripMenuItem.Visible = true;
+                localDataToolStripMenuItem.Visible = true;
             }
             else
             {
@@ -2570,7 +2806,7 @@ namespace rNascar23
                 formattedLiveFeedDataToolStripMenuItem.Visible = false;
                 toolStripMenuItem3.Visible = false;
                 toolStripMenuItem2.Visible = false;
-                importDumpToolStripMenuItem.Visible = false;
+                localDataToolStripMenuItem.Visible = false;
             }
         }
 
@@ -2878,15 +3114,11 @@ namespace rNascar23
             return string.Empty;
         }
 
-        #endregion
-
-        #region user settings
-
-        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void importDumpFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                DisplaySettingsDialog();
+                await OpenFormStateFileAsync();
             }
             catch (Exception ex)
             {
@@ -2894,62 +3126,20 @@ namespace rNascar23
             }
         }
 
-        private void settingsToolStripMenuItem1_Click(object sender, EventArgs e)
+        private async Task OpenFormStateFileAsync()
         {
-            try
+            var dialog = new OpenFileDialog();
+
+            if (dialog.ShowDialog(this) == DialogResult.OK)
             {
-                DisplaySettingsDialog();
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler(ex);
-            }
-        }
+                LoadStateFromJsonFile(dialog.FileName);
 
-        private async void DisplaySettingsDialog()
-        {
-            var dialog = Program.Services.GetRequiredService<UserSettingsDialog>();
+                _isImportedData = true;
 
-            var result = dialog.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                _logger.LogInformation("User settings updated");
-
-                var viewState = _viewState;
-
-                await SetViewStateAsync(ViewState.None, true);
-
-                await SetViewStateAsync(viewState, true);
-
-                if (viewState == ViewState.ScheduleView)
-                    await DisplayScheduleViewAsync(_selectedScheduleType);
+                await UpdateUiAsync();
             }
         }
 
         #endregion
-
-        private async void importDumpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                var dialog = new OpenFileDialog();
-
-                if (dialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    var json = File.ReadAllText(dialog.FileName);
-
-                    _formState = JsonConvert.DeserializeObject<FormState>(json);
-
-                    _isImportedData = true;
-
-                    await UpdateUiAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler(ex);
-            }
-        }
     }
 }

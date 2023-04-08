@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace rNascar23.Common
@@ -15,6 +16,8 @@ namespace rNascar23.Common
         private const string UserSettingsFileName = "UserSettings.json";
 
         #endregion
+
+        #region public
 
         public static UserSettings LoadUserSettings()
         {
@@ -101,7 +104,49 @@ namespace rNascar23.Common
             EnsureDirectoryExists(userSettings.DataDirectory);
             EnsureDirectoryExists(userSettings.LogDirectory);
 
+            userSettings.RaceViewBottomGrids = new List<int>()
+            {
+                12,
+                7,
+                8,
+                9,
+                4,
+                5,
+                6
+            };
+            userSettings.RaceViewRightGrids = new List<int>()
+            {
+                1,
+                10,
+                11,
+                2
+            };
+            userSettings.QualifyingViewBottomGrids = new List<int>()
+            {
+                12,
+                1
+            };
+            userSettings.QualifyingViewRightGrids = new List<int>();
+            userSettings.PracticeViewBottomGrids = new List<int>()
+            {
+                12,
+                7,
+                8,
+                9,
+                4,
+                5,
+                6
+            };
+            userSettings.PracticeViewRightGrids = new List<int>()
+            {
+                1
+            };
+
+            SaveUserSettings(userSettings);
+
             return userSettings;
         }
+
+        #endregion
     }
 }

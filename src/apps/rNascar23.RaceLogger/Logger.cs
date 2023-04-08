@@ -1,25 +1,23 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using rNascar23.Common;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.DriverStatistics.Ports;
 using rNascar23.LapTimes.Ports;
+using rNascar23.LiveFeeds.Models;
 using rNascar23.PitStops.Ports;
 using rNascar23.Points.Ports;
 using rNascar23.Schedules.Ports;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.IO.Compression;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using rNascar23.LiveFeeds.Models;
 
 namespace rNascar23.RaceLogger
 {
@@ -28,12 +26,15 @@ namespace rNascar23.RaceLogger
         #region consts
 
         private const string EventsDirectory = "C:\\Users\\Rob\\Documents\\rNascar23\\Events";
+        private const int MaxNumberOfLines = 25;
+        private const string LogFileName = "rNascar23.Logger.Log.{0}.txt";
 
         #endregion
 
         #region fields
 
         private bool _isRunning = false;
+        private int _lastElapsedTime = 0;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
 
         private readonly FormState _formState = new FormState();
@@ -50,7 +51,7 @@ namespace rNascar23.RaceLogger
 
         #endregion
 
-        #region ctor
+        #region ctor/load
 
         public Logger(
             ILogger<Logger> logger,
@@ -74,7 +75,11 @@ namespace rNascar23.RaceLogger
             _raceScheduleRepository = raceScheduleRepository ?? throw new ArgumentNullException(nameof(raceScheduleRepository));
             _pointsRepository = pointsRepository ?? throw new ArgumentNullException(nameof(pointsRepository));
             _pitStopsRepository = pitStopsRepository ?? throw new ArgumentNullException(nameof(pitStopsRepository));
+        }
 
+        private void Logger_Load(object sender, EventArgs e)
+        {
+            WriteMessage("App started");
         }
 
         #endregion
@@ -88,7 +93,31 @@ namespace rNascar23.RaceLogger
                 var hasUpdates = await CheckForUpdatesAsync();
 
                 if (hasUpdates)
-                    SaveFormState();
+                    SaveFormStateToFile();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception in update timer");
+            }
+        }
+
+        private void btnStartStop_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ToggleUpdateTimerState();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception setting update timer state.");
+            }
+        }
+
+        private void btnLogFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplayLogFile();
             }
             catch (Exception ex)
             {
@@ -100,27 +129,12 @@ namespace rNascar23.RaceLogger
 
         #region private
 
-        private void NewEvent(LiveFeed liveFeed)
-        {
-            lblLastUpdate.Text = DateTime.Now.ToString();
-
-            var seriesName = _formState.LiveFeed.SeriesId == 1 ? "Cup" :
-                _formState.LiveFeed.SeriesId == 2 ? "XFinity" :
-                _formState.LiveFeed.SeriesId == 3 ? "Truck" :
-                "Other Series";
-
-            var runType = _formState.LiveFeed.RunType == 1 ? "Practice" :
-                _formState.LiveFeed.RunType == 2 ? "Qualifying" :
-                _formState.LiveFeed.RunType == 3 ? "Race" :
-                "Other Run Type";
-
-            lblEvent.Text = $"{_formState.LiveFeed.TrackName} {seriesName} {_formState.LiveFeed.RunName} {runType}";
-        }
-
         private async Task<bool> CheckForUpdatesAsync()
         {
             try
             {
+                WriteMessage("Checking for updates");
+
                 picCheckForUpdate.BackColor = Color.LawnGreen;
 
                 _formState.LiveFeed = await _liveFeedRepository.GetLiveFeedAsync();
@@ -128,9 +142,22 @@ namespace rNascar23.RaceLogger
                 if (_formState.LiveFeed.TimeOfDayOs == _lastLiveFeedTimestamp)
                     return false;
 
+                var timeSinceLastUpdate = _lastLiveFeedTimestamp == DateTime.MinValue ?
+                    new TimeSpan() :
+                    _formState.LiveFeed.TimeOfDayOs.Subtract(_lastLiveFeedTimestamp);
+
+                WriteMessage($"Update found. Elapsed Time: {_formState.LiveFeed.ElapsedTime}. Time since last update: {timeSinceLastUpdate.ToString("mm\\.ss")} (mm.ss).");
+
                 _lastLiveFeedTimestamp = _formState.LiveFeed.TimeOfDayOs;
 
-                NewEvent(_formState.LiveFeed);
+                if (_formState.LiveFeed.ElapsedTime == _lastElapsedTime)
+                    return false;
+
+                WriteMessage("Elapsed time updated");
+
+                _lastElapsedTime = _formState.LiveFeed.ElapsedTime;
+
+                UpdateFound(_formState.LiveFeed);
 
                 _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
@@ -157,12 +184,11 @@ namespace rNascar23.RaceLogger
 
                 _formState.PitStops = await _pitStopsRepository.GetPitStopsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-
                 return true;
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex);
+                ExceptionHandler(ex, "Exception checking for updates");
             }
             finally
             {
@@ -172,12 +198,27 @@ namespace rNascar23.RaceLogger
             return false;
         }
 
-        private void SaveFormState()
+        private void UpdateFound(LiveFeed liveFeed)
+        {
+            lblLastUpdate.Text = DateTime.Now.ToString();
+
+            var seriesName = _formState.LiveFeed.SeriesId == 1 ? "Cup" :
+                _formState.LiveFeed.SeriesId == 2 ? "XFinity" :
+                _formState.LiveFeed.SeriesId == 3 ? "Truck" :
+                "Other Series";
+
+            var runType = _formState.LiveFeed.RunType == 1 ? "Practice" :
+                _formState.LiveFeed.RunType == 2 ? "Qualifying" :
+                _formState.LiveFeed.RunType == 3 ? "Race" :
+                "Other Run Type";
+
+            lblEvent.Text = $"{_formState.LiveFeed.TrackName} {seriesName} {_formState.LiveFeed.RunName} {runType}";
+        }
+
+        private void SaveFormStateToFile()
         {
             try
             {
-                picWriteFile.BackColor = Color.LawnGreen;
-
                 var seriesName = _formState.LiveFeed.SeriesId == 1 ? "Cup" :
                     _formState.LiveFeed.SeriesId == 2 ? "XFinity" :
                     _formState.LiveFeed.SeriesId == 3 ? "Truck" :
@@ -188,7 +229,7 @@ namespace rNascar23.RaceLogger
                     _formState.LiveFeed.RunType == 3 ? "Race" :
                     "Other Run Type";
 
-                var eventDirectoryName = $"{DateTime.Now.ToString("yyyy-dd-M")}.{_formState.LiveFeed.TrackName}-{seriesName}-{_formState.LiveFeed.RunName}-{runType}-{_formState.LiveFeed.RunId}";
+                var eventDirectoryName = $"{DateTime.Now.ToString("yyyy-M-d")}.{_formState.LiveFeed.TrackName}-{seriesName}-{_formState.LiveFeed.RunName}-{runType}-{_formState.LiveFeed.RunId}";
 
                 var eventDirectoryPath = Path.Combine(EventsDirectory, eventDirectoryName);
 
@@ -215,83 +256,110 @@ namespace rNascar23.RaceLogger
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex);
-            }
-            finally
-            {
-                picWriteFile.BackColor = Color.White;
+                ExceptionHandler(ex, "Exception serializing form state to file");
             }
         }
 
         public void CompressFile(string path)
         {
-            FileStream sourceFile = File.OpenRead(path);
-            FileStream destinationFile = File.Create(path + ".gz");
-
-            byte[] buffer = new byte[sourceFile.Length];
-            sourceFile.Read(buffer, 0, buffer.Length);
-
-            using (GZipStream output = new GZipStream(destinationFile,
-                CompressionMode.Compress))
+            try
             {
-                WriteMessage($"Compressing {Path.GetFileName(sourceFile.Name)} to {Path.GetFileName(destinationFile.Name)}.");
+                FileStream sourceFile = File.OpenRead(path);
+                FileStream destinationFile = File.Create(path + ".gz");
 
-                output.Write(buffer, 0, buffer.Length);
+                byte[] buffer = new byte[sourceFile.Length];
+                sourceFile.Read(buffer, 0, buffer.Length);
+
+                using (GZipStream output = new GZipStream(destinationFile,
+                    CompressionMode.Compress))
+                {
+                    WriteMessage($"Compressing {Path.GetFileName(sourceFile.Name)} to {Path.GetFileName(destinationFile.Name)}.");
+
+                    output.Write(buffer, 0, buffer.Length);
+                }
+
+                // Close the files.
+                sourceFile.Close();
+                destinationFile.Close();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, $"Exception compressing file: {path}");
+            }
+        }
+
+        public void ToggleUpdateTimerState()
+        {
+            if (_isRunning)
+            {
+                WriteMessage("Stopping update timer");
+                btnStartStop.Text = "Start";
+                dataRefreshTimer.Enabled = false;
+                picOnOff.BackColor = Color.White;
+            }
+            else
+            {
+                WriteMessage("Starting update timer");
+                btnStartStop.Text = "Stop";
+                dataRefreshTimer.Enabled = true;
+                picOnOff.BackColor = Color.LawnGreen;
             }
 
-            // Close the files.
-            sourceFile.Close();
-            destinationFile.Close();
-        }
-
-        private void ExceptionHandler(Exception ex)
-        {
-            ExceptionHandler(ex, String.Empty, true);
-        }
-        private void ExceptionHandler(Exception ex, string message = "")
-        {
-            ExceptionHandler(ex, message, true);
-        }
-        private void ExceptionHandler(Exception ex, string message = "", bool logMessage = false)
-        {
-            WriteMessage(ex.Message);
-
-            if (logMessage)
-            {
-                string errorMessage = String.IsNullOrEmpty(message) ? ex.Message : message;
-
-                _logger.LogError(ex, errorMessage);
-            }
+            _isRunning = !_isRunning;
         }
 
         private void WriteMessage(string message)
         {
-            txtMessages.AppendText($"{DateTime.Now} {message}");
-            txtMessages.AppendText(Environment.NewLine);
+            TrimMessagesLines();
+
+            var formattedMessageLine = $"{DateTime.Now} {message}{Environment.NewLine}";
+
+            txtMessages.AppendText(formattedMessageLine);
         }
 
-        private void btnStartStop_Click(object sender, EventArgs e)
+        private void TrimMessagesLines()
+        {
+            var lines = (from item in txtMessages.Text.Split('\n') select item.Trim());
+
+            if (lines.Count() < MaxNumberOfLines)
+                return;
+
+            var newlines = lines.Skip(lines.Count() - MaxNumberOfLines);
+
+            txtMessages.Text = string.Join(Environment.NewLine, newlines.ToArray());
+        }
+
+        private void DisplayLogFile()
+        {
+            string currentLogFile = String.Format(LogFileName, DateTime.Now.ToString("yyyyMMdd")); ;
+
+            var settings = UserSettingsService.LoadUserSettings();
+
+            string logFileDirectory = settings.LogDirectory;
+
+            string logFilePath = Path.Combine(logFileDirectory, currentLogFile);
+
+            if (!File.Exists(logFilePath))
+            {
+                _logger.LogInformation($"Log file created {DateTime.Now}");
+            }
+
+            Process.Start("Notepad++.exe", logFilePath);
+        }
+
+        private void ExceptionHandler(Exception ex, string message = "")
         {
             try
             {
-                if (_isRunning)
-                {
-                    btnStartStop.Text = "Start";
-                    dataRefreshTimer.Enabled = false;
-                    picOnOff.BackColor = Color.White;
-                }
-                else
-                {
-                    btnStartStop.Text = "Stop";
-                    dataRefreshTimer.Enabled = true;
-                    picOnOff.BackColor = Color.LawnGreen;
-                }
+                WriteMessage(ex.Message);
 
-                _isRunning = !_isRunning;
+                string errorMessage = String.IsNullOrEmpty(message) ? ex.Message : message;
+
+                _logger.LogError(ex, errorMessage);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ExceptionHandler(ex);
+                WriteMessage(ex.ToString());
             }
         }
 
