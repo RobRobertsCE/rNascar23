@@ -106,6 +106,7 @@
             this.btnPitStopsView = new System.Windows.Forms.ToolStripButton();
             this.pnlHost = new System.Windows.Forms.Panel();
             this.timEventReplay = new System.Windows.Forms.Timer(this.components);
+            this.audioChannelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -217,7 +218,8 @@
             this.viewToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.toolsToolStripMenuItem1,
-            this.localDataToolStripMenuItem});
+            this.localDataToolStripMenuItem,
+            this.audioChannelToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1292, 24);
@@ -237,7 +239,7 @@
             this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -806,6 +808,13 @@
             this.timEventReplay.Interval = 3000;
             this.timEventReplay.Tick += new System.EventHandler(this.timEventReplay_Tick);
             // 
+            // audioChannelToolStripMenuItem
+            // 
+            this.audioChannelToolStripMenuItem.Name = "audioChannelToolStripMenuItem";
+            this.audioChannelToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
+            this.audioChannelToolStripMenuItem.Text = "Audio Channel";
+            this.audioChannelToolStripMenuItem.Click += new System.EventHandler(this.audioChannelToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -923,6 +932,7 @@
         private System.Windows.Forms.Timer timEventReplay;
         private System.Windows.Forms.ToolStripStatusLabel lblEventReplayStatus;
         private System.Windows.Forms.ToolStripMenuItem nextWeekToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem audioChannelToolStripMenuItem;
     }
 }
 

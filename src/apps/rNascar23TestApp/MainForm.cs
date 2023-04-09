@@ -997,8 +997,8 @@ namespace rNascar23
             LoadSelectedViews(pnlBottom, settings.PracticeViewBottomGrids, DockStyle.Left, settings);
 
             pnlMain.Visible = true;
-            pnlRight.Visible = pnlRight.Controls.Count > 0;
-            pnlBottom.Visible = pnlBottom.Controls.Count > 0;
+            pnlRight.Visible = true;
+            pnlBottom.Visible = true;
             pnlHost.Visible = false;
 
             lblRaceLaps.Visible = false;
@@ -1038,8 +1038,8 @@ namespace rNascar23
             LoadSelectedViews(pnlBottom, settings.QualifyingViewBottomGrids, DockStyle.Left, settings);
 
             pnlMain.Visible = true;
-            pnlRight.Visible = pnlRight.Controls.Count > 0;
-            pnlBottom.Visible = pnlBottom.Controls.Count > 0;
+            pnlRight.Visible = true;
+            pnlBottom.Visible = true;
             pnlHost.Visible = false;
 
             lblRaceLaps.Visible = false;
@@ -1083,8 +1083,8 @@ namespace rNascar23
                 LoadSelectedViews(pnlBottom, settings.RaceViewBottomGrids, DockStyle.Left, settings);
 
                 pnlMain.Visible = true;
-                pnlRight.Visible = pnlRight.Controls.Count > 0;
-                pnlBottom.Visible = pnlBottom.Controls.Count > 0;
+                pnlRight.Visible = true;
+                pnlBottom.Visible = true;
                 pnlHost.Visible = false;
 
                 lblRaceLaps.Visible = true;
@@ -1379,6 +1379,7 @@ namespace rNascar23
             if (settings.FastestLapsDisplayType == SpeedTimeType.MPH)
             {
                 models = vehicles.
+                    Where(v => v.best_lap_speed > 0).
                     OrderByDescending(v => v.best_lap_speed).
                     Take(10).
                     Select(v => new GenericGridViewModel()
@@ -2819,6 +2820,26 @@ namespace rNascar23
         private void UpdateReplayLabel(EventReplay replay, int index)
         {
             lblEventReplayStatus.Text = $"Replaying {replay.EventName} {replay.TrackName} {replay.Series} {replay.EventType} {replay.EventDate.ToString("yyyy-M-d")} [Frame {index} of {replay.Frames.Count - 1}]";
+        }
+
+        #endregion
+
+        #region private [ audio ]
+
+        private void audioChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dialog = Program.Services.GetRequiredService<AudioSelectionDialog>();
+
+                dialog.SeriesId = _formState.LiveFeed.SeriesId;
+
+                dialog.Show(this);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception calling audio channel dialog from main form");
+            }
         }
 
         #endregion
