@@ -380,10 +380,23 @@ namespace rNascar23
             }
         }
 
+        private void SetCheckedStates(ToolStripButton buttonClicked)
+        {
+            btnRaceView.Checked = false;
+            btnQualifyingView.Checked = false;
+            btnPracticeView.Checked = false;
+            btnPitStopsView.Checked = false;
+
+            if (buttonClicked != null)
+                buttonClicked.Checked = true;
+        }
+
         private async void btnRaceView_Click(object sender, EventArgs e)
         {
             try
             {
+                SetCheckedStates(sender as ToolStripButton);
+
                 await SetViewStateAsync(ViewState.Race);
             }
             catch (Exception ex)
@@ -396,6 +409,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(sender as ToolStripButton);
+
                 await SetViewStateAsync(ViewState.Qualifying);
             }
             catch (Exception ex)
@@ -408,6 +423,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(sender as ToolStripButton);
+
                 await SetViewStateAsync(ViewState.Practice);
             }
             catch (Exception ex)
@@ -420,6 +437,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(sender as ToolStripButton);
+
                 await SetViewStateAsync(ViewState.PitStops);
             }
             catch (Exception ex)
@@ -444,6 +463,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(null);
+
                 _selectedScheduleType = ScheduleType.Trucks;
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
@@ -458,6 +479,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(null);
+
                 _selectedScheduleType = ScheduleType.Xfinity;
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
@@ -473,6 +496,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(null);
+
                 _selectedScheduleType = ScheduleType.Cup;
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
@@ -487,6 +512,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(null);
+
                 _selectedScheduleType = ScheduleType.All;
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
@@ -501,6 +528,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(null);
+
                 _selectedScheduleType = ScheduleType.ThisWeek;
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
@@ -515,6 +544,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(null);
+
                 _selectedScheduleType = ScheduleType.NextWeek;
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
@@ -529,6 +560,8 @@ namespace rNascar23
         {
             try
             {
+                SetCheckedStates(null);
+
                 await DisplayTodaysScheduleAsync();
             }
             catch (Exception ex)
@@ -1984,7 +2017,7 @@ namespace rNascar23
             for (int i = 0; i < _formState.FlagStates.Count; i++)
             {
                 if (_formState.FlagStates[i].State != (int)previousFlagState)
-                { 
+                {
                     var newLapSegment = new LapStateViewModel.LapSegment
                     {
                         StartLapNumber = lap,
@@ -2472,14 +2505,20 @@ namespace rNascar23
                 }
                 else if (e.KeyCode == Keys.F1)
                 {
+                    SetCheckedStates(btnRaceView);
+
                     await SetViewStateAsync(ViewState.Race);
                 }
                 else if (e.KeyCode == Keys.F2)
                 {
+                    SetCheckedStates(btnQualifyingView);
+
                     await SetViewStateAsync(ViewState.Qualifying);
                 }
                 else if (e.KeyCode == Keys.F3)
                 {
+                    SetCheckedStates(btnPracticeView);
+
                     await SetViewStateAsync(ViewState.Practice);
                 }
                 else if (e.KeyCode == Keys.F4)
@@ -2488,6 +2527,8 @@ namespace rNascar23
                 }
                 else if (e.KeyCode == Keys.F5)
                 {
+                    SetCheckedStates(btnPitStopsView);
+
                     await SetViewStateAsync(ViewState.PitStops);
                 }
                 else if (e.KeyCode == Keys.D && e.Modifiers == (Keys.Control | Keys.Shift))
@@ -2728,7 +2769,7 @@ namespace rNascar23
             if (_replayFrameIndex >= _eventReplay.Frames.Count - 1)
             {
                 _replayFrameIndex = -1;
-                
+
                 PauseEventReplay();
 
                 return;
