@@ -2812,6 +2812,8 @@ namespace rNascar23
             var json = File.ReadAllText(jsonFileName);
 
             _formState = JsonConvert.DeserializeObject<FormState>(json);
+
+            File.Delete(jsonFileName);
         }
 
         private void UpdateReplayLabel(EventReplay replay, int index)
