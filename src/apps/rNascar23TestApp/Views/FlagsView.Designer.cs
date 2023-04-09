@@ -28,7 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // TitleLabel
+            // 
+            this.TitleLabel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.TitleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.TitleLabel.Size = new System.Drawing.Size(451, 23);
+            this.TitleLabel.Text = "Basic Grid";
+            // 
+            // FlagsView
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.Name = "FlagsView";
+            this.Size = new System.Drawing.Size(451, 228);
+            ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion

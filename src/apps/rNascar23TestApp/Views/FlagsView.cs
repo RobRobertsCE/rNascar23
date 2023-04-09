@@ -1,14 +1,9 @@
-﻿using rNascar23.Common;
-using rNascar23.Flags.Models;
-using rNascar23.ViewModels;
+﻿using rNascar23.Flags.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 
 namespace rNascar23.Views
@@ -115,7 +110,7 @@ namespace rNascar23.Views
 
                 foreach (FlagState model in models.OfType<FlagState>())
                 {
-                    DataRow[] foundRows = _dataTable.Select($"LapNumber = {model.LapNumber}");
+                    DataRow[] foundRows = _dataTable.Select($"State = {model.State} AND LapNumber = {model.LapNumber}");
 
                     if (foundRows != null && foundRows.Length > 0)
                     {
@@ -125,14 +120,70 @@ namespace rNascar23.Views
                     else
                     {
                         var state = model.State == 1 ? "Green" :
-                             model.State == 2 ? "Yellow" : "";
+                             model.State == 2 ? "Yellow" :
+                             model.State == 3 ? "Red" :
+                             model.State == 4 ? "White" :
+                             model.State == 8 ? "Hot" :
+                             model.State == 9 ? "Cold" :
+                             "";
 
-                        _dataTable.Rows.Add(model.State, model.LapNumber, model.Comment, model.Beneficiary, model.ElapsedTime, model.TimeOfDay, model.TimeOfDayOs);
+                        var comment = String.IsNullOrEmpty(model.Comment) ? " " : model.Comment;
+                        var beneficiary = String.IsNullOrEmpty(model.Beneficiary) ? " " : model.Beneficiary;
+
+                        var dr = _dataTable.NewRow();
+
+                        dr["State"] = int.Parse(model.State.ToString());
+                        dr["LapNumber"] = int.Parse(model.LapNumber.ToString());
+                        dr["Comment"] = comment;
+                        dr["Beneficiary"] = beneficiary;
+                        dr["ElapsedTime"] = float.Parse(model.ElapsedTime.ToString());
+                        dr["TimeOfDay"] = float.Parse(model.TimeOfDay.ToString());
+                        dr["TimeOfDayOs"] = model.TimeOfDayOs;
+
+                        _dataTable.Rows.Add(dr);
                     }
                 }
             }
 
-            Grid.FirstDisplayedScrollingRowIndex = Grid.RowCount - 1;
+            var cautionCountGroup = models.OfType<FlagState>().
+               Where(m => m.State == 2).
+               GroupBy(m => $"{m.State}-{m.LapNumber}");
+
+            var cautionCount = cautionCountGroup.Count();
+
+            int previousState = 0;
+            int previousCautionStartLap = 0;
+            int runningCautionLapCount = 0;
+            foreach (FlagState model in models.OfType<FlagState>())
+            {
+                if (model.State == 1 && previousState == 0)
+                {
+                    // green flag to start event
+                }
+                else if (model.State == 1 && previousState == 2)
+                {
+                    // green flag after a yellow
+                    runningCautionLapCount += (model.LapNumber - previousCautionStartLap);
+                }
+                else if (model.State == 2 && previousState == 1)
+                {
+                    // yellow flag after a green
+                    previousCautionStartLap = model.LapNumber;
+                }
+                else if (model.State == 2 && previousState == 3)
+                {
+                    // yellow flag after a red
+                }
+
+                previousState = model.State;
+            }
+
+            var cautionCountLabel = cautionCount == 1 ? "Caution" : "Cautions";
+
+            this.TitleLabel.Text = $"Flags     {cautionCount} {cautionCountLabel} for {runningCautionLapCount} Laps";
+
+            if (Grid.RowCount > 0)
+                Grid.FirstDisplayedScrollingRowIndex = Grid.RowCount - 1;
         }
 
         private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)

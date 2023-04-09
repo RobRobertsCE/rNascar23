@@ -8,6 +8,7 @@
         Trucks,
         All,
         ThisWeek,
+        NextWeek,
         Today
     }
 }

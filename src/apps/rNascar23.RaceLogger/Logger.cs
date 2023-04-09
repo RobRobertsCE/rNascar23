@@ -26,17 +26,18 @@ namespace rNascar23.RaceLogger
         #region consts
 
         private const string EventsDirectory = "C:\\Users\\Rob\\Documents\\rNascar23\\Events";
-        private const int MaxNumberOfLines = 25;
+        private const int MaxNumberOfLines = 50;
         private const string LogFileName = "rNascar23.Logger.Log.{0}.txt";
+        private const bool LineByLineComparison = false;
 
         #endregion
 
         #region fields
 
         private bool _isRunning = false;
-        private int _lastElapsedTime = 0;
         private DateTime _lastLiveFeedTimestamp = DateTime.MinValue;
 
+        private string _previousState = String.Empty;
         private readonly FormState _formState = new FormState();
 
         private readonly ILogger<Logger> _logger = null;
@@ -150,12 +151,11 @@ namespace rNascar23.RaceLogger
 
                 _lastLiveFeedTimestamp = _formState.LiveFeed.TimeOfDayOs;
 
-                if (_formState.LiveFeed.ElapsedTime == _lastElapsedTime)
+                if (!DataHasChanges(_formState))
+                {
+                    WriteMessage("No data changes");
                     return false;
-
-                WriteMessage("Elapsed time updated");
-
-                _lastElapsedTime = _formState.LiveFeed.ElapsedTime;
+                }
 
                 UpdateFound(_formState.LiveFeed);
 
@@ -196,6 +196,70 @@ namespace rNascar23.RaceLogger
             }
 
             return false;
+        }
+
+        private bool DataHasChanges(FormState formState)
+        {
+            bool hasChanges = false;
+
+            try
+            {
+                dataRefreshTimer.Enabled = false;
+
+                // normalize
+                var newStateJson = JsonConvert.SerializeObject(formState);
+
+                var tempState = JsonConvert.DeserializeObject<FormState>(newStateJson);
+
+                tempState.LiveFeed.TimeOfDayOs = DateTime.MinValue;
+                tempState.LiveFeed.ElapsedTime = 0;
+                tempState.LiveFeed.TimeOfDay = 0;
+
+                var tempStateJson = JsonConvert.SerializeObject(tempState, Formatting.Indented);
+
+                // compare
+                if (string.Compare(tempStateJson, _previousState) == 0)
+                {
+                    hasChanges = false;
+                }
+
+                var previousLines = _previousState.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                var newLines = tempStateJson.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (previousLines.Length != newLines.Length)
+                {
+                    hasChanges = true;
+                }
+
+                if (LineByLineComparison && hasChanges == false)
+                {
+                    var minLines = previousLines.Length <= newLines.Length ? previousLines.Length : newLines.Length;
+
+                    for (int i = 0; i < minLines; i++)
+                    {
+                        var previousLine = previousLines[i];
+                        var newLine = newLines[i];
+
+                        if (!previousLine.Equals(newLine, StringComparison.Ordinal))
+                        {
+                            WriteMessage($"UNEQUAL: {previousLine} -> {newLine}");
+                            hasChanges = true;
+                        }
+                    }
+                }
+
+                _previousState = tempStateJson;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                dataRefreshTimer.Enabled = true;
+            }
+
+            return hasChanges;
         }
 
         private void UpdateFound(LiveFeed liveFeed)

@@ -314,7 +314,7 @@ namespace rNascar23.Views
                                 DisplayIndex= 5,
                                 HeaderTitle ="ElapsedTime",
                                 Visible =false,
-                                Width = 50,
+                                Width = 150,
                             },
                             new GridColumnSettings()
                             {
@@ -323,7 +323,7 @@ namespace rNascar23.Views
                                 DisplayIndex= 6,
                                 HeaderTitle ="TimeOfDay",
                                 Visible =false,
-                                Width = 50,
+                                Width = 150,
                             },
                             new GridColumnSettings()
                             {
@@ -332,7 +332,7 @@ namespace rNascar23.Views
                                 DisplayIndex= 7,
                                 HeaderTitle ="TimeOfDayOs",
                                 Visible =false,
-                                Width = 50,
+                                Width = 150,
                             }
                         },
                         SortOrderField = "LapNumber",

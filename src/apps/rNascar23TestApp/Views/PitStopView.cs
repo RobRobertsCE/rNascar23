@@ -206,7 +206,7 @@ namespace rNascar23.Views
             SetListViewTheme(lvInOutTime, backColor, foreColor);
             SetListViewTheme(lvAverageGreenPitTime, backColor, foreColor);
             SetListViewTheme(lvAverageGreenTotalTime, backColor, foreColor);
-            SetListViewTheme(lvGreenOutTime, backColor, foreColor);            
+            SetListViewTheme(lvGreenOutTime, backColor, foreColor);
         }
 
         private void SetListViewTheme(ListView listView, Color backColor, Color foreColor)
@@ -228,25 +228,28 @@ namespace rNascar23.Views
 
             var currentFlagState = orderedFlagStates.FirstOrDefault();
 
-            if (currentFlagState.State == 1) // green
+            if (currentFlagState != null)
             {
-                var endOfLastCaution = currentFlagState;
+                if (currentFlagState.State == 1) // green
+                {
+                    var endOfLastCaution = currentFlagState;
 
-                var beginningOfLastCaution = orderedFlagStates.
-                    Where(f => f.LapNumber < endOfLastCaution.LapNumber).
-                    FirstOrDefault(f => f.State == 2);
+                    var beginningOfLastCaution = orderedFlagStates.
+                        Where(f => f.LapNumber < endOfLastCaution.LapNumber).
+                        FirstOrDefault(f => f.State == 2);
 
-                _startLap = beginningOfLastCaution.LapNumber;
+                    _startLap = beginningOfLastCaution.LapNumber;
 
-                _endLap = endOfLastCaution.LapNumber;
-            }
-            else if (currentFlagState.State == 2) // yellow
-            {
-                var beginningOfLastCaution = orderedFlagStates.FirstOrDefault(f => f.State == 1);
+                    _endLap = endOfLastCaution.LapNumber;
+                }
+                else if (currentFlagState.State == 2) // yellow
+                {
+                    var beginningOfLastCaution = orderedFlagStates.FirstOrDefault(f => f.State == 1);
 
-                _startLap = beginningOfLastCaution.LapNumber + 1;
+                    _startLap = beginningOfLastCaution.LapNumber + 1;
 
-                _endLap = currentFlagState.LapNumber;
+                    _endLap = currentFlagState.LapNumber;
+                }
             }
 
             PopulateCautionList(flagStates);

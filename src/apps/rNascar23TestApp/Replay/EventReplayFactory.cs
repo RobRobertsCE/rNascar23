@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace rNascar23.Replay
 {
@@ -78,9 +79,9 @@ namespace rNascar23.Replay
 
         private static IList<EventReplayFrame> LoadEventReplayFrames(DirectoryInfo replayDirectoryInfo)
         {
-            IList<EventReplayFrame> frames = new List<EventReplayFrame>();
+            // 14-3-5348-3-13-17-35-29.json.gz
 
-            int i = 0;
+            IList<EventReplayFrame> frames = new List<EventReplayFrame>();
 
             foreach (FileInfo replayFileInfo in replayDirectoryInfo.GetFiles("*.gz", SearchOption.TopDirectoryOnly))
             {
@@ -88,7 +89,7 @@ namespace rNascar23.Replay
 
                 var replayFileSubSections = replayFileMainSections[0].Split('-');
 
-                if (replayFileSubSections.Length == 8)
+                if (replayFileSubSections.Length >= 8)
                 {
                     var frameTimestamp = new DateTime(
                         DateTime.MinValue.Year,
@@ -100,14 +101,18 @@ namespace rNascar23.Replay
 
                     EventReplayFrame frame = new EventReplayFrame()
                     {
-                        Index = i,
                         Timestamp = frameTimestamp,
                         FileName = replayFileInfo.FullName
                     };
 
                     frames.Add(frame);
+                }
 
-                    i++;
+                frames = frames.OrderBy(f => f.Timestamp).ToList();
+
+                for (int i = 0; i < frames.Count; i++)
+                {
+                    frames[i].Index = i;
                 }
             }
 

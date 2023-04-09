@@ -289,7 +289,7 @@ namespace rNascar23
                 {
                     var flagData = _formState.FlagStates.FirstOrDefault(f => f.LapNumber >= lapSegment.StartLapNumber && f.LapNumber <= lapSegment.StartLapNumber);
 
-                    cautionDetails = flagData == null && (flagData.Comment != null || flagData.Beneficiary != null) ? String.Empty : $"{Environment.NewLine}{flagData.Comment?.ToString()}{Environment.NewLine}Lucky Dog:{flagData.Beneficiary?.ToString().Trim()}";
+                    cautionDetails = flagData != null && (flagData.Comment != null || flagData.Beneficiary != null) ? $"{Environment.NewLine}{flagData.Comment?.ToString()}{Environment.NewLine}Lucky Dog:{flagData.Beneficiary?.ToString().Trim()}" : String.Empty;
                 }
 
                 toolTip1.SetToolTip(flagSegmentPB, $"{flagState} {lapsText}{cautionDetails}");
@@ -502,6 +502,20 @@ namespace rNascar23
             try
             {
                 _selectedScheduleType = ScheduleType.ThisWeek;
+
+                await DisplayScheduleViewAsync(_selectedScheduleType);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private async void nextWeekToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _selectedScheduleType = ScheduleType.NextWeek;
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
             }
@@ -732,6 +746,18 @@ namespace rNascar23
                         return raceLists.CupSeries.Concat(raceLists.XfinitySeries).Concat(raceLists.TruckSeries).ToList();
                     }
                 case ScheduleType.ThisWeek:
+                    {
+                        var startingDate = DateTime.Today.DayOfWeek == DayOfWeek.Sunday ? DateTime.Today.AddDays(-6) : DateTime.Today;
+
+                        var firstDayOfThisWeek = startingDate.AddDays(-(int)DateTime.Today.DayOfWeek);
+
+                        return raceLists.CupSeries.
+                            Concat(raceLists.XfinitySeries).
+                            Concat(raceLists.TruckSeries).
+                            Where(s => s.DateScheduled.Date >= firstDayOfThisWeek.Date && s.DateScheduled.Date <= (firstDayOfThisWeek.AddDays(7).Date)).
+                            ToList();
+                    }
+                case ScheduleType.NextWeek:
                     {
                         var startingDate = DateTime.Today;
 
@@ -1242,7 +1268,8 @@ namespace rNascar23
 
             foreach (GridViewBase uc in panel.Controls.OfType<FlagsView>())
             {
-                uc.SetDataSource<FlagState>(_formState.FlagStates.Where(m => m.State == 1 || m.State == 2 || m.State == 3).ToList());
+                //uc.SetDataSource<FlagState>(_formState.FlagStates.Where(m => m.State == 1 || m.State == 2 || m.State == 3).ToList());
+                uc.SetDataSource<FlagState>(_formState.FlagStates.ToList());
             }
         }
 
@@ -1253,7 +1280,7 @@ namespace rNascar23
             int i = 1;
             foreach (var lapLedLeader in vehicles.
                 Where(v => v.laps_led.Length > 0).
-                OrderByDescending(v => v.laps_led.Length))
+                OrderByDescending(v => v.laps_led.Sum(l => l.end_lap - l.start_lap)))
             {
                 var lapLeader = new GenericGridViewModel()
                 {
@@ -1957,27 +1984,22 @@ namespace rNascar23
             for (int i = 0; i < _formState.FlagStates.Count; i++)
             {
                 if (_formState.FlagStates[i].State != (int)previousFlagState)
-                {
-                    // flag has changed
-                    if ((_formState.FlagStates[i].LapNumber - lap) > 0)
+                { 
+                    var newLapSegment = new LapStateViewModel.LapSegment
                     {
-                        // race has started   
-                        var newLapSegment = new LapStateViewModel.LapSegment
-                        {
-                            StartLapNumber = lap,
-                            Laps = _formState.FlagStates[i].LapNumber - lap,
-                            Stage = lap >= _lapStates.Stage1Laps + _lapStates.Stage2Laps ?
-                            3 : lap >= _lapStates.Stage1Laps ?
-                            2 :
-                            1,
-                            FlagState = previousFlagState
-                        };
+                        StartLapNumber = lap,
+                        Laps = _formState.FlagStates[i].LapNumber - lap,
+                        Stage = lap >= _lapStates.Stage1Laps + _lapStates.Stage2Laps ?
+                        3 : lap >= _lapStates.Stage1Laps ?
+                        2 :
+                        1,
+                        FlagState = previousFlagState
+                    };
 
-                        _lapStates.LapSegments.Add(newLapSegment);
+                    _lapStates.LapSegments.Add(newLapSegment);
 
-                        previousFlagState = (LapStateViewModel.FlagState)_formState.FlagStates[i].State;
-                        lap = _formState.FlagStates[i].LapNumber;
-                    }
+                    previousFlagState = (LapStateViewModel.FlagState)_formState.FlagStates[i].State;
+                    lap = _formState.FlagStates[i].LapNumber;
                 }
             }
 
@@ -2101,7 +2123,7 @@ namespace rNascar23
         {
             _screenDefinitionShortcutKeys.Clear();
 
-            int f = 5;
+            int f = 6;
             foreach (ScreenDefinition screenDefinition in _screenDefinitions.OrderBy(s => s.DisplayIndex))
             {
                 // add menu/toolbar item
@@ -2114,13 +2136,10 @@ namespace rNascar23
 
                 toolStrip1.Items.Add(screenDefinitionButton);
 
-                Keys key = Keys.F5;
+                Keys key = Keys.F6;
 
                 switch (f)
                 {
-                    case 5:
-                        key = Keys.F5;
-                        break;
                     case 6:
                         key = Keys.F6;
                         break;
@@ -2572,7 +2591,7 @@ namespace rNascar23
 
         #endregion
 
-        #region [ replay ]
+        #region private [ replay ]
 
         private async void replayEventToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2707,13 +2726,19 @@ namespace rNascar23
             timEventReplay.Enabled = false;
 
             if (_replayFrameIndex >= _eventReplay.Frames.Count - 1)
-                _replayFrameIndex = 0;
+            {
+                _replayFrameIndex = -1;
+                
+                PauseEventReplay();
+
+                return;
+            }
             else
                 _replayFrameIndex += 1;
 
             UpdateReplayLabel(_eventReplay, _replayFrameIndex);
 
-            var frame = _eventReplay.Frames[_replayFrameIndex];
+            var frame = _eventReplay.Frames.OrderBy(f => f.Index).ToArray()[_replayFrameIndex];
 
             if (frame != null)
                 await LoadStateFromReplayFrameAsync(frame);

@@ -1,7 +1,11 @@
-﻿using rNasar23.Common;
+﻿using Microsoft.Extensions.DependencyInjection;
+using rNasar23.Common;
 using rNascar23.Common;
-using rNascar23.LiveFeeds.Models;
 using rNascar23.CustomViews;
+using rNascar23.LiveFeeds.Models;
+using rNascar23.Media.Models;
+using rNascar23.Media.Ports;
+using rNascar23.Properties;
 using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,10 +13,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using rNascar23.Media.Ports;
-using Microsoft.Extensions.DependencyInjection;
-using rNascar23.Media.Models;
-using rNascar23.Properties;
 
 namespace rNascar23.Views
 {
@@ -121,7 +121,7 @@ namespace rNascar23.Views
                 Grid.BackgroundColor = Color.White;
                 Grid.RowsDefaultCellStyle.BackColor = Color.White;
                 Grid.RowsDefaultCellStyle.ForeColor = Color.Black;
-                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.Silver;
+                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;// Gainsboro;
                 Grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
                 Grid.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
                 Grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
@@ -153,7 +153,15 @@ namespace rNascar23.Views
         {
             var models = BuildViewModels((IList<Vehicle>)values);
 
-            if (models == null || models.Count == 0) return;
+            if (models == null || models.Count == 0)
+            {
+                if (LeaderboardSide == LeaderboardSides.Right)
+                    this.Visible = false;
+
+                return;
+            }
+            else
+                this.Visible = true;
 
             var dataTable = GridViewTableBuilder.ToDataTable<RaceVehicleViewModel>(models.ToList());
 
@@ -228,7 +236,11 @@ namespace rNascar23.Views
 
                 if (row.Cells["IsOnDvp"]?.Value?.ToString() == "True")
                 {
-                    row.Cells["VehicleStatusImage"].Style.BackColor = Color.Red;
+                    if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.OnTrack ||
+                        (VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.InPits)
+                    {
+                        row.Cells["VehicleStatusImage"].Style.BackColor = Color.Red;
+                    }
                 }
                 if (row.Cells["IsOnTrack"]?.Value?.ToString() == "False")
                 {
@@ -266,15 +278,6 @@ namespace rNascar23.Views
 
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Tire;
                     }
-                    else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Garage)
-                    {
-                        if (_userSettings.UseDarkTheme)
-                            row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
-                        else
-                            row.DefaultCellStyle.ForeColor = Color.Silver;
-
-                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Garage;
-                    }
                     else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Retired)
                     {
                         if (_userSettings.UseDarkTheme)
@@ -282,7 +285,17 @@ namespace rNascar23.Views
                         else
                             row.DefaultCellStyle.ForeColor = Color.Silver;
 
-                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Retired;
+                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Cancel;
+                    }
+                    else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Garage)
+                    {
+                        if (_userSettings.UseDarkTheme)
+                            row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                        else
+                            row.DefaultCellStyle.ForeColor = Color.Silver;
+
+                        row.Cells["VehicleStatusImage"].Style.BackColor = Color.Gainsboro;
+                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.InGarage;
                     }
                     else
                     {
@@ -330,9 +343,9 @@ namespace rNascar23.Views
                     BestLap = BestLapDisplayType == SpeedTimeType.Seconds ? vehicle.best_lap_time : vehicle.best_lap_speed,
                     BestLapNumber = vehicle.best_lap,
                     LastPit = vehicle.last_pit,
-                    PersonalBestLapThisLap = vehicle.best_lap == vehicle.laps_completed,
-                    FastestLapInRace = vehicle.best_lap_speed == bestLapSpeedInRace,
-                    FastestCarThisLap = vehicle.last_lap_speed == bestLapSpeedThisLap
+                    PersonalBestLapThisLap = vehicle.status == (int)VehicleEventStatus.OnTrack && vehicle.is_on_track == true && vehicle.best_lap_speed > 0 && vehicle.best_lap == vehicle.laps_completed,
+                    FastestLapInRace = vehicle.best_lap_speed > 0 && vehicle.best_lap_speed == bestLapSpeedInRace,
+                    FastestCarThisLap = vehicle.is_on_track == true && vehicle.last_lap_speed > 0 && vehicle.last_lap_speed == bestLapSpeedThisLap
                 };
 
                 raceVehicles.Add(model);

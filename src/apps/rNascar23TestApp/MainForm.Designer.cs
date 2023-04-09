@@ -105,6 +105,7 @@
             this.btnPitStopsView = new System.Windows.Forms.ToolStripButton();
             this.pnlHost = new System.Windows.Forms.Panel();
             this.timEventReplay = new System.Windows.Forms.Timer(this.components);
+            this.nextWeekToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -502,6 +503,7 @@
             // 
             // playToolStripMenuItem
             // 
+            this.playToolStripMenuItem.Enabled = false;
             this.playToolStripMenuItem.Name = "playToolStripMenuItem";
             this.playToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.playToolStripMenuItem.Text = "Play";
@@ -509,6 +511,7 @@
             // 
             // pauseToolStripMenuItem
             // 
+            this.pauseToolStripMenuItem.Enabled = false;
             this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
             this.pauseToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.pauseToolStripMenuItem.Text = "Pause";
@@ -516,6 +519,7 @@
             // 
             // closeToolStripMenuItem
             // 
+            this.closeToolStripMenuItem.Enabled = false;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
             this.closeToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.closeToolStripMenuItem.Text = "Close";
@@ -671,6 +675,7 @@
             this.allToolStripMenuItem1,
             this.toolStripMenuItem9,
             this.thisWeekToolStripMenuItem,
+            this.nextWeekToolStripMenuItem,
             this.todayToolStripMenuItem});
             this.ddbSchedules.ForeColor = System.Drawing.Color.Silver;
             this.ddbSchedules.Image = ((System.Drawing.Image)(resources.GetObject("ddbSchedules.Image")));
@@ -682,52 +687,52 @@
             // truckToolStripMenuItem
             // 
             this.truckToolStripMenuItem.Name = "truckToolStripMenuItem";
-            this.truckToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.truckToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.truckToolStripMenuItem.Text = "&Truck";
             this.truckToolStripMenuItem.Click += new System.EventHandler(this.truckToolStripMenuItem_Click);
             // 
             // xfinityToolStripMenuItem
             // 
             this.xfinityToolStripMenuItem.Name = "xfinityToolStripMenuItem";
-            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.xfinityToolStripMenuItem.Text = "&Xfinity";
             this.xfinityToolStripMenuItem.Click += new System.EventHandler(this.xfinityToolStripMenuItem_Click);
             // 
             // cupToolStripMenuItem
             // 
             this.cupToolStripMenuItem.Name = "cupToolStripMenuItem";
-            this.cupToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.cupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cupToolStripMenuItem.Text = "&Cup";
             this.cupToolStripMenuItem.Click += new System.EventHandler(this.cupToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(124, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(177, 6);
             // 
             // allToolStripMenuItem1
             // 
             this.allToolStripMenuItem1.Name = "allToolStripMenuItem1";
-            this.allToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.allToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.allToolStripMenuItem1.Text = "&All";
             this.allToolStripMenuItem1.Click += new System.EventHandler(this.allToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(124, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
             // 
             // thisWeekToolStripMenuItem
             // 
             this.thisWeekToolStripMenuItem.Name = "thisWeekToolStripMenuItem";
-            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.thisWeekToolStripMenuItem.Text = "This &Week";
             this.thisWeekToolStripMenuItem.Click += new System.EventHandler(this.thisWeekToolStripMenuItem_Click);
             // 
             // todayToolStripMenuItem
             // 
             this.todayToolStripMenuItem.Name = "todayToolStripMenuItem";
-            this.todayToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.todayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.todayToolStripMenuItem.Text = "T&oday";
             this.todayToolStripMenuItem.Click += new System.EventHandler(this.todayToolStripMenuItem_Click);
             // 
@@ -793,6 +798,13 @@
             // 
             this.timEventReplay.Interval = 3000;
             this.timEventReplay.Tick += new System.EventHandler(this.timEventReplay_Tick);
+            // 
+            // nextWeekToolStripMenuItem
+            // 
+            this.nextWeekToolStripMenuItem.Name = "nextWeekToolStripMenuItem";
+            this.nextWeekToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextWeekToolStripMenuItem.Text = "&Next Week";
+            this.nextWeekToolStripMenuItem.Click += new System.EventHandler(this.nextWeekToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -910,6 +922,7 @@
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.Timer timEventReplay;
         private System.Windows.Forms.ToolStripStatusLabel lblEventReplayStatus;
+        private System.Windows.Forms.ToolStripMenuItem nextWeekToolStripMenuItem;
     }
 }
 
