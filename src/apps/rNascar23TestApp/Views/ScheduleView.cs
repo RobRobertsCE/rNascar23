@@ -24,6 +24,8 @@ namespace rNascar23.Views
         #region fields
 
         private readonly IDriverInfoRepository _driverInfoRepository = null;
+        private readonly IWeekendFeedRepository _weekendFeedRepository = null;
+        private Color _alternateRowBackColor = Color.Gainsboro;
 
         #endregion
 
@@ -71,6 +73,7 @@ namespace rNascar23.Views
             this.Height = 225;
 
             _driverInfoRepository = Program.Services.GetRequiredService<IDriverInfoRepository>();
+            _weekendFeedRepository = Program.Services.GetRequiredService<IWeekendFeedRepository>();
         }
 
         private void ScheduleView_Load(object sender, EventArgs e)
@@ -95,16 +98,20 @@ namespace rNascar23.Views
             {
                 backColor = Color.Black;
                 foreColor = Color.Gainsboro;
+                _alternateRowBackColor = Color.FromArgb(16, 16, 16);
             }
             else
             {
                 backColor = Color.White;
                 foreColor = Color.Black;
+                _alternateRowBackColor = Color.Gainsboro;
             }
 
+            tabEventScheduleResults.BackColor = backColor;
             flpScheduledEvents.BackColor = backColor;
             pnlEventWinnerAndComments.BackColor = backColor;
             lvSchedule.BackColor = backColor;
+            lvResults.BackColor = backColor;
 
             pnlRight.BackColor = backColor;
             tlpCompletedEventDetails.BackColor = backColor;
@@ -112,8 +119,10 @@ namespace rNascar23.Views
 
             this.BackColor = backColor;
 
+            tabEventScheduleResults.ForeColor = foreColor;
             pnlRight.ForeColor = foreColor;
             lvSchedule.ForeColor = foreColor;
+            lvResults.ForeColor = foreColor;
             tlpCompletedEventDetails.ForeColor = foreColor;
             lblComments.ForeColor = foreColor;
         }
@@ -213,6 +222,10 @@ namespace rNascar23.Views
             if (seriesEvent.WinnerDriverId == null)
             {
                 pnlEventWinnerAndComments.Visible = false;
+
+                lvResults.Items.Clear();
+
+                tabEventScheduleResults.SelectedIndex = 0;
             }
             else
             {
@@ -236,7 +249,102 @@ namespace rNascar23.Views
                 lblCarsInField.Text = $"{seriesEvent.NumberOfCarsInField}";
 
                 lblComments.Text = seriesEvent.RaceComments;
+
+                tabEventScheduleResults.SelectedIndex = 1;
+
+                await DisplayEventResultsAsync(seriesEvent.SeriesId, seriesEvent.RaceId);
             }
+        }
+
+        private async Task DisplayEventResultsAsync(int seriesId, int raceId)
+        {
+            try
+            {
+                lvResults.BeginUpdate();
+
+                lvResults.Items.Clear();
+
+                var results = await GetEventResultsAsync(seriesId, raceId);
+
+                int i = 0;
+
+                foreach (var result in results)
+                {
+                    var lvi = new ListViewItem(result.FinishingPosition.ToString());
+
+                    lvi.SubItems.Add(result.CarNumber);
+                    lvi.SubItems.Add(result.Driver);
+                    lvi.SubItems.Add(result.Hometown);
+                    lvi.SubItems.Add(result.Vehicle);
+                    lvi.SubItems.Add(result.StartingPosition.ToString());
+                    lvi.SubItems.Add(result.LapsCompleted.ToString());
+                    lvi.SubItems.Add(result.FinishingStatus);
+                    lvi.SubItems.Add(result.LapsLed.ToString());
+                    lvi.SubItems.Add(result.PointsEarned.ToString());
+                    lvi.SubItems.Add(result.PlayoffPointsEarned.ToString());
+                    lvi.SubItems.Add(result.Sponsor);
+                    lvi.SubItems.Add(result.Owner);
+                    lvi.SubItems.Add(result.CrewChief);
+
+                    lvi.Tag = result;
+
+                    if (i % 2 == 0)
+                    {
+                        lvi.BackColor = _alternateRowBackColor;
+                    }
+
+                    i++;
+
+                    lvResults.Items.Add(lvi);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                lvResults.EndUpdate();
+            }
+        }
+
+        private async Task<IList<EventResult>> GetEventResultsAsync(int seriesId, int raceId)
+        {
+            IList<EventResult> eventResults = new List<EventResult>();
+
+            var weekendFeed = await _weekendFeedRepository.GetWeekendFeedAsync(seriesId, raceId);
+
+            var weekendRace = weekendFeed.weekend_race.FirstOrDefault();
+
+            var weekendRaceResults = weekendRace.
+                results.
+                Where(r => r.finishing_position > 0).
+                OrderBy(r => r.finishing_position);
+
+            foreach (rNascar23.DriverStatistics.Models.Result driverResult in weekendRaceResults)
+            {
+                var eventResult = new EventResult()
+                {
+                    FinishingPosition = driverResult.finishing_position,
+                    CarNumber = driverResult.car_number,
+                    Driver = driverResult.driver_fullname,
+                    Vehicle = driverResult.car_model,
+                    Hometown = driverResult.driver_hometown,
+                    Sponsor = driverResult.sponsor,
+                    Owner = driverResult.owner_fullname,
+                    FinishingStatus = driverResult.finishing_status,
+                    CrewChief = driverResult.crew_chief_fullname,
+                    LapsLed = driverResult.laps_led,
+                    LapsCompleted = driverResult.laps_completed,
+                    PointsEarned = driverResult.points_earned,
+                    PlayoffPointsEarned = driverResult.playoff_points_earned,
+                    StartingPosition = driverResult.starting_position,
+                };
+
+                eventResults.Add(eventResult);
+            }
+
+            return eventResults;
         }
 
         private async Task<string> GetDriverNameAsync(int driverId)
@@ -326,6 +434,60 @@ namespace rNascar23.Views
             }
 
             return scheduledEvents;
+        }
+
+        private void tabEventScheduleResults_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            // This event is called once for each tab button in your tab control
+
+            // First paint the background with a color based on the current tab
+
+            // e.Index is the index of the tab in the TabPages collection.
+            switch (e.Index)
+            {
+                case 0:
+                    e.Graphics.FillRectangle(new SolidBrush(Color.RoyalBlue), e.Bounds);
+                    break;
+                case 1:
+                    e.Graphics.FillRectangle(new SolidBrush(Color.Blue), e.Bounds);
+                    break;
+                default:
+                    break;
+            }
+
+            // Then draw the current tab button text 
+            Rectangle paddedBounds = e.Bounds;
+            paddedBounds.Inflate(-2, -4);
+            using (var tabFont = new Font("Segoe UI", 11, FontStyle.Bold))
+            {
+                e.Graphics.DrawString(
+                    tabEventScheduleResults.TabPages[e.Index].Text,
+                    tabFont,
+                    SystemBrushes.HighlightText,
+                    paddedBounds);
+            }
+        }
+
+        #endregion
+
+        #region classes
+
+        private class EventResult
+        {
+            public int FinishingPosition { get; set; }
+            public string CarNumber { get; set; }
+            public string Driver { get; set; }
+            public string Vehicle { get; set; }
+            public string Hometown { get; set; }
+            public string Sponsor { get; set; }
+            public string Owner { get; set; }
+            public string CrewChief { get; set; }
+            public string FinishingStatus { get; set; }
+            public int StartingPosition { get; set; }
+            public int LapsLed { get; set; }
+            public int LapsCompleted { get; set; }
+            public int PointsEarned { get; set; }
+            public int PlayoffPointsEarned { get; set; }
         }
 
         #endregion

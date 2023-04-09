@@ -38,7 +38,6 @@
             this.chNotes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlEventSchedule = new System.Windows.Forms.Panel();
-            this.lblEventSchedule = new System.Windows.Forms.Label();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlEventWinnerAndComments = new System.Windows.Forms.Panel();
             this.lblComments = new System.Windows.Forms.Label();
@@ -66,10 +65,31 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblCompletedEventDetails = new System.Windows.Forms.Label();
+            this.tabEventScheduleResults = new System.Windows.Forms.TabControl();
+            this.tpSchedule = new System.Windows.Forms.TabPage();
+            this.tpResults = new System.Windows.Forms.TabPage();
+            this.lvResults = new System.Windows.Forms.ListView();
+            this.chPosition = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chDriver = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chCarNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chHometown = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chVehicle = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chStart = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chLapsCompleted = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chPoints = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chPlayoff = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chOwner = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chSponsor = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chCrewChief = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chLapsLed = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.pnlEventSchedule.SuspendLayout();
             this.pnlRight.SuspendLayout();
             this.pnlEventWinnerAndComments.SuspendLayout();
             this.tlpCompletedEventDetails.SuspendLayout();
+            this.tabEventScheduleResults.SuspendLayout();
+            this.tpSchedule.SuspendLayout();
+            this.tpResults.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -114,9 +134,9 @@
             this.lvSchedule.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvSchedule.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvSchedule.HideSelection = false;
-            this.lvSchedule.Location = new System.Drawing.Point(0, 23);
+            this.lvSchedule.Location = new System.Drawing.Point(3, 3);
             this.lvSchedule.Name = "lvSchedule";
-            this.lvSchedule.Size = new System.Drawing.Size(607, 573);
+            this.lvSchedule.Size = new System.Drawing.Size(593, 556);
             this.lvSchedule.TabIndex = 3;
             this.lvSchedule.UseCompatibleStateImageBehavior = false;
             this.lvSchedule.View = System.Windows.Forms.View.Details;
@@ -148,27 +168,12 @@
             // 
             // pnlEventSchedule
             // 
-            this.pnlEventSchedule.Controls.Add(this.lvSchedule);
-            this.pnlEventSchedule.Controls.Add(this.lblEventSchedule);
+            this.pnlEventSchedule.Controls.Add(this.tabEventScheduleResults);
             this.pnlEventSchedule.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEventSchedule.Location = new System.Drawing.Point(0, 0);
             this.pnlEventSchedule.Name = "pnlEventSchedule";
             this.pnlEventSchedule.Size = new System.Drawing.Size(607, 596);
             this.pnlEventSchedule.TabIndex = 4;
-            // 
-            // lblEventSchedule
-            // 
-            this.lblEventSchedule.BackColor = System.Drawing.Color.SteelBlue;
-            this.lblEventSchedule.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEventSchedule.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblEventSchedule.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEventSchedule.ForeColor = System.Drawing.Color.Silver;
-            this.lblEventSchedule.Location = new System.Drawing.Point(0, 0);
-            this.lblEventSchedule.Name = "lblEventSchedule";
-            this.lblEventSchedule.Size = new System.Drawing.Size(607, 23);
-            this.lblEventSchedule.TabIndex = 4;
-            this.lblEventSchedule.Text = "Event Schedule";
-            this.lblEventSchedule.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pnlRight
             // 
@@ -481,6 +486,140 @@
             this.lblCompletedEventDetails.Text = "Event Details";
             this.lblCompletedEventDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tabEventScheduleResults
+            // 
+            this.tabEventScheduleResults.Controls.Add(this.tpSchedule);
+            this.tabEventScheduleResults.Controls.Add(this.tpResults);
+            this.tabEventScheduleResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabEventScheduleResults.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.tabEventScheduleResults.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabEventScheduleResults.ItemSize = new System.Drawing.Size(150, 26);
+            this.tabEventScheduleResults.Location = new System.Drawing.Point(0, 0);
+            this.tabEventScheduleResults.Name = "tabEventScheduleResults";
+            this.tabEventScheduleResults.SelectedIndex = 0;
+            this.tabEventScheduleResults.Size = new System.Drawing.Size(607, 596);
+            this.tabEventScheduleResults.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabEventScheduleResults.TabIndex = 5;
+            this.tabEventScheduleResults.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabEventScheduleResults_DrawItem);
+            // 
+            // tpSchedule
+            // 
+            this.tpSchedule.BackColor = System.Drawing.Color.White;
+            this.tpSchedule.Controls.Add(this.lvSchedule);
+            this.tpSchedule.Location = new System.Drawing.Point(4, 30);
+            this.tpSchedule.Name = "tpSchedule";
+            this.tpSchedule.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSchedule.Size = new System.Drawing.Size(599, 562);
+            this.tpSchedule.TabIndex = 0;
+            this.tpSchedule.Text = "Event Schedule";
+            // 
+            // tpResults
+            // 
+            this.tpResults.Controls.Add(this.lvResults);
+            this.tpResults.Location = new System.Drawing.Point(4, 30);
+            this.tpResults.Name = "tpResults";
+            this.tpResults.Padding = new System.Windows.Forms.Padding(3);
+            this.tpResults.Size = new System.Drawing.Size(599, 562);
+            this.tpResults.TabIndex = 1;
+            this.tpResults.Text = "Results";
+            this.tpResults.UseVisualStyleBackColor = true;
+            // 
+            // lvResults
+            // 
+            this.lvResults.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chPosition,
+            this.chCarNumber,
+            this.chDriver,
+            this.chHometown,
+            this.chVehicle,
+            this.chStart,
+            this.chLapsCompleted,
+            this.chStatus,
+            this.chLapsLed,
+            this.chPoints,
+            this.chPlayoff,
+            this.chSponsor,
+            this.chOwner,
+            this.chCrewChief});
+            this.lvResults.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvResults.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lvResults.HideSelection = false;
+            this.lvResults.Location = new System.Drawing.Point(3, 3);
+            this.lvResults.Name = "lvResults";
+            this.lvResults.Size = new System.Drawing.Size(593, 556);
+            this.lvResults.TabIndex = 6;
+            this.lvResults.UseCompatibleStateImageBehavior = false;
+            this.lvResults.View = System.Windows.Forms.View.Details;
+            // 
+            // chPosition
+            // 
+            this.chPosition.Text = "";
+            this.chPosition.Width = 35;
+            // 
+            // chDriver
+            // 
+            this.chDriver.Text = "Driver";
+            this.chDriver.Width = 150;
+            // 
+            // chCarNumber
+            // 
+            this.chCarNumber.Text = "#";
+            this.chCarNumber.Width = 35;
+            // 
+            // chHometown
+            // 
+            this.chHometown.Text = "Hometown";
+            this.chHometown.Width = 100;
+            // 
+            // chVehicle
+            // 
+            this.chVehicle.Text = "Vehicle";
+            this.chVehicle.Width = 80;
+            // 
+            // chStart
+            // 
+            this.chStart.Text = "Start";
+            this.chStart.Width = 45;
+            // 
+            // chLapsCompleted
+            // 
+            this.chLapsCompleted.Text = "Laps";
+            this.chLapsCompleted.Width = 45;
+            // 
+            // chPoints
+            // 
+            this.chPoints.Text = "Pts";
+            this.chPoints.Width = 35;
+            // 
+            // chPlayoff
+            // 
+            this.chPlayoff.Text = "Playoff";
+            // 
+            // chOwner
+            // 
+            this.chOwner.Text = "Owner";
+            this.chOwner.Width = 125;
+            // 
+            // chSponsor
+            // 
+            this.chSponsor.Text = "Sponsor";
+            this.chSponsor.Width = 125;
+            // 
+            // chCrewChief
+            // 
+            this.chCrewChief.Text = "CrewChief";
+            this.chCrewChief.Width = 125;
+            // 
+            // chStatus
+            // 
+            this.chStatus.Text = "Status";
+            this.chStatus.Width = 70;
+            // 
+            // chLapsLed
+            // 
+            this.chLapsLed.Text = "Led";
+            this.chLapsLed.Width = 40;
+            // 
             // ScheduleView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -497,6 +636,9 @@
             this.pnlEventWinnerAndComments.ResumeLayout(false);
             this.tlpCompletedEventDetails.ResumeLayout(false);
             this.tlpCompletedEventDetails.PerformLayout();
+            this.tabEventScheduleResults.ResumeLayout(false);
+            this.tpSchedule.ResumeLayout(false);
+            this.tpResults.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -513,7 +655,6 @@
         private System.Windows.Forms.ColumnHeader chEventName;
         private System.Windows.Forms.ColumnHeader chSpacer;
         private System.Windows.Forms.Panel pnlEventSchedule;
-        private System.Windows.Forms.Label lblEventSchedule;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Label lblComments;
         private System.Windows.Forms.Label lblMargin;
@@ -541,5 +682,23 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TabControl tabEventScheduleResults;
+        private System.Windows.Forms.TabPage tpSchedule;
+        private System.Windows.Forms.TabPage tpResults;
+        private System.Windows.Forms.ListView lvResults;
+        private System.Windows.Forms.ColumnHeader chPosition;
+        private System.Windows.Forms.ColumnHeader chDriver;
+        private System.Windows.Forms.ColumnHeader chCarNumber;
+        private System.Windows.Forms.ColumnHeader chHometown;
+        private System.Windows.Forms.ColumnHeader chVehicle;
+        private System.Windows.Forms.ColumnHeader chStart;
+        private System.Windows.Forms.ColumnHeader chLapsCompleted;
+        private System.Windows.Forms.ColumnHeader chPoints;
+        private System.Windows.Forms.ColumnHeader chPlayoff;
+        private System.Windows.Forms.ColumnHeader chOwner;
+        private System.Windows.Forms.ColumnHeader chSponsor;
+        private System.Windows.Forms.ColumnHeader chCrewChief;
+        private System.Windows.Forms.ColumnHeader chStatus;
+        private System.Windows.Forms.ColumnHeader chLapsLed;
     }
 }

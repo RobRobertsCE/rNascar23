@@ -167,7 +167,7 @@ namespace rNascar23.Views
             {
                 backColor = Color.Black;
                 foreColor = Color.Gainsboro;
-                _alternateRowBackColor = Color.FromArgb(16, 16, 16);
+                _alternateRowBackColor = Color.FromArgb(24, 24, 24);
                 _alternateRowForeColor = Color.Gainsboro;
             }
             else
