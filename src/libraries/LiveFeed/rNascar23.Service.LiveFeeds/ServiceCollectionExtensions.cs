@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using rNascar23.Data.LiveFeeds.Ports;
+using rNascar23.LiveFeeds.Ports;
 using rNascar23.Service.LiveFeeds.Adapters;
 
 namespace rNascar23.Service.LiveFeeds
@@ -9,6 +10,7 @@ namespace rNascar23.Service.LiveFeeds
         public static IServiceCollection AddLiveFeed(this IServiceCollection services)
         {
             services
+                .AddTransient<IWeekendFeedRepository, WeekendFeedRepository>()
                 .AddTransient<ILiveFeedRepository, LiveFeedRepository>();
 
             return services;

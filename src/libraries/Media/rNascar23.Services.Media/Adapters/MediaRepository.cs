@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace rNascar23.Services.Media
+namespace rNascar23.Service.Media
 {
     public class MediaRepository : JsonDataRepository, IMediaRepository
     {

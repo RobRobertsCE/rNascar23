@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.0" />
@@ -14,18 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\rNascar23.Data\rNascar23.Data.csproj" />
     <ProjectReference Include="..\rNascar23.Points\rNascar23.Points.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\..\apps\rNascar23TestApp\bin\Debug\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
-      <HintPath>..\..\..\apps\rNascar23TestApp\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-      <HintPath>..\..\..\apps\rNascar23TestApp\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
