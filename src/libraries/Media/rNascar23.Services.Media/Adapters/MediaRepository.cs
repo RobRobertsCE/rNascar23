@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using RestSharp;
+using rNascar23.Data;
 using rNascar23.Media.Models;
 using rNascar23.Media.Ports;
 using System;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace rNascar23.Services.Media
 {
-    public class MediaRepository : IMediaRepository
+    public class MediaRepository : JsonDataRepository, IMediaRepository
     {
         #region fields
 
@@ -18,9 +20,17 @@ namespace rNascar23.Services.Media
 
         #endregion
 
+        #region properties
+
+        // https://cf.nascar.com/config/audio/audio_mapping_1_3.json
+        public string Url { get => @"https://cf.nascar.com/config/audio/audio_mapping_{0}_3.json"; }
+        
+        #endregion
+
         #region ctor
 
         public MediaRepository(ILogger<MediaRepository> logger)
+            :base(logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -105,6 +115,31 @@ namespace rNascar23.Services.Media
             return null;
         }
 
+        public async Task<AudioConfiguration> GetAudioConfigurationAsync(int seriesId)
+        {
+            string json = String.Empty;
+
+            try
+            {
+                var absoluteUrl = BuildUrl(seriesId);
+
+                json = await GetAsync(absoluteUrl).ConfigureAwait(false);
+
+                if (string.IsNullOrEmpty(json))
+                    return new AudioConfiguration();
+
+                var model = JsonConvert.DeserializeObject<AudioConfiguration>(json);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error reading audio configuration: {ex.Message}\r\n\r\njson: {json}\r\n");
+            }
+
+            return new AudioConfiguration();
+        }
+
         #endregion
 
         #region private
@@ -137,6 +172,11 @@ namespace rNascar23.Services.Media
             var fileBytes = await client.DownloadDataAsync(request);
 
             return fileBytes;
+        }
+
+        private string BuildUrl(int seriesId)
+        {
+            return String.Format(Url, seriesId);
         }
 
         private void ExceptionHandler(Exception ex, string message = "")

@@ -7,5 +7,6 @@ namespace rNascar23.Media.Ports
     {
         MediaImage GetCarNumberImage(int seriesId, int carNumber);
         Task<byte[]> GetCarNumberImageAsync(int seriesId, int carNumber);
+        Task<AudioConfiguration> GetAudioConfigurationAsync(int seriesId);
     }
 }

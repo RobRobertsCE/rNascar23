@@ -1,0 +1,323 @@
+﻿https://cf.nascar.com/config/audio/audio_mapping_1_3.json
+
+{
+	"historical_race_id": 5272,
+	"race_name": "",
+	"run_type": 3,
+	"track_name": "",
+	"series_id": 1,
+	"audio_config": [{
+			"stream_number": 1,
+			"driver_number": "All Scan",
+			"driver_name": "All Scan",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_01\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 2,
+			"driver_number": "1",
+			"driver_name": "Ross Chastain",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_02\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 3,
+			"driver_number": "2",
+			"driver_name": "Austin Cindric",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_03\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 4,
+			"driver_number": "3",
+			"driver_name": "Austin Dillon",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_04\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 5,
+			"driver_number": "4",
+			"driver_name": "Kevin Harvick",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_05\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 6,
+			"driver_number": "5",
+			"driver_name": "Kyle Larson",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_06\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 7,
+			"driver_number": "6",
+			"driver_name": "Brad Keselowski",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_07\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 8,
+			"driver_number": "7",
+			"driver_name": "Corey LaJoie",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_08\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 9,
+			"driver_number": "8",
+			"driver_name": "Kyle Busch",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_09\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 10,
+			"driver_number": "9",
+			"driver_name": "Josh Berry",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_10\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 11,
+			"driver_number": "10",
+			"driver_name": "Aric Almirola",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_11\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 12,
+			"driver_number": "11",
+			"driver_name": "Denny Hamlin",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_12\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 13,
+			"driver_number": "12",
+			"driver_name": "Ryan Blaney",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_13\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 14,
+			"driver_number": "14",
+			"driver_name": "Chase Briscoe",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_14\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 15,
+			"driver_number": "15",
+			"driver_name": "J.J. Yeley",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_15\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 16,
+			"driver_number": "16",
+			"driver_name": "AJ Allmendinger",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_16\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 17,
+			"driver_number": "17",
+			"driver_name": "Chris Buescher",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_17\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 18,
+			"driver_number": "19",
+			"driver_name": "Martin Truex Jr.",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_18\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 19,
+			"driver_number": "20",
+			"driver_name": "Christopher Bell",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_19\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 20,
+			"driver_number": "21",
+			"driver_name": "Harrison Burton",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_20\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 21,
+			"driver_number": "22",
+			"driver_name": "Joey Logano",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_21\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 22,
+			"driver_number": "23",
+			"driver_name": "Bubba Wallace",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_22\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 23,
+			"driver_number": "24",
+			"driver_name": "William Byron",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_23\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 24,
+			"driver_number": "31",
+			"driver_name": "Justin Haley",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_24\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 25,
+			"driver_number": "34",
+			"driver_name": "Michael McDowell",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_25\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 26,
+			"driver_number": "38",
+			"driver_name": "Todd Gilliland",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_26\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 27,
+			"driver_number": "41",
+			"driver_name": "Ryan Preece",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_27\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 28,
+			"driver_number": "42",
+			"driver_name": "Noah Gragson",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_28\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 29,
+			"driver_number": "43",
+			"driver_name": "Erik Jones",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_29\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 30,
+			"driver_number": "45",
+			"driver_name": "Tyler Reddick",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_30\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 31,
+			"driver_number": "47",
+			"driver_name": "Ricky Stenhouse Jr.",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_31\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 32,
+			"driver_number": "48",
+			"driver_name": "Alex Bowman",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_32\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 33,
+			"driver_number": "51",
+			"driver_name": "Cody Ware",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_33\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 34,
+			"driver_number": "54",
+			"driver_name": "Ty Gibbs",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_34\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 35,
+			"driver_number": "77",
+			"driver_name": "Ty Dillon",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_35\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 36,
+			"driver_number": "78",
+			"driver_name": "BJ McLeod",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_36\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 37,
+			"driver_number": "99",
+			"driver_name": "Daniel Su\u00e1rez",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_37\/master.m3u8",
+			"requiresAuth": true
+		}, {
+			"stream_number": 47,
+			"driver_number": "PRN Radio",
+			"driver_name": "PRN Radio",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_47\/master.m3u8",
+			"requiresAuth": false
+		}, {
+			"stream_number": 48,
+			"driver_number": "Officials",
+			"driver_name": "Officials",
+			"base_url": "https:\/\/sa.aws.nascar.com\/",
+			"stream_rtmp": "",
+			"stream_ios": "driveaudio_48\/master.m3u8",
+			"requiresAuth": true
+		}
+	]
+}

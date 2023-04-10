@@ -7,10 +7,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="109.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Data\rNascar23.Data\rNascar23.Data.csproj" />
     <ProjectReference Include="..\rNascar23.Media\rNascar23.Media.csproj" />
   </ItemGroup>
 
