@@ -9,10 +9,10 @@
     <ROW Property="ARPCOMMENTS" Value="This installer database contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
     <ROW Property="ARPPRODUCTICON" Value="rNascar23.Launcher.exe" Type="8"/>
     <ROW Property="Manufacturer" Value="RacerData"/>
-    <ROW Property="ProductCode" Value="1033:{E00AB605-4AC4-4EAC-BCF8-F8EDF63B3E99} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{F419767A-147F-47E2-A92A-8B87B91F5DC9} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="rNascar23"/>
-    <ROW Property="ProductVersion" Value="0.3.0.0" Type="32" TargetFile="rNascar23.exe"/>
+    <ROW Property="ProductVersion" Value="0.3.0.1" Type="32" TargetFile="rNascar23.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{5F45B23F-2F07-4000-815C-50066E9793DB}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>

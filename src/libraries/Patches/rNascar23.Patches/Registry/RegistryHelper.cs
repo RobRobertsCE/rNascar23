@@ -6,15 +6,17 @@ namespace rNascar23.Patches.AppRegistry
 {
     public static class RegistryHelper
     {
-        private const string RegistryVersionKey = "SOFTWARE\\RacerData\\rNascar23\\Version";
-        private const string RegistryPathKey = "SOFTWARE\\RacerData\\rNascar23\\Path";
+        private const string RegistryAppKey = "SOFTWARE\\RacerData\\rNascar23";
 
         private const string VersionKey = "Version";
         private const string PathKey = "Path";
 
         public static string GetInstallFolder()
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryPathKey, true);
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryAppKey, true);
+
+            if (registryKey == null)
+                return String.Empty;
 
             var keyValue = registryKey.GetValue(PathKey, String.Empty, RegistryValueOptions.None);
 
@@ -25,17 +27,20 @@ namespace rNascar23.Patches.AppRegistry
         }
         public static void SetInstallFolder(string path)
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryPathKey, true);
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryAppKey, true);
 
             if (registryKey == null)
-                registryKey = registryKey.CreateSubKey(RegistryPathKey);
+                registryKey = registryKey.CreateSubKey(RegistryAppKey);
 
             registryKey.SetValue(PathKey, path);
         }
 
         public static string GetVersion()
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryVersionKey, true);
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryAppKey, true);
+
+            if (registryKey == null)
+                return String.Empty;
 
             var keyValue = registryKey.GetValue(VersionKey, String.Empty, RegistryValueOptions.None);
 
@@ -46,10 +51,10 @@ namespace rNascar23.Patches.AppRegistry
         }
         public static void SetVersion(string version)
         {
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryVersionKey, true);
+            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(RegistryAppKey, true);
 
             if (registryKey == null)
-                registryKey = registryKey.CreateSubKey(RegistryVersionKey);
+                registryKey = registryKey.CreateSubKey(RegistryAppKey);
 
             registryKey.SetValue(VersionKey, version);
         }

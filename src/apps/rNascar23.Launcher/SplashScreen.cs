@@ -67,6 +67,7 @@ namespace rNascar23.Launcher
 
         private void btnNo_Click(object sender, EventArgs e)
         {
+            PatchVersion = null;
             this.Close();
         }
 

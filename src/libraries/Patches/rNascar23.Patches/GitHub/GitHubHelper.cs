@@ -121,14 +121,14 @@ namespace rNascar23.Patches.GitHub
                     version = new Version(major, minor, build, revision);
                 }
 
-                if (version > currentVersion)
+                if (release.Assets.Count > 0 && release.Assets[0].Name.EndsWith("zip") && version > currentVersion)
                 {
                     var patch = new PatchSet()
                     {
                         Name = release.Name,
                         Author = release.Author.Login,
                         Stage = release.Name.ToLower().Contains("beta") ? "Beta" :
-                            release.Name.ToLower().Contains("alpha") ? "Alpha" : 
+                            release.Name.ToLower().Contains("alpha") ? "Alpha" :
                             release.Name.ToLower().Contains("patch") ? "Patch" : "Production",
                         IsPreRelease = release.Prerelease,
                         Version = version,
@@ -207,7 +207,7 @@ namespace rNascar23.Patches.GitHub
                         };
 
                         patches.Add(patchFile);
-                    }                  
+                    }
                 }
                 catch (Exception)
                 {
