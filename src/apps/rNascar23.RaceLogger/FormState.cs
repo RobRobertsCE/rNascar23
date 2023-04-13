@@ -1,4 +1,4 @@
-﻿using rNascar23.DriverStatistics.Models;
+﻿using rNascar23.LoopData.Models;
 using rNascar23.Flags.Models;
 using rNascar23.LapTimes.Models;
 using rNascar23.LiveFeeds.Models;

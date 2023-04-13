@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\rNascar23.Data\rNascar23.Data.csproj" />
+    <ProjectReference Include="..\..\LiveFeed\rNascar23.LiveFeed\rNascar23.LiveFeeds.csproj" />
+    <ProjectReference Include="..\..\Schedules\rNascar23.RaceLists\rNascar23.Schedules.csproj" />
+    <ProjectReference Include="..\..\Schedules\rNascar23.Service.RaceLists\rNascar23.Service.Schedules.csproj" />
+    <ProjectReference Include="..\rNascar23.LoopData\rNascar23.LoopData.csproj" />
+  </ItemGroup>
+
+</Project>

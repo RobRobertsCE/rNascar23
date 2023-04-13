@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using rNascar23.Common;
-using rNascar23.Service.DriverStatistics;
+using rNascar23.Service.LoopData;
 using rNascar23.Service.Flags;
 using rNascar23.Service.LapTimes;
 using rNascar23.Service.LiveFeeds;
@@ -45,7 +45,7 @@ namespace rNascar23.RaceLogger
                         .AddLiveFeed()
                         .AddLapTimes()
                         .AddPoints()
-                        .AddDriverStatistics()
+                        .AddLoopData()
                         .AddPitStops()
                         .AddTransient<Logger>();
 

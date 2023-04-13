@@ -218,6 +218,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Logger.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -257,17 +260,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libraries\Common\rNasar23.Common\rNasar23.Common.csproj">
+    <ProjectReference Include="..\..\libraries\Common\rNasar23.Common\rNascar23.Common.csproj">
       <Project>{cee31643-f997-44d3-9c39-89a30eb656bb}</Project>
-      <Name>rNasar23.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\DriverStats\rNascar.Services.DriverStats\rNascar23.Service.DriverStatistics.csproj">
-      <Project>{bbbdab8f-8764-4ebd-9fe5-7aaf3dd29d1b}</Project>
-      <Name>rNascar23.Service.DriverStatistics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\DriverStats\rNascar23.DriverStats\rNascar23.DriverStatistics.csproj">
-      <Project>{43497a12-f239-4a40-9865-0a7217eba510}</Project>
-      <Name>rNascar23.DriverStatistics</Name>
+      <Name>rNascar23.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\libraries\Flags\rNascar23.Flags\rNascar23.Flags.csproj">
       <Project>{a3aa6e5c-07a9-48c6-b45c-27bfba0901ec}</Project>
@@ -292,6 +287,14 @@
     <ProjectReference Include="..\..\libraries\LiveFeed\rNascar23.Service.LiveFeeds\rNascar23.Service.LiveFeeds.csproj">
       <Project>{7fc5d433-fcf5-46a8-a0ab-1637fa6d851c}</Project>
       <Name>rNascar23.Service.LiveFeeds</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libraries\LoopData\rNascar.Services.LoopData\rNascar23.Service.LoopData.csproj">
+      <Project>{95275f7b-43da-4ee8-bdf7-1fdf4ab7faa9}</Project>
+      <Name>rNascar23.Service.LoopData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libraries\LoopData\rNascar23.LoopData\rNascar23.LoopData.csproj">
+      <Project>{c4eea2cf-3aa6-4f42-9076-9bb8538dccbf}</Project>
+      <Name>rNascar23.LoopData</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\libraries\PitStops\rNascar23.PitStops\rNascar23.PitStops.csproj">
       <Project>{696d2b73-0514-41a3-bec1-c0ced6c60ae8}</Project>

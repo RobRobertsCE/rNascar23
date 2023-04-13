@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using rNascar23.Common;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
-using rNascar23.DriverStatistics.Ports;
+using rNascar23.LoopData.Ports;
 using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.PitStops.Ports;
@@ -44,7 +44,7 @@ namespace rNascar23.RaceLogger
         private readonly ILapTimesRepository _lapTimeRepository = null;
         private readonly ILapAveragesRepository _lapAveragesRepository = null;
         private readonly ILiveFeedRepository _liveFeedRepository = null;
-        private readonly IDriverStatisticsRepository _driverStatisticsRepository = null;
+        private readonly ILoopDataRepository _driverStatisticsRepository = null;
         private readonly IFlagStateRepository _flagStateRepository = null;
         private readonly ISchedulesRepository _raceScheduleRepository = null;
         private readonly IPointsRepository _pointsRepository = null;
@@ -59,7 +59,7 @@ namespace rNascar23.RaceLogger
             ILapTimesRepository lapTimeRepository,
             ILapAveragesRepository lapAveragesRepository,
             ILiveFeedRepository liveFeedRepository,
-            IDriverStatisticsRepository driverStatisticsRepository,
+            ILoopDataRepository driverStatisticsRepository,
             IFlagStateRepository flagStateRepository,
             ISchedulesRepository raceScheduleRepository,
             IPointsRepository pointsRepository,

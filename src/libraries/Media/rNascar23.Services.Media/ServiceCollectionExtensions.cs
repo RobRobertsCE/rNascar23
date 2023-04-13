@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using rNascar23.Media.Ports;
 
-namespace rNascar23.Services.Media
+namespace rNascar23.Service.Media
 {
     public static class ServiceCollectionExtensions
     {
