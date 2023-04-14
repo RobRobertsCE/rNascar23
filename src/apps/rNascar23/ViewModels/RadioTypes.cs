@@ -4,6 +4,7 @@
     {
         Unknown,
         MRN,
-        PRN
+        PRN,
+        IMS
     }
 }

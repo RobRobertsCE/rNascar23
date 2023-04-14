@@ -5,6 +5,6 @@ namespace rNascar23.Schedules.Ports
 {
     public interface ISchedulesRepository
     {
-        Task<SeriesSchedules> GetRaceListAsync();
+        Task<SeriesSchedules> GetRaceListAsync(int? year = null);
     }
 }

@@ -8,7 +8,7 @@ namespace rNascar23.Service.RaceLists.Mappings
     {
         public SchedulesMappingProfile()
         {
-            CreateMap<RaceListModel, SeriesSchedules>()
+            CreateMap<SeriesEventModel, SeriesSchedules>()
                 .ForMember(m => m.CupSeries, opts => opts.MapFrom(src => src.series_1))
                 .ForMember(m => m.XfinitySeries, opts => opts.MapFrom(src => src.series_2))
                 .ForMember(m => m.TruckSeries, opts => opts.MapFrom(src => src.series_3))

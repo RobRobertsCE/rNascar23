@@ -9,6 +9,7 @@
         All,
         ThisWeek,
         NextWeek,
-        Today
+        Today,
+        Historical
     }
 }

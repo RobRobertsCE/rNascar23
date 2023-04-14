@@ -134,93 +134,123 @@ namespace rNascar23.Views
 
         private void DisplayScheduledEvent(ScheduledEventViewModel viewModel)
         {
-            switch (viewModel.Series)
+            try
             {
-                case SeriesTypes.Cup:
-                    picSeries.Image = Resources.NCS_Small;
-                    break;
-                case SeriesTypes.XFinity:
-                    picSeries.Image = Resources.XFinity_Small;
-                    break;
-                case SeriesTypes.Truck:
-                    picSeries.Image = Resources.CTS_Small;
-                    break;
-                default:
-                    picSeries.Image = null;
-                    break;
-            }
+                this.SuspendLayout();
 
-            lblEventDate.Text = viewModel.EventDateTime.ToLocalTime().ToString("dddd, MMM d");
-            lblEventTime.Text = viewModel.EventDateTime.ToLocalTime().ToString("H:mm tt");
-
-            lblEventName.Text = viewModel.EventName;
-            lblTrack.Text = $"{viewModel.TrackName} {viewModel.TrackCityState}";
-            lblEventDistance.Text = $"{viewModel.EventLaps} Laps/{viewModel.EventMiles} Miles";
-
-            switch (viewModel.Tv)
-            {
-                case TvTypes.Fox:
-                    picTv.Image = Resources.FOX_Small;
-                    break;
-                case TvTypes.FS1:
-                    picTv.Image = Resources.FS1_Small;
-                    break;
-                case TvTypes.FS2:
-                    picTv.Image = Resources.FS2_Small;
-                    break;
-                case TvTypes.USA:
-                    picTv.Image = Resources.USA_Small;
-                    break;
-                case TvTypes.NBC:
-                    picTv.Image = Resources.NBC_Small;
-                    break;
-                default:
-                    picTv.Image = null;
-                    break;
-            }
-
-            switch (viewModel.Radio)
-            {
-                case RadioTypes.MRN:
-                    picRadio.Image = Resources.MRN_Small;
-                    break;
-                case RadioTypes.PRN:
-                    picRadio.Image = Resources.PRN_Small;
-                    break;
-                default:
-                    picRadio.Image = null;
-                    break;
-            }
-
-            switch (viewModel.Satellite)
-            {
-                case SatelliteTypes.Sirius:
-                    picSatellite.Image = Resources.Sirius_Small;
-                    break;
-                default:
-                    picSatellite.Image = null;
-                    break;
-            }
-
-            if (viewModel.EventDateTime.Date < DateTime.Now.Date)
-            {
-                Color foreColor = Color.Empty;
-
-                if (_settings.UseDarkTheme)
+                switch (viewModel.Series)
                 {
-                    foreColor = Color.DimGray;
-                }
-                else
-                {
-                    foreColor = Color.Silver;
+                    case SeriesTypes.Cup:
+                        picSeries.Image = Resources.NCS_Small;
+                        break;
+                    case SeriesTypes.XFinity:
+                        picSeries.Image = Resources.XFinity_Small;
+                        break;
+                    case SeriesTypes.Truck:
+                        picSeries.Image = Resources.CTS_Small;
+                        break;
+                    default:
+                        picSeries.Image = null;
+                        break;
                 }
 
-                lblEventDate.ForeColor = foreColor;
-                lblEventTime.ForeColor = foreColor;
+                toolTip1.SetToolTip(picSeries, $"{viewModel.Series} Series");
 
-                lblEventName.ForeColor = foreColor;
-                lblTrack.ForeColor = foreColor;
-                lblEventDistance.ForeColor = foreColor;
+                lblEventDate.Text = viewModel.EventDateTime.ToLocalTime().ToString("dddd, MMM d yyyy");
+                lblEventTime.Text = viewModel.EventDateTime.ToLocalTime().ToString("H:mm tt");
+
+                lblEventName.Text = viewModel.EventName;
+                lblTrack.Text = $"{viewModel.TrackName} {viewModel.TrackCityState}";
+                lblEventDistance.Text = $"{viewModel.EventLaps} Laps/{viewModel.EventMiles} Miles";
+
+                switch (viewModel.Tv)
+                {
+                    case TvTypes.Fox:
+                        picTv.Image = Resources.FOX_Small;
+                        break;
+                    case TvTypes.FS1:
+                        picTv.Image = Resources.FS1_Small;
+                        break;
+                    case TvTypes.FS2:
+                        picTv.Image = Resources.FS2_Small;
+                        break;
+                    case TvTypes.USA:
+                        picTv.Image = Resources.USA_Small;
+                        break;
+                    case TvTypes.NBC:
+                        picTv.Image = Resources.NBC_Small;
+                        break;
+                    case TvTypes.NBCSN:
+                        picTv.Image = Resources.NBCSN_logo;
+                        break;
+                    case TvTypes.CNBC:
+                        picTv.Image = Resources.CNBC_logo_small;
+                        break;
+                    default:
+                        picTv.Image = null;
+                        break;
+                }
+
+                toolTip1.SetToolTip(picTv, viewModel.Tv.ToString());
+
+                switch (viewModel.Radio)
+                {
+                    case RadioTypes.MRN:
+                        picRadio.Image = Resources.MRN_Small;
+                        break;
+                    case RadioTypes.PRN:
+                        picRadio.Image = Resources.PRN_Small;
+                        break;
+                    case RadioTypes.IMS:
+                        picRadio.Image = Resources.IMS_radio_small;
+                        break;
+                    default:
+                        picRadio.Image = null;
+                        break;
+                }
+
+                toolTip1.SetToolTip(picRadio, viewModel.Radio.ToString());
+
+                switch (viewModel.Satellite)
+                {
+                    case SatelliteTypes.Sirius:
+                        picSatellite.Image = Resources.Sirius_Small;
+                        break;
+                    default:
+                        picSatellite.Image = null;
+                        break;
+                }
+
+                toolTip1.SetToolTip(picSatellite, viewModel.Satellite.ToString());
+
+                if (viewModel.EventDateTime.Date < DateTime.Now.Date)
+                {
+                    Color foreColor = Color.Empty;
+
+                    if (_settings.UseDarkTheme)
+                    {
+                        foreColor = Color.DimGray;
+                    }
+                    else
+                    {
+                        foreColor = Color.Silver;
+                    }
+
+                    lblEventDate.ForeColor = foreColor;
+                    lblEventTime.ForeColor = foreColor;
+
+                    lblEventName.ForeColor = foreColor;
+                    lblTrack.ForeColor = foreColor;
+                    lblEventDistance.ForeColor = foreColor;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                this.ResumeLayout();
             }
         }
 

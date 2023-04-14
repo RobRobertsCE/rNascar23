@@ -7,6 +7,8 @@
         FS1,
         FS2,
         USA,
-        NBC
+        NBC,
+        NBCSN,
+        CNBC
     }
 }

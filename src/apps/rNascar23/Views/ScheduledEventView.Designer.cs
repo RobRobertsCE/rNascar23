@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.picSeries = new System.Windows.Forms.PictureBox();
             this.lblEventName = new System.Windows.Forms.Label();
             this.lblTrack = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.picSatellite = new System.Windows.Forms.PictureBox();
             this.lblEventDate = new System.Windows.Forms.Label();
             this.lblEventTime = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picSeries)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picTv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRadio)).BeginInit();
@@ -48,11 +50,11 @@
             // 
             // picSeries
             // 
-            this.picSeries.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picSeries.Image = global::rNascar23.Properties.Resources.NCS_Small;
-            this.picSeries.Location = new System.Drawing.Point(43, 13);
+            this.picSeries.Location = new System.Drawing.Point(50, 10);
             this.picSeries.Name = "picSeries";
-            this.picSeries.Size = new System.Drawing.Size(70, 35);
+            this.picSeries.Size = new System.Drawing.Size(84, 38);
+            this.picSeries.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picSeries.TabIndex = 0;
             this.picSeries.TabStop = false;
             this.picSeries.Click += new System.EventHandler(this.View_Selected);
@@ -161,9 +163,9 @@
             this.lblEventDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEventDate.Location = new System.Drawing.Point(14, 53);
             this.lblEventDate.Name = "lblEventDate";
-            this.lblEventDate.Size = new System.Drawing.Size(129, 20);
+            this.lblEventDate.Size = new System.Drawing.Size(157, 20);
             this.lblEventDate.TabIndex = 10;
-            this.lblEventDate.Text = "Saturday, Apr 2";
+            this.lblEventDate.Text = "Saturday, Apr 2 2023";
             this.lblEventDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEventDate.Click += new System.EventHandler(this.View_Selected);
             // 
@@ -172,7 +174,7 @@
             this.lblEventTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEventTime.Location = new System.Drawing.Point(14, 74);
             this.lblEventTime.Name = "lblEventTime";
-            this.lblEventTime.Size = new System.Drawing.Size(129, 20);
+            this.lblEventTime.Size = new System.Drawing.Size(157, 20);
             this.lblEventTime.TabIndex = 11;
             this.lblEventTime.Text = "3:30 PM ET";
             this.lblEventTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -196,6 +198,7 @@
             this.Controls.Add(this.lblTrack);
             this.Controls.Add(this.lblEventName);
             this.Controls.Add(this.picSeries);
+            this.DoubleBuffered = true;
             this.Name = "ScheduledEventView";
             this.Size = new System.Drawing.Size(774, 107);
             this.Load += new System.EventHandler(this.ScheduledEventView_Load);
@@ -223,5 +226,6 @@
         private System.Windows.Forms.PictureBox picSatellite;
         private System.Windows.Forms.Label lblEventDate;
         private System.Windows.Forms.Label lblEventTime;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

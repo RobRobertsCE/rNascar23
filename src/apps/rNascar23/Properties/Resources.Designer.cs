@@ -82,15 +82,14 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
         ///&lt;head&gt;
-        ///    &lt;link href=&quot;https://vjs.zencdn.net/7.5.4/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;
-        ///
-        ///    &lt;!-- If you&apos;d like to support IE8 (for Video.js versions prior to v7) --&gt;
-        ///    &lt;script src=&quot;https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js&quot;&gt;&lt;/script&gt;
+        ///    &lt;link href=&quot;https://vjs.zencdn.net/7.10.2/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;
+        ///    &lt;script src=&quot;//vjs.zencdn.net/7.10.2/video.min.js&quot;&gt;&lt;/script&gt;
         ///&lt;/head&gt;
         ///&lt;body&gt;
-        ///    &lt;audio id=&quot;live-video_html5_api&quot; class=&quot;video-js&quot; width=&apos;640&apos; height=&apos;264&apos; playsinline=&quot;playsinline&quot; preload=&quot;auto&quot; autoplay=&quot;true&quot; data-setup=&quot;{}&quot; controls=&quot;&quot;&gt;
+        ///    &lt;audio id=&quot;live-video_html5_api&quot; class=&quot;video-js&quot; width=&apos;640&apos; height=&apos;264&apos; playsinline=&quot;playsinline&quot; preload=&quot;auto&quot; autoplay=&quot;&quot; data-setup=&quot;{}&quot; controls=&quot;&quot;&gt;
         ///        &lt;source src=&quot;&lt;#SOURCE#&gt;&quot; type=&quot;application/x-mpegURL&quot;&gt;
-        ///        &lt; [rest of string was truncated]&quot;;.
+        ///        &lt;p class=&apos;vjs-no-js&apos;&gt;
+        ///            To view this video please enable JavaScript, and consider upgradi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string audioFeedTemplate2 {
             get {
@@ -114,6 +113,16 @@ namespace rNascar23.Properties {
         internal static System.Drawing.Bitmap Chevrolet_Small {
             get {
                 object obj = ResourceManager.GetObject("Chevrolet_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CNBC_logo_small {
+            get {
+                object obj = ResourceManager.GetObject("CNBC_logo_small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -181,6 +190,16 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap IMS_radio_small {
+            get {
+                object obj = ResourceManager.GetObject("IMS_radio_small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap InGarage {
             get {
                 object obj = ResourceManager.GetObject("InGarage", resourceCulture);
@@ -214,6 +233,16 @@ namespace rNascar23.Properties {
         internal static System.Drawing.Bitmap NBC_Small {
             get {
                 object obj = ResourceManager.GetObject("NBC_Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NBCSN_logo {
+            get {
+                object obj = ResourceManager.GetObject("NBCSN_logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

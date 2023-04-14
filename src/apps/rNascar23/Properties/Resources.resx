@@ -130,6 +130,9 @@
   <data name="Chevrolet_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Chevrolet_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CNBC_logo_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CNBC-logo-small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="CTS_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CTS_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -148,6 +151,9 @@
   <data name="FS2_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\FS2_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="IMS_radio_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\IMS-radio-small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="InGarage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Retired.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -156,6 +162,9 @@
   </data>
   <data name="MRN_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MRN_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NBCSN_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NBCSN-logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="NBCSports_Streaming_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NBCSports_Streaming_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
