@@ -25,9 +25,9 @@ namespace rNascar23.Service.LiveFeeds.Adapters
         // https://cf.nascar.com/cacher/2023/1/5274/weekend-feed.json
         public string Url { get => @"https://cf.nascar.com/cacher/{0}/{1}/{2}/weekend-feed.json"; }
         
-        public async Task<WeekendFeed> GetWeekendFeedAsync(int seriesId, int raceId)
+        public async Task<WeekendFeed> GetWeekendFeedAsync(int seriesId, int raceId, int? year = null)
         {
-            var absoluteUrl = BuildUrl(seriesId, raceId);
+            var absoluteUrl = BuildUrl(seriesId, raceId, year);
 
             var json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
@@ -41,9 +41,9 @@ namespace rNascar23.Service.LiveFeeds.Adapters
             return weekendFeed;
         }
 
-        private string BuildUrl(int seriesId, int raceId)
+        private string BuildUrl(int seriesId, int raceId, int? year = null)
         {
-            return String.Format(Url, DateTime.Now.Year, seriesId, raceId);
+            return String.Format(Url, year.GetValueOrDefault(DateTime.Now.Year), seriesId, raceId);
         }
     }
 }

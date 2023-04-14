@@ -574,6 +574,20 @@ namespace rNascar23
             }
         }
 
+        private async void historicalDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SetCheckedStates(null);
+
+                await DisplayHistoricalScheduleAsync();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
         private async Task DisplayTodaysScheduleAsync(bool switchToThisWeekIfEmpty = false)
         {
             _selectedScheduleType = ScheduleType.Today;
@@ -586,6 +600,13 @@ namespace rNascar23
 
                 await DisplayScheduleViewAsync(_selectedScheduleType);
             }
+        }
+
+        private async Task DisplayHistoricalScheduleAsync()
+        {
+            _selectedScheduleType = ScheduleType.Historical;
+
+            await DisplayScheduleViewAsync(_selectedScheduleType, true);
         }
 
         private void logFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -762,6 +783,9 @@ namespace rNascar23
 
         private async Task<IList<SeriesEvent>> GetSeriesScheduleAsync(ScheduleType scheduleType)
         {
+            if (scheduleType == ScheduleType.Historical)
+                return new List<SeriesEvent>();
+
             var raceLists = await _raceScheduleRepository.GetRaceListAsync();
 
             switch (scheduleType)

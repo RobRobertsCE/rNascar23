@@ -5,6 +5,6 @@ namespace rNascar23.LiveFeeds.Ports
 {
     public interface IWeekendFeedRepository
     {
-        Task<WeekendFeed> GetWeekendFeedAsync(int seriesId, int raceId);
+        Task<WeekendFeed> GetWeekendFeedAsync(int seriesId, int raceId, int? year = null);
     }
 }

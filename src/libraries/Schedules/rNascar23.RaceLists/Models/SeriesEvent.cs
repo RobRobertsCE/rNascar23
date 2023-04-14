@@ -34,7 +34,7 @@ namespace rNascar23.Schedules.Models
         public float AverageSpeed { get; set; }
         public string TotalRaceTime { get; set; }
         public string MarginOfVictory { get; set; }
-        public int RacePurse { get; set; }
+        public float RacePurse { get; set; }
         public string RaceComments { get; set; }
         public int Attendance { get; set; }
         public object[] Infractions { get; set; }
