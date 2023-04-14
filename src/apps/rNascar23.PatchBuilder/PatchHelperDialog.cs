@@ -331,33 +331,33 @@ namespace rNascar23.PatchBuilder
                     assemblyBytes.Add(key, value);
                 }
 
-                /*** rNascar23.Launcher ***/
-                buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Launcher\\bin\\Debug";
+                ///*** rNascar23.Launcher - Can't patch launcher ***/
+                //buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Launcher\\bin\\Debug";
 
-                assemblies = service.GetCurrentAssemblies(buildDirectory);
+                //assemblies = service.GetCurrentAssemblies(buildDirectory);
 
-                foreach (CurrentAssemblyInfo assemblyFile in assemblies)
-                {
-                    var key = assemblyFile.AssemblyName;
-                    var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
+                //foreach (CurrentAssemblyInfo assemblyFile in assemblies)
+                //{
+                //    var key = assemblyFile.AssemblyName;
+                //    var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
 
-                    if (!assemblyBytes.ContainsKey(key))
-                        assemblyBytes.Add(key, value);
-                }
+                //    if (!assemblyBytes.ContainsKey(key))
+                //        assemblyBytes.Add(key, value);
+                //}
 
-                /*** rNascar23.Patcher ***/
-                buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Patcher\\bin\\Debug";
+                ///*** rNascar23.Patcher ***/
+                //buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Patcher\\bin\\Debug";
 
-                assemblies = service.GetCurrentAssemblies(buildDirectory);
+                //assemblies = service.GetCurrentAssemblies(buildDirectory);
 
-                foreach (CurrentAssemblyInfo assemblyFile in assemblies)
-                {
-                    var key = assemblyFile.AssemblyName;
-                    var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
+                //foreach (CurrentAssemblyInfo assemblyFile in assemblies)
+                //{
+                //    var key = assemblyFile.AssemblyName;
+                //    var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
 
-                    if (!assemblyBytes.ContainsKey(key))
-                        assemblyBytes.Add(key, value);
-                }
+                //    if (!assemblyBytes.ContainsKey(key))
+                //        assemblyBytes.Add(key, value);
+                //}
 
                 /*** zip file ***/
                 var zipFileDirectory = "C:\\Users\\Rob\\source\\repos\\rNascar23\\patches";
