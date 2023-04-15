@@ -225,6 +225,7 @@ namespace rNascar23.Views
                 case GridViewTypes.Best5Laps:
                 case GridViewTypes.Best10Laps:
                 case GridViewTypes.Best15Laps:
+                    view.Settings.Columns[1].Width = 125; // driver name column
                     view.Settings.TitleBackColor = Color.CornflowerBlue;
                     view.Settings.TitleForeColor = Color.Black;
                     break;
@@ -232,6 +233,7 @@ namespace rNascar23.Views
                 case GridViewTypes.Last5Laps:
                 case GridViewTypes.Last10Laps:
                 case GridViewTypes.Last15Laps:
+                    view.Settings.Columns[1].Width = 125; // driver name column
                     view.Settings.TitleBackColor = Color.RoyalBlue;
                     view.Settings.TitleForeColor = Color.White;
                     break;
@@ -333,9 +335,10 @@ namespace rNascar23.Views
                                 Index= 7,
                                 DataProperty = "TimeOfDayOs",
                                 DisplayIndex= 7,
-                                HeaderTitle ="TimeOfDayOs",
-                                Visible =false,
-                                Width = 150,
+                                HeaderTitle ="Time",
+                                Visible =true,
+                                Width = 70,
+                                Format = "h:mm tt"
                             }
                         },
                         SortOrderField = "LapNumber",

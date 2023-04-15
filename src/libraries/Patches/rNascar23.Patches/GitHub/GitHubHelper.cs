@@ -185,17 +185,29 @@ namespace rNascar23.Patches.GitHub
                 System.IO.Compression.ZipFile.ExtractToDirectory(tempAssetFile, tempAssetDirectory);
             }
 
-            var assetDirectoryInfo = new DirectoryInfo(tempAssetDirectory);
+            patches = BuildPatchFileList(tempAssetDirectory);
+
+            return patches;
+        }
+
+        public static List<PatchFile> BuildPatchFileList(string patchFileDirectory, string rootDirectory = "")
+        {
+            if (String.IsNullOrEmpty(rootDirectory)) rootDirectory = patchFileDirectory;
+
+            var patches = new List<PatchFile>();
+
+            var assetDirectoryInfo = new DirectoryInfo(patchFileDirectory);
 
             foreach (FileSystemInfo assemblyFileSystemInfo in assetDirectoryInfo.GetFileSystemInfos())
             {
-                FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(assemblyFileSystemInfo.FullName);
-                FileInfo assemblyFileInfo = new FileInfo(assemblyFileSystemInfo.FullName);
+                Console.WriteLine($"Zipped FIle: {assemblyFileSystemInfo.FullName}");
 
-                try
+                if (!assemblyFileSystemInfo.Attributes.HasFlag(FileAttributes.Directory))
                 {
-                    // TODO: appSettings.json file has no version
-                    if (!String.IsNullOrEmpty(myFileVersionInfo.FileVersion))
+                    FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(assemblyFileSystemInfo.FullName);
+                    FileInfo assemblyFileInfo = new FileInfo(assemblyFileSystemInfo.FullName);
+
+                    try
                     {
                         var patchFile = new PatchFile()
                         {
@@ -203,19 +215,39 @@ namespace rNascar23.Patches.GitHub
                             Size = assemblyFileInfo.Length,
                             Created = assemblyFileSystemInfo.CreationTime,
                             Uri = assemblyFileSystemInfo.FullName,
+                            RelativeUri = GetRelativePath(assemblyFileSystemInfo.FullName, rootDirectory),
                             FileVersion = String.IsNullOrEmpty(myFileVersionInfo.FileVersion) ? new Version() : Version.Parse(myFileVersionInfo.FileVersion)
                         };
 
                         patches.Add(patchFile);
                     }
-                }
-                catch (Exception)
-                {
-                    throw;
+                    catch (Exception)
+                    {
+                        throw;
+                    }
                 }
             }
 
+            foreach (DirectoryInfo assemblyDirectoryInfo in assetDirectoryInfo.GetDirectories())
+            {
+                var directoryPatches = BuildPatchFileList(assemblyDirectoryInfo.FullName, rootDirectory);
+
+                patches.AddRange(directoryPatches);
+            }
+
             return patches;
+        }
+
+        private static string GetRelativePath(string filespec, string folder)
+        {
+            Uri pathUri = new Uri(filespec);
+            // Folders must end in a slash
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+            Uri folderUri = new Uri(folder);
+            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
         }
 
         private static async Task<bool> DownloadAssetAsync(string assetUrl, string zipFilePath)

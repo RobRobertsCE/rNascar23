@@ -138,7 +138,7 @@ namespace rNascar23.Views
                         dr["Beneficiary"] = beneficiary;
                         dr["ElapsedTime"] = float.Parse(model.ElapsedTime.ToString());
                         dr["TimeOfDay"] = float.Parse(model.TimeOfDay.ToString());
-                        dr["TimeOfDayOs"] = model.TimeOfDayOs;
+                        dr["TimeOfDayOs"] = model.TimeOfDayOs.ToString("h:mm tt");
 
                         _dataTable.Rows.Add(dr);
                     }

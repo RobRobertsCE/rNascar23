@@ -15,6 +15,8 @@ namespace rNascar23.Service.RaceLists.Adapters
     {
         private readonly IMapper _mapper;
         private readonly ILogger<SchedulesRepository> _logger;
+        private ScheduleCache _cache = null;
+        private TimeSpan _cacheDuration = new TimeSpan(0, 15, 0);
 
         public SchedulesRepository(IMapper mapper, ILogger<SchedulesRepository> logger)
             : base(logger)
@@ -29,6 +31,12 @@ namespace rNascar23.Service.RaceLists.Adapters
         {
             try
             {
+                if (_cache != null)
+                {
+                    if (DateTime.Now.Subtract(_cache.Timestamp) < _cacheDuration)
+                        return _cache.SeriesSchedules;
+                }
+
                 var absoluteUrl = BuildUrl(year);
 
                 var json = await GetAsync(absoluteUrl).ConfigureAwait(false);
@@ -38,9 +46,23 @@ namespace rNascar23.Service.RaceLists.Adapters
 
                 var model = Newtonsoft.Json.JsonConvert.DeserializeObject<SeriesEventModel>(json);
 
-                var raceList = _mapper.Map<SeriesSchedules>(model);
+                var seriesSchedules = _mapper.Map<SeriesSchedules>(model);
 
-                return raceList;
+                foreach (var seriesEvent in seriesSchedules.AllSeries)
+                {
+                    foreach (var seriesEventActivity in seriesEvent.Schedule)
+                    {
+                        seriesEventActivity.SeriesId = seriesEvent.SeriesId;
+                    }
+                }
+
+                _cache = new ScheduleCache()
+                {
+                    Timestamp = DateTime.Now,
+                    SeriesSchedules = seriesSchedules
+                };
+
+                return seriesSchedules;
             }
             catch (Exception ex)
             {
@@ -55,6 +77,12 @@ namespace rNascar23.Service.RaceLists.Adapters
             var queryYear = year.HasValue ? year.Value : DateTime.Now.Year;
 
             return String.Format(Url, queryYear);
+        }
+
+        private class ScheduleCache
+        {
+            public DateTime Timestamp { get; set; }
+            public SeriesSchedules SeriesSchedules { get; set; }
         }
     }
 }

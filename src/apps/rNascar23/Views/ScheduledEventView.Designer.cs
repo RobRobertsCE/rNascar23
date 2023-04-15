@@ -58,6 +58,7 @@
             this.picSeries.TabIndex = 0;
             this.picSeries.TabStop = false;
             this.picSeries.Click += new System.EventHandler(this.View_Selected);
+            this.picSeries.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblEventName
             // 
@@ -69,6 +70,7 @@
             this.lblEventName.Text = "Toyota Owners 400";
             this.lblEventName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEventName.Click += new System.EventHandler(this.View_Selected);
+            this.lblEventName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblTrack
             // 
@@ -80,6 +82,7 @@
             this.lblTrack.Text = "Richmond Raceway";
             this.lblTrack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblTrack.Click += new System.EventHandler(this.View_Selected);
+            this.lblTrack.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblEventDistance
             // 
@@ -91,6 +94,7 @@
             this.lblEventDistance.Text = "400 Laps/300 Miles";
             this.lblEventDistance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEventDistance.Click += new System.EventHandler(this.View_Selected);
+            this.lblEventDistance.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // picTv
             // 
@@ -103,6 +107,7 @@
             this.picTv.TabIndex = 4;
             this.picTv.TabStop = false;
             this.picTv.Click += new System.EventHandler(this.View_Selected);
+            this.picTv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblTv
             // 
@@ -113,6 +118,7 @@
             this.lblTv.Text = "TV:";
             this.lblTv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblTv.Click += new System.EventHandler(this.View_Selected);
+            this.lblTv.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblRadio
             // 
@@ -123,6 +129,7 @@
             this.lblRadio.Text = "Radio:";
             this.lblRadio.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblRadio.Click += new System.EventHandler(this.View_Selected);
+            this.lblRadio.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // picRadio
             // 
@@ -135,6 +142,7 @@
             this.picRadio.TabIndex = 6;
             this.picRadio.TabStop = false;
             this.picRadio.Click += new System.EventHandler(this.View_Selected);
+            this.picRadio.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblSatellite
             // 
@@ -145,6 +153,7 @@
             this.lblSatellite.Text = "Satellite:";
             this.lblSatellite.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblSatellite.Click += new System.EventHandler(this.View_Selected);
+            this.lblSatellite.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // picSatellite
             // 
@@ -157,6 +166,7 @@
             this.picSatellite.TabIndex = 8;
             this.picSatellite.TabStop = false;
             this.picSatellite.Click += new System.EventHandler(this.View_Selected);
+            this.picSatellite.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblEventDate
             // 
@@ -168,6 +178,7 @@
             this.lblEventDate.Text = "Saturday, Apr 2 2023";
             this.lblEventDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEventDate.Click += new System.EventHandler(this.View_Selected);
+            this.lblEventDate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // lblEventTime
             // 
@@ -179,6 +190,7 @@
             this.lblEventTime.Text = "3:30 PM ET";
             this.lblEventTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.lblEventTime.Click += new System.EventHandler(this.View_Selected);
+            this.lblEventTime.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             // 
             // ScheduledEventView
             // 
@@ -204,6 +216,7 @@
             this.Load += new System.EventHandler(this.ScheduledEventView_Load);
             this.Click += new System.EventHandler(this.View_Selected);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ScheduledEventView_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ScheduledEventView_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.picSeries)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picTv)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picRadio)).EndInit();

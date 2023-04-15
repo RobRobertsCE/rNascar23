@@ -20,25 +20,6 @@ using System.Windows.Forms;
 
 namespace rNascar23.PatchBuilder
 {
-    // 1. Identify install folder.
-    //      Registry Entry?
-    // 2. Identify current version that is installed.
-    //      Check version # of main exe
-    // 3. Identify most current patch available.
-    //      Check GitHub
-    // 4. Compare with most current patch(es) available.
-    // 5. If up to date, notify user and exit.
-    // 6. If a newer version is available, prompt user to update.
-    // 7. Shut down any running apps.
-    // 8. Compare current assemblies to patch assemblies, making an update list.
-    // 9. Make a restore point.
-    // 10. Make a backup of current version's assemblies.
-    // 11. Overwrite current assemblies with new ones.
-    // 12. Relaunch applications, if any were running.
-
-
-    // TODO: Include launcher and patcher and patches in zip
-
     public partial class PatchHelperDialog : Form
     {
         private PatcherService _service = new PatcherService();
@@ -55,7 +36,7 @@ namespace rNascar23.PatchBuilder
 
         private async void PatcherDialog_Load(object sender, EventArgs e)
         {
-            cboReleaseType.SelectedIndex = 0;
+            cboReleaseType.SelectedIndex = 1;
 
             lblRegistryPath.Text = RegistryHelper.GetInstallFolder();
 
@@ -91,6 +72,7 @@ namespace rNascar23.PatchBuilder
                 var lvi = new ListViewItem(item.AssemblyName);
 
                 lvi.SubItems.Add(item.Version?.ToString());
+                lvi.SubItems.Add(item.RelativePath);
                 lvi.SubItems.Add(item.AssemblyPath);
 
                 lvi.Tag = item;
@@ -169,6 +151,8 @@ namespace rNascar23.PatchBuilder
                 _patchFiles = await DownloadAvailablePatchesAsync();
 
                 DisplayPatchFiles(_patchFiles);
+
+                lblPatchZip.Text = "";
             }
             catch (Exception ex)
             {
@@ -196,6 +180,8 @@ namespace rNascar23.PatchBuilder
                 lvi.SubItems.Add(item.FileVersion?.ToString());
                 lvi.SubItems.Add(item.Size.ToString());
                 lvi.SubItems.Add(item.Created.ToString());
+                lvi.SubItems.Add(item.RelativeUri);
+                lvi.SubItems.Add(item.Uri);
 
                 lvi.Tag = item;
 
@@ -213,9 +199,23 @@ namespace rNascar23.PatchBuilder
         {
             IList<PatchChange> changes = new List<PatchChange>();
 
-            foreach (CurrentAssemblyInfo current in _currentAssemblyInfos)
+            IEnumerable<CurrentAssemblyInfo> currentAssemblyInfos = new List<CurrentAssemblyInfo>();
+            IEnumerable<PatchFile> patchFiles = new List<PatchFile>();
+
+            if (chkIncludeLauncher.Checked)
             {
-                var match = _patchFiles.FirstOrDefault(p => p.Name == current.AssemblyName);
+                currentAssemblyInfos = _currentAssemblyInfos;
+                patchFiles = _patchFiles;
+            }
+            else
+            {
+                currentAssemblyInfos = _currentAssemblyInfos.Where(a => !a.RelativePath.StartsWith("Launcher"));
+                patchFiles = _patchFiles.Where(a => !a.RelativeUri.StartsWith("Launcher"));
+            }
+
+            foreach (CurrentAssemblyInfo current in currentAssemblyInfos)
+            {
+                var match = patchFiles.FirstOrDefault(p => p.RelativeUri == current.RelativePath);
 
                 if (match != null)
                 {
@@ -253,7 +253,7 @@ namespace rNascar23.PatchBuilder
 
             foreach (PatchFile patchFile in _patchFiles)
             {
-                var match = _currentAssemblyInfos.FirstOrDefault(p => p.AssemblyName == patchFile.Name);
+                var match = currentAssemblyInfos.FirstOrDefault(p => p.RelativePath == patchFile.RelativeUri);
 
                 if (match == null)
                 {
@@ -273,12 +273,25 @@ namespace rNascar23.PatchBuilder
         {
             lvChangeSet.Items.Clear();
 
-            foreach (var item in changes.OrderBy(c => c.Name))
+            IEnumerable<PatchChange> changeSet = new List<PatchChange>();
+
+            if (chkDisplayChangesOnly.Checked)
+            {
+                changeSet = changes.Where(c => c.Action != PatchAction.None);
+            }
+            else
+            {
+                changeSet = changes;
+            }
+
+            foreach (var item in changeSet.OrderBy(c => c.Name))
             {
                 var lvi = new ListViewItem(item.Name);
 
                 lvi.SubItems.Add(item.Action.ToString());
-                lvi.SubItems.Add(item.Current?.Version.ToString());
+                lvi.SubItems.Add(item.Current?.RelativePath);
+                lvi.SubItems.Add(item.Current?.Version?.ToString());
+                lvi.SubItems.Add(item.Patch?.RelativeUri);
                 lvi.SubItems.Add(item.Patch?.FileVersion.ToString());
 
                 lvi.Tag = item;
@@ -317,7 +330,16 @@ namespace rNascar23.PatchBuilder
                 var service = new PatcherService();
 
                 /*** rNascar23 ***/
-                string buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23\\bin\\Debug";
+                string buildDirectory = String.Empty;
+
+                if (chkUseReleaseBuild.Checked)
+                {
+                    buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23\\bin\\Release";
+                }
+                else
+                {
+                    buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23\\bin\\Debug";
+                }
 
                 IList<CurrentAssemblyInfo> assemblies = service.GetCurrentAssemblies(buildDirectory);
 
@@ -325,39 +347,44 @@ namespace rNascar23.PatchBuilder
 
                 foreach (CurrentAssemblyInfo assemblyFile in assemblies)
                 {
-                    var key = assemblyFile.AssemblyName;
-                    var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
-
-                    assemblyBytes.Add(key, value);
+                    var key = assemblyFile.RelativePath;
+                    if (!assemblyBytes.ContainsKey(key))
+                    {
+                        var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
+                        assemblyBytes.Add(key, value);
+                    }
                 }
 
-                ///*** rNascar23.Launcher - Can't patch launcher ***/
-                //buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Launcher\\bin\\Debug";
+                if (chkIncludeLauncher.Checked)
+                {
+                    ///*** rNascar23.Launcher - Can't patch launcher ***/
+                    buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Launcher\\bin\\Debug";
 
-                //assemblies = service.GetCurrentAssemblies(buildDirectory);
+                    assemblies = service.GetCurrentAssemblies(buildDirectory);
 
-                //foreach (CurrentAssemblyInfo assemblyFile in assemblies)
-                //{
-                //    var key = assemblyFile.AssemblyName;
-                //    var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
+                    foreach (CurrentAssemblyInfo assemblyFile in assemblies)
+                    {
+                        var key = $"Launcher\\{assemblyFile.AssemblyName}";
+                        var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
 
-                //    if (!assemblyBytes.ContainsKey(key))
-                //        assemblyBytes.Add(key, value);
-                //}
+                        if (!assemblyBytes.ContainsKey(key))
+                            assemblyBytes.Add(key, value);
+                    }
 
-                ///*** rNascar23.Patcher ***/
-                //buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Patcher\\bin\\Debug";
+                    /*** rNascar23.Patcher ***/
+                    buildDirectory = "C:\\Users\\Rob\\Source\\repos\\rNascar23\\src\\apps\\rNascar23.Patcher\\bin\\Debug";
 
-                //assemblies = service.GetCurrentAssemblies(buildDirectory);
+                    assemblies = service.GetCurrentAssemblies(buildDirectory);
 
-                //foreach (CurrentAssemblyInfo assemblyFile in assemblies)
-                //{
-                //    var key = assemblyFile.AssemblyName;
-                //    var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
+                    foreach (CurrentAssemblyInfo assemblyFile in assemblies)
+                    {
+                        var key = $"Launcher\\{assemblyFile.AssemblyName}";
+                        var value = System.IO.File.ReadAllBytes(assemblyFile.AssemblyPath);
 
-                //    if (!assemblyBytes.ContainsKey(key))
-                //        assemblyBytes.Add(key, value);
-                //}
+                        if (!assemblyBytes.ContainsKey(key))
+                            assemblyBytes.Add(key, value);
+                    }
+                }
 
                 /*** zip file ***/
                 var zipFileDirectory = "C:\\Users\\Rob\\source\\repos\\rNascar23\\patches";
@@ -367,6 +394,8 @@ namespace rNascar23.PatchBuilder
                 var zipFilePath = Path.Combine(zipFileDirectory, zipFileName);
 
                 CompressToZip(zipFilePath, assemblyBytes);
+
+                MessageBox.Show($"Patch saved to {zipFilePath}");
             }
             catch (Exception ex)
             {
@@ -454,6 +483,55 @@ namespace rNascar23.PatchBuilder
         private void btnGetVersion_Click(object sender, EventArgs e)
         {
             lblRegistryVersion.Text = RegistryHelper.GetVersion();
+        }
+
+        private void btnOpenPatchZip_Click(object sender, EventArgs e)
+        {
+            var dialog = new OpenFileDialog();
+
+            dialog.Filter = "Zip FIle *.zip|*.zip|All Files *.*|*.*";
+            dialog.FilterIndex = 0;
+            dialog.InitialDirectory = "C:\\Users\\Rob\\source\\repos\\rNascar23\\patches";
+
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                var zipFileDirectory = Path.GetDirectoryName(dialog.FileName);
+
+                var zipFileName = Path.GetFileNameWithoutExtension(dialog.FileName);
+
+                var extractedZipFileDirectory = Path.Combine(zipFileDirectory, zipFileName);
+
+                if (!Directory.Exists(extractedZipFileDirectory))
+                {
+                    Directory.CreateDirectory(extractedZipFileDirectory);
+
+                    System.IO.Compression.ZipFile.ExtractToDirectory(dialog.FileName, extractedZipFileDirectory);
+                }
+
+                _patchFiles = GitHubHelper.BuildPatchFileList(extractedZipFileDirectory);
+
+                DisplayPatchFiles(_patchFiles);
+
+                lblPatchZip.Text = zipFileName;
+            }
+        }
+
+        private void btnApplyPatch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _service.ApplyChangeSet(_changeSet);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void chkDisplayChangesOnly_CheckStateChanged(object sender, EventArgs e)
+        {
+            DisplayChangeSet(_changeSet);
         }
     }
 }

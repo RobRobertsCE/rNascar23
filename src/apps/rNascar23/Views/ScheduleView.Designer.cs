@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScheduleView));
             this.lblTitle = new System.Windows.Forms.Label();
             this.flpScheduledEvents = new System.Windows.Forms.FlowLayoutPanel();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -37,6 +39,7 @@
             this.chEventName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chNotes = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ilEventSeriesImages = new System.Windows.Forms.ImageList(this.components);
             this.pnlEventSchedule = new System.Windows.Forms.Panel();
             this.tabEventScheduleResults = new System.Windows.Forms.TabControl();
             this.tpSchedule = new System.Windows.Forms.TabPage();
@@ -84,13 +87,13 @@
             this.label11 = new System.Windows.Forms.Label();
             this.lblCompletedEventDetails = new System.Windows.Forms.Label();
             this.pnlHistoricalDataSelection = new System.Windows.Forms.Panel();
-            this.label12 = new System.Windows.Forms.Label();
-            this.cboYear = new System.Windows.Forms.ComboBox();
-            this.chkCup = new System.Windows.Forms.CheckBox();
-            this.chkXfinity = new System.Windows.Forms.CheckBox();
-            this.chkTruck = new System.Windows.Forms.CheckBox();
-            this.btnDisplayHistoricalData = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
+            this.btnDisplayHistoricalData = new System.Windows.Forms.Button();
+            this.chkTruck = new System.Windows.Forms.CheckBox();
+            this.chkXfinity = new System.Windows.Forms.CheckBox();
+            this.chkCup = new System.Windows.Forms.CheckBox();
+            this.cboYear = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.pnlEventSchedule.SuspendLayout();
             this.tabEventScheduleResults.SuspendLayout();
             this.tpSchedule.SuspendLayout();
@@ -146,6 +149,7 @@
             this.lvSchedule.Location = new System.Drawing.Point(3, 3);
             this.lvSchedule.Name = "lvSchedule";
             this.lvSchedule.Size = new System.Drawing.Size(593, 556);
+            this.lvSchedule.SmallImageList = this.ilEventSeriesImages;
             this.lvSchedule.TabIndex = 3;
             this.lvSchedule.UseCompatibleStateImageBehavior = false;
             this.lvSchedule.View = System.Windows.Forms.View.Details;
@@ -153,7 +157,7 @@
             // chSpacer
             // 
             this.chSpacer.Text = "";
-            this.chSpacer.Width = 25;
+            this.chSpacer.Width = 63;
             // 
             // chStartTimeLocal
             // 
@@ -163,17 +167,26 @@
             // chEventName
             // 
             this.chEventName.Text = "Event";
-            this.chEventName.Width = 500;
+            this.chEventName.Width = 490;
             // 
             // chNotes
             // 
             this.chNotes.Text = "Notes";
-            this.chNotes.Width = 350;
+            this.chNotes.Width = 330;
             // 
             // chDescription
             // 
             this.chDescription.Text = "On Track";
             this.chDescription.Width = 100;
+            // 
+            // ilEventSeriesImages
+            // 
+            this.ilEventSeriesImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("ilEventSeriesImages.ImageStream")));
+            this.ilEventSeriesImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.ilEventSeriesImages.Images.SetKeyName(0, "NCS_Small.png");
+            this.ilEventSeriesImages.Images.SetKeyName(1, "XFinity_Small.png");
+            this.ilEventSeriesImages.Images.SetKeyName(2, "CTS_Small.png");
+            this.ilEventSeriesImages.Images.SetKeyName(3, "TransparentPixel.png");
             // 
             // pnlEventSchedule
             // 
@@ -646,55 +659,15 @@
             this.pnlHistoricalDataSelection.TabIndex = 0;
             this.pnlHistoricalDataSelection.Visible = false;
             // 
-            // label12
+            // label13
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 12);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(156, 20);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Select Year and Series:";
-            // 
-            // cboYear
-            // 
-            this.cboYear.FormattingEnabled = true;
-            this.cboYear.Location = new System.Drawing.Point(165, 8);
-            this.cboYear.Name = "cboYear";
-            this.cboYear.Size = new System.Drawing.Size(121, 28);
-            this.cboYear.TabIndex = 1;
-            // 
-            // chkCup
-            // 
-            this.chkCup.AutoSize = true;
-            this.chkCup.Location = new System.Drawing.Point(292, 10);
-            this.chkCup.Name = "chkCup";
-            this.chkCup.Size = new System.Drawing.Size(54, 24);
-            this.chkCup.TabIndex = 2;
-            this.chkCup.Text = "Cup";
-            this.chkCup.UseVisualStyleBackColor = true;
-            this.chkCup.CheckStateChanged += new System.EventHandler(this.seriesSelection_CheckChanged);
-            // 
-            // chkXfinity
-            // 
-            this.chkXfinity.AutoSize = true;
-            this.chkXfinity.Location = new System.Drawing.Point(352, 10);
-            this.chkXfinity.Name = "chkXfinity";
-            this.chkXfinity.Size = new System.Drawing.Size(70, 24);
-            this.chkXfinity.TabIndex = 3;
-            this.chkXfinity.Text = "Xfinity";
-            this.chkXfinity.UseVisualStyleBackColor = true;
-            this.chkXfinity.CheckStateChanged += new System.EventHandler(this.seriesSelection_CheckChanged);
-            // 
-            // chkTruck
-            // 
-            this.chkTruck.AutoSize = true;
-            this.chkTruck.Location = new System.Drawing.Point(428, 10);
-            this.chkTruck.Name = "chkTruck";
-            this.chkTruck.Size = new System.Drawing.Size(68, 24);
-            this.chkTruck.TabIndex = 4;
-            this.chkTruck.Text = "Trucks";
-            this.chkTruck.UseVisualStyleBackColor = true;
-            this.chkTruck.CheckStateChanged += new System.EventHandler(this.seriesSelection_CheckChanged);
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(641, 14);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(319, 17);
+            this.label13.TabIndex = 6;
+            this.label13.Text = "Not all races have data for event schedules or results";
             // 
             // btnDisplayHistoricalData
             // 
@@ -708,15 +681,55 @@
             this.btnDisplayHistoricalData.UseVisualStyleBackColor = true;
             this.btnDisplayHistoricalData.Click += new System.EventHandler(this.btnDisplayHistoricalData_Click);
             // 
-            // label13
+            // chkTruck
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(641, 14);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(319, 17);
-            this.label13.TabIndex = 6;
-            this.label13.Text = "Not all races have data for event schedules or results";
+            this.chkTruck.AutoSize = true;
+            this.chkTruck.Location = new System.Drawing.Point(428, 10);
+            this.chkTruck.Name = "chkTruck";
+            this.chkTruck.Size = new System.Drawing.Size(68, 24);
+            this.chkTruck.TabIndex = 4;
+            this.chkTruck.Text = "Trucks";
+            this.chkTruck.UseVisualStyleBackColor = true;
+            this.chkTruck.CheckStateChanged += new System.EventHandler(this.seriesSelection_CheckChanged);
+            // 
+            // chkXfinity
+            // 
+            this.chkXfinity.AutoSize = true;
+            this.chkXfinity.Location = new System.Drawing.Point(352, 10);
+            this.chkXfinity.Name = "chkXfinity";
+            this.chkXfinity.Size = new System.Drawing.Size(70, 24);
+            this.chkXfinity.TabIndex = 3;
+            this.chkXfinity.Text = "Xfinity";
+            this.chkXfinity.UseVisualStyleBackColor = true;
+            this.chkXfinity.CheckStateChanged += new System.EventHandler(this.seriesSelection_CheckChanged);
+            // 
+            // chkCup
+            // 
+            this.chkCup.AutoSize = true;
+            this.chkCup.Location = new System.Drawing.Point(292, 10);
+            this.chkCup.Name = "chkCup";
+            this.chkCup.Size = new System.Drawing.Size(54, 24);
+            this.chkCup.TabIndex = 2;
+            this.chkCup.Text = "Cup";
+            this.chkCup.UseVisualStyleBackColor = true;
+            this.chkCup.CheckStateChanged += new System.EventHandler(this.seriesSelection_CheckChanged);
+            // 
+            // cboYear
+            // 
+            this.cboYear.FormattingEnabled = true;
+            this.cboYear.Location = new System.Drawing.Point(165, 8);
+            this.cboYear.Name = "cboYear";
+            this.cboYear.Size = new System.Drawing.Size(121, 28);
+            this.cboYear.TabIndex = 1;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 12);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(156, 20);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Select Year and Series:";
             // 
             // ScheduleView
             // 
@@ -810,5 +823,6 @@
         private System.Windows.Forms.ComboBox cboYear;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ImageList ilEventSeriesImages;
     }
 }

@@ -1,6 +1,6 @@
-﻿using rNascar23.Patches.GitHub;
+﻿using rNascar23.Patches.AppRegistry;
+using rNascar23.Patches.GitHub;
 using rNascar23.Patches.Models;
-using rNascar23.Patches.AppRegistry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,11 +12,19 @@ namespace rNascar23.Patches.Services
 {
     public class PatcherService
     {
+        #region consts
+
+        private const bool DeleteFilesDuringPatch = true;
+
+        #endregion
+
         #region events
 
         public event EventHandler<string> InfoMessage;
         protected virtual void OnInfoMessage(string message)
         {
+            // TODO: Remove after development
+            Console.WriteLine(message);
             InfoMessage?.Invoke(this, message);
         }
 
@@ -24,11 +32,11 @@ namespace rNascar23.Patches.Services
 
         #region fields
 
-        private string[] _patchableExtensions = new string[] { "dll", "exe" };
         private IList<CurrentAssemblyInfo> _currentAssemblyInfos = new List<CurrentAssemblyInfo>();
         private IList<PatchSet> _patchSets = new List<PatchSet>();
         private Version _installedVersion = null;
         private string _installDirectory = String.Empty;
+        private string _backupDirectoryPath = String.Empty;
 
         #endregion
 
@@ -68,6 +76,8 @@ namespace rNascar23.Patches.Services
         /// <param name="version">The version to patch the application to</param>
         public async Task<bool> ApplyPatchAsync(Version version)
         {
+            bool updateSuccess = false;
+
             try
             {
                 if (version == null)
@@ -104,6 +114,8 @@ namespace rNascar23.Patches.Services
 
                 OnInfoMessage("Patch change set built");
 
+                BackupInstallDirectory(_currentAssemblyInfos);
+
                 if (ApplyChangeSet(changeSet))
                 {
                     OnInfoMessage("Updating registry");
@@ -124,16 +136,22 @@ namespace rNascar23.Patches.Services
 
                     OnInfoMessage($"Patch applied!");
 
-                    return true;
+                    updateSuccess = true;
                 }
             }
             catch (Exception ex)
             {
                 OnInfoMessage($"Error: {ex.Message}");
-                throw ex;
+            }
+            finally
+            {
+                if (!updateSuccess && !String.IsNullOrEmpty(_backupDirectoryPath))
+                    RestoreAssemblyDirectory();
+
+                CleanupBackupDirectory();
             }
 
-            return false;
+            return updateSuccess;
         }
 
         public Version GetInstalledVersion()
@@ -152,7 +170,7 @@ namespace rNascar23.Patches.Services
         /// Gets a list of all currently installed assemblies in the Install folder
         /// </summary>
         /// <returns>List of currently installed assemblies</returns>
-        public virtual IList<CurrentAssemblyInfo> GetInstalledAssemblies()
+        public virtual IList<CurrentAssemblyInfo> GetInstalledAssemblies(bool includePatcher = false)
         {
             IList<CurrentAssemblyInfo> currentAssemblies = new List<CurrentAssemblyInfo>();
 
@@ -160,7 +178,7 @@ namespace rNascar23.Patches.Services
 
             if (!String.IsNullOrEmpty(installFolder))
             {
-                currentAssemblies = GetCurrentAssemblies(installFolder);
+                currentAssemblies = GetCurrentAssemblies(installFolder, installFolder, includePatcher);
             }
 
             return currentAssemblies;
@@ -171,14 +189,18 @@ namespace rNascar23.Patches.Services
         /// </summary>
         /// <param name="assembliesFolder">The folder where the application is installed</param>
         /// <returns>List of currently installed assemblies in the given folder</returns>
-        public virtual IList<CurrentAssemblyInfo> GetCurrentAssemblies(string assembliesFolder)
+        public virtual IList<CurrentAssemblyInfo> GetCurrentAssemblies(string assembliesFolder, string rootFolder = "", bool includePatcher = false)
         {
+            if (String.IsNullOrEmpty(rootFolder)) rootFolder = assembliesFolder;
+
             var currentAssemblies = new List<CurrentAssemblyInfo>();
 
             var assembliesDirectoryInfo = new DirectoryInfo(assembliesFolder);
 
-            var assemblyList = assembliesDirectoryInfo.EnumerateFiles("*.*", SearchOption.TopDirectoryOnly)
-                .Where(file => _patchableExtensions.Any(x => file.FullName.EndsWith(x, StringComparison.OrdinalIgnoreCase)));
+            var assemblyList = assembliesDirectoryInfo.EnumerateFiles("*.*", SearchOption.AllDirectories);
+
+            if (!includePatcher)
+                assemblyList = assemblyList.Where(a => !a.DirectoryName.EndsWith("Launcher"));
 
             foreach (FileInfo assembly in assemblyList)
             {
@@ -186,7 +208,7 @@ namespace rNascar23.Patches.Services
 
                 FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.FullName);
 
-                if (!String.IsNullOrEmpty(myFileVersionInfo.ProductVersion))
+                if (!String.IsNullOrEmpty(myFileVersionInfo.FileVersion))
                 {
                     version = Version.Parse(myFileVersionInfo.FileVersion);
                 }
@@ -196,6 +218,7 @@ namespace rNascar23.Patches.Services
                     Version = version,
                     AssemblyPath = assembly.FullName,
                     AssemblyName = assembly.Name,
+                    RelativePath = GetRelativePath(assembly.FullName, rootFolder)
                 };
 
                 currentAssemblies.Add(currentAssembly);
@@ -204,44 +227,54 @@ namespace rNascar23.Patches.Services
             return currentAssemblies;
         }
 
-        #endregion
-
-        #region protected
-
-        private bool ApplyChangeSet(IList<PatchChange> changeSet)
+        public bool ApplyChangeSet(IList<PatchChange> changeSet)
         {
             _installDirectory = RegistryHelper.GetInstallFolder();
 
-            foreach (PatchChange patchChange in changeSet.Where(c => c.Action == PatchAction.Delete))
+            if (DeleteFilesDuringPatch)
             {
-                OnInfoMessage($"Removing assembly {patchChange.Current.AssemblyName}");
+                foreach (PatchChange patchChange in changeSet.Where(c => c.Action == PatchAction.Delete))
+                {
+                    OnInfoMessage($"Removing assembly {patchChange.Current.AssemblyName}");
 
-                if (File.Exists(patchChange.Current.AssemblyPath))
-                    File.Delete(patchChange.Current.AssemblyPath);
+                    if (File.Exists(patchChange.Current.AssemblyPath))
+                        File.Delete(patchChange.Current.AssemblyPath);
+                }
             }
 
             foreach (PatchChange patchChange in changeSet.Where(c => c.Action == PatchAction.Add))
             {
-                OnInfoMessage($"Adding assembly {patchChange.Patch.Name}");
+                OnInfoMessage($"Adding assembly {patchChange.Patch.RelativeUri}");
 
-                var newFilePath = Path.Combine(_installDirectory, patchChange.Patch.Name);
+                var newFilePath = Path.Combine(_installDirectory, patchChange.Patch.RelativeUri);
+
+                var newDirectory = Path.GetDirectoryName(newFilePath);
+
+                if (!Directory.Exists(newDirectory))
+                    Directory.CreateDirectory(newDirectory);
+
                 File.Copy(patchChange.Patch.Uri, newFilePath);
             }
 
             foreach (PatchChange patchChange in changeSet.Where(c => c.Action == PatchAction.Replace))
             {
-                OnInfoMessage($"Replacing assembly {patchChange.Patch.Name}");
+                OnInfoMessage($"Replacing assembly {patchChange.Patch.RelativeUri}");
 
                 var currentAssemblyPath = patchChange.Current.AssemblyPath;
 
                 if (File.Exists(currentAssemblyPath))
                     File.Delete(currentAssemblyPath);
 
-                File.Copy(patchChange.Patch.Uri, currentAssemblyPath);
+                var newFilePath = Path.Combine(_installDirectory, patchChange.Patch.RelativeUri);
+                File.Copy(patchChange.Patch.Uri, newFilePath);
             }
 
             return true;
         }
+
+        #endregion
+
+        #region private
 
         private IList<PatchChange> BuildChangeSet(IList<PatchFile> patchFiles)
         {
@@ -302,6 +335,92 @@ namespace rNascar23.Patches.Services
             }
 
             return changes;
+        }
+
+        private string GetRelativePath(string filespec, string folder)
+        {
+            Uri pathUri = new Uri(filespec);
+            // Folders must end in a slash
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString()))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+            Uri folderUri = new Uri(folder);
+            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+        }
+
+        private bool BackupInstallDirectory(IList<CurrentAssemblyInfo> assemblies)
+        {
+            OnInfoMessage("Backing up current install...");
+
+            var tempRootDirectory = Path.GetTempPath();
+
+            var backupDirectoryName = $"rNascar23_{DateTime.Now.ToString("yyyy-M-d--h-m-tt")}";
+
+            _backupDirectoryPath = Path.Combine(tempRootDirectory, backupDirectoryName);
+
+            if (!Directory.Exists(_backupDirectoryPath))
+                Directory.CreateDirectory(_backupDirectoryPath);
+
+            foreach (var assembly in assemblies)
+            {
+                assembly.BackupPath = Path.Combine(_backupDirectoryPath, assembly.RelativePath);
+
+                var backupTargetFolder = Path.GetDirectoryName(assembly.BackupPath);
+
+                if (!Directory.Exists(backupTargetFolder))
+                    Directory.CreateDirectory(backupTargetFolder);
+
+                File.Copy(assembly.AssemblyPath, assembly.BackupPath);
+            }
+
+            OnInfoMessage("Backup complete");
+
+            return true;
+        }
+
+        private bool RestoreAssemblyDirectory()
+        {
+            OnInfoMessage("Restoring previous install...");
+
+            foreach (CurrentAssemblyInfo assembly in _currentAssemblyInfos)
+            {
+                if (File.Exists(assembly.AssemblyPath))
+                {
+                    FileVersionInfo installFolderFileVersion = FileVersionInfo.GetVersionInfo(assembly.AssemblyPath);
+
+                    if (!String.IsNullOrEmpty(installFolderFileVersion.FileVersion))
+                    {
+                        FileVersionInfo backupFolderFileVersion = FileVersionInfo.GetVersionInfo(assembly.BackupPath);
+
+                        // has the file changed?
+                        if (!installFolderFileVersion.FileVersion.Equals(backupFolderFileVersion.FileVersion, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            File.Delete(assembly.AssemblyPath);
+                            File.Copy(assembly.BackupPath, assembly.AssemblyPath);
+                        }
+                    }
+                }
+                else
+                {
+                    if (File.Exists(assembly.BackupPath))
+                        File.Copy(assembly.BackupPath, assembly.AssemblyPath);
+                }
+            }
+
+
+
+            OnInfoMessage("Restore complete");
+
+            return true;
+        }
+
+        private void CleanupBackupDirectory()
+        {
+            if (!String.IsNullOrEmpty(_backupDirectoryPath) && Directory.Exists(_backupDirectoryPath))
+                Directory.Delete(_backupDirectoryPath, true);
+
+            OnInfoMessage("Backup files cleaned up");
         }
 
         #endregion

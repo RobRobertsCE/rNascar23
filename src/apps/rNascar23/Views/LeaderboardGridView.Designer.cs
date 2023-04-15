@@ -32,6 +32,7 @@
             this.Grid = new System.Windows.Forms.DataGridView();
             this.TitleLabel = new System.Windows.Forms.Label();
             this.GridBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -81,5 +82,6 @@
         internal System.Windows.Forms.DataGridView Grid;
         public System.Windows.Forms.Label TitleLabel;
         public System.Windows.Forms.BindingSource GridBindingSource;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

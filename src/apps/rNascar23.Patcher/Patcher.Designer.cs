@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.pnlDialogButtons = new System.Windows.Forms.Panel();
-            this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
+            this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.lblNewVersion = new System.Windows.Forms.Label();
             this.lblMessage = new System.Windows.Forms.Label();
             this.txtMessages = new System.Windows.Forms.TextBox();
@@ -44,8 +44,21 @@
             this.pnlDialogButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlDialogButtons.Location = new System.Drawing.Point(4, 232);
             this.pnlDialogButtons.Name = "pnlDialogButtons";
-            this.pnlDialogButtons.Size = new System.Drawing.Size(471, 55);
+            this.pnlDialogButtons.Size = new System.Drawing.Size(618, 55);
             this.pnlDialogButtons.TabIndex = 2;
+            // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClose.Location = new System.Drawing.Point(504, 12);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(102, 31);
+            this.btnClose.TabIndex = 1;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Visible = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblCurrentVersion
             // 
@@ -56,19 +69,6 @@
             this.lblCurrentVersion.Size = new System.Drawing.Size(125, 21);
             this.lblCurrentVersion.TabIndex = 2;
             this.lblCurrentVersion.Text = "Current version: ";
-            // 
-            // btnClose
-            // 
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(357, 12);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(102, 31);
-            this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "Close";
-            this.btnClose.UseVisualStyleBackColor = true;
-            this.btnClose.Visible = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // lblNewVersion
             // 
@@ -86,7 +86,7 @@
             this.lblMessage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblMessage.Location = new System.Drawing.Point(4, 80);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(471, 30);
+            this.lblMessage.Size = new System.Drawing.Size(618, 30);
             this.lblMessage.TabIndex = 4;
             this.lblMessage.Text = "-";
             this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -99,14 +99,14 @@
             this.txtMessages.Name = "txtMessages";
             this.txtMessages.ReadOnly = true;
             this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtMessages.Size = new System.Drawing.Size(471, 122);
+            this.txtMessages.Size = new System.Drawing.Size(618, 122);
             this.txtMessages.TabIndex = 5;
             // 
             // Patcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(479, 291);
+            this.ClientSize = new System.Drawing.Size(626, 291);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.txtMessages);
             this.Controls.Add(this.lblNewVersion);

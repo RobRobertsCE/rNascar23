@@ -77,6 +77,7 @@ namespace rNascar23
                     Error	When functionality is unavailable or expectations broken, an Error event is used.
                     Fatal	The most critical level, Fatal events demand immediate attention.
                     */
+                    
                     var configuration = new ConfigurationBuilder()
                         .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
                         .Build();
@@ -84,6 +85,21 @@ namespace rNascar23
                     var userSettings = UserSettingsService.LoadUserSettings();
 
                     var logFilePath = Path.Combine($"{userSettings.LogDirectory}\\", "rNascar23Log..txt");
+
+                    var appSettingsFilePath = Path.Combine($"{userSettings.DataDirectory}", "appsettings.json");
+
+                    if (File.Exists(appSettingsFilePath))
+                    {
+                        var userConfiguration = new ConfigurationBuilder()
+                           .AddJsonFile(path: appSettingsFilePath, optional: false, reloadOnChange: true)
+                           .Build();
+
+                        services.Configure<Features>(userConfiguration.GetSection("Features"));
+                    }
+                    else
+                    {
+                        services.Configure<Features>(configuration.GetSection("Features"));
+                    }
 
                     configuration["Serilog:WriteTo:1:Args:path"] = logFilePath;
 
@@ -96,7 +112,7 @@ namespace rNascar23
                         x.AddSerilog(logger: serilogLogger, dispose: true);
                     });
 
-                    services.Configure<Features>(configuration.GetSection("Features"));
+                    
                 });
         }
     }

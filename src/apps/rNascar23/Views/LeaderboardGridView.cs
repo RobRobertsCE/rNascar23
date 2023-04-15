@@ -241,25 +241,29 @@ namespace rNascar23.Views
                     {
                         row.Cells["VehicleStatusImage"].Style.BackColor = Color.Red;
                     }
+                    row.Cells["VehicleStatusImage"].ToolTipText = "ON DVP CLOCK - ";
                 }
                 if (row.Cells["IsOnTrack"]?.Value?.ToString() == "False")
                 {
                     if (_userSettings.UseDarkTheme)
-                        row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                        row.DefaultCellStyle.ForeColor = Color.FromArgb(128, 128, 128);
                     else
                         row.DefaultCellStyle.ForeColor = Color.Silver;
                 }
 
                 if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Chv")
                 {
+                    row.Cells["CarManufacturer"].ToolTipText = "Chevrolet";
                     ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Chevrolet_Small;
                 }
                 else if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Frd")
                 {
+                    row.Cells["CarManufacturer"].ToolTipText = "Ford";
                     ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Ford_Small;
                 }
                 else if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Tyt")
                 {
+                    row.Cells["CarManufacturer"].ToolTipText = "Toyota";
                     ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Toyota_Small;
                 }
                 else
@@ -276,6 +280,8 @@ namespace rNascar23.Views
                         else
                             row.DefaultCellStyle.ForeColor = Color.Silver;
 
+                        row.Cells["VehicleStatusImage"].ToolTipText = $"{row.Cells["VehicleStatusImage"].ToolTipText}In Pits";
+                        row.Cells["VehicleStatusImage"].Style.BackColor = Color.Silver;
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Tire;
                     }
                     else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Retired)
@@ -285,6 +291,7 @@ namespace rNascar23.Views
                         else
                             row.DefaultCellStyle.ForeColor = Color.Silver;
 
+                        row.Cells["VehicleStatusImage"].ToolTipText = "Retired";
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Cancel;
                     }
                     else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Garage)
@@ -294,16 +301,19 @@ namespace rNascar23.Views
                         else
                             row.DefaultCellStyle.ForeColor = Color.Silver;
 
-                        row.Cells["VehicleStatusImage"].Style.BackColor = Color.Gainsboro;
+                        row.Cells["VehicleStatusImage"].ToolTipText = $"{row.Cells["VehicleStatusImage"].ToolTipText}In Garage";
+                        row.Cells["VehicleStatusImage"].Style.BackColor = Color.Silver;
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.InGarage;
                     }
                     else
                     {
+                        row.Cells["VehicleStatusImage"].ToolTipText = $"{row.Cells["VehicleStatusImage"].ToolTipText}On Track";
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.TransparentPixel;
                     }
                 }
                 else
                 {
+                    row.Cells["VehicleStatusImage"].ToolTipText = $"{row.Cells["VehicleStatusImage"].ToolTipText}On Track";
                     ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.TransparentPixel;
                 }
             }

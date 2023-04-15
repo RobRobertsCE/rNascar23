@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using rNascar23.Common;
 using rNascar23.CustomViews;
 using rNascar23.LiveFeeds.Models;
@@ -24,6 +25,8 @@ namespace rNascar23.Views
         private readonly IDriverInfoRepository _driverInfoRepository = null;
         private readonly IWeekendFeedRepository _weekendFeedRepository = null;
         private readonly ISchedulesRepository _raceScheduleRepository = null;
+        private readonly ILogger<ScheduleView> _logger = null;
+        private bool _useDarkTheme = false;
         private Color _alternateRowBackColor = Color.Gainsboro;
 
         #endregion
@@ -49,7 +52,22 @@ namespace rNascar23.Views
             }
         }
         public string Description { get; set; }
-        public ScheduleType ScheduleType { get; set; }
+        private ScheduleType _scheduleType;
+        public ScheduleType ScheduleType
+        {
+            get
+            {
+                return _scheduleType;
+            }
+            set
+            {
+                _scheduleType = value;
+
+                SetTitle(ScheduleType);
+
+                pnlHistoricalDataSelection.Visible = (_scheduleType == ScheduleType.Historical);
+            }
+        }
 
         #endregion
 
@@ -58,9 +76,6 @@ namespace rNascar23.Views
         public ScheduleView()
             : this(ScheduleType.Unknown)
         {
-            InitializeComponent();
-
-            this.Height = 225;
         }
 
         public ScheduleView(ScheduleType scheduleType)
@@ -69,13 +84,12 @@ namespace rNascar23.Views
 
             ScheduleType = scheduleType;
 
-            pnlHistoricalDataSelection.Visible = (scheduleType == ScheduleType.Historical);
-
             this.Height = 225;
 
             _driverInfoRepository = Program.Services.GetRequiredService<IDriverInfoRepository>();
             _weekendFeedRepository = Program.Services.GetRequiredService<IWeekendFeedRepository>();
             _raceScheduleRepository = Program.Services.GetRequiredService<ISchedulesRepository>();
+            _logger = Program.Services.GetRequiredService<ILogger<ScheduleView>>();
         }
 
         private void ScheduleView_Load(object sender, EventArgs e)
@@ -84,8 +98,7 @@ namespace rNascar23.Views
 
             SetTheme();
 
-            if (pnlHistoricalDataSelection.Visible)
-                PopulateSeasonSelector();
+            PopulateSeasonSelector();
         }
 
         #endregion
@@ -113,49 +126,10 @@ namespace rNascar23.Views
             cboYear.SelectedIndex = 0;
         }
 
-        private async void btnDisplayHistoricalData_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (cboYear.SelectedItem == null)
-                    return;
-
-                var selectedSeason = cboYear.SelectedItem as SeasonSelection;
-
-                var seriesSchedules = await _raceScheduleRepository.GetRaceListAsync(selectedSeason.Year);
-
-                IEnumerable<SeriesEvent> schedules = new List<SeriesEvent>();
-
-                if (chkCup.Checked)
-                {
-                    schedules = seriesSchedules.CupSeries;
-                }
-                if (chkXfinity.Checked)
-                {
-                    schedules = schedules.Concat(seriesSchedules.XfinitySeries);
-                }
-                if (chkTruck.Checked)
-                {
-                    schedules = schedules.Concat(seriesSchedules.TruckSeries);
-                }
-
-                Data = schedules.ToList();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void seriesSelection_CheckChanged(object sender, EventArgs e)
-        {
-            btnDisplayHistoricalData.Enabled = chkCup.Checked || chkXfinity.Checked || chkTruck.Checked;
-        }
-
         private void SetTheme()
         {
             var settings = UserSettingsService.LoadUserSettings();
+            _useDarkTheme = settings.UseDarkTheme;
 
             Color backColor = Color.Empty;
             Color foreColor = Color.Empty;
@@ -228,19 +202,30 @@ namespace rNascar23.Views
         {
             try
             {
+                var viewModels = BuildViewModels((IList<SeriesEvent>)values);
+
                 flpScheduledEvents.SuspendLayout();
 
-                var viewModels = BuildViewModels((IList<SeriesEvent>)values);
+                var viewArray = flpScheduledEvents.Controls.OfType<ScheduledEventView>().ToArray();
+
+                if (viewArray.Length > viewModels.Count)
+                {
+                    for (int x = viewModels.Count; x < viewArray.Length; x++)
+                    {
+                        viewArray[x].Visible = false;
+                    }
+                }
 
                 for (int i = 0; i < viewModels.Count; i++)
                 {
                     var viewModel = viewModels[i];
                     ScheduledEventView view = null;
 
-                    if (flpScheduledEvents.Controls.OfType<ScheduledEventView>().Count() >= i + 1)
+                    if (viewArray.Length >= i + 1)
                     {
                         // control exists
-                        view = flpScheduledEvents.Controls.OfType<ScheduledEventView>().ToList()[i];
+                        view = viewArray[i];
+                        view.Visible = true;
                     }
                     else
                     {
@@ -264,235 +249,13 @@ namespace rNascar23.Views
                 {
                     var view = flpScheduledEvents.Controls.OfType<ScheduledEventView>().ToList()[0];
 
-                    view.Selected = true;
-
-                    View_ViewSelected(view, EventArgs.Empty);
+                    View_ViewSelected(view, new ScheduledEventView.ViewSelectedEventArgs());
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            catch (Exception ex) { ExceptionHandler(ex); }
             finally
             {
                 flpScheduledEvents.ResumeLayout();
-            }
-        }
-
-        private async void View_ViewSelected(object sender, EventArgs e)
-        {
-            var selectedView = sender as ScheduledEventView;
-
-            var selectedViewModel = selectedView.ViewModel;
-
-            var seriesEvent = _data.FirstOrDefault(d => d.RaceId == selectedViewModel.RaceId);
-
-            DisplayEventSchedule(seriesEvent.Schedule);
-
-            await DisplayEventDetailsAsync(seriesEvent);
-
-            foreach (ScheduledEventView view in flpScheduledEvents.Controls.OfType<ScheduledEventView>())
-            {
-                view.Selected = false;
-            }
-
-            selectedView.Selected = true;
-        }
-
-        private async Task DisplayEventDetailsAsync(SeriesEvent seriesEvent)
-        {
-            try
-            {
-                tabEventScheduleResults.SuspendLayout();
-
-                if (seriesEvent.WinnerDriverId == null)
-                {
-                    pnlEventWinnerAndComments.Visible = false;
-
-                    lvResults.Items.Clear();
-
-                    tabEventScheduleResults.SelectedIndex = 0;
-                }
-                else
-                {
-                    pnlEventWinnerAndComments.Visible = true;
-
-                    var raceWinningDriver = await GetDriverNameAsync(seriesEvent.WinnerDriverId.GetValueOrDefault(0));
-
-                    var poleWinningDriver = await GetDriverNameAsync(seriesEvent.PoleWinnerDriverId);
-
-                    lblWinner.Text = $"{raceWinningDriver}";
-
-                    lblLeaders.Text = $"{seriesEvent.NumberOfLeaders}";
-                    lblLeadChanges.Text = $"{seriesEvent.NumberOfLeadChanges}";
-                    lblCautions.Text = $"{seriesEvent.NumberOfCautions}";
-                    lblCautionLaps.Text = $"{seriesEvent.NumberOfCautionLaps}";
-                    lblPoleWinner.Text = $"{poleWinningDriver}";
-                    lblPoleSpeed.Text = $"{seriesEvent.PoleWinnerSpeed.ToString("N3")}";
-                    lblAverageSpeed.Text = $"{seriesEvent.AverageSpeed.ToString("N3")}";
-                    lblMargin.Text = $"{seriesEvent.MarginOfVictory}";
-                    lblRaceTime.Text = $"{seriesEvent.TotalRaceTime}";
-                    lblCarsInField.Text = $"{seriesEvent.NumberOfCarsInField}";
-
-                    lblComments.Text = seriesEvent.RaceComments;
-
-                    tabEventScheduleResults.SelectedIndex = 1;
-
-                    await DisplayEventResultsAsync(seriesEvent.SeriesId, seriesEvent.RaceId);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                tabEventScheduleResults.ResumeLayout();
-            }
-        }
-
-        private async Task DisplayEventResultsAsync(int seriesId, int raceId)
-        {
-            try
-            {
-                lvResults.BeginUpdate();
-
-                lvResults.Items.Clear();
-
-                var results = await GetEventResultsAsync(seriesId, raceId);
-
-                int i = 0;
-
-                foreach (var result in results)
-                {
-                    var lvi = new ListViewItem(result.FinishingPosition.ToString());
-
-                    lvi.SubItems.Add(result.CarNumber);
-                    lvi.SubItems.Add(result.Driver);
-                    lvi.SubItems.Add(result.Hometown);
-                    lvi.SubItems.Add(result.Vehicle);
-                    lvi.SubItems.Add(result.StartingPosition.ToString());
-                    lvi.SubItems.Add(result.LapsCompleted.ToString());
-                    lvi.SubItems.Add(result.FinishingStatus);
-                    lvi.SubItems.Add(result.LapsLed.ToString());
-                    lvi.SubItems.Add(result.PointsEarned.ToString());
-                    lvi.SubItems.Add(result.PlayoffPointsEarned.ToString());
-                    lvi.SubItems.Add(result.Sponsor);
-                    lvi.SubItems.Add(result.Owner);
-                    lvi.SubItems.Add(result.CrewChief);
-
-                    lvi.Tag = result;
-
-                    if (i % 2 == 0)
-                    {
-                        lvi.BackColor = _alternateRowBackColor;
-                    }
-
-                    i++;
-
-                    lvResults.Items.Add(lvi);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                lvResults.EndUpdate();
-            }
-        }
-
-        private async Task<IList<EventResult>> GetEventResultsAsync(int seriesId, int raceId)
-        {
-            IList<EventResult> eventResults = new List<EventResult>();
-
-            var selectedSeason = cboYear.SelectedItem as SeasonSelection;
-
-            var year = selectedSeason == null ? DateTime.Now.Year : selectedSeason.Year;
-
-            var weekendFeed = await _weekendFeedRepository.GetWeekendFeedAsync(seriesId, raceId, year);
-
-            var weekendRace = weekendFeed.weekend_race.FirstOrDefault();
-
-            var weekendRaceResults = weekendRace.
-                results.
-                Where(r => r.finishing_position > 0).
-                OrderBy(r => r.finishing_position);
-
-            foreach (rNascar23.LiveFeeds.Models.Result driverResult in weekendRaceResults)
-            {
-                var eventResult = new EventResult()
-                {
-                    FinishingPosition = driverResult.finishing_position,
-                    CarNumber = driverResult.car_number,
-                    Driver = driverResult.driver_fullname,
-                    Vehicle = driverResult.car_model,
-                    Hometown = driverResult.driver_hometown,
-                    Sponsor = driverResult.sponsor,
-                    Owner = driverResult.owner_fullname,
-                    FinishingStatus = driverResult.finishing_status,
-                    CrewChief = driverResult.crew_chief_fullname,
-                    LapsLed = driverResult.laps_led,
-                    LapsCompleted = driverResult.laps_completed,
-                    PointsEarned = driverResult.points_earned,
-                    PlayoffPointsEarned = driverResult.playoff_points_earned,
-                    StartingPosition = driverResult.starting_position,
-                };
-
-                eventResults.Add(eventResult);
-            }
-
-            return eventResults;
-        }
-
-        private async Task<string> GetDriverNameAsync(int driverId)
-        {
-            var driver = await _driverInfoRepository.GetDriverAsync(driverId);
-
-            return driver == null ? "None" : driver.Name;
-        }
-
-        private void DisplayEventSchedule(Schedules.Models.Schedule[] schedule)
-        {
-            try
-            {
-                lvSchedule.SuspendLayout();
-
-                lvSchedule.Items.Clear();
-
-                foreach (var item in schedule.OrderBy(s => s.StartTimeLocal))
-                {
-                    var groupHeader = item.StartTimeLocal.Date.ToString("dddd, MMMM d");
-
-                    var group = lvSchedule.Groups.Cast<ListViewGroup>()
-                        .FirstOrDefault(g => g.Header == groupHeader);
-
-                    if (group == null)
-                    {
-                        group = new ListViewGroup(groupHeader);
-                        lvSchedule.Groups.Add(group);
-                    }
-
-                    var lvi = new ListViewItem();
-
-                    lvi.SubItems.Add(item.StartTimeLocal.ToShortTimeString());
-                    lvi.SubItems.Add(item.EventName);
-                    lvi.SubItems.Add(item.Notes);
-                    lvi.SubItems.Add(item.Description);
-
-                    lvi.Group = group;
-
-                    lvSchedule.Items.Add(lvi);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                lvSchedule.ResumeLayout(true);
             }
         }
 
@@ -550,6 +313,375 @@ namespace rNascar23.Views
             return scheduledEvents;
         }
 
+        /* historical */
+        private async void btnDisplayHistoricalData_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cboYear.SelectedItem == null)
+                    return;
+
+                var selectedSeason = cboYear.SelectedItem as SeasonSelection;
+
+                var seriesSchedules = await _raceScheduleRepository.GetRaceListAsync(selectedSeason.Year);
+
+                IEnumerable<SeriesEvent> schedules = new List<SeriesEvent>();
+
+                if (chkCup.Checked)
+                {
+                    schedules = seriesSchedules.CupSeries;
+                }
+                if (chkXfinity.Checked)
+                {
+                    schedules = schedules.Concat(seriesSchedules.XfinitySeries);
+                }
+                if (chkTruck.Checked)
+                {
+                    schedules = schedules.Concat(seriesSchedules.TruckSeries);
+                }
+
+                Data = schedules.ToList();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+        private void seriesSelection_CheckChanged(object sender, EventArgs e)
+        {
+            btnDisplayHistoricalData.Enabled = chkCup.Checked || chkXfinity.Checked || chkTruck.Checked;
+        }
+
+        /* view selection */
+        private async void View_ViewSelected(object sender, ScheduledEventView.ViewSelectedEventArgs e)
+        {
+            try
+            {
+                var selectedView = sender as ScheduledEventView;
+
+                var selectedViewModel = selectedView.ViewModel;
+
+                if (!e.MultiSelect)
+                {
+                    foreach (ScheduledEventView view in flpScheduledEvents.Controls.OfType<ScheduledEventView>())
+                    {
+                        view.Selected = false;
+                    }
+                }
+
+                selectedView.Selected = true;
+
+                ClearEventResults();
+
+                ClearEventDetails();
+
+                ClearEventActivities();
+
+                IEnumerable<Schedules.Models.Schedule> compositeSchedule = new List<Schedules.Models.Schedule>();
+
+                foreach (ScheduledEventView view in flpScheduledEvents.
+                    Controls.
+                    OfType<ScheduledEventView>().
+                    Where(v => v.Selected == true))
+                {
+                    var compositeViewModel = view.ViewModel;
+
+                    var seriesEvent = _data.FirstOrDefault(d => d.RaceId == compositeViewModel.RaceId);
+
+                    compositeSchedule = compositeSchedule.Concat(seriesEvent.Schedule);
+                }
+
+                DisplayEventSchedule(compositeSchedule.ToArray(), true);
+
+                if (!e.MultiSelect)
+                {
+                    var seriesEvent = _data.FirstOrDefault(d => d.RaceId == selectedViewModel.RaceId);
+
+                    await DisplayEventDetailsAsync(seriesEvent);
+
+                    await DisplayEventResultsAsync(seriesEvent);
+                }
+            }
+            catch (Exception ex) { ExceptionHandler(ex); }
+        }
+
+        /* Event Details (bottom) */
+        private async Task DisplayEventDetailsAsync(SeriesEvent seriesEvent)
+        {
+            try
+            {
+                pnlEventWinnerAndComments.SuspendLayout();
+
+                if (seriesEvent.WinnerDriverId == null)
+                {
+                    pnlEventWinnerAndComments.Visible = false;
+
+                    lvResults.Items.Clear();
+
+                    tabEventScheduleResults.SelectedIndex = 0;
+                }
+                else
+                {
+                    pnlEventWinnerAndComments.Visible = true;
+
+                    var raceWinningDriver = await GetDriverNameAsync(seriesEvent.WinnerDriverId.GetValueOrDefault(0));
+
+                    var poleWinningDriver = await GetDriverNameAsync(seriesEvent.PoleWinnerDriverId);
+
+                    lblWinner.Text = $"{raceWinningDriver}";
+
+                    lblLeaders.Text = $"{seriesEvent.NumberOfLeaders}";
+                    lblLeadChanges.Text = $"{seriesEvent.NumberOfLeadChanges}";
+                    lblCautions.Text = $"{seriesEvent.NumberOfCautions}";
+                    lblCautionLaps.Text = $"{seriesEvent.NumberOfCautionLaps}";
+                    lblPoleWinner.Text = $"{poleWinningDriver}";
+                    lblPoleSpeed.Text = $"{seriesEvent.PoleWinnerSpeed.ToString("N3")}";
+                    lblAverageSpeed.Text = $"{seriesEvent.AverageSpeed.ToString("N3")}";
+                    lblMargin.Text = $"{seriesEvent.MarginOfVictory}";
+                    lblRaceTime.Text = $"{seriesEvent.TotalRaceTime}";
+                    lblCarsInField.Text = $"{seriesEvent.NumberOfCarsInField}";
+
+                    lblComments.Text = seriesEvent.RaceComments;
+
+                    tabEventScheduleResults.SelectedIndex = 1;
+                }
+            }
+            catch (Exception ex) { ExceptionHandler(ex); }
+            finally
+            {
+                pnlEventWinnerAndComments.ResumeLayout();
+            }
+        }
+        private void ClearEventDetails()
+        {
+            pnlEventWinnerAndComments.Visible = false;
+
+            lvResults.Items.Clear();
+
+            tabEventScheduleResults.SelectedIndex = 0;
+        }
+
+        /* Event Results (tab control) */
+        private async Task DisplayEventResultsAsync(SeriesEvent seriesEvent)
+        {
+            try
+            {
+                int seriesId = seriesEvent.SeriesId;
+                int raceId = seriesEvent.RaceId;
+
+                lvResults.BeginUpdate();
+
+                lvResults.Items.Clear();
+
+                var results = await GetEventResultsAsync(seriesId, raceId);
+
+                int i = 0;
+
+                foreach (var result in results)
+                {
+                    var lvi = new ListViewItem(result.FinishingPosition.ToString());
+
+                    lvi.SubItems.Add(result.CarNumber);
+                    lvi.SubItems.Add(result.Driver);
+                    lvi.SubItems.Add(result.Hometown);
+                    lvi.SubItems.Add(result.Vehicle);
+                    lvi.SubItems.Add(result.StartingPosition.ToString());
+                    lvi.SubItems.Add(result.LapsCompleted.ToString());
+                    lvi.SubItems.Add(result.FinishingStatus);
+                    lvi.SubItems.Add(result.LapsLed.ToString());
+                    lvi.SubItems.Add(result.PointsEarned.ToString());
+                    lvi.SubItems.Add(result.PlayoffPointsEarned.ToString());
+                    lvi.SubItems.Add(result.Sponsor);
+                    lvi.SubItems.Add(result.Owner);
+                    lvi.SubItems.Add(result.CrewChief);
+
+                    lvi.Tag = result;
+
+                    if (i % 2 == 0)
+                    {
+                        lvi.BackColor = _alternateRowBackColor;
+                    }
+
+                    i++;
+
+                    lvResults.Items.Add(lvi);
+                }
+            }
+            catch (Exception ex) { ExceptionHandler(ex); }
+            finally
+            {
+                lvResults.EndUpdate();
+            }
+        }
+        private async Task<string> GetDriverNameAsync(int driverId)
+        {
+            var driver = await _driverInfoRepository.GetDriverAsync(driverId);
+
+            return driver == null ? "None" : driver.Name;
+        }
+        private void ClearEventResults()
+        {
+            try
+            {
+                lvResults.BeginUpdate();
+
+                lvResults.Items.Clear();
+            }
+            catch (Exception ex) { ExceptionHandler(ex); }
+            finally
+            {
+                lvResults.EndUpdate();
+            }
+        }
+        private async Task<IList<EventResult>> GetEventResultsAsync(int seriesId, int raceId)
+        {
+            IList<EventResult> eventResults = new List<EventResult>();
+
+            int year;
+
+            if (ScheduleType == ScheduleType.Historical)
+            {
+                var selectedSeason = cboYear.SelectedItem as SeasonSelection;
+
+                year = selectedSeason == null ? DateTime.Now.Year : selectedSeason.Year;
+            }
+            else
+            {
+                year = DateTime.Now.Year;
+            }
+
+            var weekendFeed = await _weekendFeedRepository.GetWeekendFeedAsync(seriesId, raceId, year);
+
+            var weekendRace = weekendFeed.weekend_race.FirstOrDefault();
+
+            var weekendRaceResults = weekendRace.
+                results.
+                Where(r => r.finishing_position > 0).
+                OrderBy(r => r.finishing_position);
+
+            foreach (rNascar23.LiveFeeds.Models.Result driverResult in weekendRaceResults)
+            {
+                var eventResult = new EventResult()
+                {
+                    FinishingPosition = driverResult.finishing_position,
+                    CarNumber = driverResult.car_number,
+                    Driver = driverResult.driver_fullname,
+                    Vehicle = driverResult.car_model,
+                    Hometown = driverResult.driver_hometown,
+                    Sponsor = driverResult.sponsor,
+                    Owner = driverResult.owner_fullname,
+                    FinishingStatus = driverResult.finishing_status,
+                    CrewChief = driverResult.crew_chief_fullname,
+                    LapsLed = driverResult.laps_led,
+                    LapsCompleted = driverResult.laps_completed,
+                    PointsEarned = driverResult.points_earned,
+                    PlayoffPointsEarned = driverResult.playoff_points_earned,
+                    StartingPosition = driverResult.starting_position,
+                };
+
+                eventResults.Add(eventResult);
+            }
+
+            return eventResults;
+        }
+
+        /* Event Activities (tab control)  */
+        private void DisplayEventSchedule(Schedules.Models.Schedule[] schedule, bool isCompositeSchedule = false)
+        {
+            try
+            {
+                lvSchedule.SuspendLayout();
+
+                lvSchedule.Items.Clear();
+
+                int lviNextActivityIdx = -1;
+
+                foreach (var item in schedule.OrderBy(s => s.StartTimeLocal))
+                {
+                    var groupHeader = item.StartTimeLocal.Date.ToString("dddd, MMMM d yyyy");
+
+                    var group = lvSchedule.Groups.Cast<ListViewGroup>()
+                        .FirstOrDefault(g => g.Header == groupHeader);
+
+                    if (group == null)
+                    {
+                        group = new ListViewGroup(groupHeader);
+                        lvSchedule.Groups.Add(group);
+                    }
+
+                    var lvi = new ListViewItem();
+
+                    lvi.UseItemStyleForSubItems = false;
+
+                    if (item.SeriesId > 0 && item.SeriesId < 4)
+                        lvi.ImageIndex = (item.SeriesId - 1);
+                    else
+                        lvi.ImageIndex = -1;
+
+                    lvi.SubItems.Add(item.StartTimeLocal.ToShortTimeString());
+                    lvi.SubItems.Add(item.EventName);
+                    lvi.SubItems.Add(item.Notes);
+                    lvi.SubItems.Add(item.Description);
+
+                    lvi.Group = group;
+
+                    foreach (ListViewItem.ListViewSubItem subItem in lvi.SubItems)
+                    {
+                        if (item.StartTimeLocal < DateTime.Now)
+                        {
+                            if (_useDarkTheme)
+                                subItem.ForeColor = Color.Gray;
+                            else
+                                subItem.ForeColor = Color.DimGray;
+                        }
+                        else
+                        {
+                            if (lviNextActivityIdx == -1)
+                                lviNextActivityIdx = lvSchedule.Items.Count;
+
+                            if (_useDarkTheme)
+                                subItem.ForeColor = Color.White;
+                            else
+                                subItem.ForeColor = Color.Black;
+                        }
+                    }
+
+                    lvSchedule.Items.Add(lvi);
+                }
+
+                if (lvSchedule.Items.Count > lviNextActivityIdx + 6)
+                {
+                    lviNextActivityIdx += 6;
+                }
+                else
+                {
+                    lviNextActivityIdx = lvSchedule.Items.Count - 1;
+                }
+
+                lvSchedule.Items[lviNextActivityIdx].EnsureVisible();
+            }
+            catch (Exception ex) { ExceptionHandler(ex); }
+            finally
+            {
+                lvSchedule.ResumeLayout(true);
+            }
+        }
+        private void ClearEventActivities()
+        {
+            try
+            {
+                lvSchedule.SuspendLayout();
+
+                lvSchedule.Items.Clear();
+            }
+            catch (Exception ex) { ExceptionHandler(ex); }
+            finally
+            {
+                lvSchedule.ResumeLayout(true);
+            }
+        }
+
+        /* paint */
         private void tabEventScheduleResults_DrawItem(object sender, DrawItemEventArgs e)
         {
             // This event is called once for each tab button in your tab control
@@ -580,6 +712,13 @@ namespace rNascar23.Views
                     SystemBrushes.HighlightText,
                     paddedBounds);
             }
+        }
+
+        private void ExceptionHandler(Exception ex, string message = "")
+        {
+            string errorMessage = String.IsNullOrEmpty(message) ? ex.Message : message;
+
+            _logger.LogError(ex, errorMessage);
         }
 
         #endregion

@@ -1,12 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
+using Microsoft.Web.WebView2.Wpf;
 using rNascar23.LoopData.Ports;
 using rNascar23.Media.Models;
 using rNascar23.Media.Ports;
+using rNascar23.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -59,6 +63,10 @@ namespace rNascar23.Dialogs
 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mediaRepository = mediaRepository ?? throw new ArgumentNullException(nameof(mediaRepository));
+
+            LogInfoMessage("before InitializeBrowserAsync");
+            InitializeBrowserAsync();
+            LogInfoMessage("after InitializeBrowserAsync");
         }
 
         private async void AudioSelectionDialog_Load(object sender, EventArgs e)
@@ -66,6 +74,13 @@ namespace rNascar23.Dialogs
             try
             {
                 _isLoading = true;
+
+                webView.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
+
+                if ((webView == null) || (webView.CoreWebView2 == null))
+                {
+                    LogInfoMessage("not ready");
+                }
 
                 var audioConfiguration = await LoadAudioConfiguration(SeriesId);
 
@@ -84,6 +99,45 @@ namespace rNascar23.Dialogs
         #endregion
 
         #region private
+        //private async Task InitializeAsync()
+        //{
+        //    try
+        //    {
+        //        LogInfoMessage("InitializeAsync");
+        //        await webView.EnsureCoreWebView2Async(null);
+        //        LogInfoMessage($"WebView2 Runtime version: {webView.CoreWebView2.Environment.BrowserVersionString}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ExceptionHandler(ex, "Exception in InitializeAsync");
+        //    }
+        //}
+        private async Task InitializeBrowserAsync(string url = null)
+        {
+            try
+            {
+                var userDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\rNascar23";
+                var env = await CoreWebView2Environment.CreateAsync(null, userDataFolder);
+                await webView.EnsureCoreWebView2Async(env);
+                webView.Source = new UriBuilder(url ?? "google.com").Uri;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception in InitializeAsync");
+            }
+        }
+
+        private void WebView_CoreWebView2InitializationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
+        {
+            try
+            {
+                LogInfoMessage("WebView_CoreWebView2InitializationCompleted");
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception in WebView_CoreWebView2InitializationCompleted");
+            }
+        }
 
         private async Task<AudioConfiguration> LoadAudioConfiguration(int seriesId)
         {
@@ -104,24 +158,31 @@ namespace rNascar23.Dialogs
 
         private void PlayAudioFeed(AudioChannel audioChannel)
         {
-            if (audioChannel == null)
-                return;
+            try
+            {
+                if (audioChannel == null)
+                    return;
 
-            var token = @"<#SOURCE#>";
+                var token = @"<#SOURCE#>";
 
-            var template = Properties.Resources.audioFeedTemplate2;
+                var template = Properties.Resources.audioFeedTemplate2;
 
-            var html = template.Replace(token, audioChannel.source);
+                var html = template.Replace(token, audioChannel.source);
 
-            Console.WriteLine($"audioFeed.Name: {audioChannel.driver_name}; audioFeed.Source: {audioChannel.source}");
+                LogInfoMessage($"audioFeed.Name: {audioChannel.driver_name}; audioFeed.Source: {audioChannel.source}");
 
-            webView.NavigateToString(html);
+                webView.NavigateToString(html);
 
-            System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(1000);
 
-            lblInstructions.Visible = true;
+                lblInstructions.Visible = true;
 
-            webView.Visible = true;
+                webView.Visible = true;
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, $"Exception in PlayAudioFeed: {audioChannel.source}");
+            }
         }
 
         #endregion
@@ -168,7 +229,7 @@ namespace rNascar23.Dialogs
 
         #region private [ exception handlers ]
 
-        private void ExceptionHandler(Exception ex, string message = "", bool logMessage = false)
+        private void ExceptionHandler(Exception ex, string message = "", bool logMessage = true)
         {
             MessageBox.Show(ex.Message);
             if (logMessage)
@@ -177,6 +238,12 @@ namespace rNascar23.Dialogs
 
                 _logger.LogError(ex, errorMessage);
             }
+        }
+
+        private void LogInfoMessage(string message)
+        {
+            Console.WriteLine(message);
+            _logger.LogInformation(message);
         }
 
         #endregion

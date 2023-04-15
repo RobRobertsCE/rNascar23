@@ -15,6 +15,7 @@ namespace rNascar23.Views
         private Color _selectedBoxColor = Color.Gold;
         private int _selectionBoxThickness = 4;
         private UserSettings _settings = null;
+        private bool _multiSelected = false;
 
         #endregion
 
@@ -243,6 +244,26 @@ namespace rNascar23.Views
                     lblTrack.ForeColor = foreColor;
                     lblEventDistance.ForeColor = foreColor;
                 }
+                else
+                {
+                    Color foreColor = Color.Empty;
+
+                    if (_settings.UseDarkTheme)
+                    {
+                        foreColor = Color.White;
+                    }
+                    else
+                    {
+                        foreColor = Color.Black;
+                    }
+
+                    lblEventDate.ForeColor = foreColor;
+                    lblEventTime.ForeColor = foreColor;
+
+                    lblEventName.ForeColor = foreColor;
+                    lblTrack.ForeColor = foreColor;
+                    lblEventDistance.ForeColor = foreColor;
+                }
             }
             catch (Exception)
             {
@@ -261,12 +282,17 @@ namespace rNascar23.Views
         [Browsable(true)]
         [Category("Action")]
         [Description("Invoked when user clicks the view")]
-        public event EventHandler ViewSelected;
+        public event EventHandler<ViewSelectedEventArgs> ViewSelected;
 
         private void View_Selected(object sender, EventArgs e)
         {
             if (this.ViewSelected != null)
-                this.ViewSelected(this, e);
+                this.ViewSelected(this, new ViewSelectedEventArgs()
+                {
+                    MultiSelect = _multiSelected
+                });
+
+            _multiSelected = false;
         }
 
         [Browsable(false)]
@@ -283,6 +309,24 @@ namespace rNascar23.Views
                     e.Graphics.DrawRectangle(myPen, area);
                 }
             }
+        }
+
+        private void ScheduledEventView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && (ModifierKeys & Keys.Control) == Keys.Control)
+            {
+                //MessageBox.Show("Control key was held down.");
+                _multiSelected = true;
+            }
+        }
+
+        #endregion
+
+        #region classes
+
+        public class ViewSelectedEventArgs : EventArgs
+        {
+            public bool MultiSelect { get; set; }
         }
 
         #endregion

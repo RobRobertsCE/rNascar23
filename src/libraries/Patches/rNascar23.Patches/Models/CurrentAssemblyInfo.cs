@@ -7,5 +7,7 @@ namespace rNascar23.Patches.Models
         public Version Version { get; set; }
         public string AssemblyName { get; set; }
         public string AssemblyPath { get; set; }
+        public string RelativePath { get; set; }
+        public string BackupPath { get; set; }
     }
 }

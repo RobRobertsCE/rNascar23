@@ -104,7 +104,7 @@
             this.webView.Location = new System.Drawing.Point(17, 91);
             this.webView.Name = "webView";
             this.webView.Size = new System.Drawing.Size(643, 312);
-            this.webView.Source = new System.Uri("http://google.com", System.UriKind.Absolute);
+            //this.webView.Source = new System.Uri("http://google.com", System.UriKind.Absolute);
             this.webView.TabIndex = 10;
             this.webView.Visible = false;
             this.webView.ZoomFactor = 1D;

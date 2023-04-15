@@ -26,5 +26,6 @@ namespace rNascar23.Schedules.Models
                     "Unknown";
             }
         }
+        public int SeriesId { get; set; }
     }
 }

@@ -107,7 +107,7 @@
             // 
             // timCloseForm
             // 
-            this.timCloseForm.Interval = 5000;
+            this.timCloseForm.Interval = 1000;
             this.timCloseForm.Tick += new System.EventHandler(this.timCloseForm_Tick);
             // 
             // pictureBox1

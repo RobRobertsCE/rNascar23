@@ -1,6 +1,7 @@
 ﻿using rNascar23.Patches.AppRegistry;
 using rNascar23.Patches.Services;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -51,6 +52,8 @@ namespace rNascar23.Patcher
             {
                 btnClose.Visible = true;
                 btnClose.Enabled = true;
+
+                SaveLogFile();
             }
         }
 
@@ -109,6 +112,22 @@ namespace rNascar23.Patcher
         private void btnClose_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void SaveLogFile()
+        {
+            try
+            {
+                var logFile = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                    $"rNascar23\\Logs\\rNascar23.Patcher.Log.{DateTime.Now.ToString("MMM d yyyy h m tt")}.txt");
+
+                File.AppendAllText(logFile, txtMessages.Text);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

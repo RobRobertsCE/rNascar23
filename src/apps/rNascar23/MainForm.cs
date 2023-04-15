@@ -1,23 +1,25 @@
-﻿using AutoMapper.Features;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using rNascar23.Common;
+using rNascar23.Configuration;
+using rNascar23.CustomViews;
 using rNascar23.Data.Flags.Ports;
 using rNascar23.Data.LiveFeeds.Ports;
-using rNascar23.LoopData.Ports;
+using rNascar23.Dialogs;
 using rNascar23.Flags.Models;
 using rNascar23.LapTimes.Models;
 using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
+using rNascar23.Logic;
+using rNascar23.LoopData.Ports;
+using rNascar23.PitStops.Ports;
 using rNascar23.Points.Models;
 using rNascar23.Points.Ports;
+using rNascar23.Replay;
 using rNascar23.Schedules.Models;
 using rNascar23.Schedules.Ports;
-using rNascar23.Configuration;
-using rNascar23.CustomViews;
-using rNascar23.Dialogs;
 using rNascar23.Screens;
 using rNascar23.ViewModels;
 using rNascar23.Views;
@@ -26,17 +28,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using rNascar23.PitStops.Ports;
 using PitStop = rNascar23.PitStops.Models.PitStop;
-using static rNascar23.Views.NLapsGridView;
-using rNascar23.Properties;
-using rNascar23.Replay;
-using System.IO.Compression;
-using System.Reflection;
-using rNascar23.Logic;
 
 namespace rNascar23
 {
@@ -93,6 +90,7 @@ namespace rNascar23
 
         private EventReplay _eventReplay = null;
         private int _replayFrameIndex = 0;
+        private int _replaySpeed = 1;
         private IList<GridSettings> _customGridSettings = null;
         private FormState _formState = new FormState();
         private bool _isFullScreen = false;
@@ -164,7 +162,7 @@ namespace rNascar23
         {
             try
             {
-                SetDeveloperFeaturesStatus(_features.Value);
+                SetFeaturesStatus(_features.Value);
 
                 lblEventName.Text = "";
 
@@ -1310,7 +1308,7 @@ namespace rNascar23
                     case GridViewTypes.Last5Laps:
                     case GridViewTypes.Last10Laps:
                     case GridViewTypes.Last15Laps:
-                        uc.SetDataSource<GenericGridViewModel>(BuildNLapsData(uc.GridViewType, _formState.LapTimes.Drivers));
+                        uc.SetDataSource<GenericGridViewModel>(BuildNLapsData(uc.GridViewType, _formState.LapTimes.Drivers, _formState.LapAverages));
                         break;
                     case GridViewTypes.Movers:
                         uc.SetDataSource<GenericGridViewModel>(BuildMoversData(_formState.LapTimes));
@@ -1325,7 +1323,6 @@ namespace rNascar23
 
             foreach (GridViewBase uc in panel.Controls.OfType<FlagsView>())
             {
-                //uc.SetDataSource<FlagState>(_formState.FlagStates.Where(m => m.State == 1 || m.State == 2 || m.State == 3).ToList());
                 uc.SetDataSource<FlagState>(_formState.FlagStates.ToList());
             }
         }
@@ -1377,7 +1374,9 @@ namespace rNascar23
             }
 
             int i = 1;
-            foreach (var driverStagePoints in stagePoints.OrderByDescending(s => (s.stage_1_points + s.stage_2_points + s.stage_3_points)))
+            foreach (var driverStagePoints in stagePoints.
+                Where(s => (s.stage_1_points + s.stage_2_points + s.stage_3_points) > 0).
+                OrderByDescending(s => (s.stage_1_points + s.stage_2_points + s.stage_3_points)))
             {
                 var model = new GenericGridViewModel()
                 {
@@ -1483,7 +1482,7 @@ namespace rNascar23
             return models;
         }
 
-        private IList<GenericGridViewModel> BuildNLapsData(GridViewTypes viewType, IList<DriverLaps> data)
+        private IList<GenericGridViewModel> BuildNLapsData(GridViewTypes viewType, IList<DriverLaps> dataSource1, IList<LapAverages> dataSource2)
         {
             IList<GenericGridViewModel> models = new List<GenericGridViewModel>();
 
@@ -1492,13 +1491,16 @@ namespace rNascar23
             var displayType = viewType == GridViewTypes.Best5Laps || viewType == GridViewTypes.Best10Laps || viewType == GridViewTypes.Best15Laps ?
                 settings.BestNLapsDisplayType : settings.LastNLapsDisplayType;
 
+            if (dataSource1 == null || dataSource1.Count == 0)
+                return BuildViewModelsByLapAverages(viewType, dataSource2);
+
             switch (displayType)
             {
                 case SpeedTimeType.Seconds:
-                    models = BuildViewModelsByTime(viewType, data);
+                    models = BuildViewModelsByTimeByDriverLaps(viewType, dataSource1);
                     break;
                 case SpeedTimeType.MPH:
-                    models = BuildViewModelsBySpeed(viewType, data);
+                    models = BuildViewModelsBySpeedByDriverLaps(viewType, dataSource1);
                     break;
                 default:
                     models = new List<GenericGridViewModel>();
@@ -1512,7 +1514,7 @@ namespace rNascar23
 
             return models;
         }
-        private IList<GenericGridViewModel> BuildViewModelsByTime(GridViewTypes viewType, IList<DriverLaps> data)
+        private IList<GenericGridViewModel> BuildViewModelsByTimeByDriverLaps(GridViewTypes viewType, IList<DriverLaps> data)
         {
             switch (viewType)
             {
@@ -1586,7 +1588,7 @@ namespace rNascar23
                     return new List<GenericGridViewModel>();
             }
         }
-        private IList<GenericGridViewModel> BuildViewModelsBySpeed(GridViewTypes viewType, IList<DriverLaps> data)
+        private IList<GenericGridViewModel> BuildViewModelsBySpeedByDriverLaps(GridViewTypes viewType, IList<DriverLaps> data)
         {
             switch (viewType)
             {
@@ -1661,6 +1663,68 @@ namespace rNascar23
                             Value = (float)Math.Round(d.AverageSpeedLast15Laps().GetValueOrDefault(-1), 3)
                         }).
                         ToList();
+
+                default:
+                    return new List<GenericGridViewModel>();
+            }
+        }
+        private IList<GenericGridViewModel> BuildViewModelsByLapAverages(GridViewTypes viewType, IList<LapAverages> data)
+        {
+            switch (viewType)
+            {
+                case GridViewTypes.Best5Laps:
+                    var best5Laps = data.
+                        Where(v => v.Con5LapRank != null).
+                        OrderBy(v => v.Con5LapRank).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Position = d.Con5LapRank.Value,
+                            Driver = d.FullName,
+                            Value = (float)d.Con5Lap
+                        }).
+                        ToList();
+
+                    return best5Laps;
+
+                case GridViewTypes.Best10Laps:
+                    var best10Laps = data.
+                        Where(v => v.Con10LapRank != null).
+                        OrderBy(v => v.Con10LapRank).
+                        Take(10).
+                        Select(d => new GenericGridViewModel()
+                        {
+                            Position = d.Con10LapRank.Value,
+                            Driver = d.FullName,
+                            Value = (float)d.Con10Lap
+                        }).
+                        ToList();
+
+                    return best10Laps;
+
+                case GridViewTypes.Best15Laps:
+                    var best15Laps = data.
+                      Where(v => v.Con15LapRank != null).
+                      OrderBy(v => v.Con15LapRank).
+                      Take(10).
+                      Select(d => new GenericGridViewModel()
+                      {
+                          Position = d.Con15LapRank.Value,
+                          Driver = d.FullName,
+                          Value = (float)d.Con15Lap
+                      }).
+                      ToList();
+
+                    return best15Laps;
+
+                case GridViewTypes.Last5Laps:
+                    return new List<GenericGridViewModel>();
+
+                case GridViewTypes.Last10Laps:
+                    return new List<GenericGridViewModel>();
+
+                case GridViewTypes.Last15Laps:
+                    return new List<GenericGridViewModel>();
 
                 default:
                     return new List<GenericGridViewModel>();
@@ -1794,16 +1858,26 @@ namespace rNascar23
             if (!displayEmptySchedule && schedule.Count == 0)
                 return false;
 
-            IApiDataView<SeriesEvent> scheduleView = new ScheduleView(scheduleType);
+            IApiDataView<SeriesEvent> scheduleView = null;
 
-            pnlHost.Controls.Clear();
+            if (pnlHost.Controls.OfType<ScheduleView>().Count() > 0)
+            {
+                scheduleView = pnlHost.Controls.OfType<ScheduleView>().First();
+            }
+            else
+            {
+                scheduleView = new ScheduleView(scheduleType);
 
-            pnlHost.Dock = DockStyle.Fill;
-            pnlHost.Controls.Add((Control)scheduleView);
+                pnlHost.Controls.Clear();
 
-            ((Control)scheduleView).Dock = DockStyle.Fill;
-            ((Control)scheduleView).BackColor = Color.White;
+                pnlHost.Dock = DockStyle.Fill;
+                pnlHost.Controls.Add((Control)scheduleView);
 
+                ((Control)scheduleView).Dock = DockStyle.Fill;
+                ((Control)scheduleView).BackColor = Color.White;
+            }
+
+            ((ScheduleView)scheduleView).ScheduleType = scheduleType;
             scheduleView.Data = schedule;
 
             return true;
@@ -2710,6 +2784,30 @@ namespace rNascar23
             }
         }
 
+        private void xToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _replaySpeed = 1;
+            xToolStripMenuItem.Checked = true;
+            xToolStripMenuItem1.Checked = false;
+            xToolStripMenuItem2.Checked = false;
+        }
+
+        private void xToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _replaySpeed = 5;
+            xToolStripMenuItem.Checked = false;
+            xToolStripMenuItem1.Checked = true;
+            xToolStripMenuItem2.Checked = false;
+        }
+
+        private void xToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            _replaySpeed = 10;
+            xToolStripMenuItem.Checked = false;
+            xToolStripMenuItem1.Checked = false;
+            xToolStripMenuItem2.Checked = true;
+        }
+
         private async void timEventReplay_Tick(object sender, EventArgs e)
         {
             try
@@ -2742,6 +2840,7 @@ namespace rNascar23
             playToolStripMenuItem.Enabled = true;
             pauseToolStripMenuItem.Enabled = true;
             closeToolStripMenuItem.Enabled = true;
+            replaySpeedToolStripMenuItem.Enabled = true;
 
             lblEventReplayStatus.Visible = true;
 
@@ -2759,6 +2858,7 @@ namespace rNascar23
             closeToolStripMenuItem.Enabled = true;
             importDumpFileToolStripMenuItem.Enabled = false;
             replayEventToolStripMenuItem.Enabled = false;
+            replaySpeedToolStripMenuItem.Enabled = true;
 
             timEventReplay.Enabled = true;
         }
@@ -2770,6 +2870,7 @@ namespace rNascar23
             playToolStripMenuItem.Enabled = true;
             pauseToolStripMenuItem.Enabled = false;
             closeToolStripMenuItem.Enabled = true;
+            replaySpeedToolStripMenuItem.Enabled = true;
         }
 
         private void CloseEventReplay()
@@ -2781,6 +2882,7 @@ namespace rNascar23
             closeToolStripMenuItem.Enabled = false;
             importDumpFileToolStripMenuItem.Enabled = true;
             replayEventToolStripMenuItem.Enabled = true;
+            replaySpeedToolStripMenuItem.Enabled = false;
 
             _isImportedData = false;
 
@@ -2791,7 +2893,7 @@ namespace rNascar23
         {
             timEventReplay.Enabled = false;
 
-            if (_replayFrameIndex >= _eventReplay.Frames.Count - 1)
+            if (_replayFrameIndex >= _eventReplay.Frames.Count - _replaySpeed)
             {
                 _replayFrameIndex = -1;
 
@@ -2800,7 +2902,7 @@ namespace rNascar23
                 return;
             }
             else
-                _replayFrameIndex += 1;
+                _replayFrameIndex += _replaySpeed;
 
             UpdateReplayLabel(_eventReplay, _replayFrameIndex);
 
@@ -2893,8 +2995,10 @@ namespace rNascar23
             }
         }
 
-        private void SetDeveloperFeaturesStatus(Features features)
+        private void SetFeaturesStatus(Features features)
         {
+            audioChannelToolStripMenuItem.Visible = features.EnableAudioFeatures;
+
             if (features.EnableDeveloperFeatures)
             {
                 toolsToolStripMenuItem1.Visible = false;
@@ -2907,7 +3011,6 @@ namespace rNascar23
                 toolStripMenuItem3.Visible = true;
                 toolStripMenuItem2.Visible = true;
                 localDataToolStripMenuItem.Visible = true;
-                audioChannelToolStripMenuItem.Visible = true;
             }
             else
             {
@@ -2921,7 +3024,6 @@ namespace rNascar23
                 toolStripMenuItem3.Visible = false;
                 toolStripMenuItem2.Visible = false;
                 localDataToolStripMenuItem.Visible = false;
-                audioChannelToolStripMenuItem.Visible = false;
             }
         }
 

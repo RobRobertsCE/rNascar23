@@ -8,6 +8,8 @@ namespace rNascar23.Launcher
 {
     internal class AppContext : ApplicationContext
     {
+        private const string LauncherDirectory = "Launcher";
+
         Process _process = null;
 
         public AppContext()
@@ -20,7 +22,7 @@ namespace rNascar23.Launcher
 
             if (splash.PatchVersion != null)
             {
-                var patcherExePath = Path.Combine(installFolder, "rNascar23.Patcher.exe");
+                var patcherExePath = Path.Combine(installFolder, $"{LauncherDirectory}\\rNascar23.Patcher.exe");
 
                 var process = new Process();
 
