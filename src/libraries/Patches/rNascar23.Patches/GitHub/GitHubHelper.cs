@@ -91,7 +91,7 @@ namespace rNascar23.Patches.GitHub
         /// </summary>
         /// <param name="currentVersion">The currently installed version number</param>
         /// <returns>A list of available patches for the currently installed version</returns>
-        public static async Task<IList<PatchSet>> CheckForAvailablePatchesAsync(Version currentVersion)
+        public static async Task<IList<PatchSet>> CheckForAvailablePatchesAsync(Version currentVersion, bool includeReleases = true)
         {
             IList<PatchSet> patches = new List<PatchSet>();
 
@@ -121,7 +121,10 @@ namespace rNascar23.Patches.GitHub
                     version = new Version(major, minor, build, revision);
                 }
 
-                if (release.Assets.Count > 0 && release.Assets[0].Name.EndsWith("zip") && version > currentVersion)
+                if (release.Assets.Count > 0 && 
+                    (release.Assets[0].Name.EndsWith("zip") || 
+                    (includeReleases == true && release.Assets[0].Name.EndsWith("msi"))) && 
+                    version > currentVersion)
                 {
                     var patch = new PatchSet()
                     {

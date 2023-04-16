@@ -1,30 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
-using Microsoft.Web.WebView2.WinForms;
-using Microsoft.Web.WebView2.Wpf;
-using rNascar23.LoopData.Ports;
 using rNascar23.Media.Models;
 using rNascar23.Media.Ports;
-using rNascar23.Properties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace rNascar23.Dialogs
 {
-    public partial class AudioSelectionDialog : Form
+    public partial class VideoPlayer : Form
     {
         #region fields
 
         private bool _isLoading = false;
-        private readonly ILogger<AudioSelectionDialog> _logger = null;
+        private readonly ILogger<VideoPlayer> _logger = null;
         private readonly IMediaRepository _mediaRepository = null;
 
         #endregion
@@ -33,8 +24,8 @@ namespace rNascar23.Dialogs
 
         public int SeriesId { get; set; }
 
-        private AudioChannel _selectedChannel = null;
-        public AudioChannel SelectedChannel
+        private VideoChannel _selectedChannel = null;
+        public VideoChannel SelectedChannel
         {
             get
             {
@@ -52,12 +43,12 @@ namespace rNascar23.Dialogs
 
         #region ctor/load
 
-        public AudioSelectionDialog()
+        public VideoPlayer()
         {
             InitializeComponent();
         }
 
-        public AudioSelectionDialog(ILogger<AudioSelectionDialog> logger, IMediaRepository mediaRepository)
+        public VideoPlayer(ILogger<VideoPlayer> logger, IMediaRepository mediaRepository)
         {
             InitializeComponent();
 
@@ -69,7 +60,7 @@ namespace rNascar23.Dialogs
             LogInfoMessage("after InitializeBrowserAsync");
         }
 
-        private async void AudioSelectionDialog_Load(object sender, EventArgs e)
+        private async void VideoSelectionDialog_Load(object sender, EventArgs e)
         {
             try
             {
@@ -82,13 +73,23 @@ namespace rNascar23.Dialogs
                     LogInfoMessage("not ready");
                 }
 
-                var audioConfiguration = await LoadAudioConfiguration(SeriesId);
+                var videoConfiguration = await LoadVideoConfiguration(SeriesId);
 
-                DisplayAudioChannelList(audioConfiguration.audio_config);
+                IList<VideoChannel> channels = new List<VideoChannel>();
+
+                foreach (VideoComponent component in videoConfiguration.data)
+                {
+                    foreach (VideoChannel videoChannel in component.videos)
+                    {
+                        channels.Add(videoChannel);
+                    }
+                }
+
+                DisplayVideoChannelList(channels);
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex, "Exception loading Audio Selection dialog");
+                ExceptionHandler(ex, "Exception loading Video Selection dialog");
             }
             finally
             {
@@ -127,49 +128,45 @@ namespace rNascar23.Dialogs
             }
         }
 
-        private async Task<AudioConfiguration> LoadAudioConfiguration(int seriesId)
+        private async Task<VideoConfiguration> LoadVideoConfiguration(int seriesId)
         {
-            return await _mediaRepository.GetAudioConfigurationAsync(seriesId);
+            return await _mediaRepository.GetVideoConfigurationAsync(seriesId);
         }
 
-        private void DisplayAudioChannelList(IList<AudioChannel> channels)
+        private void DisplayVideoChannelList(IList<VideoChannel> channels)
         {
             cboChannels.DataSource = null;
 
-            cboChannels.DisplayMember = "driver_name";
-            cboChannels.ValueMember = "stream_number";
+            cboChannels.DisplayMember = "title";
+            cboChannels.ValueMember = "stream1";
 
             cboChannels.DataSource = channels.ToList();
 
             cboChannels.SelectedIndex = -1;
         }
 
-        private void PlayAudioFeed(AudioChannel audioChannel)
+        private void PlayVideoFeed(VideoChannel videoChannel)
         {
             try
             {
-                if (audioChannel == null)
+                if (videoChannel == null)
                     return;
 
                 var token = @"<#SOURCE#>";
 
-                var template = Properties.Resources.audioFeedTemplate;
-
-                var html = template.Replace(token, audioChannel.source);
-
-                LogInfoMessage($"audioFeed.Name: {audioChannel.driver_name}; audioFeed.Source: {audioChannel.source}");
+                // https://dw9ptu32blt7h.cloudfront.net/IC01/master.m3u8
+                var template = Properties.Resources.videoFeedTemplate;
+                var html = template.Replace(token, videoChannel.stream1);
 
                 webView.NavigateToString(html);
 
                 System.Threading.Thread.Sleep(1000);
 
-                lblInstructions.Visible = true;
-
                 webView.Visible = true;
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex, $"Exception in PlayAudioFeed: {audioChannel.source}");
+                ExceptionHandler(ex, $"Exception in PlayVideoFeed: {videoChannel.stream1}");
             }
         }
 
@@ -187,11 +184,11 @@ namespace rNascar23.Dialogs
                 if (cboChannels.SelectedItem == null)
                     return;
 
-                SelectedChannel = (AudioChannel)cboChannels.SelectedItem;
+                SelectedChannel = (VideoChannel)cboChannels.SelectedItem;
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex, "Exception selecting audio channel");
+                ExceptionHandler(ex, "Exception selecting video channel");
             }
         }
 
@@ -199,11 +196,15 @@ namespace rNascar23.Dialogs
         {
             try
             {
-                PlayAudioFeed(SelectedChannel);
+                pnlSelection.Visible = false;
+
+                this.Text = $"{SelectedChannel.title} In-Car Video";
+
+                PlayVideoFeed(SelectedChannel);
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex, "Exception playing audio channel");
+                ExceptionHandler(ex, "Exception playing video channel");
             }
         }
 

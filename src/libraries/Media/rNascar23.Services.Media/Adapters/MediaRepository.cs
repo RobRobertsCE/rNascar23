@@ -23,8 +23,10 @@ namespace rNascar23.Service.Media
         #region properties
 
         // https://cf.nascar.com/config/audio/audio_mapping_1_3.json
-        public string Url { get => @"https://cf.nascar.com/config/audio/audio_mapping_{0}_3.json"; }
-        
+        public string AudioUrl { get => @"https://cf.nascar.com/config/audio/audio_mapping_{0}_3.json"; }
+        // https://cf.nascar.com/drive/1/configs-ng.json
+        public string VideoUrl { get => @"https://cf.nascar.com/drive/{0}/configs-ng.json"; }
+
         #endregion
 
         #region ctor
@@ -121,7 +123,7 @@ namespace rNascar23.Service.Media
 
             try
             {
-                var absoluteUrl = BuildUrl(seriesId);
+                var absoluteUrl = BuildAudioUrl(seriesId);
 
                 json = await GetAsync(absoluteUrl).ConfigureAwait(false);
 
@@ -138,6 +140,31 @@ namespace rNascar23.Service.Media
             }
 
             return new AudioConfiguration();
+        }
+
+        public async Task<VideoConfiguration> GetVideoConfigurationAsync(int seriesId)
+        {
+            string json = String.Empty;
+
+            try
+            {
+                var absoluteUrl = BuildVideoUrl(seriesId);
+
+                json = await GetAsync(absoluteUrl).ConfigureAwait(false);
+
+                if (string.IsNullOrEmpty(json))
+                    return new VideoConfiguration();
+
+                var model = JsonConvert.DeserializeObject<VideoConfiguration>(json);
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error reading video configuration: {ex.Message}\r\n\r\njson: {json}\r\n");
+            }
+
+            return new VideoConfiguration();
         }
 
         #endregion
@@ -174,9 +201,14 @@ namespace rNascar23.Service.Media
             return fileBytes;
         }
 
-        private string BuildUrl(int seriesId)
+        private string BuildAudioUrl(int seriesId)
         {
-            return String.Format(Url, seriesId);
+            return String.Format(AudioUrl, seriesId);
+        }
+
+        private string BuildVideoUrl(int seriesId)
+        {
+            return String.Format(VideoUrl, seriesId);
         }
 
         private void ExceptionHandler(Exception ex, string message = "")

@@ -2964,9 +2964,9 @@ namespace rNascar23
 
         #endregion
 
-        #region private [ audio ]
+        #region private [ audio/video ]
 
-        private void audioChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        private void audioChannelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -2980,6 +2980,27 @@ namespace rNascar23
             {
                 ExceptionHandler(ex, "Exception calling audio channel dialog from main form");
             }
+        }
+
+        private void inCarCamerasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dialog = Program.Services.GetRequiredService<VideoPlayer>();
+
+                dialog.SeriesId = _formState.LiveFeed.SeriesId;
+
+                dialog.Show(this);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception calling in-car video dialog from main form");
+            }
+        }
+
+        private void audioChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
         }
 
         #endregion
@@ -3011,8 +3032,6 @@ namespace rNascar23
 
         private void SetFeaturesStatus(Features features)
         {
-            audioChannelToolStripMenuItem.Visible = features.EnableAudioFeatures;
-
             if (features.EnableDeveloperFeatures)
             {
                 toolsToolStripMenuItem1.Visible = false;

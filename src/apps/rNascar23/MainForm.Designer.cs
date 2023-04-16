@@ -81,7 +81,6 @@
             this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.audioChannelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblAutoUpdateStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewState = new System.Windows.Forms.ToolStripStatusLabel();
@@ -114,6 +113,9 @@
             this.btnPitStopsView = new System.Windows.Forms.ToolStripButton();
             this.pnlHost = new System.Windows.Forms.Panel();
             this.timEventReplay = new System.Windows.Forms.Timer(this.components);
+            this.audioVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.audioChannelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inCarCamerasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -226,7 +228,7 @@
             this.toolsToolStripMenuItem,
             this.toolsToolStripMenuItem1,
             this.localDataToolStripMenuItem,
-            this.audioChannelToolStripMenuItem});
+            this.audioVideoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1292, 24);
@@ -246,7 +248,7 @@
             this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -569,13 +571,6 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
-            // audioChannelToolStripMenuItem
-            // 
-            this.audioChannelToolStripMenuItem.Name = "audioChannelToolStripMenuItem";
-            this.audioChannelToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
-            this.audioChannelToolStripMenuItem.Text = "Audio Channel";
-            this.audioChannelToolStripMenuItem.Click += new System.EventHandler(this.audioChannelToolStripMenuItem_Click);
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -749,71 +744,71 @@
             // truckToolStripMenuItem
             // 
             this.truckToolStripMenuItem.Name = "truckToolStripMenuItem";
-            this.truckToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.truckToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.truckToolStripMenuItem.Text = "&Truck";
             this.truckToolStripMenuItem.Click += new System.EventHandler(this.truckToolStripMenuItem_Click);
             // 
             // xfinityToolStripMenuItem
             // 
             this.xfinityToolStripMenuItem.Name = "xfinityToolStripMenuItem";
-            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.xfinityToolStripMenuItem.Text = "&Xfinity";
             this.xfinityToolStripMenuItem.Click += new System.EventHandler(this.xfinityToolStripMenuItem_Click);
             // 
             // cupToolStripMenuItem
             // 
             this.cupToolStripMenuItem.Name = "cupToolStripMenuItem";
-            this.cupToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.cupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cupToolStripMenuItem.Text = "&Cup";
             this.cupToolStripMenuItem.Click += new System.EventHandler(this.cupToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(148, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(177, 6);
             // 
             // allToolStripMenuItem1
             // 
             this.allToolStripMenuItem1.Name = "allToolStripMenuItem1";
-            this.allToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.allToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.allToolStripMenuItem1.Text = "&All";
             this.allToolStripMenuItem1.Click += new System.EventHandler(this.allToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(148, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
             // 
             // thisWeekToolStripMenuItem
             // 
             this.thisWeekToolStripMenuItem.Name = "thisWeekToolStripMenuItem";
-            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.thisWeekToolStripMenuItem.Text = "This &Week";
             this.thisWeekToolStripMenuItem.Click += new System.EventHandler(this.thisWeekToolStripMenuItem_Click);
             // 
             // nextWeekToolStripMenuItem
             // 
             this.nextWeekToolStripMenuItem.Name = "nextWeekToolStripMenuItem";
-            this.nextWeekToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.nextWeekToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.nextWeekToolStripMenuItem.Text = "&Next Week";
             this.nextWeekToolStripMenuItem.Click += new System.EventHandler(this.nextWeekToolStripMenuItem_Click);
             // 
             // todayToolStripMenuItem
             // 
             this.todayToolStripMenuItem.Name = "todayToolStripMenuItem";
-            this.todayToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.todayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.todayToolStripMenuItem.Text = "T&oday";
             this.todayToolStripMenuItem.Click += new System.EventHandler(this.todayToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(148, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
             // 
             // historicalDataToolStripMenuItem
             // 
             this.historicalDataToolStripMenuItem.Name = "historicalDataToolStripMenuItem";
-            this.historicalDataToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.historicalDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.historicalDataToolStripMenuItem.Text = "Historical Data";
             this.historicalDataToolStripMenuItem.Click += new System.EventHandler(this.historicalDataToolStripMenuItem_Click);
             // 
@@ -879,6 +874,29 @@
             // 
             this.timEventReplay.Interval = 1000;
             this.timEventReplay.Tick += new System.EventHandler(this.timEventReplay_Tick);
+            // 
+            // audioVideoToolStripMenuItem
+            // 
+            this.audioVideoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.audioChannelsToolStripMenuItem,
+            this.inCarCamerasToolStripMenuItem});
+            this.audioVideoToolStripMenuItem.Name = "audioVideoToolStripMenuItem";
+            this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.audioVideoToolStripMenuItem.Text = "&Audio/Video";
+            // 
+            // audioChannelsToolStripMenuItem
+            // 
+            this.audioChannelsToolStripMenuItem.Name = "audioChannelsToolStripMenuItem";
+            this.audioChannelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.audioChannelsToolStripMenuItem.Text = "Audio Channels";
+            this.audioChannelsToolStripMenuItem.Click += new System.EventHandler(this.audioChannelsToolStripMenuItem_Click);
+            // 
+            // inCarCamerasToolStripMenuItem
+            // 
+            this.inCarCamerasToolStripMenuItem.Name = "inCarCamerasToolStripMenuItem";
+            this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.inCarCamerasToolStripMenuItem.Text = "In-Car Cameras";
+            this.inCarCamerasToolStripMenuItem.Click += new System.EventHandler(this.inCarCamerasToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -997,7 +1015,6 @@
         private System.Windows.Forms.Timer timEventReplay;
         private System.Windows.Forms.ToolStripStatusLabel lblEventReplayStatus;
         private System.Windows.Forms.ToolStripMenuItem nextWeekToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem audioChannelToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblVersion;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
         private System.Windows.Forms.ToolStripMenuItem historicalDataToolStripMenuItem;
@@ -1005,6 +1022,9 @@
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem xToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem audioVideoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem audioChannelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem inCarCamerasToolStripMenuItem;
     }
 }
 

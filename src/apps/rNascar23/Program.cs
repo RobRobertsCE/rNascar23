@@ -65,7 +65,8 @@ namespace rNascar23
                         .AddTransient<ImportExportDialog>()
                         .AddTransient<UserSettingsDialog>()
                         .AddTransient<ReplaySelectionDialog>()
-                        .AddTransient<AudioSelectionDialog>();
+                        .AddTransient<AudioSelectionDialog>()
+                        .AddTransient<VideoPlayer>();
 
                     /*
                     SERILOG (Set in appsettings.json):
