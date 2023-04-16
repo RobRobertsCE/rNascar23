@@ -88,6 +88,7 @@ namespace rNascar23.Dialogs
             rbLeaderboardBestLapTime.Checked = settings.LeaderboardBestLapDisplayType == SpeedTimeType.Seconds;
             chkUseGraphicalNumbers.Checked = settings.UseGraphicalCarNumbers;
             chkUseDarkTheme.Checked = settings.UseDarkTheme;
+            chkAutoUpdateEnabledOnStartup.Checked = settings.AutoUpdateEnabledOnStart;
 
             DisplayFavoriteDrivers(settings.FavoriteDrivers);
 
@@ -377,6 +378,7 @@ namespace rNascar23.Dialogs
             _userSettings.LeaderboardBestLapDisplayType = rbLeaderboardBestLapTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
             _userSettings.UseGraphicalCarNumbers = chkUseGraphicalNumbers.Checked;
             _userSettings.UseDarkTheme = chkUseDarkTheme.Checked;
+            _userSettings.AutoUpdateEnabledOnStart = chkAutoUpdateEnabledOnStartup.Checked;
 
             _userSettings.FavoriteDrivers = new List<string>();
 

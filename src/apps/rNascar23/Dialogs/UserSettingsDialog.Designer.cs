@@ -93,6 +93,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.chkAutoUpdateEnabledOnStartup = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -642,7 +643,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(835, 502);
+            this.tabPage1.Size = new System.Drawing.Size(811, 502);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Views";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -749,6 +750,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.chkAutoUpdateEnabledOnStartup);
             this.tabPage4.Controls.Add(this.label19);
             this.tabPage4.Controls.Add(this.label18);
             this.tabPage4.Controls.Add(this.label4);
@@ -799,7 +801,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(835, 502);
+            this.tabPage2.Size = new System.Drawing.Size(811, 502);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Favorites";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -817,10 +819,20 @@
             this.tabPage3.Controls.Add(this.btnLogDirectory);
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(835, 502);
+            this.tabPage3.Size = new System.Drawing.Size(811, 502);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Folders";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // chkAutoUpdateEnabledOnStartup
+            // 
+            this.chkAutoUpdateEnabledOnStartup.AutoSize = true;
+            this.chkAutoUpdateEnabledOnStartup.Location = new System.Drawing.Point(14, 325);
+            this.chkAutoUpdateEnabledOnStartup.Name = "chkAutoUpdateEnabledOnStartup";
+            this.chkAutoUpdateEnabledOnStartup.Size = new System.Drawing.Size(244, 24);
+            this.chkAutoUpdateEnabledOnStartup.TabIndex = 23;
+            this.chkAutoUpdateEnabledOnStartup.Text = "Auto-Update enabled on startup";
+            this.chkAutoUpdateEnabledOnStartup.UseVisualStyleBackColor = true;
             // 
             // UserSettingsDialog
             // 
@@ -926,5 +938,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.CheckBox chkAutoUpdateEnabledOnStartup;
     }
 }
