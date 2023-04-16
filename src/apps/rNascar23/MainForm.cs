@@ -177,6 +177,13 @@ namespace rNascar23
                 ReloadScreenDefinitions();
 
                 await DisplayTodaysScheduleAsync(true);
+
+                var settings = UserSettingsService.LoadUserSettings();
+
+                if (settings.AutoUpdateEnabledOnStart)
+                {
+                    await SetAutoUpdateStateAsync(true);
+                }
             }
             catch (Exception ex)
             {
@@ -3000,7 +3007,7 @@ namespace rNascar23
 
         private void audioChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         #endregion
@@ -3391,36 +3398,5 @@ namespace rNascar23
         }
 
         #endregion
-
-        private async void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var repo = Program.Services.GetRequiredService<IKeyMomentsRepository>();
-
-            var list = await repo.GetKeyMomentsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
-
-            foreach (var item in list)
-            {
-                Console.WriteLine($"{item.LapNumber} - {item.Note}");
-            }
-
-        }
-
-        private async void test2ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            await RunTestAsync();
-        }
-
-        private async Task RunTestAsync()
-        {
-            var repo = Program.Services.GetRequiredService<IKeyMomentsRepository>();
-
-            //var list = await repo.GetKeyMomentsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
-            var list = await repo.GetKeyMomentsAsync(3, 5347);
-
-            foreach (var item in list)
-            {
-                Console.WriteLine($"{item.LapNumber} - {item.Note}");
-            }
-        }
     }
 }

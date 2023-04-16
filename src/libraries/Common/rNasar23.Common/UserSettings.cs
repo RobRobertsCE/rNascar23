@@ -16,6 +16,7 @@ namespace rNascar23.Common
         public IList<string> FavoriteDrivers { get; set; } = new List<string>();
         public bool UseGraphicalCarNumbers { get; set; } = false;
         public bool UseDarkTheme { get; set; } = false;
+        public bool AutoUpdateEnabledOnStart { get; set; } = true;
         public IList<int> RaceViewBottomGrids { get; set; } = new List<int>();
         public IList<int> RaceViewRightGrids { get; set; } = new List<int>();
         public IList<int> QualifyingViewBottomGrids { get; set; } = new List<int>();
