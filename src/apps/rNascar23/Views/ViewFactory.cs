@@ -60,7 +60,7 @@ namespace rNascar23.Views
 
         public static GridViewBase GetNLapsGridView(NLapsGridView.ViewTypes viewType, SpeedTimeType displayType)
         {
-            var scale = displayType == SpeedTimeType.MPH ? " (Avg M.P.H.)" : " (Avg Lap Time)";
+            var scale = displayType == SpeedTimeType.MPH ? " (Avg M.P.H.)" : " (Avg Lap)";
 
             string title;
 
