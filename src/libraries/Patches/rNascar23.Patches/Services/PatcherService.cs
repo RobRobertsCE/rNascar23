@@ -204,6 +204,8 @@ namespace rNascar23.Patches.Services
 
             assemblyList = assemblyList.Where(a => !a.FullName.Contains("rNascar23.exe.WebView2"));
 
+            assemblyList = assemblyList.Where(a => a.Extension != ".pdb" && a.Extension != ".xml");
+
             foreach (FileInfo assembly in assemblyList)
             {
                 Version version = null;
