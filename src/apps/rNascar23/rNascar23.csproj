@@ -238,6 +238,12 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Configuration\Features.cs" />
+    <Compile Include="Dialogs\VideoPlayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\VideoPlayer.Designer.cs">
+      <DependentUpon>VideoPlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AudioSelectionDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -447,6 +453,9 @@
       <DependentUpon>GenericGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewFactory.cs" />
+    <EmbeddedResource Include="Dialogs\VideoPlayer.resx">
+      <DependentUpon>VideoPlayer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AudioSelectionDialog.resx">
       <DependentUpon>AudioSelectionDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -697,6 +706,7 @@
     <None Include="Resources\InGarageLightTheme.png" />
     <None Include="Resources\InPitsDarkTheme.png" />
     <None Include="Resources\InPitsLightTheme.png" />
+    <None Include="Resources\videoFeedTemplate.html" />
     <Content Include="rNascar-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

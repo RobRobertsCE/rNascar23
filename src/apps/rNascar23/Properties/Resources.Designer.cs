@@ -63,25 +63,6 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;html&gt;
         ///&lt;head&gt;
-        ///    &lt;link href=&quot;https://vjs.zencdn.net/7.5.4/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;
-        ///
-        ///    &lt;!-- If you&apos;d like to support IE8 (for Video.js versions prior to v7) --&gt;
-        ///    &lt;script src=&quot;https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js&quot;&gt;&lt;/script&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///    &lt;audio id=&quot;live-video_html5_api&quot; class=&quot;video-js&quot; width=&apos;640&apos; height=&apos;264&apos; playsinline=&quot;playsinline&quot; preload=&quot;auto&quot; autoplay=&quot;true&quot; data-setup=&quot;{}&quot; controls=&quot;&quot;&gt;
-        ///        &lt;source src=&quot;&lt;#SOURCE#&gt;&quot; type=&quot;application/x-mpegURL&quot;&gt;
-        ///        &lt; [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string audioFeedTemplate {
-            get {
-                return ResourceManager.GetString("audioFeedTemplate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;html&gt;
-        ///&lt;head&gt;
         ///    &lt;link href=&quot;https://vjs.zencdn.net/7.10.2/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;
         ///    &lt;script src=&quot;//vjs.zencdn.net/7.10.2/video.min.js&quot;&gt;&lt;/script&gt;
         ///&lt;/head&gt;
@@ -91,9 +72,9 @@ namespace rNascar23.Properties {
         ///        &lt;p class=&apos;vjs-no-js&apos;&gt;
         ///            To view this video please enable JavaScript, and consider upgradi [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string audioFeedTemplate2 {
+        internal static string audioFeedTemplate {
             get {
-                return ResourceManager.GetString("audioFeedTemplate2", resourceCulture);
+                return ResourceManager.GetString("audioFeedTemplate", resourceCulture);
             }
         }
         
@@ -364,6 +345,24 @@ namespace rNascar23.Properties {
             get {
                 object obj = ResourceManager.GetObject("USA_Small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;html&gt;
+        ///&lt;head&gt;
+        ///    &lt;link href=&quot;https://vjs.zencdn.net/7.10.2/video-js.css&quot; rel=&quot;stylesheet&quot;&gt;
+        ///    &lt;script src=&quot;//vjs.zencdn.net/7.10.2/video.min.js&quot;&gt;&lt;/script&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///    &lt;video id=&quot;live-video_html5_api&quot; class=&quot;video-js&quot; width=&apos;640&apos; height=&apos;360&apos; playsinline=&quot;playsinline&quot; preload=&quot;auto&quot; autoplay=&quot;&quot; data-setup=&quot;{}&quot; controls=&quot;&quot;&gt;
+        ///        &lt;source src=&quot;&lt;#SOURCE#&gt;&quot; type=&quot;application/x-mpegURL&quot;&gt;
+        ///        &lt;p class=&apos;vjs-no-js&apos;&gt;
+        ///            To view this video please enable JavaScript, and consider upgradi [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string videoFeedTemplate {
+            get {
+                return ResourceManager.GetString("videoFeedTemplate", resourceCulture);
             }
         }
         
