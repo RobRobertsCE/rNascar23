@@ -1,0 +1,388 @@
+﻿{
+  "laps": {
+    "0": [
+      {
+        "FlagState": 8,
+        "Note": "#28, #38 to the rear for Unapproved Adjustments",
+        "NoteID": 46892,
+        "DriverIDs": [ 4388, 4313 ]
+      }
+    ],
+    "1": [
+      {
+        "FlagState": 1,
+        "Note": "#18 leads the field to the green the outside with #20 on the inside, #20 gets a big push from #21 to the lead",
+        "NoteID": 46893,
+        "DriverIDs": [ 4441, 4092, 4092, 4133 ]
+      }
+    ],
+    "2": [
+      {
+        "FlagState": 1,
+        "Note": "#66 makes contact with #53 on the front stretch and sends #53 into the wall bringing out the caution",
+        "NoteID": 46894,
+        "DriverIDs": [ 4259, 4004, 4004 ]
+      }
+    ],
+    "5": [
+      {
+        "FlagState": 2,
+        "Note": "#9 pits from 27th with some damage to the front-end",
+        "NoteID": 46895,
+        "DriverIDs": [ 4085 ]
+      }
+    ],
+    "8": [
+      {
+        "FlagState": 1,
+        "Note": "#20 leads the field to the green from the outside with #21 on the inside, #20 holds the lead with help from #18",
+        "NoteID": 46896,
+        "DriverIDs": [ 4092, 4133, 4092, 4441 ]
+      }
+    ],
+    "10": [
+      {
+        "FlagState": 1,
+        "Note": "#8 went from 7th to 14th by getting stuck in the middle",
+        "NoteID": 46897,
+        "DriverIDs": [ 4123 ]
+      }
+    ],
+    "11": [
+      {
+        "FlagState": 1,
+        "Note": "#21 to the lead",
+        "NoteID": 46898,
+        "DriverIDs": [ 4133 ]
+      }
+    ],
+    "12": [
+      {
+        "FlagState": 1,
+        "Note": "#26, #4, #44 wreck in turn 3 around 27th bringing out the caution",
+        "NoteID": 46899,
+        "DriverIDs": [ 4191, 4142, 3894 ]
+      }
+    ],
+    "15": [
+      {
+        "FlagState": 2,
+        "Note": "#21 is concerned with a power steering issue",
+        "NoteID": 46900,
+        "DriverIDs": [ 4133 ]
+      }
+    ],
+    "19": [
+      {
+        "FlagState": 2,
+        "Note": "#9 pits",
+        "NoteID": 46901,
+        "DriverIDs": [ 4085 ]
+      }
+    ],
+    "25": [
+      {
+        "FlagState": 1,
+        "Note": "#21 leads the field too the green from the outside with #20 on the inside, #21 holds the lead",
+        "NoteID": 46902,
+        "DriverIDs": [ 4133, 4092, 4133 ]
+      }
+    ],
+    "27": [
+      {
+        "FlagState": 1,
+        "Note": "#02 gets into the wall from 15th bringing out the caution in turn 2, #92, #27 get some damage",
+        "NoteID": 46903,
+        "DriverIDs": [ 4187, 4106, 4018 ]
+      }
+    ],
+    "29": [
+      {
+        "FlagState": 2,
+        "Note": "#18 (from 11th), #10, #1, #08, #38, #07 pit",
+        "NoteID": 46904,
+        "DriverIDs": [ 4441, 4172, 4327, 4103, 4313, 4376 ]
+      }
+    ],
+    "32": [
+      {
+        "FlagState": 1,
+        "Note": "#21 leads the field to the green from the outside with #00 on the inside",
+        "NoteID": 46905,
+        "DriverIDs": [ 4133, 4104 ]
+      }
+    ],
+    "33": [
+      {
+        "FlagState": 2,
+        "Note": "#19, #8, #7, #45 pit",
+        "NoteID": 46906,
+        "DriverIDs": [ 3952, 4123, 34, 4409 ]
+      }
+    ],
+    "35": [
+      {
+        "FlagState": 2,
+        "Note": "#92 was parked for debris coming off the car so he parked the car on the start/finish line and walked to the garage",
+        "NoteID": 46907,
+        "DriverIDs": [ 4106 ]
+      }
+    ],
+    "38": [
+      {
+        "FlagState": 1,
+        "Note": "#21 leads the field to the green from the outside with #2 on the inside, #21 holds the lead",
+        "NoteID": 46908,
+        "DriverIDs": [ 4133, 4204, 4133 ]
+      }
+    ],
+    "40": [
+      {
+        "FlagState": 1,
+        "Note": "#2 wins stage 1 while #91, #35 crash off of turn 4",
+        "NoteID": 46909,
+        "DriverIDs": [ 4204, null, 4254 ]
+      }
+    ],
+    "44": [
+      {
+        "FlagState": 2,
+        "Note": "#2, #21, #20, #16, #98, #25, #11, #39, #00, #48, #51, #6, #18, #28, #07, #45 pit with others staying out",
+        "NoteID": 46910,
+        "DriverIDs": [ 4204, 4133, 4092, 4312, 4269, 4038, 4093, 3884, 4104, 3914, 595, 4144, 4441, 4388, 4376, 4409 ]
+      }
+    ],
+    "48": [
+      {
+        "FlagState": 1,
+        "Note": "#10 leads the field to the green from the outside with #78 on the inside, #19 lines up 3rd with #9 in 4th, #10 holds the lead",
+        "NoteID": 46911,
+        "DriverIDs": [ 4172, 4301, 3952, 4085, 4172 ]
+      }
+    ],
+    "50": [
+      {
+        "FlagState": 1,
+        "Note": "#78 gets the lead, #1 has a moment off of turn 4 and falls from 6th to 13th",
+        "NoteID": 46912,
+        "DriverIDs": [ 4301, 4327 ]
+      }
+    ],
+    "56": [
+      {
+        "FlagState": 1,
+        "Note": "#91 loses a tire and brings out the caution",
+        "NoteID": 46913,
+        "DriverIDs": [ null ]
+      }
+    ],
+    "58": [
+      {
+        "FlagState": 2,
+        "Note": "#25, #27, #43, #08, #07 pit, free pass is #35",
+        "NoteID": 46914,
+        "DriverIDs": [ 4038, 4018, 4029, 4103, 4376, 4254 ]
+      }
+    ],
+    "61": [
+      {
+        "FlagState": 1,
+        "Note": "#78 leads the field to the green from the outside with #9 on the inside, #78 is having a radio issue, #78 barely holds the lead",
+        "NoteID": 46915,
+        "DriverIDs": [ 4301, 4085, 4301, 4301 ]
+      }
+    ],
+    "62": [
+      {
+        "FlagState": 1,
+        "Note": "#31 loses a tire from 8th and brings out the caution",
+        "NoteID": 46916,
+        "DriverIDs": [ 4419 ]
+      }
+    ],
+    "64": [
+      {
+        "FlagState": 2,
+        "Note": "#1, #16, #35, #27 pit with others staying out",
+        "NoteID": 46917,
+        "DriverIDs": [ 4327, 4312, 4254, 4018 ]
+      }
+    ],
+    "67": [
+      {
+        "FlagState": 1,
+        "Note": "#78 leads the field to the green from the outside with #9 on the inside, #78 has a bad restart and #9 goes to the lead while #78 falls back to 6th",
+        "NoteID": 46918,
+        "DriverIDs": [ 4301, 4085, 4301, 4085, 4301 ]
+      }
+    ],
+    "69": [
+      {
+        "FlagState": 1,
+        "Note": "#24 in 17th and #11 in 18th wreck off of turn 4 when #24 gets loose",
+        "NoteID": 46919,
+        "DriverIDs": [ 4433, 4093, 4433 ]
+      }
+    ],
+    "72": [
+      {
+        "FlagState": 2,
+        "Note": "#10, #27, #18, #16, #11, 28 pit",
+        "NoteID": 46920,
+        "DriverIDs": [ 4172, 4018, 4441, 4312, 4093 ]
+      }
+    ],
+    "76": [
+      {
+        "FlagState": 1,
+        "Note": "#9 leads the field to the green from the inside with #48 on the outside, #9 holds the lead",
+        "NoteID": 46921,
+        "DriverIDs": [ 4085, 3914, 4085 ]
+      }
+    ],
+    "77": [
+      {
+        "FlagState": 1,
+        "Note": "#48 to the lead",
+        "NoteID": 46922,
+        "DriverIDs": [ 3914 ]
+      }
+    ],
+    "78": [
+      {
+        "FlagState": 1,
+        "Note": "#7 spun from 6th by #8, #51 also gets some damage, bringing out the caution, #48 wins the stage",
+        "NoteID": 46923,
+        "DriverIDs": [ 34, 4123, 595, 3914 ]
+      }
+    ],
+    "82": [
+      {
+        "FlagState": 2,
+        "Note": "#08, #35, #91 stay out with all other lead lap cars pitting, #78 had a member over the wall too soon, #18 removing equipment",
+        "NoteID": 46924,
+        "DriverIDs": [ 4103, 4254, null, 4301, 4441 ]
+      }
+    ],
+    "87": [
+      {
+        "FlagState": 1,
+        "Note": "#98 leads the field to the green from the inside with #25 on the outside, #98 holds the lead",
+        "NoteID": 46925,
+        "DriverIDs": [ 4269, 4038, 4269 ]
+      }
+    ],
+    "93": [
+      {
+        "FlagState": 1,
+        "Note": "#21 gets the lead on the inside in a three wide position",
+        "NoteID": 46926,
+        "DriverIDs": [ 4133 ]
+      }
+    ],
+    "107": [
+      {
+        "FlagState": 1,
+        "Note": "#78 got into the wall from 18th but the race stays green",
+        "NoteID": 46927,
+        "DriverIDs": [ 4301 ]
+      }
+    ],
+    "113": [
+      {
+        "FlagState": 1,
+        "Note": "#2 pits from 10th with a flat right front",
+        "NoteID": 46928,
+        "DriverIDs": [ 4204 ]
+      }
+    ],
+    "117": [
+      {
+        "FlagState": 1,
+        "Note": "#28, #35 spin in turn 2 bringing out the caution",
+        "NoteID": 46929,
+        "DriverIDs": [ 4388, 4254 ]
+      }
+    ],
+    "118": [
+      {
+        "FlagState": 2,
+        "Note": "#2 free pass",
+        "NoteID": 46930,
+        "DriverIDs": [ 4204 ]
+      }
+    ],
+    "120": [
+      {
+        "FlagState": 2,
+        "Note": "#21, #98, #19, #9, #08, #43 stay out with all others pitting",
+        "NoteID": 46931,
+        "DriverIDs": [ 4133, 4269, 3952, 4085, 4103, 4029 ]
+      }
+    ],
+    "121": [
+      {
+        "FlagState": 2,
+        "Note": "#08, #43 pit",
+        "NoteID": 46932,
+        "DriverIDs": [ 4103, 4029 ]
+      }
+    ],
+    "124": [
+      {
+        "FlagState": 1,
+        "Note": "#21 leads from the outside with #9 on the inside, #21 barely holds the lead over #9",
+        "NoteID": 46933,
+        "DriverIDs": [ 4133, 4085, 4133, 4085 ]
+      }
+    ],
+    "128": [
+      {
+        "FlagState": 1,
+        "Note": "#16 has an issue from 7th and comes to pit road and heads to the garage",
+        "NoteID": 46934,
+        "DriverIDs": [ 4312 ]
+      }
+    ],
+    "141": [
+      {
+        "FlagState": 1,
+        "Note": "#48 moves into a battle for the lead after pitting on lap 120 for 4 tires",
+        "NoteID": 46935,
+        "DriverIDs": [ 3914 ]
+      }
+    ],
+    "155": [
+      {
+        "FlagState": 1,
+        "Note": "#31 involved in an accident from 19th in turn 4 bringing out the track record 11th caution",
+        "NoteID": 46936,
+        "DriverIDs": [ 4419 ]
+      }
+    ],
+    "156": [
+      {
+        "FlagState": 2,
+        "Note": "#2 free pass",
+        "NoteID": 46937,
+        "DriverIDs": [ 4204 ]
+      }
+    ],
+    "162": [
+      {
+        "FlagState": 1,
+        "Note": "#21 leads the field to the green from the outside, #48 gave up 2nd to restart on the outside in 3rd, #11 moves to the inside lane",
+        "NoteID": 46938,
+        "DriverIDs": [ 4133, 3914, 4093 ]
+      }
+    ],
+    "163": [
+      {
+        "FlagState": 1,
+        "Note": "#21 and #48 make contact coming to the finish line, #48 spins and #21 wins as the field crashes behind him, #48 crosses the line backwards in 4th, #48, #6, #98, #10 all involved",
+        "NoteID": 46939,
+        "DriverIDs": [ 4133, 3914, 3914, 4133, 3914, 3914, 4144, 4269, 4172 ]
+      }
+    ]
+  }
+}

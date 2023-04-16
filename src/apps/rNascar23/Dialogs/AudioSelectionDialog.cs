@@ -99,19 +99,7 @@ namespace rNascar23.Dialogs
         #endregion
 
         #region private
-        //private async Task InitializeAsync()
-        //{
-        //    try
-        //    {
-        //        LogInfoMessage("InitializeAsync");
-        //        await webView.EnsureCoreWebView2Async(null);
-        //        LogInfoMessage($"WebView2 Runtime version: {webView.CoreWebView2.Environment.BrowserVersionString}");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ExceptionHandler(ex, "Exception in InitializeAsync");
-        //    }
-        //}
+
         private async Task InitializeBrowserAsync(string url = null)
         {
             try

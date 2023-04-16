@@ -308,6 +308,8 @@ namespace rNascar23.Views
                 }
 
                 scheduledEvents.Add(viewModel);
+
+                Console.WriteLine($"Series:{(int)viewModel.Series} Race:{viewModel.RaceId} Event:{viewModel.EventName}");
             }
 
             return scheduledEvents;

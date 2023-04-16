@@ -73,6 +73,10 @@
             this.localDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDumpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replayEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaySpeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.xToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.xToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,10 +114,6 @@
             this.btnPitStopsView = new System.Windows.Forms.ToolStripButton();
             this.pnlHost = new System.Windows.Forms.Panel();
             this.timEventReplay = new System.Windows.Forms.Timer(this.components);
-            this.replaySpeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.xToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.xToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -246,7 +246,7 @@
             this.exitToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("exitToolStripMenuItem.Image")));
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -505,6 +505,40 @@
             this.replayEventToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.replayEventToolStripMenuItem.Text = "Replay event";
             this.replayEventToolStripMenuItem.Click += new System.EventHandler(this.replayEventToolStripMenuItem_Click);
+            // 
+            // replaySpeedToolStripMenuItem
+            // 
+            this.replaySpeedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.xToolStripMenuItem,
+            this.xToolStripMenuItem1,
+            this.xToolStripMenuItem2});
+            this.replaySpeedToolStripMenuItem.Enabled = false;
+            this.replaySpeedToolStripMenuItem.Name = "replaySpeedToolStripMenuItem";
+            this.replaySpeedToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.replaySpeedToolStripMenuItem.Text = "Replay Speed";
+            // 
+            // xToolStripMenuItem
+            // 
+            this.xToolStripMenuItem.Checked = true;
+            this.xToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.xToolStripMenuItem.Name = "xToolStripMenuItem";
+            this.xToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.xToolStripMenuItem.Text = "1x";
+            this.xToolStripMenuItem.Click += new System.EventHandler(this.xToolStripMenuItem_Click);
+            // 
+            // xToolStripMenuItem1
+            // 
+            this.xToolStripMenuItem1.Name = "xToolStripMenuItem1";
+            this.xToolStripMenuItem1.Size = new System.Drawing.Size(92, 22);
+            this.xToolStripMenuItem1.Text = "5x";
+            this.xToolStripMenuItem1.Click += new System.EventHandler(this.xToolStripMenuItem1_Click);
+            // 
+            // xToolStripMenuItem2
+            // 
+            this.xToolStripMenuItem2.Name = "xToolStripMenuItem2";
+            this.xToolStripMenuItem2.Size = new System.Drawing.Size(92, 22);
+            this.xToolStripMenuItem2.Text = "10x";
+            this.xToolStripMenuItem2.Click += new System.EventHandler(this.xToolStripMenuItem2_Click);
             // 
             // toolStripMenuItem5
             // 
@@ -845,40 +879,6 @@
             // 
             this.timEventReplay.Interval = 1000;
             this.timEventReplay.Tick += new System.EventHandler(this.timEventReplay_Tick);
-            // 
-            // replaySpeedToolStripMenuItem
-            // 
-            this.replaySpeedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.xToolStripMenuItem,
-            this.xToolStripMenuItem1,
-            this.xToolStripMenuItem2});
-            this.replaySpeedToolStripMenuItem.Enabled = false;
-            this.replaySpeedToolStripMenuItem.Name = "replaySpeedToolStripMenuItem";
-            this.replaySpeedToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.replaySpeedToolStripMenuItem.Text = "Replay Speed";
-            // 
-            // xToolStripMenuItem
-            // 
-            this.xToolStripMenuItem.Checked = true;
-            this.xToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.xToolStripMenuItem.Name = "xToolStripMenuItem";
-            this.xToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.xToolStripMenuItem.Text = "1x";
-            this.xToolStripMenuItem.Click += new System.EventHandler(this.xToolStripMenuItem_Click);
-            // 
-            // xToolStripMenuItem1
-            // 
-            this.xToolStripMenuItem1.Name = "xToolStripMenuItem1";
-            this.xToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.xToolStripMenuItem1.Text = "5x";
-            this.xToolStripMenuItem1.Click += new System.EventHandler(this.xToolStripMenuItem1_Click);
-            // 
-            // xToolStripMenuItem2
-            // 
-            this.xToolStripMenuItem2.Name = "xToolStripMenuItem2";
-            this.xToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
-            this.xToolStripMenuItem2.Text = "10x";
-            this.xToolStripMenuItem2.Click += new System.EventHandler(this.xToolStripMenuItem2_Click);
             // 
             // MainForm
             // 

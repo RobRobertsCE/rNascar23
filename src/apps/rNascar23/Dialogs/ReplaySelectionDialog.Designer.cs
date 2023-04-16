@@ -42,7 +42,6 @@
             this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.splBottom = new System.Windows.Forms.Splitter();
@@ -69,7 +68,7 @@
             this.panel1.Location = new System.Drawing.Point(0, 499);
             this.panel1.Margin = new System.Windows.Forms.Padding(9, 10, 9, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(900, 60);
+            this.panel1.Size = new System.Drawing.Size(1025, 60);
             this.panel1.TabIndex = 2;
             // 
             // btnSelect
@@ -93,7 +92,7 @@
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(786, 13);
+            this.button1.Location = new System.Drawing.Point(911, 13);
             this.button1.Margin = new System.Windows.Forms.Padding(10, 13, 10, 13);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(95, 39);
@@ -108,7 +107,7 @@
             this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(3270, 18);
+            this.button2.Location = new System.Drawing.Point(3395, 18);
             this.button2.Margin = new System.Windows.Forms.Padding(10, 13, 10, 13);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(382, 103);
@@ -137,7 +136,7 @@
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
             this.btnClose.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClose.Location = new System.Drawing.Point(1891, 31);
+            this.btnClose.Location = new System.Drawing.Point(2016, 31);
             this.btnClose.Margin = new System.Windows.Forms.Padding(10, 13, 10, 13);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(382, 103);
@@ -154,18 +153,17 @@
             this.pnlEvents.Location = new System.Drawing.Point(0, 0);
             this.pnlEvents.Name = "pnlEvents";
             this.pnlEvents.Padding = new System.Windows.Forms.Padding(8);
-            this.pnlEvents.Size = new System.Drawing.Size(900, 309);
+            this.pnlEvents.Size = new System.Drawing.Size(1025, 309);
             this.pnlEvents.TabIndex = 3;
             // 
             // lvEvents
             // 
             this.lvEvents.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6,
             this.columnHeader7,
             this.columnHeader8,
-            this.columnHeader9,
+            this.columnHeader6,
+            this.columnHeader5,
             this.columnHeader10});
             this.lvEvents.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvEvents.FullRowSelect = true;
@@ -173,7 +171,7 @@
             this.lvEvents.HideSelection = false;
             this.lvEvents.Location = new System.Drawing.Point(8, 34);
             this.lvEvents.Name = "lvEvents";
-            this.lvEvents.Size = new System.Drawing.Size(884, 267);
+            this.lvEvents.Size = new System.Drawing.Size(1009, 267);
             this.lvEvents.TabIndex = 0;
             this.lvEvents.UseCompatibleStateImageBehavior = false;
             this.lvEvents.View = System.Windows.Forms.View.Details;
@@ -188,7 +186,7 @@
             // columnHeader5
             // 
             this.columnHeader5.Text = "Name";
-            this.columnHeader5.Width = 250;
+            this.columnHeader5.Width = 400;
             // 
             // columnHeader6
             // 
@@ -203,10 +201,7 @@
             // columnHeader8
             // 
             this.columnHeader8.Text = "Type";
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "Run Id";
+            this.columnHeader8.Width = 95;
             // 
             // columnHeader10
             // 
@@ -221,7 +216,7 @@
             this.label1.ForeColor = System.Drawing.Color.LightGray;
             this.label1.Location = new System.Drawing.Point(8, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(884, 26);
+            this.label1.Size = new System.Drawing.Size(1009, 26);
             this.label1.TabIndex = 1;
             this.label1.Text = "Events";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -231,7 +226,7 @@
             this.splBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.splBottom.Location = new System.Drawing.Point(0, 309);
             this.splBottom.Name = "splBottom";
-            this.splBottom.Size = new System.Drawing.Size(900, 3);
+            this.splBottom.Size = new System.Drawing.Size(1025, 3);
             this.splBottom.TabIndex = 4;
             this.splBottom.TabStop = false;
             // 
@@ -243,7 +238,7 @@
             this.pnlFrames.Location = new System.Drawing.Point(0, 312);
             this.pnlFrames.Name = "pnlFrames";
             this.pnlFrames.Padding = new System.Windows.Forms.Padding(8);
-            this.pnlFrames.Size = new System.Drawing.Size(900, 187);
+            this.pnlFrames.Size = new System.Drawing.Size(1025, 187);
             this.pnlFrames.TabIndex = 5;
             // 
             // lvFrames
@@ -258,7 +253,7 @@
             this.lvFrames.HideSelection = false;
             this.lvFrames.Location = new System.Drawing.Point(8, 34);
             this.lvFrames.Name = "lvFrames";
-            this.lvFrames.Size = new System.Drawing.Size(884, 145);
+            this.lvFrames.Size = new System.Drawing.Size(1009, 145);
             this.lvFrames.TabIndex = 0;
             this.lvFrames.UseCompatibleStateImageBehavior = false;
             this.lvFrames.View = System.Windows.Forms.View.Details;
@@ -285,7 +280,7 @@
             this.label2.ForeColor = System.Drawing.Color.LightGray;
             this.label2.Location = new System.Drawing.Point(8, 8);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(884, 26);
+            this.label2.Size = new System.Drawing.Size(1009, 26);
             this.label2.TabIndex = 2;
             this.label2.Text = "Frames";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -294,7 +289,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 559);
+            this.ClientSize = new System.Drawing.Size(1025, 559);
             this.Controls.Add(this.pnlEvents);
             this.Controls.Add(this.splBottom);
             this.Controls.Add(this.pnlFrames);
@@ -335,7 +330,6 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
-        private System.Windows.Forms.ColumnHeader columnHeader9;
         private System.Windows.Forms.ColumnHeader columnHeader10;
     }
 }

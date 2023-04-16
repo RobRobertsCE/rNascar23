@@ -154,8 +154,17 @@
   <data name="IMS_radio_small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IMS-radio-small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="InGarage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Retired.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="InGarageDarkTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InGarageDarkTheme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InGarageLightTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InGarageLightTheme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InPitsDarkTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InPitsDarkTheme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InPitsLightTheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InPitsLightTheme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LeftTires" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LeftTires.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -186,9 +195,6 @@
   </data>
   <data name="Sirius_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Sirius_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Tire" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Tire.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Toyota_Small" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Toyota_Small.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

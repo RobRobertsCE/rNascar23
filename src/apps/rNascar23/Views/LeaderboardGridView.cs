@@ -253,17 +253,17 @@ namespace rNascar23.Views
 
                 if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Chv")
                 {
-                    row.Cells["CarManufacturer"].ToolTipText = "Chevrolet";
+                    row.Cells["CarManufacturerImage"].ToolTipText = "Chevrolet";
                     ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Chevrolet_Small;
                 }
                 else if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Frd")
                 {
-                    row.Cells["CarManufacturer"].ToolTipText = "Ford";
+                    row.Cells["CarManufacturerImage"].ToolTipText = "Ford";
                     ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Ford_Small;
                 }
                 else if (row.Cells["CarManufacturer"]?.Value?.ToString() == "Tyt")
                 {
-                    row.Cells["CarManufacturer"].ToolTipText = "Toyota";
+                    row.Cells["CarManufacturerImage"].ToolTipText = "Toyota";
                     ((DataGridViewImageCell)row.Cells["CarManufacturerImage"]).Value = Properties.Resources.Toyota_Small;
                 }
                 else
@@ -276,13 +276,16 @@ namespace rNascar23.Views
                     if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.InPits)
                     {
                         if (_userSettings.UseDarkTheme)
+                        {
+                            ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.InPitsDarkTheme;
                             row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                        }
                         else
+                        {
+                            ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.InPitsLightTheme;
                             row.DefaultCellStyle.ForeColor = Color.Silver;
-
+                        }
                         row.Cells["VehicleStatusImage"].ToolTipText = $"{row.Cells["VehicleStatusImage"].ToolTipText}In Pits";
-                        row.Cells["VehicleStatusImage"].Style.BackColor = Color.Silver;
-                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Tire;
                     }
                     else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Retired)
                     {
@@ -297,13 +300,16 @@ namespace rNascar23.Views
                     else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Garage)
                     {
                         if (_userSettings.UseDarkTheme)
+                        {
                             row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
+                            ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.InGarageDarkTheme;
+                        }
                         else
+                        {
                             row.DefaultCellStyle.ForeColor = Color.Silver;
-
+                            ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.InGarageLightTheme;
+                        }
                         row.Cells["VehicleStatusImage"].ToolTipText = $"{row.Cells["VehicleStatusImage"].ToolTipText}In Garage";
-                        row.Cells["VehicleStatusImage"].Style.BackColor = Color.Silver;
-                        ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.InGarage;
                     }
                     else
                     {
