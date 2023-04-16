@@ -22,6 +22,7 @@ namespace rNascar23
         public IList<DriverPoints> LivePoints { get; set; }
         public IList<StagePoints2> StagePoints { get; set; }
         public IList<PitStop> PitStops { get; set; }
+        public IList<KeyMoment> KeyMoments { get; set; }
 
         public SeriesEvent CurrentSeriesRace { get; set; }
     }

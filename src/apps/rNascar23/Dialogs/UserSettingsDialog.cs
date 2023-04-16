@@ -264,6 +264,13 @@ namespace rNascar23.Dialogs
                 Description = "Displays the drivers who have the fastest 15 lap average for the session or race"
             });
 
+            views.Add(new ViewDetails()
+            {
+                ViewType = GridViewTypes.KeyMoments,
+                Name = "Key Moments",
+                Description = "Displays notes about key moments that happen during the session or race"
+            });
+
             return views.ToList();
         }
 
@@ -407,6 +414,20 @@ namespace rNascar23.Dialogs
             return selectedViews;
         }
 
+        private void chkViewDetails_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var ckhListBox = sender as CheckedListBox;
+
+            if (ckhListBox == null || ckhListBox.SelectedItem == null)
+                lblHelp.Text = "";
+            else
+            {
+                var viewDetail = ckhListBox.SelectedItem as ViewDetails;
+
+                lblHelp.Text = viewDetail.Description;
+            }
+        }
+
         #endregion
 
         #region private [ exception handlers ]
@@ -444,19 +465,5 @@ namespace rNascar23.Dialogs
         }
 
         #endregion
-
-        private void chkViewDetails_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var ckhListBox = sender as CheckedListBox;
-
-            if (ckhListBox == null || ckhListBox.SelectedItem == null)
-                lblHelp.Text = "";
-            else
-            {
-                var viewDetail = ckhListBox.SelectedItem as ViewDetails;
-
-                lblHelp.Text = viewDetail.Description;
-            }
-        }
     }
 }

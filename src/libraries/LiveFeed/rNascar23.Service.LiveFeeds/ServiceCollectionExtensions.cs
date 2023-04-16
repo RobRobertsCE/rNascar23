@@ -10,6 +10,7 @@ namespace rNascar23.Service.LiveFeeds
         public static IServiceCollection AddLiveFeed(this IServiceCollection services)
         {
             services
+                .AddTransient<IKeyMomentsRepository, KeyMomentsRepository>()
                 .AddTransient<IWeekendFeedRepository, WeekendFeedRepository>()
                 .AddTransient<ILiveFeedRepository, LiveFeedRepository>();
 

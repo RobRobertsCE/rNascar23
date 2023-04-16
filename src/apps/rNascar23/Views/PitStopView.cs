@@ -238,7 +238,7 @@ namespace rNascar23.Views
                         Where(f => f.LapNumber < endOfLastCaution.LapNumber).
                         FirstOrDefault(f => f.State == 2);
 
-                    _startLap = beginningOfLastCaution.LapNumber;
+                    _startLap = beginningOfLastCaution == null ? 0 : beginningOfLastCaution.LapNumber;
 
                     _endLap = endOfLastCaution.LapNumber;
                 }
@@ -632,18 +632,30 @@ namespace rNascar23.Views
 
             foreach (var driverPitStops in pitStops.GroupBy(p => p.vehicle_number))
             {
-                averages.Add(new PitStopAverages()
+                if (driverPitStops != null && driverPitStops.Count() > 0)
                 {
-                    CarNumber = int.Parse(driverPitStops.Key),
-                    Driver = driverPitStops.First().driver_name,
-                    TotalGainLoss = driverPitStops.Sum(p => p.positions_gained_lost),
-                    AveragePitTime = driverPitStops.Average(p => p.pit_stop_duration),
-                    AverageGreenPitTime = driverPitStops.Where(p => p.pit_in_flag_status == 1).Average(p => p.pit_stop_duration),
-                    AverageTotalTime = driverPitStops.Average(p => p.total_duration),
-                    AverageGreenTotalTime = driverPitStops.Where(p => p.pit_in_flag_status == 1).Average(p => p.total_duration),
-                    AverageInOutTime = driverPitStops.Average(p => (p.in_travel_duration + p.out_travel_duration)),
-                    AverageGreenInOutTime = driverPitStops.Where(p => p.pit_in_flag_status == 1).Average(p => (p.in_travel_duration + p.out_travel_duration)),
-                });
+                    var driverPitStopSet = new PitStopAverages()
+                    {
+                        CarNumber = int.Parse(driverPitStops.Key)
+                    };
+
+                    driverPitStopSet.Driver = driverPitStops.First().driver_name;
+                    driverPitStopSet.TotalGainLoss = driverPitStops.Sum(p => p.positions_gained_lost);
+                    driverPitStopSet.AveragePitTime = driverPitStops.Average(p => p.pit_stop_duration);
+                    driverPitStopSet.AverageInOutTime = driverPitStops.Average(p => (p.in_travel_duration + p.out_travel_duration));
+                    driverPitStopSet.AverageTotalTime = driverPitStops.Average(p => p.total_duration);
+
+                    var greenFlagStops = driverPitStops.Where(p => p.pit_in_flag_status == 1);
+
+                    if (greenFlagStops != null && greenFlagStops.Count() > 0)
+                    {
+                        driverPitStopSet.AverageGreenPitTime = greenFlagStops.Average(p => p.pit_stop_duration);
+                        driverPitStopSet.AverageGreenTotalTime = greenFlagStops.Average(p => p.total_duration);
+                        driverPitStopSet.AverageGreenInOutTime = greenFlagStops.Average(p => p.in_travel_duration + p.out_travel_duration);
+                    }
+
+                    averages.Add(driverPitStopSet);
+                }
             }
 
             return averages;
@@ -696,7 +708,7 @@ namespace rNascar23.Views
 
                 int i = 1;
 
-                foreach (var item in averages.OrderBy(a => a.AveragePitTime))
+                foreach (var item in averages.Where(a => a.AveragePitTime > 0).OrderBy(a => a.AveragePitTime))
                 {
                     var lvi = new ListViewItem(i.ToString());
 
@@ -733,7 +745,7 @@ namespace rNascar23.Views
 
                 int i = 1;
 
-                foreach (var item in averages.OrderBy(a => a.AverageTotalTime))
+                foreach (var item in averages.Where(a => a.AverageTotalTime > 0).OrderBy(a => a.AverageTotalTime))
                 {
                     var lvi = new ListViewItem(i.ToString());
 
@@ -770,7 +782,7 @@ namespace rNascar23.Views
 
                 int i = 1;
 
-                foreach (var item in averages.OrderBy(a => a.AverageInOutTime))
+                foreach (var item in averages.Where(a => a.AverageInOutTime > 0).OrderBy(a => a.AverageInOutTime))
                 {
                     var lvi = new ListViewItem(i.ToString());
 
@@ -807,7 +819,7 @@ namespace rNascar23.Views
 
                 int i = 1;
 
-                foreach (var item in averages.OrderBy(a => a.AverageGreenPitTime))
+                foreach (var item in averages.Where(a => a.AverageGreenPitTime > 0).OrderBy(a => a.AverageGreenPitTime))
                 {
                     var lvi = new ListViewItem(i.ToString());
 
@@ -844,7 +856,7 @@ namespace rNascar23.Views
 
                 int i = 1;
 
-                foreach (var item in averages.OrderBy(a => a.AverageGreenTotalTime))
+                foreach (var item in averages.Where(a => a.AverageGreenTotalTime > 0).OrderBy(a => a.AverageGreenTotalTime))
                 {
                     var lvi = new ListViewItem(i.ToString());
 
@@ -881,7 +893,7 @@ namespace rNascar23.Views
 
                 int i = 1;
 
-                foreach (var item in averages.OrderBy(a => a.AverageGreenInOutTime))
+                foreach (var item in averages.Where(a => a.AverageGreenInOutTime > 0).OrderBy(a => a.AverageGreenInOutTime))
                 {
                     var lvi = new ListViewItem(i.ToString());
 

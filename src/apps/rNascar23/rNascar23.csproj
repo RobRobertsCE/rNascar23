@@ -323,6 +323,12 @@
     <Compile Include="ViewModels\AudioChannelModel.cs" />
     <Compile Include="ViewModels\DriverPitStopViewModel.cs" />
     <Compile Include="ViewModels\DriverPointsViewModel.cs" />
+    <Compile Include="Views\KeyMomentsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\KeyMomentsView.Designer.cs">
+      <DependentUpon>KeyMomentsView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\FlagsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -478,6 +484,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\KeyMomentsView.resx">
+      <DependentUpon>KeyMomentsView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\FlagsView.resx">
       <DependentUpon>FlagsView.cs</DependentUpon>
     </EmbeddedResource>
@@ -684,6 +693,10 @@
     <None Include="Resources\CNBC-logo-small.png" />
     <None Include="Resources\IMS-radio-small.png" />
     <None Include="Resources\NBCSN-logo.png" />
+    <None Include="Resources\InGarageDarkTheme.png" />
+    <None Include="Resources\InGarageLightTheme.png" />
+    <None Include="Resources\InPitsDarkTheme.png" />
+    <None Include="Resources\InPitsLightTheme.png" />
     <Content Include="rNascar-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

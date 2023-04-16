@@ -1,6 +1,5 @@
 ﻿using rNascar23.Common;
 using rNascar23.CustomViews;
-using rNascar23.Properties;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -125,6 +124,13 @@ namespace rNascar23.Views
             return view;
         }
 
+        public static GridViewBase GetKeyMomentsGridView()
+        {
+            var view = GetView(GridViewTypes.KeyMoments, "Key Moments");
+
+            return view;
+        }
+
         #endregion
 
         #region private
@@ -157,6 +163,8 @@ namespace rNascar23.Views
 
             if (viewType == GridViewTypes.Flags)
                 view = new FlagsView();
+            else if (viewType == GridViewTypes.KeyMoments)
+                view = new KeyMomentsView();
             else
                 view = new GenericGridView();
 
@@ -342,6 +350,70 @@ namespace rNascar23.Views
                             }
                         },
                         SortOrderField = "LapNumber",
+                        SortOrder = (int)GridViewBase.GridSortOrder.Ascending
+                    };
+                    break;
+
+                case GridViewTypes.KeyMoments:
+
+                    view.Settings = new GridSettings()
+                    {
+                        MaxRows = null,
+                        ViewWidth = 475,
+                        GridWidth = 450,
+                        TitleBackColor = Color.Magenta,
+                        TitleForeColor = Color.Black,
+                        Title = "Key Moments",
+                        HideColumnHeaders = false,
+                        HideRowSelector = true,
+                        Columns = new List<GridColumnSettings>()
+                        {
+                            new GridColumnSettings()
+                            {
+                                Index= 0,
+                                DataProperty = "NoteId",
+                                DisplayIndex= 0,
+                                HeaderTitle ="NoteId",
+                                Visible =false,
+                                Width = 0
+                            },
+                            new GridColumnSettings()
+                            {
+                                Index= 1,
+                                DataProperty = "LapNumber",
+                                DisplayIndex= 1,
+                                HeaderTitle ="Lap",
+                                Visible =true,
+                                Width = 45
+                            },
+                            new GridColumnSettings()
+                            {
+                                Index= 2,
+                                DataProperty = "FlagState",
+                                DisplayIndex= 2,
+                                HeaderTitle ="State",
+                                Visible =false,
+                                Width = 0
+                            },
+                            new GridColumnSettings()
+                            {
+                                Index= 3,
+                                DisplayIndex= 3,
+                                HeaderTitle ="Flag",
+                                Visible =true,
+                                Width = 40,
+                            },
+                            new GridColumnSettings()
+                            {
+                                Index= 4,
+                                DataProperty = "Note",
+                                DisplayIndex= 4,
+                                HeaderTitle ="Note",
+                                Visible =true,
+                                Width = 500,
+                            }
+                        },
+                        SortOrderField = "NoteId",
                         SortOrder = (int)GridViewBase.GridSortOrder.Ascending
                     };
                     break;

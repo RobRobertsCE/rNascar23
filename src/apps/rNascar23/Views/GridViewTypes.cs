@@ -14,6 +14,7 @@
         Last15Laps,
         Movers,
         Fallers,
-        Flags
+        Flags,
+        KeyMoments,
     }
 }

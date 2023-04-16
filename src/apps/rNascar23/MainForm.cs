@@ -12,6 +12,7 @@ using rNascar23.Flags.Models;
 using rNascar23.LapTimes.Models;
 using rNascar23.LapTimes.Ports;
 using rNascar23.LiveFeeds.Models;
+using rNascar23.LiveFeeds.Ports;
 using rNascar23.Logic;
 using rNascar23.LoopData.Ports;
 using rNascar23.PitStops.Ports;
@@ -117,6 +118,7 @@ namespace rNascar23
         private readonly IStyleService _styleService = null;
         private readonly IOptions<Features> _features = null;
         private readonly IMoversFallersService _moversFallersService = null;
+        private readonly IKeyMomentsRepository _keyMomentsRepository = null;
 
         #endregion
 
@@ -137,6 +139,7 @@ namespace rNascar23
             ICustomGridViewFactory customGridViewFactory,
             IStyleService styleService,
             IMoversFallersService moversFallersService,
+            IKeyMomentsRepository keyMomentsRepository,
             IOptions<Features> features)
         {
             InitializeComponent();
@@ -150,6 +153,7 @@ namespace rNascar23
             _raceScheduleRepository = raceScheduleRepository ?? throw new ArgumentNullException(nameof(raceScheduleRepository));
             _pointsRepository = pointsRepository ?? throw new ArgumentNullException(nameof(pointsRepository));
             _pitStopsRepository = pitStopsRepository ?? throw new ArgumentNullException(nameof(pitStopsRepository));
+            _keyMomentsRepository = keyMomentsRepository ?? throw new ArgumentNullException(nameof(keyMomentsRepository));
             _screenService = screenService ?? throw new ArgumentNullException(nameof(screenService));
             _customViewSettingsService = customViewSettingsService ?? throw new ArgumentNullException(nameof(customViewSettingsService));
             _customGridViewFactory = customGridViewFactory ?? throw new ArgumentNullException(nameof(customGridViewFactory));
@@ -776,6 +780,8 @@ namespace rNascar23
 
             _formState.PitStops = await _pitStopsRepository.GetPitStopsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
+            _formState.KeyMoments = await _keyMomentsRepository.GetKeyMomentsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+
             return true;
         }
 
@@ -994,6 +1000,9 @@ namespace rNascar23
                         break;
                     case GridViewTypes.Flags:
                         AddGridToPanel(panel, ViewFactory.GetFlagsGridView(), dockStyle);
+                        break;
+                    case GridViewTypes.KeyMoments:
+                        AddGridToPanel(panel, ViewFactory.GetKeyMomentsGridView(), dockStyle);
                         break;
                     default:
                         break;
@@ -1325,6 +1334,11 @@ namespace rNascar23
             {
                 uc.SetDataSource<FlagState>(_formState.FlagStates.ToList());
             }
+
+            foreach (GridViewBase uc in panel.Controls.OfType<KeyMomentsView>())
+            {
+                uc.SetDataSource<KeyMoment>(_formState.KeyMoments);
+            }
         }
 
         private IList<GenericGridViewModel> BuildLapLeadersData(IList<Vehicle> vehicles)
@@ -1594,7 +1608,7 @@ namespace rNascar23
             {
                 case GridViewTypes.Best5Laps:
                     return data.
-                        OrderBy(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1)).
+                        OrderByDescending(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1)).
                         Where(d => d.Best5LapAverageSpeed().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new GenericGridViewModel()
@@ -1606,7 +1620,7 @@ namespace rNascar23
 
                 case GridViewTypes.Best10Laps:
                     return data.
-                        OrderBy(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1)).
+                        OrderByDescending(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1)).
                         Where(d => d.Best10LapAverageSpeed().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new GenericGridViewModel()
@@ -1618,7 +1632,7 @@ namespace rNascar23
 
                 case GridViewTypes.Best15Laps:
                     return data.
-                        OrderBy(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1)).
+                        OrderByDescending(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1)).
                         Where(d => d.Best15LapAverageSpeed().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new GenericGridViewModel()
@@ -1630,7 +1644,7 @@ namespace rNascar23
 
                 case GridViewTypes.Last5Laps:
                     return data.
-                        OrderBy(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1)).
+                        OrderByDescending(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1)).
                         Where(d => d.AverageSpeedLast5Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new GenericGridViewModel()
@@ -1642,7 +1656,7 @@ namespace rNascar23
 
                 case GridViewTypes.Last10Laps:
                     return data.
-                        OrderBy(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1)).
+                        OrderByDescending(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1)).
                         Where(d => d.AverageSpeedLast10Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new GenericGridViewModel()
@@ -1654,7 +1668,7 @@ namespace rNascar23
 
                 case GridViewTypes.Last15Laps:
                     return data.
-                        OrderBy(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1)).
+                        OrderByDescending(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1)).
                         Where(d => d.AverageSpeedLast15Laps().GetValueOrDefault(-1) != -1).
                         Take(10).
                         Select(d => new GenericGridViewModel()
@@ -3358,5 +3372,36 @@ namespace rNascar23
         }
 
         #endregion
+
+        private async void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var repo = Program.Services.GetRequiredService<IKeyMomentsRepository>();
+
+            var list = await repo.GetKeyMomentsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+
+            foreach (var item in list)
+            {
+                Console.WriteLine($"{item.LapNumber} - {item.Note}");
+            }
+
+        }
+
+        private async void test2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            await RunTestAsync();
+        }
+
+        private async Task RunTestAsync()
+        {
+            var repo = Program.Services.GetRequiredService<IKeyMomentsRepository>();
+
+            //var list = await repo.GetKeyMomentsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+            var list = await repo.GetKeyMomentsAsync(3, 5347);
+
+            foreach (var item in list)
+            {
+                Console.WriteLine($"{item.LapNumber} - {item.Note}");
+            }
+        }
     }
 }

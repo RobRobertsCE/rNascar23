@@ -36,6 +36,8 @@ namespace rNascar23.Dialogs
             }
         }
 
+        public IList<int> SelectedFrames { get; set; } = new List<int>();
+
         public string ReplayDirectory { get; set; }
 
         #endregion
@@ -105,6 +107,18 @@ namespace rNascar23.Dialogs
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
+            if (lvFrames.SelectedIndices.Count > 1)
+            {
+                IList<EventReplayFrame> selectedFrames = new List<EventReplayFrame>();
+
+                for (int i = 0; i < lvFrames.SelectedIndices.Count; i++)
+                {
+                    selectedFrames.Add(SelectedReplay.Frames[lvFrames.SelectedIndices[i]]);
+                }
+
+                SelectedReplay.Frames = selectedFrames;
+            }
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -133,11 +147,10 @@ namespace rNascar23.Dialogs
                 foreach (var replay in replays.OrderBy(r => r.EventDate))
                 {
                     var lvi = new ListViewItem(replay.EventDate.ToString("M-d-yyyy"));
-                    lvi.SubItems.Add(replay.EventName);
-                    lvi.SubItems.Add(replay.TrackName);
                     lvi.SubItems.Add(replay.Series);
                     lvi.SubItems.Add(replay.EventType);
-                    lvi.SubItems.Add(replay.RunId.ToString());
+                    lvi.SubItems.Add(replay.TrackName);
+                    lvi.SubItems.Add(replay.EventName);
                     lvi.SubItems.Add(replay.Frames.Count.ToString());
 
                     lvi.Tag = replay;
