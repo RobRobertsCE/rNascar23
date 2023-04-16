@@ -202,6 +202,8 @@ namespace rNascar23.Patches.Services
             if (!includePatcher)
                 assemblyList = assemblyList.Where(a => !a.DirectoryName.EndsWith("Launcher"));
 
+            assemblyList = assemblyList.Where(a => !a.FullName.Contains("rNascar23.exe.WebView2"));
+
             foreach (FileInfo assembly in assemblyList)
             {
                 Version version = null;
