@@ -89,6 +89,11 @@ namespace rNascar23.Dialogs
             chkUseGraphicalNumbers.Checked = settings.UseGraphicalCarNumbers;
             chkUseDarkTheme.Checked = settings.UseDarkTheme;
             chkAutoUpdateEnabledOnStartup.Checked = settings.AutoUpdateEnabledOnStart;
+            chkDelayDataUpdates.Checked = settings.DataDelayInSeconds.HasValue;
+            if (settings.DataDelayInSeconds.HasValue)
+            {
+                txtDataDelay.Text = settings.DataDelayInSeconds.Value.ToString();
+            }
 
             DisplayFavoriteDrivers(settings.FavoriteDrivers);
 
@@ -352,7 +357,8 @@ namespace rNascar23.Dialogs
         {
             try
             {
-                UpdateUserSettings();
+                if (!UpdateUserSettings())
+                    return;
 
                 UserSettingsService.SaveUserSettings(_userSettings);
 
@@ -365,8 +371,33 @@ namespace rNascar23.Dialogs
             }
         }
 
-        private void UpdateUserSettings()
+        private bool UpdateUserSettings()
         {
+            if (chkDelayDataUpdates.Checked)
+            {
+                if (String.IsNullOrEmpty(txtDataDelay.Text))
+                    _userSettings.DataDelayInSeconds = null;
+                else if (int.TryParse(txtDataDelay.Text, out int dataDelay))
+                {
+                    if (dataDelay < 0)
+                    {
+                        MessageBox.Show("Data delay value must be greater than zero");
+                        return false;
+                    }
+                    else if (dataDelay == 0)
+                        _userSettings.DataDelayInSeconds = null;
+                    else
+                        _userSettings.DataDelayInSeconds = dataDelay;
+                }
+                else
+                {
+                    MessageBox.Show("Data delay value must be numeric");
+                    return false;
+                }
+            }
+            else
+                _userSettings.DataDelayInSeconds = null;
+
             _userSettings.BackupDirectory = txtBackupDirectory.Text;
             _userSettings.DataDirectory = txtDataDirectory.Text;
             _userSettings.LogDirectory = txtLogDirectory.Text;
@@ -390,6 +421,8 @@ namespace rNascar23.Dialogs
             }
 
             UpdateUserSelectedViews();
+
+            return true;
         }
 
         private void UpdateUserSelectedViews()
@@ -428,6 +461,12 @@ namespace rNascar23.Dialogs
 
                 lblHelp.Text = viewDetail.Description;
             }
+        }
+
+        private void chkDelayDataUpdates_CheckStateChanged(object sender, EventArgs e)
+        {
+            txtDataDelay.Enabled = chkDelayDataUpdates.Checked;
+            lblDataDelay.Enabled = chkDelayDataUpdates.Checked;
         }
 
         #endregion

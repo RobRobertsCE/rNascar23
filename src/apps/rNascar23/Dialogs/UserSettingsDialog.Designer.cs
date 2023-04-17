@@ -89,11 +89,14 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblHelp = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkAutoUpdateEnabledOnStartup = new System.Windows.Forms.CheckBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.chkAutoUpdateEnabledOnStartup = new System.Windows.Forms.CheckBox();
+            this.chkDelayDataUpdates = new System.Windows.Forms.CheckBox();
+            this.txtDataDelay = new System.Windows.Forms.TextBox();
+            this.lblDataDelay = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -750,6 +753,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.lblDataDelay);
+            this.tabPage4.Controls.Add(this.txtDataDelay);
+            this.tabPage4.Controls.Add(this.chkDelayDataUpdates);
             this.tabPage4.Controls.Add(this.chkAutoUpdateEnabledOnStartup);
             this.tabPage4.Controls.Add(this.label19);
             this.tabPage4.Controls.Add(this.label18);
@@ -771,6 +777,16 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "UI Options";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // chkAutoUpdateEnabledOnStartup
+            // 
+            this.chkAutoUpdateEnabledOnStartup.AutoSize = true;
+            this.chkAutoUpdateEnabledOnStartup.Location = new System.Drawing.Point(14, 325);
+            this.chkAutoUpdateEnabledOnStartup.Name = "chkAutoUpdateEnabledOnStartup";
+            this.chkAutoUpdateEnabledOnStartup.Size = new System.Drawing.Size(244, 24);
+            this.chkAutoUpdateEnabledOnStartup.TabIndex = 23;
+            this.chkAutoUpdateEnabledOnStartup.Text = "Auto-Update enabled on startup";
+            this.chkAutoUpdateEnabledOnStartup.UseVisualStyleBackColor = true;
             // 
             // label19
             // 
@@ -824,15 +840,35 @@
             this.tabPage3.Text = "Folders";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // chkAutoUpdateEnabledOnStartup
+            // chkDelayDataUpdates
             // 
-            this.chkAutoUpdateEnabledOnStartup.AutoSize = true;
-            this.chkAutoUpdateEnabledOnStartup.Location = new System.Drawing.Point(14, 325);
-            this.chkAutoUpdateEnabledOnStartup.Name = "chkAutoUpdateEnabledOnStartup";
-            this.chkAutoUpdateEnabledOnStartup.Size = new System.Drawing.Size(244, 24);
-            this.chkAutoUpdateEnabledOnStartup.TabIndex = 23;
-            this.chkAutoUpdateEnabledOnStartup.Text = "Auto-Update enabled on startup";
-            this.chkAutoUpdateEnabledOnStartup.UseVisualStyleBackColor = true;
+            this.chkDelayDataUpdates.AutoSize = true;
+            this.chkDelayDataUpdates.Location = new System.Drawing.Point(14, 355);
+            this.chkDelayDataUpdates.Name = "chkDelayDataUpdates";
+            this.chkDelayDataUpdates.Size = new System.Drawing.Size(157, 24);
+            this.chkDelayDataUpdates.TabIndex = 24;
+            this.chkDelayDataUpdates.Text = "Delay data updates";
+            this.chkDelayDataUpdates.UseVisualStyleBackColor = true;
+            this.chkDelayDataUpdates.CheckStateChanged += new System.EventHandler(this.chkDelayDataUpdates_CheckStateChanged);
+            // 
+            // txtDataDelay
+            // 
+            this.txtDataDelay.Enabled = false;
+            this.txtDataDelay.Location = new System.Drawing.Point(34, 385);
+            this.txtDataDelay.Name = "txtDataDelay";
+            this.txtDataDelay.Size = new System.Drawing.Size(52, 27);
+            this.txtDataDelay.TabIndex = 25;
+            this.txtDataDelay.Text = "0";
+            // 
+            // lblDataDelay
+            // 
+            this.lblDataDelay.AutoSize = true;
+            this.lblDataDelay.Enabled = false;
+            this.lblDataDelay.Location = new System.Drawing.Point(92, 388);
+            this.lblDataDelay.Name = "lblDataDelay";
+            this.lblDataDelay.Size = new System.Drawing.Size(122, 20);
+            this.lblDataDelay.TabIndex = 26;
+            this.lblDataDelay.Text = "Delay in Seconds";
             // 
             // UserSettingsDialog
             // 
@@ -939,5 +975,8 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.CheckBox chkAutoUpdateEnabledOnStartup;
+        private System.Windows.Forms.CheckBox chkDelayDataUpdates;
+        private System.Windows.Forms.Label lblDataDelay;
+        private System.Windows.Forms.TextBox txtDataDelay;
     }
 }

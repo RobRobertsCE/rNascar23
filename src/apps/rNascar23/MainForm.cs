@@ -96,6 +96,7 @@ namespace rNascar23
         private FormState _formState = new FormState();
         private bool _isFullScreen = false;
         private bool _isImportedData = false;
+        private int? _dataDelayInSeconds = null;
         private FormWindowState _windowState = FormWindowState.Normal;
 
         private LapStateViewModel _lapStates = new LapStateViewModel();
@@ -179,6 +180,8 @@ namespace rNascar23
                 await DisplayTodaysScheduleAsync(true);
 
                 var settings = UserSettingsService.LoadUserSettings();
+
+                _dataDelayInSeconds = settings.DataDelayInSeconds;
 
                 if (settings.AutoUpdateEnabledOnStart)
                 {
@@ -788,6 +791,11 @@ namespace rNascar23
             _formState.PitStops = await _pitStopsRepository.GetPitStopsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
             _formState.KeyMoments = await _keyMomentsRepository.GetKeyMomentsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+
+            if (_dataDelayInSeconds.HasValue)
+            {
+                await Task.Delay(_dataDelayInSeconds.Value * 1000);
+            }
 
             return true;
         }
@@ -2738,6 +2746,8 @@ namespace rNascar23
             if (result == DialogResult.OK)
             {
                 _logger.LogInformation("User settings updated");
+
+                _dataDelayInSeconds = dialog.UserSettings.DataDelayInSeconds;
 
                 var viewState = _viewState;
 

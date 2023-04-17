@@ -23,5 +23,6 @@ namespace rNascar23.Common
         public IList<int> QualifyingViewRightGrids { get; set; } = new List<int>();
         public IList<int> PracticeViewBottomGrids { get; set; } = new List<int>();
         public IList<int> PracticeViewRightGrids { get; set; } = new List<int>();
+        public int? DataDelayInSeconds { get; set; } = null;
     }
 }
