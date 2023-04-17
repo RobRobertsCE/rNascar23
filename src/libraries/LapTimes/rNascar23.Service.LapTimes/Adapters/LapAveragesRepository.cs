@@ -57,7 +57,7 @@ namespace rNascar23.Service.LapTimes.Adapters
                     IncrementErrorCount();
                     return new List<LapAverages>();
                 }
-                    
+
 
                 var model = JsonConvert.DeserializeObject<LapAveragesDataModel[]>(json);
 

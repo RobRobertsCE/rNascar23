@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace rNascar23.Service.LapTimes.Data.Models
+﻿namespace rNascar23.Service.LapTimes.Data.Models
 {
     internal class LapAveragesDataModel
     {

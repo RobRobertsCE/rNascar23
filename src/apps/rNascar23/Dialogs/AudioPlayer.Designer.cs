@@ -1,6 +1,6 @@
 ﻿namespace rNascar23.Dialogs
 {
-    partial class AudioSelectionDialog
+    partial class AudioPlayer
     {
         /// <summary>
         /// Required designer variable.

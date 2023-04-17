@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Linq;
 
 namespace rNascar23.Patches.AppRegistry
 {

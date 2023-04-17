@@ -1,30 +1,21 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
-using Microsoft.Web.WebView2.WinForms;
-using Microsoft.Web.WebView2.Wpf;
-using rNascar23.LoopData.Ports;
 using rNascar23.Media.Models;
 using rNascar23.Media.Ports;
-using rNascar23.Properties;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace rNascar23.Dialogs
 {
-    public partial class AudioSelectionDialog : Form
+    public partial class AudioPlayer : Form
     {
         #region fields
 
         private bool _isLoading = false;
-        private readonly ILogger<AudioSelectionDialog> _logger = null;
+        private readonly ILogger<AudioPlayer> _logger = null;
         private readonly IMediaRepository _mediaRepository = null;
 
         #endregion
@@ -52,12 +43,12 @@ namespace rNascar23.Dialogs
 
         #region ctor/load
 
-        public AudioSelectionDialog()
+        public AudioPlayer()
         {
             InitializeComponent();
         }
 
-        public AudioSelectionDialog(ILogger<AudioSelectionDialog> logger, IMediaRepository mediaRepository)
+        public AudioPlayer(ILogger<AudioPlayer> logger, IMediaRepository mediaRepository)
         {
             InitializeComponent();
 

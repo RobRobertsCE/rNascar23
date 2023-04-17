@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using rNascar23.LapTimes.Models;
 using rNascar23.LapTimes.Ports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace rNascar23.Service.LapTimes.Adapters
 {

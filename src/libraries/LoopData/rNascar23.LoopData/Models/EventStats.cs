@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace rNascar23.LoopData.Models
+﻿namespace rNascar23.LoopData.Models
 {
     public class EventStats
     {

@@ -121,9 +121,9 @@ namespace rNascar23.Patches.GitHub
                     version = new Version(major, minor, build, revision);
                 }
 
-                if (release.Assets.Count > 0 && 
-                    (release.Assets[0].Name.EndsWith("zip") || 
-                    (includeReleases == true && release.Assets[0].Name.EndsWith("msi"))) && 
+                if (release.Assets.Count > 0 &&
+                    (release.Assets[0].Name.EndsWith("zip") ||
+                    (includeReleases == true && release.Assets[0].Name.EndsWith("msi"))) &&
                     version > currentVersion)
                 {
                     var patch = new PatchSet()

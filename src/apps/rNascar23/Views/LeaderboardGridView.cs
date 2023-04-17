@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime;
 using System.Windows.Forms;
 
 namespace rNascar23.Views
@@ -110,7 +109,7 @@ namespace rNascar23.Views
                             _userSettings.OverrideFontSize.GetValueOrDefault(10),
                             (FontStyle)_userSettings.OverrideFontStyle
                         ) :
-                        null;                        
+                        null;
 
             if (_userSettings.UseDarkTheme)
             {
@@ -596,6 +595,8 @@ namespace rNascar23.Views
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;
+            dataGridView.AllowUserToOrderColumns = false;
+            dataGridView.AutoGenerateColumns = false;
             dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
             dataGridView.AllowUserToAddRows = false;
 

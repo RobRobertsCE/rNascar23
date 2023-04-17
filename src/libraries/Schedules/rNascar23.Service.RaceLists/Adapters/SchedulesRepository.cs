@@ -5,8 +5,6 @@ using rNascar23.Schedules.Models;
 using rNascar23.Schedules.Ports;
 using rNascar23.Service.RaceLists.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace rNascar23.Service.RaceLists.Adapters

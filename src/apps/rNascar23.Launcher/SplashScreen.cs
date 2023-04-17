@@ -9,7 +9,7 @@ namespace rNascar23.Launcher
     public partial class SplashScreen : Form
     {
         private PatcherService _service = new PatcherService();
-        
+
         public Version PatchVersion { get; set; } = null;
 
         public SplashScreen()

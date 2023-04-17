@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace rNascar23.Data
+﻿namespace rNascar23.Data
 {
     public interface IJsonDataRepository
     {

@@ -20,7 +20,7 @@ namespace rNascar23.Views
 
         #region fields
 
-        private static IDictionary<GridViewTypes, GridViewBase> _views = new Dictionary<GridViewTypes, GridViewBase>();
+        private static readonly IDictionary<GridViewTypes, GridViewBase> _views = new Dictionary<GridViewTypes, GridViewBase>();
 
         #endregion
 
@@ -58,37 +58,37 @@ namespace rNascar23.Views
             return view;
         }
 
-        public static GridViewBase GetNLapsGridView(NLapsGridView.ViewTypes viewType, SpeedTimeType displayType)
+        public static GridViewBase GetNLapsGridView(NLapsViewTypes viewType, SpeedTimeType displayType)
         {
             var scale = displayType == SpeedTimeType.MPH ? " (Avg M.P.H.)" : " (Avg Lap)";
 
             string title;
 
-            GridViewTypes gridViewType = GridViewTypes.Best5Laps;
+            GridViewTypes gridViewType;
 
             switch (viewType)
             {
-                case NLapsGridView.ViewTypes.Best5Laps:
+                case NLapsViewTypes.Best5Laps:
                     title = $"Best 5 Laps{scale}";
                     gridViewType = GridViewTypes.Best5Laps;
                     break;
-                case NLapsGridView.ViewTypes.Best10Laps:
+                case NLapsViewTypes.Best10Laps:
                     title = $"Best 10 Laps{scale}";
                     gridViewType = GridViewTypes.Best10Laps;
                     break;
-                case NLapsGridView.ViewTypes.Best15Laps:
+                case NLapsViewTypes.Best15Laps:
                     title = $"Best 15 Laps{scale}";
                     gridViewType = GridViewTypes.Best15Laps;
                     break;
-                case NLapsGridView.ViewTypes.Last5Laps:
+                case NLapsViewTypes.Last5Laps:
                     title = $"Last 5 Laps{scale}";
                     gridViewType = GridViewTypes.Last5Laps;
                     break;
-                case NLapsGridView.ViewTypes.Last10Laps:
+                case NLapsViewTypes.Last10Laps:
                     title = $"Last 10 Laps{scale}";
                     gridViewType = GridViewTypes.Last10Laps;
                     break;
-                case NLapsGridView.ViewTypes.Last15Laps:
+                case NLapsViewTypes.Last15Laps:
                     title = $"Last 15 Laps{scale}";
                     gridViewType = GridViewTypes.Last15Laps;
                     break;
@@ -159,7 +159,7 @@ namespace rNascar23.Views
                 }
             }
 
-            GridViewBase view = null;
+            GridViewBase view;
 
             if (viewType == GridViewTypes.Flags)
                 view = new FlagsView();
