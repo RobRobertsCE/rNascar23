@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime;
 using System.Windows.Forms;
 
 namespace rNascar23.Views
@@ -85,6 +86,7 @@ namespace rNascar23.Views
         public SpeedTimeType LastLapDisplayType { get; set; }
         public SpeedTimeType BestLapDisplayType { get; set; }
         public int SeriesId { get; set; }
+        public Font FontOverride { get; set; } = null;
 
         #endregion
 
@@ -101,6 +103,14 @@ namespace rNascar23.Views
             InitializeComponent();
 
             _userSettings = UserSettingsService.LoadUserSettings();
+
+            FontOverride = _userSettings.UseLowScreenResolutionSizes ?
+                new Font(
+                            _userSettings.OverrideFontName,
+                            _userSettings.OverrideFontSize.GetValueOrDefault(10),
+                            (FontStyle)_userSettings.OverrideFontStyle
+                        ) :
+                        null;                        
 
             if (_userSettings.UseDarkTheme)
             {
@@ -439,12 +449,14 @@ namespace rNascar23.Views
                 colVehicleStatusImage
             });
 
-            dataGridView.DefaultCellStyle.Font = new Font("Tahoma", 12, FontStyle.Bold);
+            var gridFont = FontOverride == null ? new Font("Tahoma", 12, FontStyle.Bold) : FontOverride;
+
+            dataGridView.DefaultCellStyle.Font = gridFont;
 
             Column1.HeaderText = "";
             Column1.Name = "RunningPosition";
             Column1.Width = 45;
-            Column1.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column1.DefaultCellStyle.Font = gridFont;
             Column1.DataPropertyName = "RunningPosition";
 
             ((DataGridViewImageColumn)colCarNumberImage).HeaderText = "#";
@@ -459,105 +471,113 @@ namespace rNascar23.Views
             Column2.Name = "CarNumber";
             Column2.Width = 45;
             Column2.Visible = !_userSettings.UseGraphicalCarNumbers;
-            Column2.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column2.DefaultCellStyle.Font = gridFont;
             Column2.DataPropertyName = "CarNumber";
 
             Column3.HeaderText = "Driver";
             Column3.Name = "Driver";
             Column3.Width = 200;
+            Column3.DefaultCellStyle.Font = gridFont;
             Column3.DataPropertyName = "Driver";
 
             Column4.HeaderText = "Car";
             Column4.Name = "CarManufacturer";
             Column4.Width = 0;
-            Column4.Visible = false;
-            Column4.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column4.Visible = (FontOverride != null);
+            Column4.DefaultCellStyle.Font = gridFont;
             Column4.DataPropertyName = "CarManufacturer";
 
             Column5.HeaderText = "Laps";
             Column5.Name = "LapsCompleted";
             Column5.Width = 50;
-            Column5.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column5.DefaultCellStyle.Font = gridFont;
             Column5.DataPropertyName = "LapsCompleted";
 
             Column6.HeaderText = "To Leader";
             Column6.Name = "DeltaLeader";
             Column6.Width = 65;
-            Column6.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column6.DefaultCellStyle.Font = gridFont;
             Column6.DataPropertyName = "DeltaLeader";
 
             Column7.HeaderText = "To Next";
             Column7.Name = "DeltaNext";
             Column7.Width = 65;
-            Column7.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column7.DefaultCellStyle.Font = gridFont;
             Column7.DataPropertyName = "DeltaNext";
 
             Column8.HeaderText = "On Track";
             Column8.Name = "IsOnTrack";
             Column8.Width = 0;
-            Column8.Visible = false;
+            Column8.Visible = (FontOverride != null);
+            Column8.DefaultCellStyle.Font = gridFont;
             Column8.DataPropertyName = "IsOnTrack";
 
             Column9.HeaderText = "Last Lap";
             Column9.Name = "LastLap";
             Column9.Width = 75;
-            Column9.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column9.DefaultCellStyle.Font = gridFont;
             Column9.DefaultCellStyle.Format = "N3";
             Column9.DataPropertyName = "LastLap";
 
             Column10.HeaderText = "Best Lap";
             Column10.Name = "BestLap";
             Column10.Width = 75;
-            Column10.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column2.DefaultCellStyle.Font = gridFont;
             Column10.DefaultCellStyle.Format = "N3";
             Column10.DataPropertyName = "BestLap";
 
             Column11.HeaderText = "On Lap";
             Column11.Name = "BestLapNumber";
             Column11.Width = 45;
-            Column11.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column11.DefaultCellStyle.Font = gridFont;
             Column11.DataPropertyName = "BestLapNumber";
 
             Column12.HeaderText = "Last Pit";
             Column12.Name = "LastPit";
             Column12.Width = 45;
-            Column12.DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+            Column2.DefaultCellStyle.Font = gridFont;
             Column12.DataPropertyName = "LastPit";
 
             Column13.HeaderText = "PersonalBestLapThisLap";
             Column13.Name = "PersonalBestLapThisLap";
             Column13.Width = 0;
-            Column13.Visible = false;
+            Column13.Visible = (FontOverride != null);
+            Column13.DefaultCellStyle.Font = gridFont;
             Column13.DataPropertyName = "PersonalBestLapThisLap";
 
             Column14.HeaderText = "FastestLapInRace";
             Column14.Name = "FastestLapInRace";
             Column14.Width = 0;
-            Column14.Visible = false;
+            Column14.Visible = (FontOverride != null);
+            Column14.DefaultCellStyle.Font = gridFont;
             Column14.DataPropertyName = "FastestLapInRace";
 
             Column15.HeaderText = "FastestCarThisLap";
             Column15.Name = "FastestCarThisLap";
             Column15.Width = 0;
-            Column15.Visible = false;
+            Column15.Visible = (FontOverride != null);
+            Column15.DefaultCellStyle.Font = gridFont;
             Column15.DataPropertyName = "FastestCarThisLap";
 
             Column16.HeaderText = "VehicleStatus";
             Column16.Name = "VehicleStatus";
             Column16.Width = 0;
-            Column16.Visible = false;
+            Column16.Visible = (FontOverride != null);
+            Column16.DefaultCellStyle.Font = gridFont;
             Column16.DataPropertyName = "VehicleStatus";
 
             Column17.HeaderText = "IsOnDvp";
             Column17.Name = "IsOnDvp";
             Column17.Width = 0;
-            Column17.Visible = false;
+            Column17.Visible = (FontOverride != null);
+            Column17.DefaultCellStyle.Font = gridFont;
             Column17.DataPropertyName = "IsOnDvp";
 
             Column18.HeaderText = "Status";
             Column18.Name = "Status";
             Column18.Width = 0;
-            Column18.Visible = false;
+            Column18.Visible = (FontOverride != null);
+            Column18.DefaultCellStyle.Font = gridFont;
             Column18.DataPropertyName = "StatusLabel";
 
             ((DataGridViewImageColumn)colManufacturerImage).HeaderText = "";
@@ -576,16 +596,36 @@ namespace rNascar23.Views
 
             dataGridView.ColumnHeadersVisible = true;
             dataGridView.RowHeadersVisible = false;
-            dataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView.ReadOnly = true;
-            dataGridView.AutoGenerateColumns = false;
-            dataGridView.AllowUserToResizeRows = false;
             dataGridView.SelectionChanged += (s, e) => Grid.ClearSelection();
             dataGridView.AllowUserToAddRows = false;
+
+            foreach (DataGridViewColumn column in dataGridView.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
 
             return dataGridView;
         }
 
         #endregion
+
+        private void Grid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (FontOverride != null)
+            {
+                Grid.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+
+                Grid.Columns["VehicleStatusImage"].Visible = false;
+                Grid.Columns["IsOnDvp"].Visible = false;
+                Grid.Columns["VehicleStatus"].Visible = false;
+                Grid.Columns["FastestCarThisLap"].Visible = false;
+                Grid.Columns["FastestLapInRace"].Visible = false;
+                Grid.Columns["PersonalBestLapThisLap"].Visible = false;
+                Grid.Columns["FastestCarThisLap"].Visible = false;
+                Grid.Columns["IsOnTrack"].Visible = false;
+                Grid.Columns["CarNumberImage"].Visible = false;
+                Grid.Columns["CarManufacturerImage"].Visible = false;
+            }
+        }
     }
 }

@@ -23,8 +23,6 @@ namespace rNascar23.Patches.Services
         public event EventHandler<string> InfoMessage;
         protected virtual void OnInfoMessage(string message)
         {
-            // TODO: Remove after development
-            Console.WriteLine(message);
             InfoMessage?.Invoke(this, message);
         }
 

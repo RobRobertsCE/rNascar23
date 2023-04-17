@@ -81,6 +81,9 @@
             this.playToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.audioVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.audioChannelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inCarCamerasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblAutoUpdateStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewState = new System.Windows.Forms.ToolStripStatusLabel();
@@ -113,9 +116,6 @@
             this.btnPitStopsView = new System.Windows.Forms.ToolStripButton();
             this.pnlHost = new System.Windows.Forms.Panel();
             this.timEventReplay = new System.Windows.Forms.Timer(this.components);
-            this.audioVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.audioChannelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.inCarCamerasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -134,7 +134,7 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 49);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1292, 81);
+            this.pnlHeader.Size = new System.Drawing.Size(1350, 81);
             this.pnlHeader.TabIndex = 2;
             // 
             // pnlEventInfo
@@ -146,7 +146,7 @@
             this.pnlEventInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlEventInfo.Location = new System.Drawing.Point(0, 0);
             this.pnlEventInfo.Name = "pnlEventInfo";
-            this.pnlEventInfo.Size = new System.Drawing.Size(1292, 22);
+            this.pnlEventInfo.Size = new System.Drawing.Size(1350, 22);
             this.pnlEventInfo.TabIndex = 15;
             // 
             // lblEventName
@@ -165,7 +165,7 @@
             this.lblStageLaps.AutoSize = true;
             this.lblStageLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStageLaps.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblStageLaps.Location = new System.Drawing.Point(1092, 2);
+            this.lblStageLaps.Location = new System.Drawing.Point(1150, 2);
             this.lblStageLaps.Name = "lblStageLaps";
             this.lblStageLaps.Size = new System.Drawing.Size(0, 16);
             this.lblStageLaps.TabIndex = 13;
@@ -177,7 +177,7 @@
             this.lblRaceLaps.AutoSize = true;
             this.lblRaceLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRaceLaps.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblRaceLaps.Location = new System.Drawing.Point(881, 2);
+            this.lblRaceLaps.Location = new System.Drawing.Point(939, 2);
             this.lblRaceLaps.Name = "lblRaceLaps";
             this.lblRaceLaps.Size = new System.Drawing.Size(0, 16);
             this.lblRaceLaps.TabIndex = 12;
@@ -191,7 +191,7 @@
             this.pnlFlagGreenYellow.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlFlagGreenYellow.Location = new System.Drawing.Point(0, 22);
             this.pnlFlagGreenYellow.Name = "pnlFlagGreenYellow";
-            this.pnlFlagGreenYellow.Size = new System.Drawing.Size(1292, 59);
+            this.pnlFlagGreenYellow.Size = new System.Drawing.Size(1350, 59);
             this.pnlFlagGreenYellow.TabIndex = 14;
             // 
             // picFlagStatus
@@ -200,7 +200,7 @@
             this.picFlagStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picFlagStatus.Location = new System.Drawing.Point(0, 0);
             this.picFlagStatus.Name = "picFlagStatus";
-            this.picFlagStatus.Size = new System.Drawing.Size(1292, 39);
+            this.picFlagStatus.Size = new System.Drawing.Size(1350, 39);
             this.picFlagStatus.TabIndex = 8;
             this.picFlagStatus.TabStop = false;
             // 
@@ -210,7 +210,7 @@
             this.picGreenYelllowLapIndicator.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.picGreenYelllowLapIndicator.Location = new System.Drawing.Point(0, 39);
             this.picGreenYelllowLapIndicator.Name = "picGreenYelllowLapIndicator";
-            this.picGreenYelllowLapIndicator.Size = new System.Drawing.Size(1292, 20);
+            this.picGreenYelllowLapIndicator.Size = new System.Drawing.Size(1350, 20);
             this.picGreenYelllowLapIndicator.TabIndex = 9;
             this.picGreenYelllowLapIndicator.TabStop = false;
             this.picGreenYelllowLapIndicator.Paint += new System.Windows.Forms.PaintEventHandler(this.picGreenYelllowLapIndicator_Paint);
@@ -231,7 +231,7 @@
             this.audioVideoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1292, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1350, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -476,7 +476,7 @@
             // 
             this.settingsToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("settingsToolStripMenuItem1.Image")));
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(116, 22);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             this.settingsToolStripMenuItem1.Click += new System.EventHandler(this.settingsToolStripMenuItem1_Click);
             // 
@@ -571,6 +571,29 @@
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
+            // audioVideoToolStripMenuItem
+            // 
+            this.audioVideoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.audioChannelsToolStripMenuItem,
+            this.inCarCamerasToolStripMenuItem});
+            this.audioVideoToolStripMenuItem.Name = "audioVideoToolStripMenuItem";
+            this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.audioVideoToolStripMenuItem.Text = "&Audio/Video";
+            // 
+            // audioChannelsToolStripMenuItem
+            // 
+            this.audioChannelsToolStripMenuItem.Name = "audioChannelsToolStripMenuItem";
+            this.audioChannelsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.audioChannelsToolStripMenuItem.Text = "Audio Channels";
+            this.audioChannelsToolStripMenuItem.Click += new System.EventHandler(this.audioChannelsToolStripMenuItem_Click);
+            // 
+            // inCarCamerasToolStripMenuItem
+            // 
+            this.inCarCamerasToolStripMenuItem.Name = "inCarCamerasToolStripMenuItem";
+            this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.inCarCamerasToolStripMenuItem.Text = "In-Car Cameras";
+            this.inCarCamerasToolStripMenuItem.Click += new System.EventHandler(this.inCarCamerasToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -579,9 +602,9 @@
             this.lblLastUpdate,
             this.lblEventReplayStatus,
             this.lblVersion});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 845);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 705);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1292, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(1350, 24);
             this.statusStrip1.TabIndex = 5;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -630,7 +653,7 @@
             // lblVersion
             // 
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(944, 19);
+            this.lblVersion.Size = new System.Drawing.Size(1002, 19);
             this.lblVersion.Spring = true;
             this.lblVersion.Text = "-.-.-.-";
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -638,34 +661,34 @@
             // pnlMain
             // 
             this.pnlMain.AutoScroll = true;
-            this.pnlMain.BackColor = System.Drawing.Color.Black;
+            this.pnlMain.BackColor = System.Drawing.Color.Fuchsia;
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 130);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlMain.Size = new System.Drawing.Size(1056, 487);
+            this.pnlMain.Size = new System.Drawing.Size(1114, 347);
             this.pnlMain.TabIndex = 6;
             // 
             // pnlBottom
             // 
             this.pnlBottom.AutoScroll = true;
-            this.pnlBottom.BackColor = System.Drawing.Color.Black;
+            this.pnlBottom.BackColor = System.Drawing.Color.Chartreuse;
             this.pnlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBottom.Location = new System.Drawing.Point(0, 617);
+            this.pnlBottom.Location = new System.Drawing.Point(0, 477);
             this.pnlBottom.Name = "pnlBottom";
             this.pnlBottom.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlBottom.Size = new System.Drawing.Size(1056, 228);
+            this.pnlBottom.Size = new System.Drawing.Size(1114, 228);
             this.pnlBottom.TabIndex = 7;
             // 
             // pnlRight
             // 
             this.pnlRight.AutoScroll = true;
-            this.pnlRight.BackColor = System.Drawing.Color.Black;
+            this.pnlRight.BackColor = System.Drawing.Color.Crimson;
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(1056, 130);
+            this.pnlRight.Location = new System.Drawing.Point(1114, 130);
             this.pnlRight.Name = "pnlRight";
             this.pnlRight.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlRight.Size = new System.Drawing.Size(236, 715);
+            this.pnlRight.Size = new System.Drawing.Size(236, 575);
             this.pnlRight.TabIndex = 8;
             // 
             // toolStrip1
@@ -682,7 +705,7 @@
             this.btnPitStopsView});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1292, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1350, 25);
             this.toolStrip1.TabIndex = 9;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -744,71 +767,71 @@
             // truckToolStripMenuItem
             // 
             this.truckToolStripMenuItem.Name = "truckToolStripMenuItem";
-            this.truckToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.truckToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.truckToolStripMenuItem.Text = "&Truck";
             this.truckToolStripMenuItem.Click += new System.EventHandler(this.truckToolStripMenuItem_Click);
             // 
             // xfinityToolStripMenuItem
             // 
             this.xfinityToolStripMenuItem.Name = "xfinityToolStripMenuItem";
-            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.xfinityToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.xfinityToolStripMenuItem.Text = "&Xfinity";
             this.xfinityToolStripMenuItem.Click += new System.EventHandler(this.xfinityToolStripMenuItem_Click);
             // 
             // cupToolStripMenuItem
             // 
             this.cupToolStripMenuItem.Name = "cupToolStripMenuItem";
-            this.cupToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cupToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.cupToolStripMenuItem.Text = "&Cup";
             this.cupToolStripMenuItem.Click += new System.EventHandler(this.cupToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(148, 6);
             // 
             // allToolStripMenuItem1
             // 
             this.allToolStripMenuItem1.Name = "allToolStripMenuItem1";
-            this.allToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.allToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
             this.allToolStripMenuItem1.Text = "&All";
             this.allToolStripMenuItem1.Click += new System.EventHandler(this.allToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(148, 6);
             // 
             // thisWeekToolStripMenuItem
             // 
             this.thisWeekToolStripMenuItem.Name = "thisWeekToolStripMenuItem";
-            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.thisWeekToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.thisWeekToolStripMenuItem.Text = "This &Week";
             this.thisWeekToolStripMenuItem.Click += new System.EventHandler(this.thisWeekToolStripMenuItem_Click);
             // 
             // nextWeekToolStripMenuItem
             // 
             this.nextWeekToolStripMenuItem.Name = "nextWeekToolStripMenuItem";
-            this.nextWeekToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nextWeekToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.nextWeekToolStripMenuItem.Text = "&Next Week";
             this.nextWeekToolStripMenuItem.Click += new System.EventHandler(this.nextWeekToolStripMenuItem_Click);
             // 
             // todayToolStripMenuItem
             // 
             this.todayToolStripMenuItem.Name = "todayToolStripMenuItem";
-            this.todayToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.todayToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.todayToolStripMenuItem.Text = "T&oday";
             this.todayToolStripMenuItem.Click += new System.EventHandler(this.todayToolStripMenuItem_Click);
             // 
             // toolStripMenuItem6
             // 
             this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(148, 6);
             // 
             // historicalDataToolStripMenuItem
             // 
             this.historicalDataToolStripMenuItem.Name = "historicalDataToolStripMenuItem";
-            this.historicalDataToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.historicalDataToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.historicalDataToolStripMenuItem.Text = "Historical Data";
             this.historicalDataToolStripMenuItem.Click += new System.EventHandler(this.historicalDataToolStripMenuItem_Click);
             // 
@@ -875,34 +898,11 @@
             this.timEventReplay.Interval = 1000;
             this.timEventReplay.Tick += new System.EventHandler(this.timEventReplay_Tick);
             // 
-            // audioVideoToolStripMenuItem
-            // 
-            this.audioVideoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.audioChannelsToolStripMenuItem,
-            this.inCarCamerasToolStripMenuItem});
-            this.audioVideoToolStripMenuItem.Name = "audioVideoToolStripMenuItem";
-            this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
-            this.audioVideoToolStripMenuItem.Text = "&Audio/Video";
-            // 
-            // audioChannelsToolStripMenuItem
-            // 
-            this.audioChannelsToolStripMenuItem.Name = "audioChannelsToolStripMenuItem";
-            this.audioChannelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.audioChannelsToolStripMenuItem.Text = "Audio Channels";
-            this.audioChannelsToolStripMenuItem.Click += new System.EventHandler(this.audioChannelsToolStripMenuItem_Click);
-            // 
-            // inCarCamerasToolStripMenuItem
-            // 
-            this.inCarCamerasToolStripMenuItem.Name = "inCarCamerasToolStripMenuItem";
-            this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.inCarCamerasToolStripMenuItem.Text = "In-Car Cameras";
-            this.inCarCamerasToolStripMenuItem.Click += new System.EventHandler(this.inCarCamerasToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1292, 869);
+            this.ClientSize = new System.Drawing.Size(1350, 729);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlHost);
             this.Controls.Add(this.pnlBottom);
@@ -918,7 +918,6 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "rNASCAR23";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.pnlHeader.ResumeLayout(false);
