@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace rNascar23.Points.Models
+﻿namespace rNascar23.Points.Models
 {
     public class StagePoints
     {

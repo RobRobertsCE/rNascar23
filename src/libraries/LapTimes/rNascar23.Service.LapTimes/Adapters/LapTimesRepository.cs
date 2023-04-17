@@ -6,13 +6,8 @@ using rNascar23.LapTimes.Models;
 using rNascar23.LapTimes.Ports;
 using rNascar23.Service.LapTimes.Data.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace rNascar23.Service.LapTimes.Adapters
 {

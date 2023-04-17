@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using static rNascar23.CustomViews.GridRowStyle;
 
 namespace rNascar23.CustomViews
 {

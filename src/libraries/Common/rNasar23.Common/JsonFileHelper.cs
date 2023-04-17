@@ -311,7 +311,7 @@ namespace rNascar23.Common
         private static string GetBackupFileFilter(string fileType)
         {
             var fileDescription = Regex.Replace(fileType, "(\\B[A-Z])", " $1");
-            
+
             return $"{fileDescription} backup|{fileType}*{BackupSuffix}.{DataFileExtension}|{fileDescription} export|{fileType}*{ExportTitle}.{DataFileExtension}|All Files|*.*";
         }
         private static string GetExportFileFilter(string fileType)

@@ -13,7 +13,6 @@ namespace rNascar23.Dialogs
     {
         #region fields
 
-        private bool _isLoading;
         private IList<EventReplay> _replays = null;
         private readonly ILogger<ReplaySelectionDialog> _logger = null;
 
@@ -60,8 +59,6 @@ namespace rNascar23.Dialogs
         {
             try
             {
-                _isLoading = true;
-
                 _replays = EventReplayFactory.LoadEventReplays(ReplayDirectory);
 
                 DisplayEventReplays(_replays);
@@ -69,10 +66,6 @@ namespace rNascar23.Dialogs
             catch (Exception ex)
             {
                 ExceptionHandler(ex, "Exception loading ReplaySelectionDialog");
-            }
-            finally
-            {
-                _isLoading = false;
             }
         }
 

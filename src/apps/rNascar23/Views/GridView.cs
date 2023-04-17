@@ -1,14 +1,7 @@
 ﻿using rNascar23.CustomViews;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
-using System.Windows.Markup;
 
 namespace rNascar23.Views
 {

@@ -2,23 +2,21 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using rNascar23.Service.LoopData;
+using rNascar23.Common;
+using rNascar23.Configuration;
+using rNascar23.CustomViews;
+using rNascar23.Dialogs;
 using rNascar23.Service.Flags;
 using rNascar23.Service.LapTimes;
 using rNascar23.Service.LiveFeeds;
+using rNascar23.Service.LoopData;
+using rNascar23.Service.Media;
+using rNascar23.Service.PitStops;
 using rNascar23.Service.Points;
-using rNascar23.CustomViews;
-using rNascar23.Dialogs;
-using rNascar23.Screens;
-using rNascar23.Common;
 using Serilog;
 using System;
 using System.IO;
 using System.Windows.Forms;
-using rNascar23.Configuration;
-using rNascar23.Service.PitStops;
-using rNascar23.Service.Media;
 
 namespace rNascar23
 {
@@ -53,19 +51,11 @@ namespace rNascar23
                         .AddPoints()
                         .AddLoopData()
                         .AddPitStops()
-                        .AddMedia()
-                        .AddTransient<IScreenService, ScreenService>()
-                        .AddTransient<ICustomViewSettingsService, CustomViewSettingsService>()
-                        .AddTransient<ICustomGridViewFactory, CustomGridViewFactory>()
-                        .AddTransient<IStyleService, StyleService>()
+                        .AddMedia()                       
                         .AddTransient<MainForm>()
-                        .AddTransient<GridSettingsDialog>()
-                        .AddTransient<ScreenEditor>()
-                        .AddTransient<StyleEditor>()
-                        .AddTransient<ImportExportDialog>()
                         .AddTransient<UserSettingsDialog>()
                         .AddTransient<ReplaySelectionDialog>()
-                        .AddTransient<AudioSelectionDialog>()
+                        .AddTransient<AudioPlayer>()
                         .AddTransient<VideoPlayer>();
 
                     /*
@@ -78,7 +68,7 @@ namespace rNascar23
                     Error	When functionality is unavailable or expectations broken, an Error event is used.
                     Fatal	The most critical level, Fatal events demand immediate attention.
                     */
-                    
+
                     var configuration = new ConfigurationBuilder()
                         .AddJsonFile(path: "appsettings.json", optional: false, reloadOnChange: true)
                         .Build();
@@ -113,7 +103,7 @@ namespace rNascar23
                         x.AddSerilog(logger: serilogLogger, dispose: true);
                     });
 
-                    
+
                 });
         }
     }

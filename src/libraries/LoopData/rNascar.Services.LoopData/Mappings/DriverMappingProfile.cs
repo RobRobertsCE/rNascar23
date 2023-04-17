@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using rNascar23.Service.LoopData.Data.Models;
 using rNascar23.LoopData.Models;
+using rNascar23.Service.LoopData.Data.Models;
 
 namespace rNascar23.Service.LoopData.Mappings
 {

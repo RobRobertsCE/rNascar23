@@ -1,20 +1,14 @@
-﻿using Octokit;
+﻿using rNascar23.PatchBuilder.Properties;
 using rNascar23.Patches.AppRegistry;
 using rNascar23.Patches.GitHub;
 using rNascar23.Patches.Models;
-using rNascar23.PatchBuilder.Properties;
 using rNascar23.Patches.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 

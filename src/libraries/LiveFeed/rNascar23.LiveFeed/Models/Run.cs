@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace rNascar23.LiveFeeds.Models
+﻿namespace rNascar23.LiveFeeds.Models
 {
     public class Run
     {

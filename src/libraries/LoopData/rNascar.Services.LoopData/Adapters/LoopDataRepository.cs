@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using rNascar23.Service.LoopData.Data.Models;
 using rNascar23.Data;
 using rNascar23.LoopData.Models;
 using rNascar23.LoopData.Ports;
-using System.Threading.Tasks;
+using rNascar23.Service.LoopData.Data.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace rNascar23.Service.LoopData.Adapters
 {

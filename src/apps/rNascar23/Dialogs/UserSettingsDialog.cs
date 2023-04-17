@@ -1,15 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using rNascar23.Common;
 using rNascar23.LoopData.Ports;
-using rNascar23.Properties;
 using rNascar23.Views;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 

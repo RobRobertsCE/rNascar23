@@ -238,23 +238,24 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Configuration\Features.cs" />
+    <Compile Include="CustomViews\GridColumnSettings.cs" />
+    <Compile Include="CustomViews\GridFont.cs" />
+    <Compile Include="CustomViews\GridLocations.cs" />
+    <Compile Include="CustomViews\GridRowStyle.cs" />
+    <Compile Include="CustomViews\GridStyle.cs" />
+    <Compile Include="CustomViews\GridStyleHelper.cs" />
+    <Compile Include="CustomViews\GridStyleSettings.cs" />
     <Compile Include="Dialogs\VideoPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogs\VideoPlayer.Designer.cs">
       <DependentUpon>VideoPlayer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AudioSelectionDialog.cs">
+    <Compile Include="Dialogs\AudioPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\AudioSelectionDialog.Designer.cs">
-      <DependentUpon>AudioSelectionDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ImportExportDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ImportExportDialog.Designer.cs">
-      <DependentUpon>ImportExportDialog.cs</DependentUpon>
+    <Compile Include="Dialogs\AudioPlayer.Designer.cs">
+      <DependentUpon>AudioPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ReplaySelectionDialog.cs">
       <SubType>Form</SubType>
@@ -269,43 +270,6 @@
       <DependentUpon>UserSettingsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomViews\ApiSources.cs" />
-    <Compile Include="CustomViews\CustomGridViewFactory.cs" />
-    <Compile Include="CustomViews\CustomViewSettingsService.cs" />
-    <Compile Include="CustomViews\GridColumnSettings.cs" />
-    <Compile Include="CustomViews\GridFont.cs" />
-    <Compile Include="CustomViews\GridLocations.cs" />
-    <Compile Include="CustomViews\GridRowStyle.cs" />
-    <Compile Include="CustomViews\GridStyle.cs" />
-    <Compile Include="CustomViews\GridStyleHelper.cs" />
-    <Compile Include="CustomViews\GridStyleSettings.cs" />
-    <Compile Include="CustomViews\ICustomGridViewFactory.cs" />
-    <Compile Include="CustomViews\ICustomViewSettingsService.cs" />
-    <Compile Include="CustomViews\IStyleService.cs" />
-    <Compile Include="CustomViews\StyleService.cs" />
-    <Compile Include="Dialogs\GridSettingsDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\GridSettingsDialog.Designer.cs">
-      <DependentUpon>GridSettingsDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\NewScreenNameDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\NewScreenNameDialog.Designer.cs">
-      <DependentUpon>NewScreenNameDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ScreenEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ScreenEditor.Designer.cs">
-      <DependentUpon>ScreenEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\StyleEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\StyleEditor.Designer.cs">
-      <DependentUpon>StyleEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Logic\DayOfWeekHelper.cs" />
     <Compile Include="MainForm.cs">
@@ -321,14 +285,8 @@
     <Compile Include="Replay\EventReplay.cs" />
     <Compile Include="Replay\EventReplayFactory.cs" />
     <Compile Include="Replay\EventReplayFrame.cs" />
-    <Compile Include="Screens\IScreenService.cs" />
-    <Compile Include="Screens\ScreenDefinition.cs" />
-    <Compile Include="Screens\ScreenPanel.cs" />
-    <Compile Include="Screens\ScreenPanelGridDefinition.cs" />
-    <Compile Include="Screens\ScreenService.cs" />
     <Compile Include="ViewModels\AudioChannelModel.cs" />
     <Compile Include="ViewModels\DriverPitStopViewModel.cs" />
-    <Compile Include="ViewModels\DriverPointsViewModel.cs" />
     <Compile Include="Views\KeyMomentsView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -343,18 +301,12 @@
     </Compile>
     <Compile Include="Views\GridViewTypes.cs" />
     <Compile Include="ViewModels\INamedItem.cs" />
-    <Compile Include="ViewModels\LapAverageViewModel.cs" />
-    <Compile Include="ViewModels\CautionFlagViewModel.cs" />
-    <Compile Include="ViewModels\FastestLapViewModel.cs" />
-    <Compile Include="ViewModels\LapLeaderViewModel.cs" />
     <Compile Include="ViewModels\LapStateViewModel.cs" />
-    <Compile Include="ViewModels\PositionChangeViewModel.cs" />
     <Compile Include="ViewModels\RaceVehicleViewModel.cs" />
     <Compile Include="ViewModels\RadioTypes.cs" />
     <Compile Include="ViewModels\SatelliteTypes.cs" />
     <Compile Include="ViewModels\ScheduledEventViewModel.cs" />
     <Compile Include="ViewModels\ScheduleType.cs" />
-    <Compile Include="ViewModels\SeriesEventScheduleViewModel.cs" />
     <Compile Include="ViewModels\SeriesTypes.cs" />
     <Compile Include="ViewModels\TvTypes.cs" />
     <Compile Include="Views\GridViewBase.cs">
@@ -376,6 +328,7 @@
     <Compile Include="Views\LeaderboardGridView.Designer.cs">
       <DependentUpon>LeaderboardGridView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\NLapsViewTypes.cs" />
     <Compile Include="Views\PitStopView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -394,32 +347,8 @@
     <Compile Include="Views\ScheduleView.Designer.cs">
       <DependentUpon>ScheduleView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\StagePointsGridView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\StagePointsGridView.Designer.cs">
-      <DependentUpon>StagePointsGridView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DriverPointsGridView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\DriverPointsGridView.Designer.cs">
-      <DependentUpon>DriverPointsGridView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FlagsGridView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\FlagsGridView.Designer.cs">
-      <DependentUpon>FlagsGridView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\GridViewColumnBuilder.cs" />
     <Compile Include="Views\GridViewDataSource.cs" />
-    <Compile Include="Views\FastestLapsGridView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\FastestLapsGridView.Designer.cs">
-      <DependentUpon>FastestLapsGridView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\GridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -428,24 +357,6 @@
     </Compile>
     <Compile Include="Views\GridViewTableBuilder.cs" />
     <Compile Include="Views\IGridView.cs" />
-    <Compile Include="Views\LapLeadersGridView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\LapLeadersGridView.Designer.cs">
-      <DependentUpon>LapLeadersGridView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MoversFallersGridView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\MoversFallersGridView.Designer.cs">
-      <DependentUpon>MoversFallersGridView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NLapsGridView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Views\NLapsGridView.Designer.cs">
-      <DependentUpon>NLapsGridView.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\GenericGridView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -456,26 +367,11 @@
     <EmbeddedResource Include="Dialogs\VideoPlayer.resx">
       <DependentUpon>VideoPlayer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\AudioSelectionDialog.resx">
-      <DependentUpon>AudioSelectionDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\GridSettingsDialog.resx">
-      <DependentUpon>GridSettingsDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ImportExportDialog.resx">
-      <DependentUpon>ImportExportDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\NewScreenNameDialog.resx">
-      <DependentUpon>NewScreenNameDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\AudioPlayer.resx">
+      <DependentUpon>AudioPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ReplaySelectionDialog.resx">
       <DependentUpon>ReplaySelectionDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ScreenEditor.resx">
-      <DependentUpon>ScreenEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\StyleEditor.resx">
-      <DependentUpon>StyleEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\UserSettingsDialog.resx">
       <DependentUpon>UserSettingsDialog.cs</DependentUpon>
@@ -517,29 +413,8 @@
     <EmbeddedResource Include="Views\ScheduleView.resx">
       <DependentUpon>ScheduleView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\StagePointsGridView.resx">
-      <DependentUpon>StagePointsGridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\DriverPointsGridView.resx">
-      <DependentUpon>DriverPointsGridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\FastestLapsGridView.resx">
-      <DependentUpon>FastestLapsGridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\FlagsGridView.resx">
-      <DependentUpon>FlagsGridView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\GridView.resx">
       <DependentUpon>GridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\LapLeadersGridView.resx">
-      <DependentUpon>LapLeadersGridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\MoversFallersGridView.resx">
-      <DependentUpon>MoversFallersGridView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\NLapsGridView.resx">
-      <DependentUpon>NLapsGridView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GenericGridView.resx">
       <DependentUpon>GenericGridView.cs</DependentUpon>

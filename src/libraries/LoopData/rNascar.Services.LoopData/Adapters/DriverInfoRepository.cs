@@ -7,13 +7,10 @@ using rNascar23.LiveFeeds.Ports;
 using rNascar23.LoopData.Models;
 using rNascar23.LoopData.Ports;
 using rNascar23.Schedules.Ports;
-using rNascar23.Service.LoopData.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace rNascar23.Service.LoopData.Adapters

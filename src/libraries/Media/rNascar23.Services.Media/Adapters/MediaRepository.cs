@@ -32,7 +32,7 @@ namespace rNascar23.Service.Media
         #region ctor
 
         public MediaRepository(ILogger<MediaRepository> logger)
-            :base(logger)
+            : base(logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
