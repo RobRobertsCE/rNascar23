@@ -897,13 +897,19 @@ namespace rNascar23
             splitter.BringToFront();
         }
 
-        private void LoadLeaderboards(Panel panel, LeaderboardGridView.RunTypes runType)
+        private void LoadLeaderboards(Panel panel, LeaderboardGridView.RunTypes runType, UserSettings settings)
         {
             LeaderboardGridView leftLeaderboardGridView = new LeaderboardGridView(
               LeaderboardGridView.LeaderboardSides.Left,
               runType)
             {
-                SeriesId = _formState.LiveFeed.SeriesId
+                SeriesId = _formState.LiveFeed.SeriesId,
+                FontOverride = settings.UseLowScreenResolutionSizes ?
+                    new Font(
+                        settings.OverrideFontName,
+                        settings.OverrideFontSize.GetValueOrDefault(10),
+                        (FontStyle)settings.OverrideFontStyle) :
+                        null
             };
             panel.Controls.Add(leftLeaderboardGridView);
             leftLeaderboardGridView.Dock = DockStyle.Left;
@@ -921,7 +927,7 @@ namespace rNascar23
                 LeaderboardGridView.LeaderboardSides.Right,
                 runType)
             {
-                SeriesId = _formState.LiveFeed.SeriesId
+                SeriesId = _formState.LiveFeed.SeriesId                
             };
             panel.Controls.Add(rightLeaderboardGridView);
             rightLeaderboardGridView.Dock = DockStyle.Left;
@@ -1034,7 +1040,7 @@ namespace rNascar23
             LoadDefaultPanels();
 
             /*** Main ***/
-            LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Practice);
+            LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Practice, settings);
 
             /*** Right ***/
             LoadSelectedViews(pnlRight, settings.PracticeViewRightGrids, DockStyle.Top, settings);
@@ -1074,19 +1080,25 @@ namespace rNascar23
 
             var settings = UserSettingsService.LoadUserSettings();
 
+            if (settings.QualifyingViewRightGrids.Count == 0)
+            {
+                pnlRight.Visible = false;
+                pnlMain.BringToFront();
+            }
+            if (settings.QualifyingViewBottomGrids.Count == 0)
+            {
+                pnlBottom.Visible = false;
+                pnlMain.BringToFront();
+            }
+
             /*** main panel ***/
-            LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Qualifying);
+            LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Qualifying, settings);
 
             /*** Right ***/
             LoadSelectedViews(pnlRight, settings.QualifyingViewRightGrids, DockStyle.Top, settings);
 
             /*** Bottom ***/
             LoadSelectedViews(pnlBottom, settings.QualifyingViewBottomGrids, DockStyle.Left, settings);
-
-            pnlMain.Visible = true;
-            pnlRight.Visible = true;
-            pnlBottom.Visible = true;
-            pnlHost.Visible = false;
 
             lblRaceLaps.Visible = false;
             lblRaceLaps.Text = "";
@@ -1120,7 +1132,7 @@ namespace rNascar23
                 var settings = UserSettingsService.LoadUserSettings();
 
                 /*** main panel ***/
-                LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Race);
+                LoadLeaderboards(pnlMain, LeaderboardGridView.RunTypes.Race, settings);
 
                 /*** Right ***/
                 LoadSelectedViews(pnlRight, settings.RaceViewRightGrids, DockStyle.Top, settings);
@@ -2452,7 +2464,7 @@ namespace rNascar23
                 switch (gridDefinition.GridName)
                 {
                     case "Leaderboard":
-                        LoadLeaderboards(targetPanel, LeaderboardGridView.RunTypes.Race);
+                        LoadLeaderboards(targetPanel, LeaderboardGridView.RunTypes.Race, settings);
                         break;
 
                     case "Fastest Laps":

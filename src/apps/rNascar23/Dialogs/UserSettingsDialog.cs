@@ -6,6 +6,7 @@ using rNascar23.Views;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime;
@@ -21,6 +22,7 @@ namespace rNascar23.Dialogs
         private string _previousRootDirectory = String.Empty;
         private readonly ILogger<UserSettingsDialog> _logger = null;
         private readonly IDriverInfoRepository _driverRepository = null;
+        private Font _overrideFont = null;
 
         #endregion
 
@@ -94,6 +96,18 @@ namespace rNascar23.Dialogs
             {
                 txtDataDelay.Text = settings.DataDelayInSeconds.Value.ToString();
             }
+
+            if (_userSettings.UseLowScreenResolutionSizes)
+            {
+                chkLowRes.Checked = true;
+
+                _overrideFont = new Font(
+                    _userSettings.OverrideFontName,
+                    _userSettings.OverrideFontSize.GetValueOrDefault(10),
+                    (FontStyle)_userSettings.OverrideFontStyle);
+            }
+
+            DisplayOverrideFont(_overrideFont);
 
             DisplayFavoriteDrivers(settings.FavoriteDrivers);
 
@@ -353,6 +367,7 @@ namespace rNascar23.Dialogs
             else
                 return String.Empty;
         }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             try
@@ -397,6 +412,21 @@ namespace rNascar23.Dialogs
             }
             else
                 _userSettings.DataDelayInSeconds = null;
+
+            if (chkLowRes.Checked)
+            {
+                _userSettings.UseLowScreenResolutionSizes = true;
+                _userSettings.OverrideFontName = _overrideFont.Name;
+                _userSettings.OverrideFontSize = _overrideFont.Size;
+                _userSettings.OverrideFontStyle = (int)_overrideFont.Style;
+            }
+            else
+            {
+                _userSettings.UseLowScreenResolutionSizes = false;
+                _userSettings.OverrideFontName = String.Empty;
+                _userSettings.OverrideFontSize = null;
+                _userSettings.OverrideFontStyle = null;
+            }
 
             _userSettings.BackupDirectory = txtBackupDirectory.Text;
             _userSettings.DataDirectory = txtDataDirectory.Text;
@@ -469,6 +499,55 @@ namespace rNascar23.Dialogs
             lblDataDelay.Enabled = chkDelayDataUpdates.Checked;
         }
 
+        private void chkLowRes_CheckStateChanged(object sender, EventArgs e)
+        {
+            btnSetFont.Enabled = chkLowRes.Checked;
+
+            if (!chkLowRes.Checked)
+                DisplayOverrideFont(null);
+        }
+
+        private void btnSetFont_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SelectOverrideFont();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
+        private void SelectOverrideFont()
+        {
+            var dialog = new FontDialog();
+
+            if (_overrideFont != null)
+                dialog.Font = _overrideFont;
+
+            if (dialog.ShowDialog(this) == DialogResult.OK)
+            {
+                _overrideFont = dialog.Font;
+            }
+
+            DisplayOverrideFont(_overrideFont);
+        }
+
+        private void DisplayOverrideFont(Font overrideFont)
+        {
+            if (overrideFont == null)
+            {
+                lblOverrideFont.Text = String.Empty;
+                lblOverrideFont.Font = lblOverrideFont.Parent.Font;
+            }
+            else
+            {
+                lblOverrideFont.Text = $"{overrideFont.Name}; Size = {overrideFont.Size}; Style = {overrideFont.Style}";
+                lblOverrideFont.Font = overrideFont;
+            }
+        }
+
         #endregion
 
         #region private [ exception handlers ]
@@ -487,7 +566,6 @@ namespace rNascar23.Dialogs
                 _logger.LogError(ex, errorMessage);
             }
         }
-
 
         #endregion
 

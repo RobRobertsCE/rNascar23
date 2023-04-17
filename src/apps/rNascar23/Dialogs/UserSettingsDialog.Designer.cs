@@ -89,14 +89,17 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblHelp = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.lblDataDelay = new System.Windows.Forms.Label();
+            this.txtDataDelay = new System.Windows.Forms.TextBox();
+            this.chkDelayDataUpdates = new System.Windows.Forms.CheckBox();
             this.chkAutoUpdateEnabledOnStartup = new System.Windows.Forms.CheckBox();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.chkDelayDataUpdates = new System.Windows.Forms.CheckBox();
-            this.txtDataDelay = new System.Windows.Forms.TextBox();
-            this.lblDataDelay = new System.Windows.Forms.Label();
+            this.chkLowRes = new System.Windows.Forms.CheckBox();
+            this.btnSetFont = new System.Windows.Forms.Button();
+            this.lblOverrideFont = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -753,6 +756,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.lblOverrideFont);
+            this.tabPage4.Controls.Add(this.btnSetFont);
+            this.tabPage4.Controls.Add(this.chkLowRes);
             this.tabPage4.Controls.Add(this.lblDataDelay);
             this.tabPage4.Controls.Add(this.txtDataDelay);
             this.tabPage4.Controls.Add(this.chkDelayDataUpdates);
@@ -777,6 +783,36 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "UI Options";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // lblDataDelay
+            // 
+            this.lblDataDelay.AutoSize = true;
+            this.lblDataDelay.Enabled = false;
+            this.lblDataDelay.Location = new System.Drawing.Point(92, 388);
+            this.lblDataDelay.Name = "lblDataDelay";
+            this.lblDataDelay.Size = new System.Drawing.Size(122, 20);
+            this.lblDataDelay.TabIndex = 26;
+            this.lblDataDelay.Text = "Delay in Seconds";
+            // 
+            // txtDataDelay
+            // 
+            this.txtDataDelay.Enabled = false;
+            this.txtDataDelay.Location = new System.Drawing.Point(34, 385);
+            this.txtDataDelay.Name = "txtDataDelay";
+            this.txtDataDelay.Size = new System.Drawing.Size(52, 27);
+            this.txtDataDelay.TabIndex = 25;
+            this.txtDataDelay.Text = "0";
+            // 
+            // chkDelayDataUpdates
+            // 
+            this.chkDelayDataUpdates.AutoSize = true;
+            this.chkDelayDataUpdates.Location = new System.Drawing.Point(14, 355);
+            this.chkDelayDataUpdates.Name = "chkDelayDataUpdates";
+            this.chkDelayDataUpdates.Size = new System.Drawing.Size(157, 24);
+            this.chkDelayDataUpdates.TabIndex = 24;
+            this.chkDelayDataUpdates.Text = "Delay data updates";
+            this.chkDelayDataUpdates.UseVisualStyleBackColor = true;
+            this.chkDelayDataUpdates.CheckStateChanged += new System.EventHandler(this.chkDelayDataUpdates_CheckStateChanged);
             // 
             // chkAutoUpdateEnabledOnStartup
             // 
@@ -840,35 +876,36 @@
             this.tabPage3.Text = "Folders";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // chkDelayDataUpdates
+            // chkLowRes
             // 
-            this.chkDelayDataUpdates.AutoSize = true;
-            this.chkDelayDataUpdates.Location = new System.Drawing.Point(14, 355);
-            this.chkDelayDataUpdates.Name = "chkDelayDataUpdates";
-            this.chkDelayDataUpdates.Size = new System.Drawing.Size(157, 24);
-            this.chkDelayDataUpdates.TabIndex = 24;
-            this.chkDelayDataUpdates.Text = "Delay data updates";
-            this.chkDelayDataUpdates.UseVisualStyleBackColor = true;
-            this.chkDelayDataUpdates.CheckStateChanged += new System.EventHandler(this.chkDelayDataUpdates_CheckStateChanged);
+            this.chkLowRes.AutoSize = true;
+            this.chkLowRes.Location = new System.Drawing.Point(14, 418);
+            this.chkLowRes.Name = "chkLowRes";
+            this.chkLowRes.Size = new System.Drawing.Size(214, 24);
+            this.chkLowRes.TabIndex = 27;
+            this.chkLowRes.Text = "Use Low Resolution Settings";
+            this.chkLowRes.UseVisualStyleBackColor = true;
+            this.chkLowRes.CheckStateChanged += new System.EventHandler(this.chkLowRes_CheckStateChanged);
             // 
-            // txtDataDelay
+            // btnSetFont
             // 
-            this.txtDataDelay.Enabled = false;
-            this.txtDataDelay.Location = new System.Drawing.Point(34, 385);
-            this.txtDataDelay.Name = "txtDataDelay";
-            this.txtDataDelay.Size = new System.Drawing.Size(52, 27);
-            this.txtDataDelay.TabIndex = 25;
-            this.txtDataDelay.Text = "0";
+            this.btnSetFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetFont.Location = new System.Drawing.Point(234, 418);
+            this.btnSetFont.Name = "btnSetFont";
+            this.btnSetFont.Size = new System.Drawing.Size(75, 23);
+            this.btnSetFont.TabIndex = 28;
+            this.btnSetFont.Text = "Set Font";
+            this.btnSetFont.UseVisualStyleBackColor = true;
+            this.btnSetFont.Click += new System.EventHandler(this.btnSetFont_Click);
             // 
-            // lblDataDelay
+            // lblOverrideFont
             // 
-            this.lblDataDelay.AutoSize = true;
-            this.lblDataDelay.Enabled = false;
-            this.lblDataDelay.Location = new System.Drawing.Point(92, 388);
-            this.lblDataDelay.Name = "lblDataDelay";
-            this.lblDataDelay.Size = new System.Drawing.Size(122, 20);
-            this.lblDataDelay.TabIndex = 26;
-            this.lblDataDelay.Text = "Delay in Seconds";
+            this.lblOverrideFont.AutoSize = true;
+            this.lblOverrideFont.Location = new System.Drawing.Point(34, 449);
+            this.lblOverrideFont.Name = "lblOverrideFont";
+            this.lblOverrideFont.Size = new System.Drawing.Size(15, 20);
+            this.lblOverrideFont.TabIndex = 29;
+            this.lblOverrideFont.Text = "-";
             // 
             // UserSettingsDialog
             // 
@@ -978,5 +1015,8 @@
         private System.Windows.Forms.CheckBox chkDelayDataUpdates;
         private System.Windows.Forms.Label lblDataDelay;
         private System.Windows.Forms.TextBox txtDataDelay;
+        private System.Windows.Forms.Label lblOverrideFont;
+        private System.Windows.Forms.Button btnSetFont;
+        private System.Windows.Forms.CheckBox chkLowRes;
     }
 }

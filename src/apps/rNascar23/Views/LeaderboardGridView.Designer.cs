@@ -39,6 +39,9 @@
             // 
             // Grid
             // 
+            this.Grid.AllowUserToAddRows = false;
+            this.Grid.AllowUserToDeleteRows = false;
+            this.Grid.AllowUserToResizeRows = false;
             this.Grid.BackgroundColor = System.Drawing.Color.Black;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -47,6 +50,7 @@
             this.Grid.Name = "Grid";
             this.Grid.Size = new System.Drawing.Size(825, 392);
             this.Grid.TabIndex = 3;
+            this.Grid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.Grid_DataBindingComplete);
             // 
             // TitleLabel
             // 
