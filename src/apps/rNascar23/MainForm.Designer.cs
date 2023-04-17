@@ -93,6 +93,7 @@
             this.pnlSchedules = new System.Windows.Forms.Panel();
             this.timEventReplay = new System.Windows.Forms.Timer(this.components);
             this.pnlPitStops = new System.Windows.Forms.Panel();
+            this.patchNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -231,7 +232,8 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.logFileToolStripMenuItem});
+            this.logFileToolStripMenuItem,
+            this.patchNotesToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
@@ -240,7 +242,7 @@
             // 
             this.logFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("logFileToolStripMenuItem.Image")));
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logFileToolStripMenuItem.Text = "Log File";
             this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
@@ -691,6 +693,13 @@
             this.pnlPitStops.TabIndex = 11;
             this.pnlPitStops.Visible = false;
             // 
+            // patchNotesToolStripMenuItem
+            // 
+            this.patchNotesToolStripMenuItem.Name = "patchNotesToolStripMenuItem";
+            this.patchNotesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.patchNotesToolStripMenuItem.Text = "Patch Notes";
+            this.patchNotesToolStripMenuItem.Click += new System.EventHandler(this.patchNotesToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -797,6 +806,7 @@
         private System.Windows.Forms.ToolStripMenuItem audioChannelsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem inCarCamerasToolStripMenuItem;
         private System.Windows.Forms.Panel pnlPitStops;
+        private System.Windows.Forms.ToolStripMenuItem patchNotesToolStripMenuItem;
     }
 }
 

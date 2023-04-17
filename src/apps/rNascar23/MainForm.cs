@@ -386,6 +386,19 @@ namespace rNascar23
             }
         }
 
+        private void patchNotesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplayPatchNotesFile();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+
+        }
+
         // toolbar buttons - left
         private async void btnRaceView_Click(object sender, EventArgs e)
         {
@@ -2012,6 +2025,11 @@ namespace rNascar23
             }
 
             Process.Start("notepad.exe", logFilePath);
+        }
+
+        private void DisplayPatchNotesFile()
+        {
+            Process.Start("notepad.exe", "Patch Notes.txt");
         }
 
         #endregion

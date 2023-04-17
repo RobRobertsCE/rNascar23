@@ -582,6 +582,9 @@
     <None Include="Resources\InPitsDarkTheme.png" />
     <None Include="Resources\InPitsLightTheme.png" />
     <None Include="Resources\videoFeedTemplate.html" />
+    <Content Include="Patch Notes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="rNascar-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

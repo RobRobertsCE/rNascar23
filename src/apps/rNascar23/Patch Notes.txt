@@ -1,0 +1,20 @@
+﻿Version 0.3.0.25
+====================================
+
+New Features
+------------
+- Added functionality to watch in-car camera video.
+- Added user setting to turn on Auto-Update automatically when the program starts.
+- Added user setting to select the font used by the leaderboard. 
+	This is to help users who are running the program on a screen having less than 1920x1080 resolution.
+- Added a user setting to allow users to specify a delay (in seconds) that incoming data is held for before being displayed.
+	This is to allow users to sync the program with their tv or stream.
+
+Bug Fixes
+-----------
+- Made title to Best/Last Average Lap Time views shorter to prevent it from being truncated.
+
+Maintenance
+-----------
+- Removed a number of unused classes leftover from the test app phase of development.
+- Revised the display logic to make switching views cleaner and faster.
