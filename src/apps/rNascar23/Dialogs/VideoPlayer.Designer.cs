@@ -82,11 +82,13 @@
             // webView
             // 
             this.webView.AllowExternalDrop = true;
+            this.webView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.webView.CreationProperties = null;
-            this.webView.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.webView.Location = new System.Drawing.Point(8, 8);
+            this.webView.DefaultBackgroundColor = System.Drawing.Color.Black;
+            this.webView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView.Location = new System.Drawing.Point(0, 0);
             this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(660, 380);
+            this.webView.Size = new System.Drawing.Size(676, 398);
             this.webView.TabIndex = 10;
             this.webView.Visible = false;
             this.webView.ZoomFactor = 1D;
@@ -99,7 +101,6 @@
             this.Controls.Add(this.pnlSelection);
             this.Controls.Add(this.webView);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "VideoPlayer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

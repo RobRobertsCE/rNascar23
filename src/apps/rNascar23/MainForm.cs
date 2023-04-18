@@ -2594,6 +2594,27 @@ namespace rNascar23
             dialog.Show(this);
         }
 
+        private void multiViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DisplayMultiView();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex, "Exception multiple view video player from main form");
+            }
+        }
+
+        private void DisplayMultiView()
+        {
+            var multiView = Program.Services.GetRequiredService<MultiView>();
+
+            multiView.SeriesId = _formState.LiveFeed.SeriesId;
+
+            multiView.Show();
+        }
+
         #endregion
 
         #region private [ exception handling ]

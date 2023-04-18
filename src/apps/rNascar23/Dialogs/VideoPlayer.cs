@@ -85,6 +85,12 @@ namespace rNascar23.Dialogs
 
                 IList<VideoChannel> channels = new List<VideoChannel>();
 
+                if (videoConfiguration == null || videoConfiguration.data == null)
+                {
+                    MessageBox.Show("No video channels are available right now");
+                    return;
+                }
+
                 foreach (VideoComponent component in videoConfiguration.data)
                 {
                     foreach (VideoChannel videoChannel in component.videos)
@@ -167,8 +173,6 @@ namespace rNascar23.Dialogs
                 var html = template.Replace(token, videoChannel.stream1);
 
                 webView.NavigateToString(html);
-
-                System.Threading.Thread.Sleep(1000);
 
                 webView.Visible = true;
             }

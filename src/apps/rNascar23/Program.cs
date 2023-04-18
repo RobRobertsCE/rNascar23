@@ -56,7 +56,8 @@ namespace rNascar23
                         .AddTransient<UserSettingsDialog>()
                         .AddTransient<ReplaySelectionDialog>()
                         .AddTransient<AudioPlayer>()
-                        .AddTransient<VideoPlayer>();
+                        .AddTransient<VideoPlayer>()
+                        .AddTransient<MultiView>();
 
                     /*
                     SERILOG (Set in appsettings.json):

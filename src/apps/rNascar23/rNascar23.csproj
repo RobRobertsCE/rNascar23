@@ -245,6 +245,12 @@
     <Compile Include="CustomViews\GridStyle.cs" />
     <Compile Include="CustomViews\GridStyleHelper.cs" />
     <Compile Include="CustomViews\GridStyleSettings.cs" />
+    <Compile Include="MultiView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MultiView.Designer.cs">
+      <DependentUpon>MultiView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\VideoPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -365,6 +371,9 @@
       <DependentUpon>GenericGridView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewFactory.cs" />
+    <EmbeddedResource Include="MultiView.resx">
+      <DependentUpon>MultiView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\VideoPlayer.resx">
       <DependentUpon>VideoPlayer.cs</DependentUpon>
     </EmbeddedResource>
@@ -573,6 +582,7 @@
     <None Include="Resources\LeftTires.png" />
     <None Include="Resources\RightTires.png" />
     <None Include="Resources\Cancel.png" />
+    <None Include="Resources\Audio.png" />
     <Content Include="Resources\audioFeedTemplate.html" />
     <None Include="Resources\CNBC-logo-small.png" />
     <None Include="Resources\IMS-radio-small.png" />
@@ -585,6 +595,10 @@
     <Content Include="Patch Notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\MultiViewGrid.png" />
+    <None Include="Resources\Video.png" />
+    <None Include="Resources\Horizontal.png" />
+    <None Include="Resources\Vertical.png" />
     <Content Include="rNascar-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
