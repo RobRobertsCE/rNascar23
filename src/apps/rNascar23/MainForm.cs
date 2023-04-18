@@ -2150,6 +2150,12 @@ namespace rNascar23
                 if (pnlMain.Controls.Count > 0)
                     pnlMain.Controls.Clear();
 
+                if (pnlSchedules.Controls.Count > 0)
+                    pnlSchedules.Controls.Clear();
+
+                if (pnlPitStops.Controls.Count > 0)
+                    pnlPitStops.Controls.Clear();
+
                 var viewState = _viewState;
 
                 await SetViewStateAsync(ViewState.None, true);
