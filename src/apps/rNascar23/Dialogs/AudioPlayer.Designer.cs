@@ -77,20 +77,20 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(682, 85);
+            this.panel1.Size = new System.Drawing.Size(697, 85);
             this.panel1.TabIndex = 8;
             // 
             // lblInstructions
             // 
             this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblInstructions.Location = new System.Drawing.Point(17, 419);
+            this.lblInstructions.Location = new System.Drawing.Point(17, 504);
             this.lblInstructions.Name = "lblInstructions";
-            this.lblInstructions.Size = new System.Drawing.Size(643, 73);
+            this.lblInstructions.Size = new System.Drawing.Size(658, 73);
             this.lblInstructions.TabIndex = 9;
             this.lblInstructions.Text = "Click the arrow to start listening. Leave this form open to continue listening to" +
-    " the channel. (It is OK to minimize it.)\r\nYou may open more than one to listen t" +
-    "o multiple channels at once.\r\n";
+    " the channel. \r\nYou may open more than one to listen to multiple channels at onc" +
+    "e.\r\n";
             this.lblInstructions.Visible = false;
             // 
             // webView
@@ -103,23 +103,22 @@
             this.webView.DefaultBackgroundColor = System.Drawing.Color.White;
             this.webView.Location = new System.Drawing.Point(17, 91);
             this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(643, 312);
-            //this.webView.Source = new System.Uri("http://google.com", System.UriKind.Absolute);
+            this.webView.Size = new System.Drawing.Size(658, 397);
             this.webView.TabIndex = 10;
             this.webView.Visible = false;
             this.webView.ZoomFactor = 1D;
             // 
-            // AudioSelectionDialog
+            // AudioPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(682, 501);
+            this.ClientSize = new System.Drawing.Size(697, 586);
             this.Controls.Add(this.webView);
             this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "AudioSelectionDialog";
+            this.Name = "AudioPlayer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Audio Selection";
             this.Load += new System.EventHandler(this.AudioSelectionDialog_Load);
