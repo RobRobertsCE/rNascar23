@@ -9,6 +9,7 @@ New Features
 	This is to help users who are running the program on a screen having less than 1920x1080 resolution.
 - Added a user setting to allow users to specify a delay (in seconds) that incoming data is held for before being displayed.
 	This is to allow users to sync the program with their tv or stream.
+- Added a panning control to the Audio Player to send audio to left or right speaker. (Thanks u/Bitter-Capital-8156!)
 
 Bug Fixes
 -----------
