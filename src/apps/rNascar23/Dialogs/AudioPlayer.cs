@@ -75,6 +75,12 @@ namespace rNascar23.Dialogs
 
                 var audioConfiguration = await LoadAudioConfiguration(SeriesId);
 
+                if (audioConfiguration == null || audioConfiguration.audio_config == null)
+                {
+                    MessageBox.Show("No audio channels are available right now");
+                    return;
+                }
+
                 DisplayAudioChannelList(audioConfiguration.audio_config);
             }
             catch (Exception ex)

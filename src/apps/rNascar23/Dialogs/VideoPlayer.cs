@@ -74,6 +74,12 @@ namespace rNascar23.Dialogs
                 }
 
                 var videoConfiguration = await LoadVideoConfiguration(SeriesId);
+                
+                if (videoConfiguration == null || videoConfiguration.data == null)
+                {
+                    MessageBox.Show("No video channels are available right now");
+                    return;
+                }
 
                 IList<VideoChannel> channels = new List<VideoChannel>();
 

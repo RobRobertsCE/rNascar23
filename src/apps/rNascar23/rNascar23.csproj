@@ -572,8 +572,7 @@
     <None Include="Resources\LeftTires.png" />
     <None Include="Resources\RightTires.png" />
     <None Include="Resources\Cancel.png" />
-    <Content Include="Media\audioFeedTemplate2.html" />
-    <Content Include="Media\audioFeedTemplate.html" />
+    <Content Include="Resources\audioFeedTemplate.html" />
     <None Include="Resources\CNBC-logo-small.png" />
     <None Include="Resources\IMS-radio-small.png" />
     <None Include="Resources\NBCSN-logo.png" />
