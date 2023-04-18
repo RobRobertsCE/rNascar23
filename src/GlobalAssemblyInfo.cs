@@ -17,5 +17,5 @@ using System.Reflection;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 // BUILD IN RELEASE MODE FOR PATCH/RELEASE!
-[assembly: AssemblyVersion("0.3.0.24")]
-[assembly: AssemblyFileVersion("0.3.0.24")]
+[assembly: AssemblyVersion("0.3.0.26")]
+[assembly: AssemblyFileVersion("0.3.0.26")]

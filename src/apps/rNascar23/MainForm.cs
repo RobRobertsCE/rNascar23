@@ -42,6 +42,7 @@ namespace rNascar23
         #region consts
 
         private const string LogFileName = "rNascar23Log.{0}.txt";
+        private const string PatchFileName = "Patch Notes.txt";
 
         #endregion
 
@@ -2029,7 +2030,12 @@ namespace rNascar23
 
         private void DisplayPatchNotesFile()
         {
-            Process.Start("notepad.exe", "Patch Notes.txt");
+            var installFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+            var patchFilePath = Path.Combine(installFolder, PatchFileName);
+
+            if (File.Exists(patchFilePath))
+                Process.Start("notepad.exe", patchFilePath);
         }
 
         #endregion
