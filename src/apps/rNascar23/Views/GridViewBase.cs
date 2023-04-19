@@ -145,7 +145,7 @@ namespace rNascar23.Views
                 GridStyle = new GridStyle()
                 {
                     BackColor = Color.WhiteSmoke.ToArgb(),
-                    LineColor = Color.Gray.ToArgb(),
+                    LineColor = Color.WhiteSmoke.ToArgb(),
                 },
                 HeaderStyle = new GridRowStyle()
                 {

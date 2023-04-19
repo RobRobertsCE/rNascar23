@@ -87,6 +87,8 @@ namespace rNascar23
         private EventReplay _eventReplay = null;
         private int _replayFrameIndex = 0;
         private int _replaySpeed = 1;
+        private int _loadingPanelStackCount = 0;
+        private object _syncLockObject = new object();
 
         private bool _isFullScreen = false;
         private bool _isImportedData = false;
@@ -158,13 +160,27 @@ namespace rNascar23
         {
             try
             {
+                var toolbarAndMenuOffset = this.menuStrip1.Height + this.toolStrip1.Height;
+                pnlLoading.Location = new Point(0, toolbarAndMenuOffset);
+                pnlLoading.Size = new Size(this.Width, this.Height - toolbarAndMenuOffset);
+                lblLoading.Location = new Point
+                (
+                    (pnlLoading.Width / 2) - (lblLoading.Width / 2),
+                    (pnlLoading.Height / 2) - (lblLoading.Height / 2)
+                );
+
+                pnlLoading.BringToFront();
+                pnlLoading.Visible = true;
+
+                DisplayLoadingPanel();
+
+                Application.DoEvents();
+
                 SetFeaturesStatus(_features.Value);
 
                 lblEventName.Text = "";
 
                 lblVersion.Text = $"Version {Assembly.GetExecutingAssembly().GetName().Version}";
-
-                //await SetViewStateAsync(ViewState.None, true);
 
                 await DisplayTodaysScheduleAsync(true);
 
@@ -176,6 +192,10 @@ namespace rNascar23
             catch (Exception ex)
             {
                 ExceptionHandler(ex, "Error loading main form");
+            }
+            finally
+            {
+                HideLoadingPanel();
             }
         }
 
@@ -246,6 +266,23 @@ namespace rNascar23
             }
         }
 
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            try
+            {
+                pnlLoading.Size = new Size(this.Width, this.Height - (this.menuStrip1.Height + this.toolStrip1.Height));
+                lblLoading.Location = new Point
+                (
+                    (pnlLoading.Width / 2) - (lblLoading.Width / 2),
+                    (pnlLoading.Height / 2) - (lblLoading.Height / 2)
+                );
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+
         #endregion
 
         #region private [ paint event handlers ]
@@ -264,13 +301,6 @@ namespace rNascar23
             picGreenYelllowLapIndicator.Controls.Clear();
 
             Color stageBlockBackgroundColor = Color.Black;
-            Color flagSegmentGreenColor = Color.DarkGreen;
-            Color flagSegmentYellowColor = Color.Gold;
-            Color flagSegmentRedColor = Color.Red;
-            Color flagSegmentWhiteColor = Color.White;
-            Color flagSegmentHotColor = Color.Orange;
-            Color flagSegmentColdColor = Color.RoyalBlue;
-            Color flagSegmentCheckeredColor = Color.Black;
 
             int endPadding = 5;
             int stagePadding = 10;
@@ -319,13 +349,13 @@ namespace rNascar23
                 float segmentStart = ((float)lapSegment.StartLapNumber * lapWidth) + segmentOffset;
                 float lapSegmentStartX = endPadding + segmentStart;
 
-                var segmentColor = lapSegment.FlagState == LapStateViewModel.FlagState.Green ? flagSegmentGreenColor :
-                    lapSegment.FlagState == LapStateViewModel.FlagState.Yellow ? flagSegmentYellowColor :
-                    lapSegment.FlagState == LapStateViewModel.FlagState.Red ? flagSegmentRedColor :
-                    lapSegment.FlagState == LapStateViewModel.FlagState.White ? flagSegmentWhiteColor :
-                    lapSegment.FlagState == LapStateViewModel.FlagState.Hot ? flagSegmentHotColor :
-                    lapSegment.FlagState == LapStateViewModel.FlagState.Cold ? flagSegmentColdColor :
-                    flagSegmentCheckeredColor;
+                var segmentColor = lapSegment.FlagState == FlagColors.Green ? FlagUiColors.Green :
+                    lapSegment.FlagState == FlagColors.Yellow ? FlagUiColors.Yellow :
+                    lapSegment.FlagState == FlagColors.Red ? FlagUiColors.Red :
+                    lapSegment.FlagState == FlagColors.White ? FlagUiColors.White :
+                    lapSegment.FlagState == FlagColors.HotTrack ? FlagUiColors.HotTrack :
+                    lapSegment.FlagState == FlagColors.ColdTrack ? FlagUiColors.ColdTrack :
+                    FlagUiColors.Checkered;
 
                 RectangleF flagSegment = new RectangleF(
                        lapSegmentStartX,
@@ -340,10 +370,10 @@ namespace rNascar23
                     BackColor = segmentColor
                 };
 
-                var flagState = lapSegment.FlagState == LapStateViewModel.FlagState.Green ?
-                    "Green" : lapSegment.FlagState == LapStateViewModel.FlagState.Yellow ?
-                    "Caution" : lapSegment.FlagState == LapStateViewModel.FlagState.Red ?
-                    "Red" : lapSegment.FlagState == LapStateViewModel.FlagState.White ?
+                var flagState = lapSegment.FlagState == FlagColors.Green ?
+                    "Green" : lapSegment.FlagState == FlagColors.Yellow ?
+                    "Caution" : lapSegment.FlagState == FlagColors.Red ?
+                    "Red" : lapSegment.FlagState == FlagColors.White ?
                     "White" : "Checkered";
 
                 var startLap = lapSegment.StartLapNumber == 0 ? 1 : lapSegment.StartLapNumber;
@@ -352,7 +382,7 @@ namespace rNascar23
 
                 var cautionDetails = String.Empty;
 
-                if (lapSegment.FlagState == LapStateViewModel.FlagState.Yellow)
+                if (lapSegment.FlagState == FlagColors.Yellow)
                 {
                     var flagData = _formState.FlagStates.FirstOrDefault(f => f.LapNumber >= lapSegment.StartLapNumber && f.LapNumber <= lapSegment.StartLapNumber);
 
@@ -843,33 +873,46 @@ namespace rNascar23
 
         private void SetUiView(ViewState viewState)
         {
-            ClearViewControls();
-
-            SetHeaderStates(viewState);
-
-            SetPanelStates(viewState);
-
-            Application.DoEvents();
-
-            switch (viewState)
+            try
             {
-                case ViewState.None:
-                    break;
-                case ViewState.Practice:
-                    DisplayPracticeScreen();
-                    break;
-                case ViewState.Qualifying:
-                    DisplayQualifyingScreen();
-                    break;
-                case ViewState.Race:
-                    DisplayRaceScreen();
-                    break;
-                case ViewState.PitStops:
-                    DisplayPitStopsViewScreen();
-                    break;
-                case ViewState.Schedules:
-                default:
-                    break;
+                DisplayLoadingPanel();
+
+                ClearViewControls();
+
+                SetHeaderStates(viewState);
+
+                SetPanelStates(viewState);
+
+                Application.DoEvents();
+
+                switch (viewState)
+                {
+                    case ViewState.None:
+                        break;
+                    case ViewState.Practice:
+                        DisplayPracticeScreen();
+                        break;
+                    case ViewState.Qualifying:
+                        DisplayQualifyingScreen();
+                        break;
+                    case ViewState.Race:
+                        DisplayRaceScreen();
+                        break;
+                    case ViewState.PitStops:
+                        DisplayPitStopsViewScreen();
+                        break;
+                    case ViewState.Schedules:
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+            finally
+            {
+                HideLoadingPanel();
             }
         }
 
@@ -904,6 +947,49 @@ namespace rNascar23
             picGreenYelllowLapIndicator.Controls.Clear();
 
             Application.DoEvents();
+        }
+
+        private void DisplayLoadingPanel()
+        {
+            pnlLoading.BringToFront();
+            pnlLoading.Visible = true;
+
+            menuStrip1.Enabled = false;
+            toolStrip1.Enabled = false;
+
+            Application.DoEvents();
+
+            lock (_syncLockObject)
+            {
+                _loadingPanelStackCount += 1;
+            }
+        }
+
+        private void HideLoadingPanel()
+        {
+            try
+            {
+                lock (_syncLockObject)
+                {
+                    _loadingPanelStackCount -= 1;
+
+                    if (_loadingPanelStackCount <= 0)
+                    {
+                        pnlLoading.Visible = false;
+                        menuStrip1.Enabled = true;
+                        toolStrip1.Enabled = true;
+                    }
+                }
+
+                Application.DoEvents();
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+                pnlLoading.Visible = false;
+                menuStrip1.Enabled = true;
+                toolStrip1.Enabled = true;
+            }
         }
 
         #endregion
@@ -1191,6 +1277,8 @@ namespace rNascar23
 
             /*** Bottom ***/
             LoadSelectedViews(pnlBottom, UserSettings.PracticeViewBottomGrids, DockStyle.Left, UserSettings);
+
+            SetBottomAndRightZOrder();
         }
 
         private void DisplayQualifyingScreen()
@@ -1205,6 +1293,8 @@ namespace rNascar23
 
             /*** Bottom ***/
             LoadSelectedViews(pnlBottom, UserSettings.QualifyingViewBottomGrids, DockStyle.Left, UserSettings);
+
+            SetBottomAndRightZOrder();
         }
 
         private void DisplayRaceScreen()
@@ -1223,6 +1313,8 @@ namespace rNascar23
 
                 /*** Bottom ***/
                 LoadSelectedViews(pnlBottom, UserSettings.RaceViewBottomGrids, DockStyle.Left, UserSettings);
+
+                SetBottomAndRightZOrder();
             }
             catch (Exception ex)
             {
@@ -1319,6 +1411,74 @@ namespace rNascar23
             }
 
             pitStopsView.Data = _formState.PitStops;
+        }
+
+        private void SetBottomAndRightZOrder()
+        {
+            var bottomZIndex = pnlBottom.Parent.Controls.GetChildIndex(pnlBottom);
+            var rightZIndex = pnlRight.Parent.Controls.GetChildIndex(pnlRight);
+
+            var bottomPanelWidth = pnlBottom.Width;
+            var bottomPanelControlsWidth = pnlBottom.Controls.OfType<Control>().Sum(c => c.Width);
+
+            var rightPanelHeight = pnlRight.Height;
+            var rightPanelControlsHeight = pnlRight.Controls.OfType<Control>().Sum(c => c.Height);
+
+            if ((rightPanelControlsHeight <= rightPanelHeight) && (bottomPanelControlsWidth <= bottomPanelWidth))
+                // Everything fits, no z-order adjustments required.
+                return;
+            else if ((rightPanelControlsHeight > rightPanelHeight) && (bottomPanelControlsWidth <= bottomPanelWidth))
+            {
+                // Right panel views height exceed right panel height, bottom panel OK.
+                if (rightZIndex < bottomZIndex)
+                {
+                    pnlRight.Parent.Controls.SetChildIndex(pnlRight, bottomZIndex);
+                }
+            }
+            else if ((rightPanelControlsHeight <= rightPanelHeight) && (bottomPanelControlsWidth > bottomPanelWidth))
+            {
+                // Bottom panel views width exceed bottom panel width, right panel OK. 
+                if (bottomZIndex < rightZIndex)
+                {
+                    pnlBottom.Parent.Controls.SetChildIndex(pnlBottom, rightZIndex);
+                }
+            }
+            else
+            {
+                // Views in both panels exceed available space. Favor bottom panel over right panel.
+                if (bottomZIndex < rightZIndex)
+                {
+                    pnlBottom.Parent.Controls.SetChildIndex(pnlBottom, rightZIndex);
+                }
+            }
+
+            ResizeRightPanelViews();
+        }
+
+        private void ResizeRightPanelViews()
+        {
+            var rightPanelHeight = pnlRight.Height;
+            var rightPanelControlsHeight = pnlRight.Controls.OfType<GridViewBase>().Sum(c => c.Height);
+            var splitterHeights = pnlRight.Controls.OfType<Splitter>().Sum(c => c.Height);
+
+            var viewHeightOverrun = (rightPanelControlsHeight + splitterHeights) - rightPanelHeight;
+
+            if (viewHeightOverrun > 0)
+            {
+                // views too tall for panel.
+                var gridViewControls = pnlRight.Controls.OfType<GridViewBase>();
+
+                var panelCount = gridViewControls.Count();
+
+                foreach (GridViewBase viewControl in gridViewControls)
+                {
+                    float proportionalHeight = (float)viewControl.Height / rightPanelControlsHeight;
+
+                    var proportionalAdjustment = (viewHeightOverrun * proportionalHeight) + 1;
+
+                    viewControl.Height -= (int)Math.Round(proportionalAdjustment, 0);
+                }
+            }
         }
 
         #endregion
@@ -1857,12 +2017,14 @@ namespace rNascar23
 
         private void DisplayHeaderData()
         {
-            picFlagStatus.BackColor = _formState.LiveFeed.FlagState == 8 ? Color.Orange :
-                _formState.LiveFeed.FlagState == 1 ? Color.LimeGreen :
-                _formState.LiveFeed.FlagState == 2 ? Color.Yellow :
-                _formState.LiveFeed.FlagState == 3 ? Color.Red :
-                _formState.LiveFeed.FlagState == 4 ? Color.White :
-                _formState.LiveFeed.FlagState == 9 ? Color.RoyalBlue :
+            picFlagStatus.BackColor =
+                _formState.LiveFeed.FlagState == (int)FlagColors.Green ? FlagUiColors.Green :
+                _formState.LiveFeed.FlagState == (int)FlagColors.Yellow ? FlagUiColors.Yellow :
+                _formState.LiveFeed.FlagState == (int)FlagColors.Red ? FlagUiColors.Red :
+                _formState.LiveFeed.FlagState == (int)FlagColors.White ? FlagUiColors.White :
+                _formState.LiveFeed.FlagState == (int)FlagColors.Checkered ? FlagUiColors.Checkered :
+                _formState.LiveFeed.FlagState == (int)FlagColors.HotTrack ? FlagUiColors.HotTrack :
+                _formState.LiveFeed.FlagState == (int)FlagColors.ColdTrack ? FlagUiColors.ColdTrack :
                 Color.Black;
 
             if (_formState.LiveFeed.RunType == (int)RunType.Race)
@@ -1954,13 +2116,13 @@ namespace rNascar23
                 return;
 
             int lap = 0;
-            LapStateViewModel.FlagState previousFlagState = LapStateViewModel.FlagState.Green;
+            FlagColors previousFlagState = FlagColors.Green;
 
             _lapStates.LapSegments.Clear();
 
             for (int i = 0; i < _formState.FlagStates.Count; i++)
             {
-                if (_formState.FlagStates[i].State != (int)previousFlagState)
+                if (_formState.FlagStates[i].State != previousFlagState)
                 {
                     var newLapSegment = new LapStateViewModel.LapSegment
                     {
@@ -1975,7 +2137,7 @@ namespace rNascar23
 
                     _lapStates.LapSegments.Add(newLapSegment);
 
-                    previousFlagState = (LapStateViewModel.FlagState)_formState.FlagStates[i].State;
+                    previousFlagState = _formState.FlagStates[i].State;
                     lap = _formState.FlagStates[i].LapNumber;
                 }
             }
@@ -1999,7 +2161,7 @@ namespace rNascar23
                     StartLapNumber = lap,
                     Laps = 1,
                     Stage = 3,
-                    FlagState = LapStateViewModel.FlagState.Checkered
+                    FlagState = FlagColors.Checkered
                 };
 
                 _lapStates.LapSegments.Add(lastLapSegment);
@@ -2141,7 +2303,7 @@ namespace rNascar23
 
             var result = dialog.ShowDialog();
 
-            if (result == DialogResult.OK)
+            if (result == DialogResult.OK && dialog.UserSettingsHasChanges)
             {
                 _logger.LogInformation("User settings updated");
 

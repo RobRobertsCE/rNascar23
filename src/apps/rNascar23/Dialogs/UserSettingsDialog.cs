@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using rNascar23.Common;
 using rNascar23.LoopData.Ports;
 using rNascar23.Views;
@@ -20,10 +21,11 @@ namespace rNascar23.Dialogs
         private readonly ILogger<UserSettingsDialog> _logger = null;
         private readonly IDriverInfoRepository _driverRepository = null;
         private Font _overrideFont = null;
+        private string _originalUserSettingsJson = String.Empty;
 
         #endregion
 
-        #region private properties
+        #region properties
 
         private UserSettings _userSettings = null;
         public UserSettings UserSettings
@@ -35,6 +37,25 @@ namespace rNascar23.Dialogs
             set
             {
                 _userSettings = value;
+            }
+        }
+
+        public bool UserSettingsHasChanges
+        {
+            get
+            {
+                try
+                {
+                    var userSettingsJson = JsonConvert.SerializeObject(_userSettings);
+
+                    return !_originalUserSettingsJson.Equals(userSettingsJson, StringComparison.InvariantCultureIgnoreCase);
+                }
+                catch (Exception ex)
+                {
+                    ExceptionHandler(ex);
+                }
+
+                return true;
             }
         }
 
@@ -64,6 +85,8 @@ namespace rNascar23.Dialogs
                 LoadAvailableViews();
 
                 DisplayUserSettings(_userSettings);
+
+                RecordUserSettingsState();
             }
             catch (Exception ex)
             {
@@ -177,7 +200,7 @@ namespace rNascar23.Dialogs
                 chkQualifyingViewsBottom.Items.Add(viewDetail);
                 chkPracticeViewsBottom.Items.Add(viewDetail);
 
-                if (viewDetail.ViewType != GridViewTypes.Flags)
+                if (viewDetail.ViewType != GridViewTypes.Flags && viewDetail.ViewType != GridViewTypes.KeyMoments)
                 {
                     chkRaceViewsRight.Items.Add(viewDetail);
                     chkQualifyingViewsRight.Items.Add(viewDetail);
@@ -543,6 +566,11 @@ namespace rNascar23.Dialogs
                 lblOverrideFont.Text = $"{overrideFont.Name}; Size = {overrideFont.Size}; Style = {overrideFont.Style}";
                 lblOverrideFont.Font = overrideFont;
             }
+        }
+
+        private void RecordUserSettingsState()
+        {
+            _originalUserSettingsJson = JsonConvert.SerializeObject(_userSettings);
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using rNascar23.Flags.Models;
+using rNascar23.Logic;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,8 +9,18 @@ using System.Windows.Forms;
 
 namespace rNascar23.Views
 {
-    public partial class FlagsView : rNascar23.Views.GridViewBase
+    public partial class FlagsView : GridViewBase
     {
+        #region consts
+
+        private const int FlagStateColumnIndex = 0;
+        private const int LapNumberColumnIndex = 1;
+        private const int CommentColumnIndex = 2;
+
+        #endregion
+
+        #region ctor
+
         public FlagsView()
         {
             InitializeComponent();
@@ -17,48 +28,36 @@ namespace rNascar23.Views
             Grid.RowsAdded += Grid_RowsAdded;
         }
 
+        #endregion
+
+        #region protected
+
         protected override void AddColumns()
         {
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn colFlagColor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn colFlagState = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn colLapNumber = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn colComment = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn colLuckyDog = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn colTimeOfDayOS = new DataGridViewTextBoxColumn();
 
-            Grid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            Grid.Columns.AddRange(new DataGridViewColumn[]
             {
-                Column1,
-                colFlagColor,
-                Column2,
-                Column3,
-                Column4,
-                Column5,
-                Column6,
-                Column7
+                colFlagState,
+                colLapNumber,
+                colComment,
+                colLuckyDog,
+                colTimeOfDayOS
             });
 
-            GridViewColumnBuilder.ConfigureColumn(Column1, "State", 50, "Flag");
+            GridViewColumnBuilder.ConfigureColumn(colFlagState, "State", 50, "Flag");
 
-            colFlagColor.HeaderText = "";
-            colFlagColor.Name = "FlagColor";
-            colFlagColor.Width = 50;
-            colFlagColor.Visible = true;
-            colFlagColor.DefaultCellStyle.BackColor = Color.White;
+            GridViewColumnBuilder.ConfigureColumn(colLapNumber, "LapNumber", 35, "Lap");
 
-            GridViewColumnBuilder.ConfigureColumn(Column2, "LapNumber", 35, "Lap");
+            GridViewColumnBuilder.ConfigureColumn(colComment, "Comment", 275, "Caution For");
 
-            GridViewColumnBuilder.ConfigureColumn(Column3, "Comment", 275, "Caution For");
+            GridViewColumnBuilder.ConfigureColumn(colLuckyDog, "Beneficiary", 45, "Lucky Dog");
 
-            GridViewColumnBuilder.ConfigureColumn(Column4, "Beneficiary", 45, "Lucky Dog");
-
-            GridViewColumnBuilder.ConfigureColumn(Column5, "ElapsedTime", 35, "ElapsedTime");
-
-            GridViewColumnBuilder.ConfigureColumn(Column6, "TimeOfDay", 45, "TimeOfDay");
-
-            GridViewColumnBuilder.ConfigureColumn(Column7, "TimeOfDayOs", 45, "TimeOfDayOs");
+            GridViewColumnBuilder.ConfigureColumn(colTimeOfDayOS, "TimeOfDayOs", 45, "TimeOfDayOs");
 
             Grid.ColumnHeadersVisible = true;
             Grid.RowHeadersVisible = false;
@@ -69,6 +68,10 @@ namespace rNascar23.Views
             Grid.SelectionChanged += (s, e) => Grid.ClearSelection();
         }
 
+        #endregion
+
+        #region public
+
         public override void SetDataSource<TModel>(IList<TModel> models)
         {
             if (Grid.DataSource == null)
@@ -78,7 +81,7 @@ namespace rNascar23.Views
                         Take(Settings.MaxRows.Value).
                         ToList();
 
-                _dataTable = GridViewTableBuilder.ToDataTable<TModel>(models.ToList());
+                _dataTable = GridViewTableBuilder.ToDataTable(models.ToList());
 
                 var dataView = new DataView(_dataTable);
 
@@ -110,7 +113,7 @@ namespace rNascar23.Views
 
                 foreach (FlagState model in models.OfType<FlagState>())
                 {
-                    DataRow[] foundRows = _dataTable.Select($"State = {model.State} AND LapNumber = {model.LapNumber}");
+                    DataRow[] foundRows = _dataTable.Select($"State = {(int)model.State} AND LapNumber = {model.LapNumber}");
 
                     if (foundRows != null && foundRows.Length > 0)
                     {
@@ -119,25 +122,15 @@ namespace rNascar23.Views
                     }
                     else
                     {
-                        var state = model.State == 1 ? "Green" :
-                             model.State == 2 ? "Yellow" :
-                             model.State == 3 ? "Red" :
-                             model.State == 4 ? "White" :
-                             model.State == 8 ? "Hot" :
-                             model.State == 9 ? "Cold" :
-                             "";
-
                         var comment = String.IsNullOrEmpty(model.Comment) ? " " : model.Comment;
                         var beneficiary = String.IsNullOrEmpty(model.Beneficiary) ? " " : model.Beneficiary;
 
                         var dr = _dataTable.NewRow();
 
-                        dr["State"] = int.Parse(model.State.ToString());
-                        dr["LapNumber"] = int.Parse(model.LapNumber.ToString());
+                        dr["State"] = (int)model.State;
+                        dr["LapNumber"] = model.LapNumber;
                         dr["Comment"] = comment;
                         dr["Beneficiary"] = beneficiary;
-                        dr["ElapsedTime"] = float.Parse(model.ElapsedTime.ToString());
-                        dr["TimeOfDay"] = float.Parse(model.TimeOfDay.ToString());
                         dr["TimeOfDayOs"] = model.TimeOfDayOs.ToString("h:mm tt");
 
                         _dataTable.Rows.Add(dr);
@@ -146,36 +139,36 @@ namespace rNascar23.Views
             }
 
             var cautionCountGroup = models.OfType<FlagState>().
-               Where(m => m.State == 2).
+               Where(m => m.State == FlagColors.Yellow).
                GroupBy(m => $"{m.State}-{m.LapNumber}");
 
             var cautionCount = cautionCountGroup.Count();
 
-            int previousState = 0;
+            FlagColors previousFlag = FlagColors.None;
             int previousCautionStartLap = 0;
             int runningCautionLapCount = 0;
             foreach (FlagState model in models.OfType<FlagState>())
             {
-                if (model.State == 1 && previousState == 0)
+                if (model.State == FlagColors.Green && previousFlag == FlagColors.None)
                 {
                     // green flag to start event
                 }
-                else if (model.State == 1 && previousState == 2)
+                else if (model.State == FlagColors.Green && previousFlag == FlagColors.Yellow)
                 {
                     // green flag after a yellow
                     runningCautionLapCount += (model.LapNumber - previousCautionStartLap);
                 }
-                else if (model.State == 2 && previousState == 1)
+                else if (model.State == FlagColors.Yellow && previousFlag == FlagColors.Green)
                 {
                     // yellow flag after a green
                     previousCautionStartLap = model.LapNumber;
                 }
-                else if (model.State == 2 && previousState == 3)
+                else if (model.State == FlagColors.Yellow && previousFlag == FlagColors.Red)
                 {
                     // yellow flag after a red
                 }
 
-                previousState = model.State;
+                previousFlag = model.State;
             }
 
             var cautionCountLabel = cautionCount == 1 ? "Caution" : "Cautions";
@@ -186,6 +179,10 @@ namespace rNascar23.Views
                 Grid.FirstDisplayedScrollingRowIndex = Grid.RowCount - 1;
         }
 
+        #endregion
+
+        #region private
+
         private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             var grid = sender as DataGridView;
@@ -194,42 +191,58 @@ namespace rNascar23.Views
             {
                 var row = grid.Rows[i];
 
-                if (row.Cells[0].Value != null)
+                row.DividerHeight = 4;
+
+                if (row.Cells[FlagStateColumnIndex].Value != null)
                 {
-                    if (int.Parse(row.Cells[0].Value.ToString()) == 1)
+                    if (int.Parse(row.Cells[FlagStateColumnIndex].Value.ToString()) == (int)FlagColors.Green)
                     {
-                        row.Cells[1].Style.BackColor = Color.Green;
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = FlagUiColors.Green;
+                        row.Cells[LapNumberColumnIndex].Style.ForeColor = Color.White;
                     }
-                    else if (int.Parse(row.Cells[0].Value.ToString()) == 2)
+                    else if (int.Parse(row.Cells[FlagStateColumnIndex].Value.ToString()) == (int)FlagColors.Yellow)
                     {
-                        row.Cells[1].Style.BackColor = Color.Gold;
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = FlagUiColors.Yellow;
+                        row.Cells[LapNumberColumnIndex].Style.ForeColor = Color.Black;
                     }
-                    else if (int.Parse(row.Cells[0].Value.ToString()) == 3)
+                    else if (int.Parse(row.Cells[FlagStateColumnIndex].Value.ToString()) == (int)FlagColors.Red)
                     {
-                        row.Cells[1].Style.BackColor = Color.Red;
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = FlagUiColors.Red;
+                        row.Cells[LapNumberColumnIndex].Style.ForeColor = Color.Black;
                     }
-                    else if (int.Parse(row.Cells[0].Value.ToString()) == 4)
+                    else if (int.Parse(row.Cells[FlagStateColumnIndex].Value.ToString()) == (int)FlagColors.White)
                     {
-                        row.Cells[1].Style.BackColor = Color.White;
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = FlagUiColors.White;
+                        row.Cells[LapNumberColumnIndex].Style.ForeColor = Color.Black;
                     }
-                    else if (int.Parse(row.Cells[0].Value.ToString()) == 8)
+                    else if (int.Parse(row.Cells[FlagStateColumnIndex].Value.ToString()) == (int)FlagColors.Checkered)
                     {
-                        row.Cells[1].Style.BackColor = Color.Orange;
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = FlagUiColors.Checkered;
+                        row.Cells[LapNumberColumnIndex].Style.ForeColor = Color.Black;
                     }
-                    else if (int.Parse(row.Cells[0].Value.ToString()) == 9)
+                    else if (int.Parse(row.Cells[FlagStateColumnIndex].Value.ToString()) == (int)FlagColors.HotTrack)
                     {
-                        row.Cells[1].Style.BackColor = Color.CornflowerBlue;
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = FlagUiColors.HotTrack;
+                        row.Cells[LapNumberColumnIndex].Style.ForeColor = Color.Black;
+
+                    }
+                    else if (int.Parse(row.Cells[FlagStateColumnIndex].Value.ToString()) == (int)FlagColors.ColdTrack)
+                    {
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = FlagUiColors.ColdTrack;
+                        row.Cells[LapNumberColumnIndex].Style.ForeColor = Color.Black;
                     }
                     else
                     {
-                        row.Cells[1].Style.BackColor = row.Cells[0].Style.BackColor;
+                        row.Cells[LapNumberColumnIndex].Style.BackColor = row.Cells[FlagStateColumnIndex].Style.BackColor;
                     }
                 }
                 else
                 {
-                    row.Cells[1].Style.BackColor = row.Cells[0].Style.BackColor;
+                    row.Cells[LapNumberColumnIndex].Style.BackColor = row.Cells[FlagStateColumnIndex].Style.BackColor;
                 }
             }
         }
+
+        #endregion
     }
 }

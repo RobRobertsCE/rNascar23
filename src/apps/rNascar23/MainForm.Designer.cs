@@ -44,6 +44,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.patchNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.localDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDumpFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.replayEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,7 +94,8 @@
             this.pnlSchedules = new System.Windows.Forms.Panel();
             this.timEventReplay = new System.Windows.Forms.Timer(this.components);
             this.pnlPitStops = new System.Windows.Forms.Panel();
-            this.patchNotesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pnlLoading = new System.Windows.Forms.Panel();
+            this.lblLoading = new System.Windows.Forms.Label();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -102,6 +104,7 @@
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.pnlLoading.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlHeader
@@ -242,9 +245,16 @@
             // 
             this.logFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("logFileToolStripMenuItem.Image")));
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.logFileToolStripMenuItem.Text = "Log File";
             this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
+            // 
+            // patchNotesToolStripMenuItem
+            // 
+            this.patchNotesToolStripMenuItem.Name = "patchNotesToolStripMenuItem";
+            this.patchNotesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.patchNotesToolStripMenuItem.Text = "Patch Notes";
+            this.patchNotesToolStripMenuItem.Click += new System.EventHandler(this.patchNotesToolStripMenuItem_Click);
             // 
             // localDataToolStripMenuItem
             // 
@@ -693,12 +703,27 @@
             this.pnlPitStops.TabIndex = 11;
             this.pnlPitStops.Visible = false;
             // 
-            // patchNotesToolStripMenuItem
+            // pnlLoading
             // 
-            this.patchNotesToolStripMenuItem.Name = "patchNotesToolStripMenuItem";
-            this.patchNotesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.patchNotesToolStripMenuItem.Text = "Patch Notes";
-            this.patchNotesToolStripMenuItem.Click += new System.EventHandler(this.patchNotesToolStripMenuItem_Click);
+            this.pnlLoading.BackColor = System.Drawing.Color.Black;
+            this.pnlLoading.Controls.Add(this.lblLoading);
+            this.pnlLoading.Font = new System.Drawing.Font("Snyder Speed Brush", 20.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnlLoading.Location = new System.Drawing.Point(0, 4);
+            this.pnlLoading.Name = "pnlLoading";
+            this.pnlLoading.Size = new System.Drawing.Size(13, 20);
+            this.pnlLoading.TabIndex = 12;
+            this.pnlLoading.Visible = false;
+            // 
+            // lblLoading
+            // 
+            this.lblLoading.AutoSize = true;
+            this.lblLoading.BackColor = System.Drawing.Color.Black;
+            this.lblLoading.ForeColor = System.Drawing.Color.Silver;
+            this.lblLoading.Location = new System.Drawing.Point(603, 292);
+            this.lblLoading.Name = "lblLoading";
+            this.lblLoading.Size = new System.Drawing.Size(133, 33);
+            this.lblLoading.TabIndex = 0;
+            this.lblLoading.Text = "Loading...";
             // 
             // MainForm
             // 
@@ -706,6 +731,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1350, 729);
+            this.Controls.Add(this.pnlLoading);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlBottom);
             this.Controls.Add(this.pnlRight);
@@ -724,6 +750,7 @@
             this.Text = "rNASCAR23";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.pnlHeader.ResumeLayout(false);
             this.pnlEventInfo.ResumeLayout(false);
@@ -737,6 +764,8 @@
             this.statusStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.pnlLoading.ResumeLayout(false);
+            this.pnlLoading.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -807,6 +836,8 @@
         private System.Windows.Forms.ToolStripMenuItem inCarCamerasToolStripMenuItem;
         private System.Windows.Forms.Panel pnlPitStops;
         private System.Windows.Forms.ToolStripMenuItem patchNotesToolStripMenuItem;
+        private System.Windows.Forms.Panel pnlLoading;
+        private System.Windows.Forms.Label lblLoading;
     }
 }
 

@@ -62,6 +62,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.Grid);
             this.Controls.Add(this.TitleLabel);
+            this.DoubleBuffered = true;
             this.Name = "GridView";
             this.Size = new System.Drawing.Size(418, 331);
             ((System.ComponentModel.ISupportInitialize)(this.Grid)).EndInit();

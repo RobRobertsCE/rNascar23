@@ -10,7 +10,7 @@ namespace rNascar23.Service.Flags.Mappings
         {
             CreateMap<FlagStateModel, FlagState>()
            .ForMember(m => m.LapNumber, opts => opts.MapFrom(src => src.lap_number))
-           .ForMember(m => m.State, opts => opts.MapFrom(src => src.flag_state))
+           .ForMember(m => m.State, opts => opts.MapFrom(src => (FlagColors)src.flag_state))
            .ForMember(m => m.ElapsedTime, opts => opts.MapFrom(src => src.elapsed_time))
            .ForMember(m => m.Comment, opts => opts.MapFrom(src => src.comment))
            .ForMember(m => m.Beneficiary, opts => opts.MapFrom(src => src.beneficiary))

@@ -56,7 +56,9 @@ namespace rNascar23.Dialogs
             _mediaRepository = mediaRepository ?? throw new ArgumentNullException(nameof(mediaRepository));
 
             LogInfoMessage("before InitializeBrowserAsync");
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             InitializeBrowserAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             LogInfoMessage("after InitializeBrowserAsync");
         }
 
