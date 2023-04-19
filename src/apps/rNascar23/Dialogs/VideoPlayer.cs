@@ -239,7 +239,6 @@ namespace rNascar23.Dialogs
 
         private void LogInfoMessage(string message)
         {
-            Console.WriteLine(message);
             _logger.LogInformation(message);
         }
 

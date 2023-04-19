@@ -293,22 +293,7 @@ namespace rNascar23.Views
                         SatelliteTypes.Unknown
                 };
 
-                if (viewModel.Tv == TvTypes.Unknown && !String.IsNullOrEmpty(seriesEvent.TelevisionBroadcaster))
-                {
-                    Console.WriteLine($"seriesEvent.TelevisionBroadcaster={seriesEvent.TelevisionBroadcaster}");
-                }
-                if (viewModel.Radio == RadioTypes.Unknown && !String.IsNullOrEmpty(seriesEvent.RadioBroadcaster))
-                {
-                    Console.WriteLine($"seriesEvent.RadioBroadcaster={seriesEvent.RadioBroadcaster}");
-                }
-                if (viewModel.Satellite == SatelliteTypes.Unknown && !String.IsNullOrEmpty(seriesEvent.SatelliteRadioBroadcaster))
-                {
-                    Console.WriteLine($"seriesEvent.SatelliteRadioBroadcaster={seriesEvent.SatelliteRadioBroadcaster}");
-                }
-
                 scheduledEvents.Add(viewModel);
-
-                Console.WriteLine($"Series:{(int)viewModel.Series} Race:{viewModel.RaceId} Event:{viewModel.EventName}");
             }
 
             return scheduledEvents;

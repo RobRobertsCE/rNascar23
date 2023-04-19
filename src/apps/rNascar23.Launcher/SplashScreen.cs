@@ -45,7 +45,6 @@ namespace rNascar23.Launcher
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 MessageBox.Show(ex.Message);
             }
 

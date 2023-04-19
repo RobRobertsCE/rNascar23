@@ -256,35 +256,6 @@ namespace rNascar23.Views
                     }
                 }
             }
-
-            //try
-            //{
-            //    GridBindingSource.Sort = null;
-
-            //    if (Grid.DataSource != null && String.IsNullOrEmpty(GridBindingSource.Sort) && !String.IsNullOrEmpty(Settings.SortOrderField))
-            //    {
-            //        var sortColumnIndex = _dataTable.Columns.IndexOf(Settings.SortOrderField);
-
-            //        if (sortColumnIndex == -1)
-            //        {
-            //            // bad column
-            //        }
-            //        else
-            //        {
-            //            var sortDirection = Settings.SortOrder == 0 ? String.Empty :
-            //                Settings.SortOrder == 1 ? "ASC" :
-            //                "DESC";
-
-            //            var sortString = $"{Settings.SortOrderField} {sortDirection}".Trim();
-
-            //            GridBindingSource.Sort = sortString;
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.ToString());
-            //}
         }
 
         protected virtual void AddColumns()
