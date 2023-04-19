@@ -61,6 +61,8 @@
             this.audioVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.audioChannelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inCarCamerasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.multiViewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblAutoUpdateStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblViewState = new System.Windows.Forms.ToolStripStatusLabel();
@@ -368,7 +370,9 @@
             // 
             this.audioVideoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.audioChannelsToolStripMenuItem,
-            this.inCarCamerasToolStripMenuItem});
+            this.inCarCamerasToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.multiViewToolStripMenuItem});
             this.audioVideoToolStripMenuItem.Name = "audioVideoToolStripMenuItem";
             this.audioVideoToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.audioVideoToolStripMenuItem.Text = "&Audio/Video";
@@ -388,6 +392,19 @@
             this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.inCarCamerasToolStripMenuItem.Text = "In-Car Cameras";
             this.inCarCamerasToolStripMenuItem.Click += new System.EventHandler(this.inCarCamerasToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // multiViewToolStripMenuItem
+            // 
+            this.multiViewToolStripMenuItem.Image = global::rNascar23.Properties.Resources.MultiViewGrid;
+            this.multiViewToolStripMenuItem.Name = "multiViewToolStripMenuItem";
+            this.multiViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.multiViewToolStripMenuItem.Text = "MultiView";
+            this.multiViewToolStripMenuItem.Click += new System.EventHandler(this.multiViewToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -841,6 +858,8 @@
         private System.Windows.Forms.ToolStripMenuItem patchNotesToolStripMenuItem;
         private System.Windows.Forms.Panel pnlLoading;
         private System.Windows.Forms.Label lblLoading;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem multiViewToolStripMenuItem;
     }
 }
 
