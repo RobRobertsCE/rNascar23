@@ -157,8 +157,8 @@ namespace rNascar23.Views
 
                 toolTip1.SetToolTip(picSeries, $"{viewModel.Series} Series");
 
-                lblEventDate.Text = viewModel.EventDateTime.ToLocalTime().ToString("dddd, MMM d yyyy");
-                lblEventTime.Text = viewModel.EventDateTime.ToLocalTime().ToString("H:mm tt");
+                lblEventDate.Text = viewModel.EventDateTime.ToString("dddd, MMM d yyyy");
+                lblEventTime.Text = viewModel.EventDateTime.ToString("h:mm tt");
 
                 lblEventName.Text = viewModel.EventName;
                 lblTrack.Text = $"{viewModel.TrackName} {viewModel.TrackCityState}";
