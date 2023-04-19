@@ -38,10 +38,11 @@
             this.TitleLabel.Size = new System.Drawing.Size(451, 23);
             this.TitleLabel.Text = "Basic Grid";
             // 
-            // FlagsView
+            // KeyMomentsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.Name = "FlagsView";
+            this.DoubleBuffered = true;
+            this.Name = "KeyMomentsView";
             this.Size = new System.Drawing.Size(451, 228);
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();
             this.ResumeLayout(false);

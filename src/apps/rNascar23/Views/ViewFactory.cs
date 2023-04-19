@@ -1,5 +1,6 @@
 ﻿using rNascar23.Common;
 using rNascar23.CustomViews;
+using rNascar23.Logic;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -233,7 +234,7 @@ namespace rNascar23.Views
                 case GridViewTypes.Best5Laps:
                 case GridViewTypes.Best10Laps:
                 case GridViewTypes.Best15Laps:
-                    view.Settings.Columns[1].Width = 125; // driver name column
+                    view.Settings.Columns[1].Width = 120; // driver name column
                     view.Settings.TitleBackColor = Color.CornflowerBlue;
                     view.Settings.TitleForeColor = Color.Black;
                     break;
@@ -241,7 +242,7 @@ namespace rNascar23.Views
                 case GridViewTypes.Last5Laps:
                 case GridViewTypes.Last10Laps:
                 case GridViewTypes.Last15Laps:
-                    view.Settings.Columns[1].Width = 125; // driver name column
+                    view.Settings.Columns[1].Width = 120; // driver name column
                     view.Settings.TitleBackColor = Color.RoyalBlue;
                     view.Settings.TitleForeColor = Color.White;
                     break;
@@ -267,9 +268,7 @@ namespace rNascar23.Views
                     view.Settings = new GridSettings()
                     {
                         MaxRows = null,
-                        ViewWidth = 475,
-                        GridWidth = 450,
-                        TitleBackColor = Color.Gold,
+                        TitleBackColor = FlagUiColors.Yellow,
                         TitleForeColor = Color.Black,
                         Title = "Flags",
                         HideColumnHeaders = false,
@@ -281,68 +280,41 @@ namespace rNascar23.Views
                                 Index= 0,
                                 DataProperty = "State",
                                 DisplayIndex= 0,
-                                HeaderTitle ="State",
                                 Visible =false,
                                 Width = 60
                             },
                             new GridColumnSettings()
                             {
                                 Index= 1,
+                                DataProperty = "LapNumber",
                                 DisplayIndex= 1,
-                                HeaderTitle ="Flag",
+                                HeaderTitle ="Lap",
                                 Visible =true,
-                                Width = 35
+                                Width = 38
                             },
                             new GridColumnSettings()
                             {
                                 Index= 2,
-                                DataProperty = "LapNumber",
+                                DataProperty = "Comment",
                                 DisplayIndex= 2,
-                                HeaderTitle ="Lap",
+                                HeaderTitle ="Caution For",
                                 Visible =true,
-                                Width = 40
+                                Width = 150,
                             },
                             new GridColumnSettings()
                             {
                                 Index= 3,
-                                DataProperty = "Comment",
+                                DataProperty = "Beneficiary",
                                 DisplayIndex= 3,
-                                HeaderTitle ="Caution For",
+                                HeaderTitle ="Pass",
                                 Visible =true,
-                                Width = 175,
+                                Width = 38,
                             },
                             new GridColumnSettings()
                             {
                                 Index= 4,
-                                DataProperty = "Beneficiary",
-                                DisplayIndex= 4,
-                                HeaderTitle ="Lucky Dog",
-                                Visible =true,
-                                Width = 55,
-                            },
-                            new GridColumnSettings()
-                            {
-                                Index= 5,
-                                DataProperty = "ElapsedTime",
-                                DisplayIndex= 5,
-                                HeaderTitle ="ElapsedTime",
-                                Visible =false,
-                                Width = 150,
-                            },
-                            new GridColumnSettings()
-                            {
-                                Index= 6,
-                                DataProperty = "TimeOfDay",
-                                DisplayIndex= 6,
-                                HeaderTitle ="TimeOfDay",
-                                Visible =false,
-                                Width = 150,
-                            },
-                            new GridColumnSettings()
-                            {
-                                Index= 7,
                                 DataProperty = "TimeOfDayOs",
-                                DisplayIndex= 7,
+                                DisplayIndex= 4,
                                 HeaderTitle ="Time",
                                 Visible =true,
                                 Width = 70,
@@ -359,8 +331,6 @@ namespace rNascar23.Views
                     view.Settings = new GridSettings()
                     {
                         MaxRows = null,
-                        ViewWidth = 475,
-                        GridWidth = 450,
                         TitleBackColor = Color.Magenta,
                         TitleForeColor = Color.Black,
                         Title = "Key Moments",
@@ -384,7 +354,7 @@ namespace rNascar23.Views
                                 DisplayIndex= 1,
                                 HeaderTitle ="Lap",
                                 Visible =true,
-                                Width = 45
+                                Width = 38
                             },
                             new GridColumnSettings()
                             {
@@ -398,19 +368,10 @@ namespace rNascar23.Views
                             new GridColumnSettings()
                             {
                                 Index= 3,
-                                DisplayIndex= 3,
-                                HeaderTitle ="Flag",
-                                Visible =true,
-                                Width = 40,
-                            },
-                            new GridColumnSettings()
-                            {
-                                Index= 4,
                                 DataProperty = "Note",
-                                DisplayIndex= 4,
-                                HeaderTitle ="Note",
+                                DisplayIndex= 3,
                                 Visible =true,
-                                Width = 500,
+                                Width = 280,
                             }
                         },
                         SortOrderField = "NoteId",

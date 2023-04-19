@@ -41,6 +41,7 @@
             // FlagsView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.DoubleBuffered = true;
             this.Name = "FlagsView";
             this.Size = new System.Drawing.Size(451, 228);
             ((System.ComponentModel.ISupportInitialize)(this.GridBindingSource)).EndInit();

@@ -34,7 +34,6 @@ namespace rNascar23.Views
         private readonly IPitStopsRepository _pitStopsRepository = null;
         private readonly ILiveFeedRepository _liveFeedRepository = null;
         private Color _alternateRowBackColor = Color.Gainsboro;
-        private Color _alternateRowForeColor = Color.Black;
         IList<PitStopAverages> _averages = new List<PitStopAverages>();
 
         #endregion
@@ -153,22 +152,20 @@ namespace rNascar23.Views
         {
             var settings = UserSettingsService.LoadUserSettings();
 
-            Color backColor = Color.Empty;
-            Color foreColor = Color.Empty;
+            Color backColor;
+            Color foreColor;
 
             if (settings.UseDarkTheme)
             {
                 backColor = Color.Black;
                 foreColor = Color.Gainsboro;
                 _alternateRowBackColor = Color.FromArgb(24, 24, 24);
-                _alternateRowForeColor = Color.Gainsboro;
             }
             else
             {
                 backColor = Color.White;
                 foreColor = Color.Black;
                 _alternateRowBackColor = Color.Gainsboro;
-                _alternateRowForeColor = Color.Black;
             }
 
             flpPitStops.BackColor = backColor;
@@ -216,28 +213,28 @@ namespace rNascar23.Views
                 return;
 
             var orderedFlagStates = flagStates.
-                Where(f => f.State == 1 || f.State == 2).
+                Where(f => f.State == FlagColors.Green || f.State == FlagColors.Yellow).
                 OrderByDescending(f => f.LapNumber);
 
             var currentFlagState = orderedFlagStates.FirstOrDefault();
 
             if (currentFlagState != null)
             {
-                if (currentFlagState.State == 1) // green
+                if (currentFlagState.State == FlagColors.Green)
                 {
                     var endOfLastCaution = currentFlagState;
 
                     var beginningOfLastCaution = orderedFlagStates.
                         Where(f => f.LapNumber < endOfLastCaution.LapNumber).
-                        FirstOrDefault(f => f.State == 2);
+                        FirstOrDefault(f => f.State == FlagColors.Yellow);
 
                     _startLap = beginningOfLastCaution == null ? 0 : beginningOfLastCaution.LapNumber;
 
                     _endLap = endOfLastCaution.LapNumber;
                 }
-                else if (currentFlagState.State == 2) // yellow
+                else if (currentFlagState.State == FlagColors.Yellow)
                 {
-                    var beginningOfLastCaution = orderedFlagStates.FirstOrDefault(f => f.State == 1);
+                    var beginningOfLastCaution = orderedFlagStates.FirstOrDefault(f => f.State == FlagColors.Green);
 
                     _startLap = beginningOfLastCaution.LapNumber + 1;
 
@@ -285,7 +282,7 @@ namespace rNascar23.Views
 
             foreach (FlagState flagState in flagStates)
             {
-                if (flagState.State == 1 && cautionViewModel != null)
+                if (flagState.State == FlagColors.Green && cautionViewModel != null)
                 {
                     // end of caution
                     cautionViewModel.EndLap = flagState.LapNumber;
@@ -295,7 +292,7 @@ namespace rNascar23.Views
 
                     cautionViewModel = null;
                 }
-                else if (flagState.State == 2)
+                else if (flagState.State == FlagColors.Yellow)
                 {
                     // start of caution
                     cautionViewModel = new CautionViewModel()
@@ -524,9 +521,10 @@ namespace rNascar23.Views
 
                 foreach (var pitStop in pitStops)
                 {
-                    var lvi = new ListViewItem(pitStop.lap_count.ToString());
-
-                    lvi.UseItemStyleForSubItems = false;
+                    var lvi = new ListViewItem(pitStop.lap_count.ToString())
+                    {
+                        UseItemStyleForSubItems = false
+                    };
 
                     Color flagColor = pitStop.pit_in_flag_status == 1 ? Color.Green :
                       pitStop.pit_in_flag_status == 2 ? Color.Gold :
@@ -627,16 +625,15 @@ namespace rNascar23.Views
             {
                 if (driverPitStops != null && driverPitStops.Count() > 0)
                 {
-                    var driverPitStopSet = new PitStopAverages()
+                    var driverPitStopSet = new PitStopAverages
                     {
-                        CarNumber = int.Parse(driverPitStops.Key)
+                        CarNumber = int.Parse(driverPitStops.Key),
+                        Driver = driverPitStops.First().driver_name,
+                        TotalGainLoss = driverPitStops.Sum(p => p.positions_gained_lost),
+                        AveragePitTime = driverPitStops.Average(p => p.pit_stop_duration),
+                        AverageInOutTime = driverPitStops.Average(p => (p.in_travel_duration + p.out_travel_duration)),
+                        AverageTotalTime = driverPitStops.Average(p => p.total_duration)
                     };
-
-                    driverPitStopSet.Driver = driverPitStops.First().driver_name;
-                    driverPitStopSet.TotalGainLoss = driverPitStops.Sum(p => p.positions_gained_lost);
-                    driverPitStopSet.AveragePitTime = driverPitStops.Average(p => p.pit_stop_duration);
-                    driverPitStopSet.AverageInOutTime = driverPitStops.Average(p => (p.in_travel_duration + p.out_travel_duration));
-                    driverPitStopSet.AverageTotalTime = driverPitStops.Average(p => p.total_duration);
 
                     var greenFlagStops = driverPitStops.Where(p => p.pit_in_flag_status == 1);
 
