@@ -245,14 +245,15 @@
             // 
             this.logFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("logFileToolStripMenuItem.Image")));
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.logFileToolStripMenuItem.Text = "Log File";
             this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
             // patchNotesToolStripMenuItem
             // 
+            this.patchNotesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("patchNotesToolStripMenuItem.Image")));
             this.patchNotesToolStripMenuItem.Name = "patchNotesToolStripMenuItem";
-            this.patchNotesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.patchNotesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.patchNotesToolStripMenuItem.Text = "Patch Notes";
             this.patchNotesToolStripMenuItem.Click += new System.EventHandler(this.patchNotesToolStripMenuItem_Click);
             // 
@@ -374,15 +375,17 @@
             // 
             // audioChannelsToolStripMenuItem
             // 
+            this.audioChannelsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("audioChannelsToolStripMenuItem.Image")));
             this.audioChannelsToolStripMenuItem.Name = "audioChannelsToolStripMenuItem";
-            this.audioChannelsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.audioChannelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.audioChannelsToolStripMenuItem.Text = "Audio Channels";
             this.audioChannelsToolStripMenuItem.Click += new System.EventHandler(this.audioChannelsToolStripMenuItem_Click);
             // 
             // inCarCamerasToolStripMenuItem
             // 
+            this.inCarCamerasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("inCarCamerasToolStripMenuItem.Image")));
             this.inCarCamerasToolStripMenuItem.Name = "inCarCamerasToolStripMenuItem";
-            this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.inCarCamerasToolStripMenuItem.Text = "In-Car Cameras";
             this.inCarCamerasToolStripMenuItem.Click += new System.EventHandler(this.inCarCamerasToolStripMenuItem_Click);
             // 

@@ -585,6 +585,7 @@
     <Content Include="Patch Notes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\MultiViewGrid.png" />
     <Content Include="rNascar-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

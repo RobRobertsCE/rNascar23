@@ -242,6 +242,16 @@ namespace rNascar23.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap MultiViewGrid {
+            get {
+                object obj = ResourceManager.GetObject("MultiViewGrid", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap NBC_Small {
             get {
                 object obj = ResourceManager.GetObject("NBC_Small", resourceCulture);
