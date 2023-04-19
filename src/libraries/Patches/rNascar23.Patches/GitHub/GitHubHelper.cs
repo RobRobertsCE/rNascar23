@@ -203,8 +203,6 @@ namespace rNascar23.Patches.GitHub
 
             foreach (FileSystemInfo assemblyFileSystemInfo in assetDirectoryInfo.GetFileSystemInfos())
             {
-                Console.WriteLine($"Zipped FIle: {assemblyFileSystemInfo.FullName}");
-
                 if (!assemblyFileSystemInfo.Attributes.HasFlag(FileAttributes.Directory))
                 {
                     FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(assemblyFileSystemInfo.FullName);

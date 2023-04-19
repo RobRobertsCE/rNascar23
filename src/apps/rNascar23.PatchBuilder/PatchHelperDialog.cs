@@ -150,7 +150,6 @@ namespace rNascar23.PatchBuilder
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 MessageBox.Show(ex.Message);
             }
         }
@@ -393,7 +392,6 @@ namespace rNascar23.PatchBuilder
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 MessageBox.Show(ex.Message);
             }
         }
@@ -518,7 +516,6 @@ namespace rNascar23.PatchBuilder
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
                 MessageBox.Show(ex.Message);
             }
         }
