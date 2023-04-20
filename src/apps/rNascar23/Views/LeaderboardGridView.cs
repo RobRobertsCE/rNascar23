@@ -400,30 +400,35 @@ namespace rNascar23.Views
                 dataGridView.RowTemplate.Height = 28;
             }
 
-            DataGridViewTextBoxColumn Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewCheckBoxColumn Column8 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            DataGridViewTextBoxColumn Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            if (FontOverride == null)
+            {
+                dataGridView.RowTemplate.Height = 28;
+            }
 
-            DataGridViewTextBoxColumn Column13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column15 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column16 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column17 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewTextBoxColumn Column18 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            DataGridViewImageColumn colManufacturerImage = new System.Windows.Forms.DataGridViewImageColumn();
-            DataGridViewImageColumn colVehicleStatusImage = new System.Windows.Forms.DataGridViewImageColumn();
-            DataGridViewImageColumn colCarNumberImage = new System.Windows.Forms.DataGridViewImageColumn();
+            DataGridViewTextBoxColumn Column1 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column2 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column3 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column4 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column5 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column6 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column7 = new DataGridViewTextBoxColumn();
+            DataGridViewCheckBoxColumn Column8 = new DataGridViewCheckBoxColumn();
+            DataGridViewTextBoxColumn Column9 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column10 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column11 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column12 = new DataGridViewTextBoxColumn();
 
-            dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[]
+            DataGridViewTextBoxColumn Column13 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column14 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column15 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column16 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column17 = new DataGridViewTextBoxColumn();
+            DataGridViewTextBoxColumn Column18 = new DataGridViewTextBoxColumn();
+            DataGridViewImageColumn colManufacturerImage = new DataGridViewImageColumn();
+            DataGridViewImageColumn colVehicleStatusImage = new DataGridViewImageColumn();
+            DataGridViewImageColumn colCarNumberImage = new DataGridViewImageColumn();
+
+            dataGridView.Columns.AddRange(new DataGridViewColumn[]
             {
                 Column1,
                 colCarNumberImage,
@@ -500,7 +505,7 @@ namespace rNascar23.Views
 
             Column7.HeaderText = "To Next";
             Column7.Name = "DeltaNext";
-            Column7.Width = 65;
+            Column7.Width = 70;
             Column7.DefaultCellStyle.Font = gridFont;
             Column7.DataPropertyName = "DeltaNext";
 
@@ -608,8 +613,6 @@ namespace rNascar23.Views
             return dataGridView;
         }
 
-        #endregion
-
         private void Grid_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             if (FontOverride != null)
@@ -628,5 +631,15 @@ namespace rNascar23.Views
                 Grid.Columns["CarManufacturerImage"].Visible = false;
             }
         }
+
+        private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            for (int i = e.RowIndex; i < e.RowIndex + e.RowCount; i++)
+            {
+                Grid.Rows[i].DividerHeight = 8;
+            }
+        }
+
+        #endregion
     }
 }
