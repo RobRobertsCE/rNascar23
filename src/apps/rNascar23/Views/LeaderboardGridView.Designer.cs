@@ -48,9 +48,12 @@
             this.Grid.GridColor = System.Drawing.Color.Black;
             this.Grid.Location = new System.Drawing.Point(0, 25);
             this.Grid.Name = "Grid";
+            this.Grid.RowTemplate.Height = 24;
+            this.Grid.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Grid.Size = new System.Drawing.Size(825, 392);
             this.Grid.TabIndex = 3;
             this.Grid.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.Grid_DataBindingComplete);
+            this.Grid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Grid_RowsAdded);
             // 
             // TitleLabel
             // 

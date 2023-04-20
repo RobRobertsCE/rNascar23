@@ -1515,7 +1515,7 @@ namespace rNascar23
                 switch (gridView.Settings.ApiSource)
                 {
                     case ApiSources.LoopData:
-                        ((IGridView<rNascar23.LoopData.Models.Driver>)gridView).Data = _formState.EventStatistics.drivers;
+                        ((IGridView<LoopData.Models.Driver>)gridView).Data = _formState.EventStatistics.drivers;
                         break;
                     case ApiSources.Flags:
                         ((IGridView<FlagState>)gridView).Data = _formState.FlagStates;
@@ -2531,6 +2531,8 @@ namespace rNascar23
 
             LoadStateFromJsonFile(jsonFileName);
 
+            File.Delete(jsonFileName);
+
             await UpdateDataViewsAsync();
         }
 
@@ -2539,8 +2541,6 @@ namespace rNascar23
             var json = File.ReadAllText(jsonFileName);
 
             _formState = JsonConvert.DeserializeObject<FormState>(json);
-
-            File.Delete(jsonFileName);
         }
 
         private void UpdateReplayLabel(EventReplay replay, int index)
