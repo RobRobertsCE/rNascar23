@@ -1,4 +1,37 @@
-﻿Version 0.3.0.26
+﻿Version 0.3.0.27
+====================================
+
+New Features
+------------
+- Added a new form to allow user to watch multiple in-car camera feeds at the same time, and
+	arrange them in a grid. Available from the top menus: Audio/Video -> MultiView. 
+	You can also open and then minimize audio feeds	in this same form.
+
+Bug Fixes
+-----------
+- Some long values in the ToNext column on the leaderboard were being truncated.
+	Slightly increased column width.
+- If the Schedules view was open, and a user opened the User Settings dialog and switched themes,
+	The Schedules view would not update to the new theme. Added code to make the Schedule view refresh
+	when user settings are changed.
+- Updated the way the right and bottom grid panels are displayed, to prevent grids on the right and/or
+	bottom from being covered up.
+- If the request to get the list of audio or video streams returned an empty list, the application displayed
+	an error message that wasn't human-friendly. Revised code that makes this call to load the lists so
+	that it would display a human-friendly message if it got an empty list.
+- The race times listed on the left side of the Schedules view displayed times in an incorrect time zone.
+	Updated to display them in the correct time zone.
+
+Maintenance
+-----------
+- Removed the Key Moments grid from the selection list for right side views in the User Settings form.
+	This view is too wide to use on the right side. It is still available to add to the list of grids on the bottom.
+- Added a loading screen that is displayed when the application is first started, and when switching views.
+- Added icons to the Patch Notes, Audio Player and Video Player menu items.
+- Slightly resized some of the grids so that more of them will fit in the right and bottom without overflowing the panels.
+- Removed some unused code that was left over from early testing and development.
+
+Version 0.3.0.26
 ====================================
 
 New Features
