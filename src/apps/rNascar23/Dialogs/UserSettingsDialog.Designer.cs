@@ -89,6 +89,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblHelp = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkDisplayTimes = new System.Windows.Forms.CheckBox();
             this.lblOverrideFont = new System.Windows.Forms.Label();
             this.btnSetFont = new System.Windows.Forms.Button();
             this.chkLowRes = new System.Windows.Forms.CheckBox();
@@ -100,7 +101,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.chkDisplayTimes = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -786,6 +786,16 @@
             this.tabPage4.Text = "UI Options";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // chkDisplayTimes
+            // 
+            this.chkDisplayTimes.AutoSize = true;
+            this.chkDisplayTimes.Location = new System.Drawing.Point(13, 472);
+            this.chkDisplayTimes.Name = "chkDisplayTimes";
+            this.chkDisplayTimes.Size = new System.Drawing.Size(220, 24);
+            this.chkDisplayTimes.TabIndex = 30;
+            this.chkDisplayTimes.Text = "Display Local and Track Time";
+            this.chkDisplayTimes.UseVisualStyleBackColor = true;
+            // 
             // lblOverrideFont
             // 
             this.lblOverrideFont.AutoSize = true;
@@ -908,16 +918,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Folders";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // chkDisplayTimes
-            // 
-            this.chkDisplayTimes.AutoSize = true;
-            this.chkDisplayTimes.Location = new System.Drawing.Point(14, 449);
-            this.chkDisplayTimes.Name = "chkDisplayTimes";
-            this.chkDisplayTimes.Size = new System.Drawing.Size(220, 24);
-            this.chkDisplayTimes.TabIndex = 30;
-            this.chkDisplayTimes.Text = "Display Local and Track Time";
-            this.chkDisplayTimes.UseVisualStyleBackColor = true;
             // 
             // UserSettingsDialog
             // 
