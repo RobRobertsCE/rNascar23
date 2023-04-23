@@ -15,6 +15,13 @@ namespace rNascar23.Dialogs
 {
     public partial class UserSettingsDialog : Form
     {
+        #region consts
+
+        private const string OverrideFontName = "Arial";
+        private const int OverrideFontSize = 9;
+
+        #endregion
+
         #region private fields
 
         private string _previousRootDirectory = String.Empty;
@@ -436,6 +443,10 @@ namespace rNascar23.Dialogs
             if (chkLowRes.Checked)
             {
                 _userSettings.UseLowScreenResolutionSizes = true;
+
+                if (_overrideFont == null)
+                    _overrideFont = GetDefaultOverrideFont();
+
                 _userSettings.OverrideFontName = _overrideFont.Name;
                 _userSettings.OverrideFontSize = _overrideFont.Size;
                 _userSettings.OverrideFontStyle = (int)_overrideFont.Style;
@@ -525,6 +536,17 @@ namespace rNascar23.Dialogs
 
             if (!chkLowRes.Checked)
                 DisplayOverrideFont(null);
+            else if (_overrideFont == null)
+            {
+                _overrideFont = GetDefaultOverrideFont();
+            }
+
+            DisplayOverrideFont(_overrideFont);
+        }
+
+        private Font GetDefaultOverrideFont()
+        {
+            return new Font(OverrideFontName, OverrideFontSize);
         }
 
         private void btnSetFont_Click(object sender, EventArgs e)
