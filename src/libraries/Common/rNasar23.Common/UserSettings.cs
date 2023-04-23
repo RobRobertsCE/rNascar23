@@ -17,6 +17,7 @@ namespace rNascar23.Common
         public bool UseDarkTheme { get; set; } = false;
         public bool AutoUpdateEnabledOnStart { get; set; } = true;
         public bool UseLowScreenResolutionSizes { get; set; } = true;
+        public bool DisplayTimeDifference { get; set; } = false;
         public string OverrideFontName { get; set; }
         public float? OverrideFontSize { get; set; }
         public int? OverrideFontStyle { get; set; }

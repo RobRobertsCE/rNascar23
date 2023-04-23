@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -181,6 +182,9 @@ namespace rNascar23
                 lblEventName.Text = "";
 
                 lblVersion.Text = $"Version {Assembly.GetExecutingAssembly().GetName().Version}";
+
+                lblLocalTime.Visible = UserSettings.DisplayTimeDifference;
+                lblTrackTime.Visible = UserSettings.DisplayTimeDifference;
 
                 await DisplayTodaysScheduleAsync(true);
 
@@ -698,10 +702,8 @@ namespace rNascar23
 
             _formState.LiveFeed = await _liveFeedRepository.GetLiveFeedAsync();
 
-            if (_formState.LiveFeed.TimeOfDayOs == _lastLiveFeedTimestamp)
+            if (!UpdateLastTimestamp(_formState.LiveFeed.TimeOfDayOs))
                 return false;
-
-            _lastLiveFeedTimestamp = _formState.LiveFeed.TimeOfDayOs;
 
             if (_formState.CurrentSeriesRace == null || _formState.LiveFeed.RaceId != _formState.CurrentSeriesRace.RaceId)
             {
@@ -742,6 +744,21 @@ namespace rNascar23
             {
                 await Task.Delay(UserSettings.DataDelayInSeconds.Value * 1000);
             }
+
+            return true;
+        }
+
+        private bool UpdateLastTimestamp(string timeOfDayOs)
+        {
+            if (!DateTime.TryParse(timeOfDayOs, out DateTime timestamp))
+                return false;
+
+            if (timestamp == _lastLiveFeedTimestamp)
+                return false;
+
+            _lastLiveFeedTimestamp = timestamp;
+
+            DisplayTimes(timeOfDayOs, DateTime.Now);
 
             return true;
         }
@@ -2110,6 +2127,21 @@ namespace rNascar23
             lblStageLaps.Text = $"Stage {stageNumber}: Lap {lapNumber - stageStartLap} of {lapsInStage}";
         }
 
+        private void DisplayTimes(string trackTimeOs, DateTime localTime)
+        {
+            lblTrackTime.Visible = UserSettings.DisplayTimeDifference;
+            lblLocalTime.Visible = UserSettings.DisplayTimeDifference;
+
+            if (UserSettings.DisplayTimeDifference)
+            {
+                var trackUtcOffset = DateTimeOffset.Parse(trackTimeOs);
+                var localUtcOffset = new DateTimeOffset(DateTime.Now);
+
+                lblTrackTime.Text = $"Track: {trackUtcOffset.ToString("h:mm tt %K", CultureInfo.CurrentCulture)}";
+                lblLocalTime.Text = $"Local: {localUtcOffset.ToString("h:mm tt %K", CultureInfo.CurrentCulture)}";
+            }
+        }
+
         private void UpdateGreenYellowLapIndicator()
         {
             if (_formState.FlagStates == null)
@@ -2308,6 +2340,9 @@ namespace rNascar23
                 _logger.LogInformation("User settings updated");
 
                 _userSettings = dialog.UserSettings;
+
+                lblLocalTime.Visible = _userSettings.DisplayTimeDifference;
+                lblTrackTime.Visible = _userSettings.DisplayTimeDifference;
 
                 if (pnlMain.Controls.Count > 0)
                     pnlMain.Controls.Clear();
@@ -2532,6 +2567,8 @@ namespace rNascar23
             LoadStateFromJsonFile(jsonFileName);
 
             File.Delete(jsonFileName);
+
+            UpdateLastTimestamp(_formState.LiveFeed.TimeOfDayOs);
 
             await UpdateDataViewsAsync();
         }
