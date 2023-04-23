@@ -213,7 +213,7 @@ namespace rNascar23.RaceLogger
 
                 var tempState = JsonConvert.DeserializeObject<FormState>(newStateJson);
 
-                tempState.LiveFeed.TimeOfDayOs = DateTime.MinValue;
+                tempState.LiveFeed.TimeOfDayOs = DateTime.MinValue.ToString();
                 tempState.LiveFeed.ElapsedTime = 0;
                 tempState.LiveFeed.TimeOfDay = 0;
 
