@@ -1,4 +1,14 @@
-﻿Version 0.3.0.27
+﻿Version 0.3.0.28
+====================================
+
+Bug Fix
+-----------
+- Prevent override font from being null if using low-resolution settings
+	Override font was null if user selected 'Use Low Resolution Settings' but didn't select a font to use.
+	Added logic to ensure that a default font was created if the user enabled low resolution sizing.
+
+
+Version 0.3.0.27
 ====================================
 
 New Features
