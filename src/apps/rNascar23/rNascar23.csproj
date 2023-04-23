@@ -612,4 +612,7 @@
   </Target>
   <Import Project="..\..\packages\System.Runtime.WindowsRuntime.UI.Xaml.4.6.0\build\net461\System.Runtime.WindowsRuntime.UI.Xaml.targets" Condition="Exists('..\..\packages\System.Runtime.WindowsRuntime.UI.Xaml.4.6.0\build\net461\System.Runtime.WindowsRuntime.UI.Xaml.targets')" />
   <Import Project="..\..\packages\Microsoft.Web.WebView2.1.0.1661.34\build\Microsoft.Web.WebView2.targets" Condition="Exists('..\..\packages\Microsoft.Web.WebView2.1.0.1661.34\build\Microsoft.Web.WebView2.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)" "$(TargetDir)..\..\..\..\..\bin\$(ConfigurationName)\" /f /s /i /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
