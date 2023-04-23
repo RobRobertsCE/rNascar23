@@ -1,4 +1,4 @@
-﻿namespace rNasar23.Common
+﻿namespace rNascar23.Common
 {
     public enum VehicleEventStatus
     {

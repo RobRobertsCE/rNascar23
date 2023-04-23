@@ -398,11 +398,11 @@ namespace rNascar23.Views
                     PositionIn = pitStop.pit_in_rank,
                     PositionOut = pitStop.pit_out_rank,
                     RunningPosition = pitStop.pit_out_rank,
-                    Changes = pitStop.pit_stop_type == NoTireChange ? rNasar23.Common.PitStopChanges.Other :
-                        pitStop.pit_stop_type == FourTireChange ? rNasar23.Common.PitStopChanges.FourTires :
-                        pitStop.pit_stop_type == LeftSideTireChange ? rNasar23.Common.PitStopChanges.LeftSide :
-                        pitStop.pit_stop_type == RightSideTireChange ? rNasar23.Common.PitStopChanges.RightSide :
-                        rNasar23.Common.PitStopChanges.Other
+                    Changes = pitStop.pit_stop_type == NoTireChange ? rNascar23.Common.PitStopChanges.Other :
+                        pitStop.pit_stop_type == FourTireChange ? rNascar23.Common.PitStopChanges.FourTires :
+                        pitStop.pit_stop_type == LeftSideTireChange ? rNascar23.Common.PitStopChanges.LeftSide :
+                        pitStop.pit_stop_type == RightSideTireChange ? rNascar23.Common.PitStopChanges.RightSide :
+                        rNascar23.Common.PitStopChanges.Other
                 };
 
                 driverPitStops.Add(viewModel);

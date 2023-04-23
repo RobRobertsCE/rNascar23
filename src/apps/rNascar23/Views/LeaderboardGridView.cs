@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using rNasar23.Common;
+using rNascar23.Common;
 using rNascar23.Common;
 using rNascar23.CustomViews;
 using rNascar23.LiveFeeds.Models;
