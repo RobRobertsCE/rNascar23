@@ -1,4 +1,13 @@
-﻿Version 0.3.0.28
+﻿Version 0.3.0.29
+====================================
+
+New Features
+------------
+- Added a new user setting, "Display Local and Track Time", and two new labels to the toolbar at the top of the form, 
+	just to the left of the Full Screen button. These will display the track's local time and the user's local time, so any difference in time zone can be noted.
+
+
+Version 0.3.0.28
 ====================================
 
 Bug Fix
