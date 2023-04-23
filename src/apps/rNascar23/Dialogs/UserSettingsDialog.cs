@@ -118,6 +118,8 @@ namespace rNascar23.Dialogs
             chkUseGraphicalNumbers.Checked = settings.UseGraphicalCarNumbers;
             chkUseDarkTheme.Checked = settings.UseDarkTheme;
             chkAutoUpdateEnabledOnStartup.Checked = settings.AutoUpdateEnabledOnStart;
+            chkDisplayTimes.Checked = settings.DisplayTimeDifference;
+
             chkDelayDataUpdates.Checked = settings.DataDelayInSeconds.HasValue;
             if (settings.DataDelayInSeconds.HasValue)
             {
@@ -471,6 +473,7 @@ namespace rNascar23.Dialogs
             _userSettings.UseGraphicalCarNumbers = chkUseGraphicalNumbers.Checked;
             _userSettings.UseDarkTheme = chkUseDarkTheme.Checked;
             _userSettings.AutoUpdateEnabledOnStart = chkAutoUpdateEnabledOnStartup.Checked;
+            _userSettings.DisplayTimeDifference = chkDisplayTimes.Checked;
 
             _userSettings.FavoriteDrivers = new List<string>();
 

@@ -15,7 +15,7 @@ namespace rNascar23.Service.LiveFeeds.Data.Models
         public string run_name { get; set; }
         public int series_id { get; set; }
         public int time_of_day { get; set; }
-        public DateTime time_of_day_os { get; set; }
+        public string time_of_day_os { get; set; }
         public int track_id { get; set; }
         public float track_length { get; set; }
         public string track_name { get; set; }

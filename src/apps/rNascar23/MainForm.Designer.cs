@@ -98,6 +98,8 @@
             this.pnlPitStops = new System.Windows.Forms.Panel();
             this.pnlLoading = new System.Windows.Forms.Panel();
             this.lblLoading = new System.Windows.Forms.Label();
+            this.lblTrackTime = new System.Windows.Forms.ToolStripLabel();
+            this.lblLocalTime = new System.Windows.Forms.ToolStripLabel();
             this.pnlHeader.SuspendLayout();
             this.pnlEventInfo.SuspendLayout();
             this.pnlFlagGreenYellow.SuspendLayout();
@@ -146,9 +148,10 @@
             // 
             this.lblStageLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblStageLaps.AutoSize = true;
+            this.lblStageLaps.BackColor = System.Drawing.Color.Black;
             this.lblStageLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStageLaps.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblStageLaps.Location = new System.Drawing.Point(1150, 2);
+            this.lblStageLaps.ForeColor = System.Drawing.Color.LightGray;
+            this.lblStageLaps.Location = new System.Drawing.Point(1195, 2);
             this.lblStageLaps.Name = "lblStageLaps";
             this.lblStageLaps.Size = new System.Drawing.Size(0, 16);
             this.lblStageLaps.TabIndex = 13;
@@ -158,9 +161,10 @@
             // 
             this.lblRaceLaps.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRaceLaps.AutoSize = true;
+            this.lblRaceLaps.BackColor = System.Drawing.Color.Black;
             this.lblRaceLaps.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRaceLaps.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.lblRaceLaps.Location = new System.Drawing.Point(939, 2);
+            this.lblRaceLaps.Location = new System.Drawing.Point(1046, 2);
             this.lblRaceLaps.Name = "lblRaceLaps";
             this.lblRaceLaps.Size = new System.Drawing.Size(0, 16);
             this.lblRaceLaps.TabIndex = 12;
@@ -247,7 +251,7 @@
             // 
             this.logFileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("logFileToolStripMenuItem.Image")));
             this.logFileToolStripMenuItem.Name = "logFileToolStripMenuItem";
-            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.logFileToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.logFileToolStripMenuItem.Text = "Log File";
             this.logFileToolStripMenuItem.Click += new System.EventHandler(this.logFileToolStripMenuItem_Click);
             // 
@@ -255,7 +259,7 @@
             // 
             this.patchNotesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("patchNotesToolStripMenuItem.Image")));
             this.patchNotesToolStripMenuItem.Name = "patchNotesToolStripMenuItem";
-            this.patchNotesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.patchNotesToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.patchNotesToolStripMenuItem.Text = "Patch Notes";
             this.patchNotesToolStripMenuItem.Click += new System.EventHandler(this.patchNotesToolStripMenuItem_Click);
             // 
@@ -381,7 +385,7 @@
             // 
             this.audioChannelsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("audioChannelsToolStripMenuItem.Image")));
             this.audioChannelsToolStripMenuItem.Name = "audioChannelsToolStripMenuItem";
-            this.audioChannelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.audioChannelsToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.audioChannelsToolStripMenuItem.Text = "Audio Channels";
             this.audioChannelsToolStripMenuItem.Click += new System.EventHandler(this.audioChannelsToolStripMenuItem_Click);
             // 
@@ -389,20 +393,20 @@
             // 
             this.inCarCamerasToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("inCarCamerasToolStripMenuItem.Image")));
             this.inCarCamerasToolStripMenuItem.Name = "inCarCamerasToolStripMenuItem";
-            this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.inCarCamerasToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.inCarCamerasToolStripMenuItem.Text = "In-Car Cameras";
             this.inCarCamerasToolStripMenuItem.Click += new System.EventHandler(this.inCarCamerasToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(155, 6);
             // 
             // multiViewToolStripMenuItem
             // 
             this.multiViewToolStripMenuItem.Image = global::rNascar23.Properties.Resources.MultiViewGrid;
             this.multiViewToolStripMenuItem.Name = "multiViewToolStripMenuItem";
-            this.multiViewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.multiViewToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.multiViewToolStripMenuItem.Text = "MultiView";
             this.multiViewToolStripMenuItem.Click += new System.EventHandler(this.multiViewToolStripMenuItem_Click);
             // 
@@ -517,7 +521,9 @@
             this.tsbExit,
             this.tsbAutoUpdate,
             this.tsbFullScreen,
-            this.btnPitStopsView});
+            this.btnPitStopsView,
+            this.lblTrackTime,
+            this.lblLocalTime});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1350, 25);
@@ -745,6 +751,32 @@
             this.lblLoading.TabIndex = 0;
             this.lblLoading.Text = "Loading...";
             // 
+            // lblTrackTime
+            // 
+            this.lblTrackTime.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblTrackTime.AutoSize = false;
+            this.lblTrackTime.AutoToolTip = true;
+            this.lblTrackTime.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lblTrackTime.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblTrackTime.ForeColor = System.Drawing.Color.Silver;
+            this.lblTrackTime.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
+            this.lblTrackTime.Name = "lblTrackTime";
+            this.lblTrackTime.Size = new System.Drawing.Size(170, 22);
+            this.lblTrackTime.Text = "Track: -";
+            // 
+            // lblLocalTime
+            // 
+            this.lblLocalTime.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblLocalTime.AutoSize = false;
+            this.lblLocalTime.AutoToolTip = true;
+            this.lblLocalTime.BackColor = System.Drawing.Color.Black;
+            this.lblLocalTime.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lblLocalTime.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.lblLocalTime.ForeColor = System.Drawing.Color.LightGray;
+            this.lblLocalTime.Name = "lblLocalTime";
+            this.lblLocalTime.Size = new System.Drawing.Size(150, 22);
+            this.lblLocalTime.Text = "Local: -";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -860,6 +892,8 @@
         private System.Windows.Forms.Label lblLoading;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem multiViewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripLabel lblTrackTime;
+        private System.Windows.Forms.ToolStripLabel lblLocalTime;
     }
 }
 

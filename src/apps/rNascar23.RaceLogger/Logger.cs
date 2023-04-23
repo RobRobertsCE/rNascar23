@@ -140,16 +140,18 @@ namespace rNascar23.RaceLogger
 
                 _formState.LiveFeed = await _liveFeedRepository.GetLiveFeedAsync();
 
-                if (_formState.LiveFeed.TimeOfDayOs == _lastLiveFeedTimestamp)
+                var liveFeedTimestamp = DateTime.Parse(_formState.LiveFeed.TimeOfDayOs);
+
+                if (liveFeedTimestamp == _lastLiveFeedTimestamp)
                     return false;
 
                 var timeSinceLastUpdate = _lastLiveFeedTimestamp == DateTime.MinValue ?
                     new TimeSpan() :
-                    _formState.LiveFeed.TimeOfDayOs.Subtract(_lastLiveFeedTimestamp);
+                    liveFeedTimestamp.Subtract(_lastLiveFeedTimestamp);
 
                 WriteMessage($"Update found. Elapsed Time: {_formState.LiveFeed.ElapsedTime}. Time since last update: {timeSinceLastUpdate.ToString("mm\\.ss")} (mm.ss).");
 
-                _lastLiveFeedTimestamp = _formState.LiveFeed.TimeOfDayOs;
+                _lastLiveFeedTimestamp = liveFeedTimestamp;
 
                 if (!DataHasChanges(_formState))
                 {

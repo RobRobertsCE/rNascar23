@@ -124,24 +124,6 @@
     <value>166, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="audioChannelsToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAABwSURBVDhP5ZLBDcAgCAAdoaN0BnZhLkbsCAiEVkJIlHcv4YPefXTsYOZb5pExfH2G3DeZiBgR
-        e4EstwKVvA3YaSDLR4Es5Im4ttBlJVXz50DEtYXvP9rPGJF7/Y+UqSKtgJIj7YDyRswWAODyI2GMCRMW
-        hab1VqjaAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <data name="inCarCamerasToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADMSURBVDhPvVGxDYMwEMwoGSEjRGzhjoKe3lUqprDECNnA
-        LOGeAVzQuf38mTcY4iKAlJMO68Tf2WffiOgS5w8jhFAzB2HPfDLforE+4uAeCOCfL+ccaa2pbVsyxpD3
-        nrquixordDFEAialFFVVtbBpmo1GCE4ithUSsBkuESfhuUFsKyRg3O+IOrlGLZ7rxbZCAuq8s7UWw9GU
-        7oT1xLyLLXqY41LhAKMx6Z/vAEwmvBgqnwpAnVwfDtjr/wdcrgAWL/EAv5/xDOagMH4Aj6xYmLWTdyEA
-        AAAASUVORK5CYII=
-</value>
-  </data>
   <data name="exitToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
@@ -163,7 +145,7 @@
   <data name="patchNotesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
-        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7CAAAOwgEVKEqAAAAAdElE
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAACXBIWXMAAA7BAAAOwQG4kWvtAAAAdElE
         QVQ4T2OgGlBUVHwAxP+xYQUFhY/y8vIOUKXYAUihnJycJDYMNeibkpKSE1Q5JiDCAPyGwAxgiN31Hxmj
         GQD2DlQLKoAZQAiD1EG1oAKqGYDuBWRMlAGEMO0NwOZ0GCbKAEKYpgbgzAto+AFUy6AADAwA+9+IPzit
         HFYAAAAASUVORK5CYII=
@@ -179,6 +161,23 @@
         CC9uYm4BamksbxssIUe6r46pKRKaDjx97uvkqpXGdNdA5G8NNOSrBmPQcDS9fHsFvms1sVjcnTn9Io00
         lq8Mcv2I5xK5yVxQrBwnOCF+o/G+ZZ1BaEkKHRM/0DTFgicPzWkXKss6I7lepClT20XyfXPFzmkHdMpr
         yzYN8gJUvV5vD/9M4fYqP34r3jZEetj1n+nG6b+2IPgAzHGHcFUSC1YAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="audioChannelsToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAHBJREFUOE/l
+        ksENwCAIAB2ho3QGdmEuRuwICIRWQkiUdy/hg959dOxg5lvmkTF8fYbcN5mIGBF7gSy3ApW8DdhpIMtH
+        gSzkibi20GUlVfPnQMS1he8/2s8YkXv9j5SpIq2AkiPtgPJGzBYA4PIjYYwJExaFpvVWqNoAAAAASUVO
+        RK5CYII=
+</value>
+  </data>
+  <data name="inCarCamerasToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        wgAADsIBFShKgAAAAMxJREFUOE+9UbENgzAQzCgZISNEbOGOgp7eVSqmsMQI2cAs4Z4BXNC5/fyZNxji
+        IoCUkw7rxN/ZZ9+I6BLnDyOEUDMHYc98Mt+isT7i4B4I4J8v5xxpraltWzLGkPeeuq6LGit0MUQCJqUU
+        VVW1sGmajUYITiK2FRKwGS4RJ+G5QWwrJGDc74g6uUYtnuvFtkIC6ryztRbD0ZTuhPXEvIstepjjUuEA
+        ozHpn+8ATCa8GCqfCkCdXB8O2Ov/B1yuABYv8QC/n/EM5qAwfgCPrFiYtZN3IQAAAABJRU5ErkJggg==
 </value>
   </data>
   <metadata name="statusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

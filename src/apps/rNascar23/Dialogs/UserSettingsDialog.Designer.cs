@@ -89,6 +89,9 @@
             this.label12 = new System.Windows.Forms.Label();
             this.lblHelp = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.lblOverrideFont = new System.Windows.Forms.Label();
+            this.btnSetFont = new System.Windows.Forms.Button();
+            this.chkLowRes = new System.Windows.Forms.CheckBox();
             this.lblDataDelay = new System.Windows.Forms.Label();
             this.txtDataDelay = new System.Windows.Forms.TextBox();
             this.chkDelayDataUpdates = new System.Windows.Forms.CheckBox();
@@ -97,9 +100,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.chkLowRes = new System.Windows.Forms.CheckBox();
-            this.btnSetFont = new System.Windows.Forms.Button();
-            this.lblOverrideFont = new System.Windows.Forms.Label();
+            this.chkDisplayTimes = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -756,6 +757,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.chkDisplayTimes);
             this.tabPage4.Controls.Add(this.lblOverrideFont);
             this.tabPage4.Controls.Add(this.btnSetFont);
             this.tabPage4.Controls.Add(this.chkLowRes);
@@ -783,6 +785,37 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "UI Options";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // lblOverrideFont
+            // 
+            this.lblOverrideFont.AutoSize = true;
+            this.lblOverrideFont.Location = new System.Drawing.Point(34, 449);
+            this.lblOverrideFont.Name = "lblOverrideFont";
+            this.lblOverrideFont.Size = new System.Drawing.Size(15, 20);
+            this.lblOverrideFont.TabIndex = 29;
+            this.lblOverrideFont.Text = "-";
+            // 
+            // btnSetFont
+            // 
+            this.btnSetFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetFont.Location = new System.Drawing.Point(234, 418);
+            this.btnSetFont.Name = "btnSetFont";
+            this.btnSetFont.Size = new System.Drawing.Size(75, 23);
+            this.btnSetFont.TabIndex = 28;
+            this.btnSetFont.Text = "Set Font";
+            this.btnSetFont.UseVisualStyleBackColor = true;
+            this.btnSetFont.Click += new System.EventHandler(this.btnSetFont_Click);
+            // 
+            // chkLowRes
+            // 
+            this.chkLowRes.AutoSize = true;
+            this.chkLowRes.Location = new System.Drawing.Point(14, 418);
+            this.chkLowRes.Name = "chkLowRes";
+            this.chkLowRes.Size = new System.Drawing.Size(214, 24);
+            this.chkLowRes.TabIndex = 27;
+            this.chkLowRes.Text = "Use Low Resolution Settings";
+            this.chkLowRes.UseVisualStyleBackColor = true;
+            this.chkLowRes.CheckStateChanged += new System.EventHandler(this.chkLowRes_CheckStateChanged);
             // 
             // lblDataDelay
             // 
@@ -876,36 +909,15 @@
             this.tabPage3.Text = "Folders";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // chkLowRes
+            // chkDisplayTimes
             // 
-            this.chkLowRes.AutoSize = true;
-            this.chkLowRes.Location = new System.Drawing.Point(14, 418);
-            this.chkLowRes.Name = "chkLowRes";
-            this.chkLowRes.Size = new System.Drawing.Size(214, 24);
-            this.chkLowRes.TabIndex = 27;
-            this.chkLowRes.Text = "Use Low Resolution Settings";
-            this.chkLowRes.UseVisualStyleBackColor = true;
-            this.chkLowRes.CheckStateChanged += new System.EventHandler(this.chkLowRes_CheckStateChanged);
-            // 
-            // btnSetFont
-            // 
-            this.btnSetFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetFont.Location = new System.Drawing.Point(234, 418);
-            this.btnSetFont.Name = "btnSetFont";
-            this.btnSetFont.Size = new System.Drawing.Size(75, 23);
-            this.btnSetFont.TabIndex = 28;
-            this.btnSetFont.Text = "Set Font";
-            this.btnSetFont.UseVisualStyleBackColor = true;
-            this.btnSetFont.Click += new System.EventHandler(this.btnSetFont_Click);
-            // 
-            // lblOverrideFont
-            // 
-            this.lblOverrideFont.AutoSize = true;
-            this.lblOverrideFont.Location = new System.Drawing.Point(34, 449);
-            this.lblOverrideFont.Name = "lblOverrideFont";
-            this.lblOverrideFont.Size = new System.Drawing.Size(15, 20);
-            this.lblOverrideFont.TabIndex = 29;
-            this.lblOverrideFont.Text = "-";
+            this.chkDisplayTimes.AutoSize = true;
+            this.chkDisplayTimes.Location = new System.Drawing.Point(14, 449);
+            this.chkDisplayTimes.Name = "chkDisplayTimes";
+            this.chkDisplayTimes.Size = new System.Drawing.Size(220, 24);
+            this.chkDisplayTimes.TabIndex = 30;
+            this.chkDisplayTimes.Text = "Display Local and Track Time";
+            this.chkDisplayTimes.UseVisualStyleBackColor = true;
             // 
             // UserSettingsDialog
             // 
@@ -1018,5 +1030,6 @@
         private System.Windows.Forms.Label lblOverrideFont;
         private System.Windows.Forms.Button btnSetFont;
         private System.Windows.Forms.CheckBox chkLowRes;
+        private System.Windows.Forms.CheckBox chkDisplayTimes;
     }
 }
