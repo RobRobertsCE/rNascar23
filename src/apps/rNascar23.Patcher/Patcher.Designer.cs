@@ -42,16 +42,16 @@
             this.pnlDialogButtons.BackColor = System.Drawing.Color.Transparent;
             this.pnlDialogButtons.Controls.Add(this.btnClose);
             this.pnlDialogButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlDialogButtons.Location = new System.Drawing.Point(4, 232);
+            this.pnlDialogButtons.Location = new System.Drawing.Point(4, 256);
             this.pnlDialogButtons.Name = "pnlDialogButtons";
-            this.pnlDialogButtons.Size = new System.Drawing.Size(618, 55);
+            this.pnlDialogButtons.Size = new System.Drawing.Size(583, 55);
             this.pnlDialogButtons.TabIndex = 2;
             // 
             // btnClose
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnClose.Location = new System.Drawing.Point(504, 12);
+            this.btnClose.Location = new System.Drawing.Point(469, 12);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(102, 31);
             this.btnClose.TabIndex = 1;
@@ -82,31 +82,34 @@
             // 
             // lblMessage
             // 
+            this.lblMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMessage.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblMessage.Location = new System.Drawing.Point(4, 80);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(618, 30);
+            this.lblMessage.Size = new System.Drawing.Size(583, 30);
             this.lblMessage.TabIndex = 4;
             this.lblMessage.Text = "-";
             this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtMessages
             // 
-            this.txtMessages.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.txtMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtMessages.Location = new System.Drawing.Point(4, 110);
             this.txtMessages.Multiline = true;
             this.txtMessages.Name = "txtMessages";
             this.txtMessages.ReadOnly = true;
             this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtMessages.Size = new System.Drawing.Size(618, 122);
+            this.txtMessages.Size = new System.Drawing.Size(583, 146);
             this.txtMessages.TabIndex = 5;
             // 
             // Patcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 291);
+            this.ClientSize = new System.Drawing.Size(591, 315);
             this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.txtMessages);
             this.Controls.Add(this.lblNewVersion);
