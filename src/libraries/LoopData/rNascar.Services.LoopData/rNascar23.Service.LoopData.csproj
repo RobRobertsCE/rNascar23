@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\rNascar23.Common\rNascar23.Common.csproj" />
     <ProjectReference Include="..\..\Data\rNascar23.Data\rNascar23.Data.csproj" />
     <ProjectReference Include="..\..\LiveFeed\rNascar23.LiveFeed\rNascar23.LiveFeeds.csproj" />
     <ProjectReference Include="..\..\Schedules\rNascar23.RaceLists\rNascar23.Schedules.csproj" />

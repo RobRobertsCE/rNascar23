@@ -260,8 +260,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libraries\Common\rNasar23.Common\rNascar23.Common.csproj">
-      <Project>{cee31643-f997-44d3-9c39-89a30eb656bb}</Project>
+    <ProjectReference Include="..\..\libraries\Common\rNascar23.Common\rNascar23.Common.csproj">
+      <Project>{c87cfc5b-669b-4326-ad62-2ee61ad71aec}</Project>
       <Name>rNascar23.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\libraries\Flags\rNascar23.Flags\rNascar23.Flags.csproj">
