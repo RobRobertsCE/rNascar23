@@ -225,7 +225,7 @@ namespace rNascar23.Views
                         ((DataGridViewImageCell)row.Cells["CarNumberImage"]).Value = Resources.TransparentPixel;
                 }
 
-                if (settings.FavoriteDrivers.Contains(row.Cells["Driver"]?.Value?.ToString()))
+                if (IsFavoriteDriver(settings, row.Cells["Driver"]?.Value?.ToString()))
                 {
                     row.Cells["Driver"].Style.BackColor = Color.Gold;
                     row.Cells["Driver"].Style.ForeColor = Color.Black;
@@ -340,6 +340,15 @@ namespace rNascar23.Views
             }
         }
 
+        private bool IsFavoriteDriver(UserSettings settings, string driverName)
+        {
+            if (String.IsNullOrEmpty(driverName))
+                return false;
+
+            var sanitizedName = driverName.Replace("(i)", "").Replace("#", "").Trim();
+
+            return settings.FavoriteDrivers.Contains(sanitizedName);
+        }
         private IList<RaceVehicleViewModel> BuildViewModels(IList<Vehicle> vehicles)
         {
             if (vehicles == null || vehicles.Count == 0) return null;
