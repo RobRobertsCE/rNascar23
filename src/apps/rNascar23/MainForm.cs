@@ -2067,6 +2067,10 @@ namespace rNascar23
                         };
                     }
                 }
+                else
+                {
+                    _lapStates.Stage3Laps = _formState.LiveFeed.Stage.LapsInStage;
+                }
 
                 DisplayEventName(_formState.LiveFeed.RunName, GetSeriesName(_formState.LiveFeed.SeriesId), _formState.LiveFeed.TrackName, _formState.CurrentSeriesRace?.Stage1Laps, _formState.CurrentSeriesRace?.Stage2Laps, _formState.CurrentSeriesRace?.Stage3Laps);
 
