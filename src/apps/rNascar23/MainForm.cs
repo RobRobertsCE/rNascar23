@@ -2073,7 +2073,7 @@ namespace rNascar23
                 if (_viewState == ViewState.Race)
                     DisplayRaceLaps(_formState.LiveFeed.LapNumber, _formState.LiveFeed.LapsInRace);
 
-                if ((_viewState == ViewState.Race || _viewState == ViewState.PitStops) && _lapStates.Stage1Laps > 0 && _lapStates.Stage1Laps > 0)
+                if ((_viewState == ViewState.Race || _viewState == ViewState.PitStops) && _lapStates.Stage1Laps > 0)
                 {
                     DisplayStageLaps(_formState.LiveFeed.Stage.Number, _formState.LiveFeed.LapNumber, _formState.LiveFeed.Stage.FinishAtLap, _formState.LiveFeed.Stage.LapsInStage);
                 }
