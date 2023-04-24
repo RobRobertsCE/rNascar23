@@ -295,7 +295,7 @@ namespace rNascar23.RaceLogger
                     _formState.LiveFeed.RunType == 3 ? "Race" :
                     "Other Run Type";
 
-                var sanitizedRunName = _formState.LiveFeed.RunName.Replace(".", "_").Replace("\\", "_").Replace("/", "_");
+                var sanitizedRunName = _formState.LiveFeed.RunName.Replace(".", "_").Replace("\\", "_").Replace("/", "_").Replace("-", "_");
 
                 var eventDirectoryName = $"{DateTime.Now.ToString("yyyy-M-d")}.{_formState.LiveFeed.TrackName}-{seriesName}-{sanitizedRunName}-{runType}-{_formState.LiveFeed.RunId}";
 
