@@ -16,11 +16,11 @@ namespace rNascar23.Common
         public bool UseGraphicalCarNumbers { get; set; } = false;
         public bool UseDarkTheme { get; set; } = false;
         public bool AutoUpdateEnabledOnStart { get; set; } = true;
-        public bool UseLowScreenResolutionSizes { get; set; } = true;
+        public bool UseLowScreenResolutionSizes { get; set; } = false;
         public bool DisplayTimeDifference { get; set; } = false;
-        public string OverrideFontName { get; set; }
-        public float? OverrideFontSize { get; set; }
-        public int? OverrideFontStyle { get; set; }
+        public string OverrideFontName { get; set; } = "Arial";
+        public float? OverrideFontSize { get; set; } = 10;
+        public int? OverrideFontStyle { get; set; } = 0;
         public IList<int> RaceViewBottomGrids { get; set; } = new List<int>();
         public IList<int> RaceViewRightGrids { get; set; } = new List<int>();
         public IList<int> QualifyingViewBottomGrids { get; set; } = new List<int>();

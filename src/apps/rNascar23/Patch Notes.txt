@@ -1,4 +1,17 @@
-﻿Version 0.3.0.29
+﻿Version 0.3.0.30
+====================================
+
+Bug Fix
+-----------
+- Nullable Object error after patch to version 0.3.0.28
+	The default value for the UseLowScreenResolutionSizes was set to true, but no default font was defined. 
+	This caused an error when the user tried to load the leaderboard if they didn't edit and save their user settings first.
+	
+	- Updated the default value for UseLowScreenResolutionSizes to be false. 
+	- Added default values for the override font in the default user settings file that gets created on first run.
+
+
+Version 0.3.0.29
 ====================================
 
 New Features
