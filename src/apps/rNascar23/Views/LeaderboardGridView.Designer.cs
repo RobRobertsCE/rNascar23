@@ -43,8 +43,9 @@
             this.Grid.AllowUserToDeleteRows = false;
             this.Grid.AllowUserToResizeRows = false;
             this.Grid.BackgroundColor = System.Drawing.Color.Black;
+            this.Grid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.Grid.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Grid.Dock = System.Windows.Forms.DockStyle.Left;
             this.Grid.GridColor = System.Drawing.Color.Black;
             this.Grid.Location = new System.Drawing.Point(0, 25);
             this.Grid.Name = "Grid";

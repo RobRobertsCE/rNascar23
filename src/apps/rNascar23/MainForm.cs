@@ -1050,7 +1050,7 @@ namespace rNascar23
             panel.Controls.Add(leftLeaderboardGridView);
             leftLeaderboardGridView.Dock = DockStyle.Left;
             leftLeaderboardGridView.BringToFront();
-            leftLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
+            //leftLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
 
             AddSplitter(panel, DockStyle.Left);
 
@@ -1063,7 +1063,7 @@ namespace rNascar23
             panel.Controls.Add(rightLeaderboardGridView);
             rightLeaderboardGridView.Dock = DockStyle.Left;
             rightLeaderboardGridView.BringToFront();
-            rightLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
+            //rightLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
 
             AddSplitter(panel, DockStyle.Left);
         }
