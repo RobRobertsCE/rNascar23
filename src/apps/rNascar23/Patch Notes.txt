@@ -1,14 +1,26 @@
 ﻿Version 0.3.0.30
 ====================================
 
-Bug Fix
+Bug Fixes
 -----------
 - Nullable Object error after patch to version 0.3.0.28
 	The default value for the UseLowScreenResolutionSizes was set to true, but no default font was defined. 
 	This caused an error when the user tried to load the leaderboard if they didn't edit and save their user settings first.
-	
+	Fix:
 	- Updated the default value for UseLowScreenResolutionSizes to be false. 
 	- Added default values for the override font in the default user settings file that gets created on first run.
+
+- Leaderboard updates:
+	- Fixed an issue where the two sides of the leaderboard sometimes loaded too far apart.
+	- Updated the spaces between the rows when using the light theme to be light colored instead of gray.
+	- Treaked some of the column widths, and applied formatting to some of the numeric columns,
+		to improve the overall appearance.
+	- Fixed a bug where a favorite driver with '#' or '(i) at the end of the driver's name would not get highlighted.
+	- Updated the leaderboard row counts from Left=20 and Right=All the rest, to split the rows more evenly.
+		This was an issue during Xfinity qualifying at Talladega, where 42 cars attempted runs, and the right 
+		leaderboard extended enough to cause a scrollbar.
+	- Revised the logic that draws the Green/Yellow Flag history bar so that an overtime race with extra laps
+		would not cause the bar to extend off the right of the screen.
 
 
 Version 0.3.0.29
