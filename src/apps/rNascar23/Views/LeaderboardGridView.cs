@@ -349,6 +349,7 @@ namespace rNascar23.Views
 
             return settings.FavoriteDrivers.Contains(sanitizedName);
         }
+
         private IList<RaceVehicleViewModel> BuildViewModels(IList<Vehicle> vehicles)
         {
             if (vehicles == null || vehicles.Count == 0) return null;
@@ -361,9 +362,13 @@ namespace rNascar23.Views
             var currentLap = vehicles.Max(v => v.laps_completed);
             var bestLapSpeedThisLap = vehicles.Max(v => v.last_lap_speed);
 
+            var leaderboardRowCount = vehicles.Count > 40 ?
+                (int)Math.Round((vehicles.Count / 2F), MidpointRounding.AwayFromZero) :
+                VehicleCountPerLeaderboardSide;
+
             var splitVehiclesList = LeaderboardSide == LeaderboardSides.Left ?
-                vehicles.OrderBy(v => v.running_position).Take(VehicleCountPerLeaderboardSide) :
-                vehicles.OrderBy(v => v.running_position).Skip(VehicleCountPerLeaderboardSide);
+                vehicles.OrderBy(v => v.running_position).Take(leaderboardRowCount) :
+                vehicles.OrderBy(v => v.running_position).Skip(leaderboardRowCount);
 
             foreach (var vehicle in splitVehiclesList)
             {
