@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\rNasar23.Common\rNascar23.Common.csproj" />
+    <ProjectReference Include="..\..\Common\rNascar23.Common\rNascar23.Common.csproj" />
   </ItemGroup>
 
 </Project>

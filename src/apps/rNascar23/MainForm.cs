@@ -1050,7 +1050,7 @@ namespace rNascar23
             panel.Controls.Add(leftLeaderboardGridView);
             leftLeaderboardGridView.Dock = DockStyle.Left;
             leftLeaderboardGridView.BringToFront();
-            leftLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
+            //leftLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
 
             AddSplitter(panel, DockStyle.Left);
 
@@ -1063,7 +1063,7 @@ namespace rNascar23
             panel.Controls.Add(rightLeaderboardGridView);
             rightLeaderboardGridView.Dock = DockStyle.Left;
             rightLeaderboardGridView.BringToFront();
-            rightLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
+            //rightLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
 
             AddSplitter(panel, DockStyle.Left);
         }
@@ -2067,13 +2067,17 @@ namespace rNascar23
                         };
                     }
                 }
+                else
+                {
+                    _lapStates.Stage3Laps = _formState.LiveFeed.Stage.LapsInStage;
+                }
 
                 DisplayEventName(_formState.LiveFeed.RunName, GetSeriesName(_formState.LiveFeed.SeriesId), _formState.LiveFeed.TrackName, _formState.CurrentSeriesRace?.Stage1Laps, _formState.CurrentSeriesRace?.Stage2Laps, _formState.CurrentSeriesRace?.Stage3Laps);
 
                 if (_viewState == ViewState.Race)
                     DisplayRaceLaps(_formState.LiveFeed.LapNumber, _formState.LiveFeed.LapsInRace);
 
-                if ((_viewState == ViewState.Race || _viewState == ViewState.PitStops) && _lapStates.Stage1Laps > 0 && _lapStates.Stage1Laps > 0)
+                if ((_viewState == ViewState.Race || _viewState == ViewState.PitStops) && _lapStates.Stage1Laps > 0)
                 {
                     DisplayStageLaps(_formState.LiveFeed.Stage.Number, _formState.LiveFeed.LapNumber, _formState.LiveFeed.Stage.FinishAtLap, _formState.LiveFeed.Stage.LapsInStage);
                 }

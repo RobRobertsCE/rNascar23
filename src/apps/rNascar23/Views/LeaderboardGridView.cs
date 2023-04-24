@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using rNascar23.Common;
-using rNascar23.Common;
 using rNascar23.CustomViews;
 using rNascar23.LiveFeeds.Models;
 using rNascar23.Media.Models;
@@ -111,30 +110,7 @@ namespace rNascar23.Views
                         ) :
                         null;
 
-            if (_userSettings.UseDarkTheme)
-            {
-                this.BackColor = Color.Black;
-                Grid.BackColor = Color.Black;
-                Grid.BackgroundColor = Color.Black;
-                Grid.RowsDefaultCellStyle.BackColor = Color.Black;
-                Grid.RowsDefaultCellStyle.ForeColor = Color.White;
-                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(16, 16, 16);
-                Grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.White;
-                Grid.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
-                Grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            }
-            else
-            {
-                this.BackColor = Color.White;
-                Grid.BackColor = Color.White;
-                Grid.BackgroundColor = Color.White;
-                Grid.RowsDefaultCellStyle.BackColor = Color.White;
-                Grid.RowsDefaultCellStyle.ForeColor = Color.Black;
-                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;// Gainsboro;
-                Grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
-                Grid.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
-                Grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            }
+            ApplyUserThemeSetting();
 
             _mediaRepository = Program.Services.GetRequiredService<IMediaRepository>();
 
@@ -157,6 +133,36 @@ namespace rNascar23.Views
         #endregion
 
         #region private
+
+        private void ApplyUserThemeSetting()
+        {
+            if (_userSettings.UseDarkTheme)
+            {
+                this.BackColor = Color.Black;
+                Grid.BackColor = Color.Black;
+                Grid.GridColor = Color.Black;
+                Grid.BackgroundColor = Color.Black;
+                Grid.RowsDefaultCellStyle.BackColor = Color.Black;
+                Grid.RowsDefaultCellStyle.ForeColor = Color.White;
+                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(16, 16, 16);
+                Grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.White;
+                Grid.ColumnHeadersDefaultCellStyle.BackColor = Color.Black;
+                Grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            }
+            else
+            {
+                this.BackColor = Color.White;
+                Grid.BackColor = Color.White;
+                Grid.GridColor = Color.White;
+                Grid.BackgroundColor = Color.White;
+                Grid.RowsDefaultCellStyle.BackColor = Color.White;
+                Grid.RowsDefaultCellStyle.ForeColor = Color.Black;
+                Grid.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+                Grid.AlternatingRowsDefaultCellStyle.ForeColor = Color.Black;
+                Grid.ColumnHeadersDefaultCellStyle.BackColor = Color.White;
+                Grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            }
+        }
 
         private void SetDataSource<T>(IList<T> values)
         {
@@ -219,7 +225,7 @@ namespace rNascar23.Views
                         ((DataGridViewImageCell)row.Cells["CarNumberImage"]).Value = Resources.TransparentPixel;
                 }
 
-                if (settings.FavoriteDrivers.Contains(row.Cells["Driver"]?.Value?.ToString()))
+                if (IsFavoriteDriver(settings, row.Cells["Driver"]?.Value?.ToString()))
                 {
                     row.Cells["Driver"].Style.BackColor = Color.Gold;
                     row.Cells["Driver"].Style.ForeColor = Color.Black;
@@ -334,6 +340,16 @@ namespace rNascar23.Views
             }
         }
 
+        private bool IsFavoriteDriver(UserSettings settings, string driverName)
+        {
+            if (String.IsNullOrEmpty(driverName))
+                return false;
+
+            var sanitizedName = driverName.Replace("(i)", "").Replace("#", "").Trim();
+
+            return settings.FavoriteDrivers.Contains(sanitizedName);
+        }
+
         private IList<RaceVehicleViewModel> BuildViewModels(IList<Vehicle> vehicles)
         {
             if (vehicles == null || vehicles.Count == 0) return null;
@@ -346,9 +362,13 @@ namespace rNascar23.Views
             var currentLap = vehicles.Max(v => v.laps_completed);
             var bestLapSpeedThisLap = vehicles.Max(v => v.last_lap_speed);
 
+            var leaderboardRowCount = vehicles.Count > 40 ?
+                (int)Math.Round((vehicles.Count / 2F), MidpointRounding.AwayFromZero) :
+                VehicleCountPerLeaderboardSide;
+
             var splitVehiclesList = LeaderboardSide == LeaderboardSides.Left ?
-                vehicles.OrderBy(v => v.running_position).Take(VehicleCountPerLeaderboardSide) :
-                vehicles.OrderBy(v => v.running_position).Skip(VehicleCountPerLeaderboardSide);
+                vehicles.OrderBy(v => v.running_position).Take(leaderboardRowCount) :
+                vehicles.OrderBy(v => v.running_position).Skip(leaderboardRowCount);
 
             foreach (var vehicle in splitVehiclesList)
             {
@@ -357,8 +377,8 @@ namespace rNascar23.Views
                     RunningPosition = vehicle.running_position,
                     CarManufacturer = vehicle.vehicle_manufacturer,
                     CarNumber = vehicle.vehicle_number,
-                    DeltaLeader = vehicle.delta,
-                    DeltaNext = (float)Math.Round(lastVehicle == null ? 0 : vehicle.delta - lastVehicle.delta, 3),
+                    DeltaLeader = (float)Math.Round(vehicle.delta, 2),
+                    DeltaNext = (float)Math.Round(lastVehicle == null ? 0 : vehicle.delta - lastVehicle.delta, 2),
                     Driver = vehicle.driver.FullName,
                     LapsCompleted = vehicle.laps_completed,
                     VehicleStatus = (VehicleEventStatus)vehicle.status,
@@ -499,15 +519,17 @@ namespace rNascar23.Views
 
             Column6.HeaderText = "To Leader";
             Column6.Name = "DeltaLeader";
-            Column6.Width = 65;
+            Column6.Width = 75;
             Column6.DefaultCellStyle.Font = gridFont;
             Column6.DataPropertyName = "DeltaLeader";
+            Column6.DefaultCellStyle.Format = "#.##";
 
             Column7.HeaderText = "To Next";
             Column7.Name = "DeltaNext";
-            Column7.Width = 70;
+            Column7.Width = 75;
             Column7.DefaultCellStyle.Font = gridFont;
             Column7.DataPropertyName = "DeltaNext";
+            Column6.DefaultCellStyle.Format = "#.##";
 
             Column8.HeaderText = "On Track";
             Column8.Name = "IsOnTrack";
@@ -518,14 +540,14 @@ namespace rNascar23.Views
 
             Column9.HeaderText = "Last Lap";
             Column9.Name = "LastLap";
-            Column9.Width = 75;
+            Column9.Width = 78;
             Column9.DefaultCellStyle.Font = gridFont;
             Column9.DefaultCellStyle.Format = "N3";
             Column9.DataPropertyName = "LastLap";
 
             Column10.HeaderText = "Best Lap";
             Column10.Name = "BestLap";
-            Column10.Width = 75;
+            Column10.Width = 78;
             Column2.DefaultCellStyle.Font = gridFont;
             Column10.DefaultCellStyle.Format = "N3";
             Column10.DataPropertyName = "BestLap";
@@ -579,7 +601,8 @@ namespace rNascar23.Views
 
             Column18.HeaderText = "Status";
             Column18.Name = "Status";
-            Column18.Width = 0;
+            Column18.Width = 75;
+            Column18.MinimumWidth = 75;
             Column18.Visible = (FontOverride != null);
             Column18.DefaultCellStyle.Font = gridFont;
             Column18.DataPropertyName = "StatusLabel";
@@ -617,7 +640,7 @@ namespace rNascar23.Views
         {
             if (FontOverride != null)
             {
-                Grid.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+                Grid.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
                 Grid.Columns["VehicleStatusImage"].Visible = false;
                 Grid.Columns["IsOnDvp"].Visible = false;
@@ -630,6 +653,13 @@ namespace rNascar23.Views
                 Grid.Columns["CarNumberImage"].Visible = false;
                 Grid.Columns["CarManufacturerImage"].Visible = false;
             }
+
+            Grid.Width =
+                Grid.Columns.Cast<DataGridViewColumn>().
+                Where(x => x.Visible == true).
+                Sum(x => x.Width) + (Grid.RowHeadersVisible ? Grid.RowHeadersWidth : 0) + 25;
+
+            this.Width = Grid.Width + 25;
         }
 
         private void Grid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
