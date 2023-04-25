@@ -269,6 +269,10 @@
       <Project>{112c7b16-3b21-4b14-b6c3-3f89aa8d80ca}</Project>
       <Name>rNascar23.Settings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\libraries\UserSettings\rNascar23.Settings\rNascar23.Settings.csproj">
+      <Project>{112c7b16-3b21-4b14-b6c3-3f89aa8d80ca}</Project>
+      <Name>rNascar23.Settings</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="rNascar-logo.ico" />

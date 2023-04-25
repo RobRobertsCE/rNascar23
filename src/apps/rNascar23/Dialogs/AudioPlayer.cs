@@ -3,6 +3,7 @@ using Microsoft.Web.WebView2.Core;
 using rNascar23.Sdk.Common;
 using rNascar23.Sdk.Media.Models;
 using rNascar23.Sdk.Media.Ports;
+using rNascar23.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -151,13 +152,20 @@ namespace rNascar23.Dialogs
                 if (audioChannel == null)
                     return;
 
-                var token = @"<#SOURCE#>";
-
                 var template = Properties.Resources.audioFeedTemplate;
 
-                var html = template.Replace(token, audioChannel.Source);
+                var sourceToken = @"<#SOURCE#>";
+                var html = template.Replace(sourceToken, audioChannel.Source);
 
-                LogInfoMessage($"audioFeed.Name: {audioChannel.DriverName}; audioFeed.Source: {audioChannel.Source}");
+                var audioMaxDelayToken = @"<#AUDIOMAXDELAY#>";
+                var audioMaxDelay = "150";
+                html = html.Replace(audioMaxDelayToken, audioMaxDelay);
+
+                var settings = UserSettingsService.LoadUserSettings();
+
+                var audioUserSettingToken = @"<#AUDIOUSERSETTING#>";
+                var audioUserSetting = settings.AudioDelayInSeconds.GetValueOrDefault(0).ToString("N1");
+                html = html.Replace(audioUserSettingToken, audioUserSetting);
 
                 webView.NavigateToString(html);
 
