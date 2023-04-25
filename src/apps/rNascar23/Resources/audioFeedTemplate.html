@@ -16,12 +16,18 @@
     <h2>Adjust slider to pan audio between left and right channel</h2>
     <input class="panning-control" type="range" min="-1" max="1" step="0.1" value="0">
     <span class="panning-value">0</span>
+    <br />
+    <h2>Adjust slider to add delay to audio</h2>
+    <input class="delay-control" type="range" min="0" max="30" step="0.1" value="0">
+    <span class="delay-value">0</span>
     <script>
       let audioCtx;
 
       const audioElement = document.querySelector("audio");
       const panControl = document.querySelector(".panning-control");
       const panValue = document.querySelector(".panning-value");
+      const delayControl = document.querySelector(".delay-control");
+      const delayValue = document.querySelector(".delay-value");
 
       audioElement.addEventListener("play", () => {
         if (!audioCtx) {
@@ -33,14 +39,21 @@
         });
 
         let panNode = new StereoPannerNode(audioCtx);
+        let delayNode = audioCtx.createDelay(30.0);
 
         panControl.oninput = () => {
           panNode.pan.value = panControl.value;
           panValue.textContent = panControl.value;
         };
+        
+        delayControl.oninput = () => {
+                delayNode.delayTime.value = delayControl.value;
+                delayValue.textContent = delayControl.value;
+        };
 
         source.connect(panNode);
-        panNode.connect(audioCtx.destination);
+        panNode.connect(delayNode);
+        delayNode.connect(audioCtx.destination);
       });
     </script>
     <script src='https://vjs.zencdn.net/7.5.4/video.js'></script>
