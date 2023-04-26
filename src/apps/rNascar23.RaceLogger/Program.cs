@@ -1,14 +1,14 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using rNascar23.Common;
-using rNascar23.Service.Flags;
-using rNascar23.Service.LapTimes;
-using rNascar23.Service.LiveFeeds;
-using rNascar23.Service.LoopData;
-using rNascar23.Service.PitStops;
-using rNascar23.Service.Points;
+using rNascar23.Sdk;
+using rNascar23.Sdk.Service.Flags;
+using rNascar23.Sdk.Service.LapTimes;
+using rNascar23.Sdk.Service.LiveFeeds;
+using rNascar23.Sdk.Service.LoopData;
+using rNascar23.Sdk.Service.PitStops;
+using rNascar23.Sdk.Service.Points;
+using rNascar23.Settings;
 using Serilog;
 using System;
 using System.IO;
@@ -38,15 +38,7 @@ namespace rNascar23.RaceLogger
             return Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services
-                        .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-                        .AddFlagState()
-                        .AddSchedules()
-                        .AddLiveFeed()
-                        .AddLapTimes()
-                        .AddPoints()
-                        .AddLoopData()
-                        .AddPitStops()
+                    services.AddrNascar23Sdk()
                         .AddTransient<Logger>();
 
                     /*

@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using rNascar23.Common;
+using rNascar23.Sdk.Common;
 using rNascar23.CustomViews;
-using rNascar23.Data.Flags.Ports;
-using rNascar23.Data.LiveFeeds.Ports;
-using rNascar23.Flags.Models;
-using rNascar23.PitStops.Ports;
+using rNascar23.Sdk.Flags.Ports;
+using rNascar23.Sdk.LiveFeeds.Ports;
+using rNascar23.Sdk.Flags.Models;
+using rNascar23.Sdk.PitStops.Ports;
+using rNascar23.Settings;
 using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PitStop = rNascar23.PitStops.Models.PitStop;
+using PitStop = rNascar23.Sdk.PitStops.Models.PitStop;
+using rNascar23.Sdk.LiveFeeds.Models;
 
 namespace rNascar23.Views
 {
@@ -96,7 +98,7 @@ namespace rNascar23.Views
             }
         }
 
-        public int SeriesId { get; set; }
+        public SeriesTypes SeriesId { get; set; }
         public int RaceId { get; set; }
 
         #endregion
@@ -209,7 +211,7 @@ namespace rNascar23.Views
         {
             var flagStates = await _flagStateRepository.GetFlagStatesAsync();
 
-            if (flagStates.Count == 0)
+            if (flagStates.Count() == 0)
                 return;
 
             var orderedFlagStates = flagStates.
@@ -271,7 +273,7 @@ namespace rNascar23.Views
                 cboEndLap.SelectedItem = _endLap.Value;
         }
 
-        private void PopulateCautionList(IList<FlagState> flagStates)
+        private void PopulateCautionList(IEnumerable<FlagState> flagStates)
         {
             var previouslySelectedIndex = cboCautions.SelectedItem != null ? (int?)cboCautions.SelectedIndex : null;
 
@@ -319,12 +321,12 @@ namespace rNascar23.Views
 
             var liveFeed = await _liveFeedRepository.GetLiveFeedAsync();
 
-            foreach (LiveFeeds.Models.Vehicle vehicle in liveFeed.Vehicles)
+            foreach (Vehicle vehicle in liveFeed.Vehicles)
             {
                 var viewModel = new DriverViewModel()
                 {
-                    CarNumber = int.Parse(vehicle.vehicle_number),
-                    Name = vehicle.driver.FullName
+                    CarNumber = int.Parse(vehicle.VehicleNumber),
+                    Name = vehicle.Driver.FullName
                 };
 
                 drivers.Add(viewModel);
@@ -386,23 +388,23 @@ namespace rNascar23.Views
         {
             IList<DriverPitStopViewModel> driverPitStops = new List<DriverPitStopViewModel>();
 
-            foreach (var pitStop in pitStops.OrderBy(p => p.pit_out_rank))
+            foreach (var pitStop in pitStops.OrderBy(p => p.PitOutRank))
             {
                 var viewModel = new DriverPitStopViewModel()
                 {
-                    CarNumber = int.Parse(pitStop.vehicle_number),
-                    DriverName = pitStop.driver_name,
-                    PitOnLap = pitStop.lap_count,
-                    PitStopTime = pitStop.total_duration,
-                    PositionDelta = pitStop.positions_gained_lost,
-                    PositionIn = pitStop.pit_in_rank,
-                    PositionOut = pitStop.pit_out_rank,
-                    RunningPosition = pitStop.pit_out_rank,
-                    Changes = pitStop.pit_stop_type == NoTireChange ? rNascar23.Common.PitStopChanges.Other :
-                        pitStop.pit_stop_type == FourTireChange ? rNascar23.Common.PitStopChanges.FourTires :
-                        pitStop.pit_stop_type == LeftSideTireChange ? rNascar23.Common.PitStopChanges.LeftSide :
-                        pitStop.pit_stop_type == RightSideTireChange ? rNascar23.Common.PitStopChanges.RightSide :
-                        rNascar23.Common.PitStopChanges.Other
+                    CarNumber = int.Parse(pitStop.VehicleNumber),
+                    DriverName = pitStop.DriverName,
+                    PitOnLap = pitStop.LapCount,
+                    PitStopTime = pitStop.TotalDuration,
+                    PositionDelta = pitStop.PositionsGainedLost,
+                    PositionIn = pitStop.PitInRank,
+                    PositionOut = pitStop.PitOutRank,
+                    RunningPosition = pitStop.PitOutRank,
+                    Changes = pitStop.PitStopType == NoTireChange ? PitStopChanges.Other :
+                        pitStop.PitStopType == FourTireChange ? PitStopChanges.FourTires :
+                        pitStop.PitStopType == LeftSideTireChange ? PitStopChanges.LeftSide :
+                        pitStop.PitStopType == RightSideTireChange ? PitStopChanges.RightSide :
+                        PitStopChanges.Other
                 };
 
                 driverPitStops.Add(viewModel);
@@ -443,7 +445,9 @@ namespace rNascar23.Views
 
         private async Task UpdateDisplayAsync()
         {
-            Data = await _pitStopsRepository.GetPitStopsAsync(SeriesId, RaceId, StartLap, EndLap);
+            var pitStops = await _pitStopsRepository.GetPitStopsAsync(SeriesId, RaceId, StartLap, EndLap);
+
+            Data = pitStops.ToList();
 
             SetDataSource(Data);
         }
@@ -492,12 +496,12 @@ namespace rNascar23.Views
             await UpdateDisplayByDriverAsync(selectedDriver.CarNumber, selectedDriver.Name);
         }
 
-        private async Task<IList<PitStop>> GetAllPitStopsByDriverAsync(int carNumber)
+        private async Task<IEnumerable<PitStop>> GetAllPitStopsByDriverAsync(int carNumber)
         {
-            return await _pitStopsRepository.GetPitStopsAsync(SeriesId, RaceId, null, null, carNumber);
+            return await _pitStopsRepository.GetPitStopsInRangeAsync(SeriesId, RaceId, null, null, carNumber);
         }
 
-        private void DisplayDriverPitStops(IList<PitStop> pitStops, int carNumber, string driverName)
+        private void DisplayDriverPitStops(IEnumerable<PitStop> pitStops, int carNumber, string driverName)
         {
             try
             {
@@ -521,37 +525,37 @@ namespace rNascar23.Views
 
                 foreach (var pitStop in pitStops)
                 {
-                    var lvi = new ListViewItem(pitStop.lap_count.ToString())
+                    var lvi = new ListViewItem(pitStop.LapCount.ToString())
                     {
                         UseItemStyleForSubItems = false
                     };
 
-                    Color flagColor = pitStop.pit_in_flag_status == 1 ? Color.Green :
-                      pitStop.pit_in_flag_status == 2 ? Color.Gold :
+                    Color flagColor = pitStop.PitInFlagStatus == 1 ? Color.Green :
+                      pitStop.PitInFlagStatus == 2 ? Color.Gold :
                       lvi.BackColor;
 
                     var flagSubItem = new ListViewItem.ListViewSubItem(lvi, String.Empty, lvi.ForeColor, flagColor, lvi.Font);
 
                     lvi.SubItems.Add(flagSubItem);
 
-                    var tireChanges = pitStop.pit_stop_type == NoTireChange ? String.Empty :
-                        pitStop.pit_stop_type == FourTireChange ? "4" :
-                        pitStop.pit_stop_type == LeftSideTireChange ? "Left" :
-                        pitStop.pit_stop_type == RightSideTireChange ? "Right" :
+                    var tireChanges = pitStop.PitStopType == NoTireChange ? String.Empty :
+                        pitStop.PitStopType == FourTireChange ? "4" :
+                        pitStop.PitStopType == LeftSideTireChange ? "Left" :
+                        pitStop.PitStopType == RightSideTireChange ? "Right" :
                         String.Empty;
 
                     lvi.SubItems.Add(tireChanges);
 
-                    lvi.SubItems.Add(pitStop.total_duration.ToString("N2"));
-                    lvi.SubItems.Add(pitStop.pit_stop_duration.ToString("N2"));
-                    lvi.SubItems.Add(pitStop.pit_in_rank.ToString());
-                    lvi.SubItems.Add(pitStop.pit_out_rank.ToString());
+                    lvi.SubItems.Add(pitStop.TotalDuration.ToString("N2"));
+                    lvi.SubItems.Add(pitStop.PitStopDuration.ToString("N2"));
+                    lvi.SubItems.Add(pitStop.PitInRank.ToString());
+                    lvi.SubItems.Add(pitStop.PitOutRank.ToString());
 
-                    Color gainLossColor = pitStop.positions_gained_lost < 0 ? Color.Red :
-                        pitStop.positions_gained_lost > 0 ? Color.Green :
+                    Color gainLossColor = pitStop.PositionsGainedLost < 0 ? Color.Red :
+                        pitStop.PositionsGainedLost > 0 ? Color.Green :
                         Color.Black;
 
-                    var gainLossSubItem = new ListViewItem.ListViewSubItem(lvi, pitStop.positions_gained_lost.ToString(), gainLossColor, lvDriverPitStops.BackColor, lvDriverPitStops.Font);
+                    var gainLossSubItem = new ListViewItem.ListViewSubItem(lvi, pitStop.PositionsGainedLost.ToString(), gainLossColor, lvDriverPitStops.BackColor, lvDriverPitStops.Font);
 
                     lvi.SubItems.Add(gainLossSubItem);
 
@@ -572,13 +576,13 @@ namespace rNascar23.Views
                     i++;
                 }
 
-                if (pitStops.Count > 0)
+                if (pitStops.Count() > 0)
                 {
-                    lblNumStops.Text = pitStops.Count.ToString();
-                    lblAvgGainLoss.Text = pitStops.Average(p => p.positions_gained_lost).ToString("N2");
-                    lblAvgPitTime.Text = pitStops.Average(p => p.pit_stop_duration).ToString("N2");
-                    lblAvgTotalTime.Text = pitStops.Average(p => p.total_duration).ToString("N2");
-                    lblAvgInOut.Text = pitStops.Average(p => (p.in_travel_duration + p.out_travel_duration)).ToString("N2");
+                    lblNumStops.Text = pitStops.Count().ToString();
+                    lblAvgGainLoss.Text = pitStops.Average(p => p.PositionsGainedLost).ToString("N2");
+                    lblAvgPitTime.Text = pitStops.Average(p => p.PitStopDuration).ToString("N2");
+                    lblAvgTotalTime.Text = pitStops.Average(p => p.TotalDuration).ToString("N2");
+                    lblAvgInOut.Text = pitStops.Average(p => (p.InTravelDuration + p.OutTravelDuration)).ToString("N2");
 
                     if (_averages != null && _averages.Count > 0)
                     {
@@ -617,31 +621,31 @@ namespace rNascar23.Views
             UpdateAverageGreenInOutTimeGrid(_averages);
         }
 
-        private IList<PitStopAverages> GetPitStopAverages(IList<PitStop> pitStops)
+        private IList<PitStopAverages> GetPitStopAverages(IEnumerable<PitStop> pitStops)
         {
             var averages = new List<PitStopAverages>();
 
-            foreach (var driverPitStops in pitStops.GroupBy(p => p.vehicle_number))
+            foreach (var driverPitStops in pitStops.GroupBy(p => p.VehicleNumber))
             {
                 if (driverPitStops != null && driverPitStops.Count() > 0)
                 {
                     var driverPitStopSet = new PitStopAverages
                     {
                         CarNumber = int.Parse(driverPitStops.Key),
-                        Driver = driverPitStops.First().driver_name,
-                        TotalGainLoss = driverPitStops.Sum(p => p.positions_gained_lost),
-                        AveragePitTime = driverPitStops.Average(p => p.pit_stop_duration),
-                        AverageInOutTime = driverPitStops.Average(p => (p.in_travel_duration + p.out_travel_duration)),
-                        AverageTotalTime = driverPitStops.Average(p => p.total_duration)
+                        Driver = driverPitStops.First().DriverName,
+                        TotalGainLoss = driverPitStops.Sum(p => p.PositionsGainedLost),
+                        AveragePitTime = driverPitStops.Average(p => p.PitStopDuration),
+                        AverageInOutTime = driverPitStops.Average(p => (p.InTravelDuration + p.OutTravelDuration)),
+                        AverageTotalTime = driverPitStops.Average(p => p.TotalDuration)
                     };
 
-                    var greenFlagStops = driverPitStops.Where(p => p.pit_in_flag_status == 1);
+                    var greenFlagStops = driverPitStops.Where(p => p.PitInFlagStatus == 1);
 
                     if (greenFlagStops != null && greenFlagStops.Count() > 0)
                     {
-                        driverPitStopSet.AverageGreenPitTime = greenFlagStops.Average(p => p.pit_stop_duration);
-                        driverPitStopSet.AverageGreenTotalTime = greenFlagStops.Average(p => p.total_duration);
-                        driverPitStopSet.AverageGreenInOutTime = greenFlagStops.Average(p => p.in_travel_duration + p.out_travel_duration);
+                        driverPitStopSet.AverageGreenPitTime = greenFlagStops.Average(p => p.PitStopDuration);
+                        driverPitStopSet.AverageGreenTotalTime = greenFlagStops.Average(p => p.TotalDuration);
+                        driverPitStopSet.AverageGreenInOutTime = greenFlagStops.Average(p => p.InTravelDuration + p.OutTravelDuration);
                     }
 
                     averages.Add(driverPitStopSet);

@@ -37,10 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.10.0.0\lib\net461\AutoMapper.dll</HintPath>
+      <HintPath>..\..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=e767ac9c89543656, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.Extensions.Microsoft.DependencyInjection.8.0.1\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
+      <HintPath>..\..\packages\AutoMapper.Extensions.Microsoft.DependencyInjection.8.1.1\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -128,6 +130,9 @@
     </Reference>
     <Reference Include="RestSharp, Version=109.0.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RestSharp.109.0.1\lib\net471\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="rNascar23.Sdk, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\rNascar23.Sdk.1.0.2\lib\netstandard2.0\rNascar23.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
@@ -260,65 +265,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libraries\Common\rNascar23.Common\rNascar23.Common.csproj">
-      <Project>{c87cfc5b-669b-4326-ad62-2ee61ad71aec}</Project>
-      <Name>rNascar23.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\Flags\rNascar23.Flags\rNascar23.Flags.csproj">
-      <Project>{a3aa6e5c-07a9-48c6-b45c-27bfba0901ec}</Project>
-      <Name>rNascar23.Flags</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\Flags\rNascar23.Service.Flags\rNascar23.Service.Flags.csproj">
-      <Project>{86c1ded5-6ff9-4894-9223-c86ef77e8c50}</Project>
-      <Name>rNascar23.Service.Flags</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\LapTimes\rNascar23.LapTimes\rNascar23.LapTimes.csproj">
-      <Project>{4796329f-b11c-4d1d-89fa-f6ba3c1375fe}</Project>
-      <Name>rNascar23.LapTimes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\LapTimes\rNascar23.Service.LapTimes\rNascar23.Service.LapTimes.csproj">
-      <Project>{577055f5-2876-43d3-90a2-1dc5275da8ae}</Project>
-      <Name>rNascar23.Service.LapTimes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\LiveFeed\rNascar23.LiveFeed\rNascar23.LiveFeeds.csproj">
-      <Project>{0c0644d8-aa4e-48b0-9f7b-db7845978c4a}</Project>
-      <Name>rNascar23.LiveFeeds</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\LiveFeed\rNascar23.Service.LiveFeeds\rNascar23.Service.LiveFeeds.csproj">
-      <Project>{7fc5d433-fcf5-46a8-a0ab-1637fa6d851c}</Project>
-      <Name>rNascar23.Service.LiveFeeds</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\LoopData\rNascar.Services.LoopData\rNascar23.Service.LoopData.csproj">
-      <Project>{95275f7b-43da-4ee8-bdf7-1fdf4ab7faa9}</Project>
-      <Name>rNascar23.Service.LoopData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\LoopData\rNascar23.LoopData\rNascar23.LoopData.csproj">
-      <Project>{c4eea2cf-3aa6-4f42-9076-9bb8538dccbf}</Project>
-      <Name>rNascar23.LoopData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\PitStops\rNascar23.PitStops\rNascar23.PitStops.csproj">
-      <Project>{696d2b73-0514-41a3-bec1-c0ced6c60ae8}</Project>
-      <Name>rNascar23.PitStops</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\PitStops\rNascar23.Service.PitStops\rNascar23.Service.PitStops.csproj">
-      <Project>{7bf784ca-a6c3-489d-bca2-f476cfb41e96}</Project>
-      <Name>rNascar23.Service.PitStops</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\Points\rNascar23.Points\rNascar23.Points.csproj">
-      <Project>{c11708b9-b376-40a5-9124-8d29743d0384}</Project>
-      <Name>rNascar23.Points</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\Points\rNascar23.Service.Points\rNascar23.Service.Points.csproj">
-      <Project>{8f236e4c-ebd3-434c-832c-d4c81378a36d}</Project>
-      <Name>rNascar23.Service.Points</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\Schedules\rNascar23.RaceLists\rNascar23.Schedules.csproj">
-      <Project>{f803eb13-4e3e-4baf-8c38-fae6fe08cfcd}</Project>
-      <Name>rNascar23.Schedules</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\libraries\Schedules\rNascar23.Service.RaceLists\rNascar23.Service.Schedules.csproj">
-      <Project>{2052c56a-f96e-4815-b530-eab7825b1486}</Project>
-      <Name>rNascar23.Service.Schedules</Name>
+    <ProjectReference Include="..\..\libraries\UserSettings\rNascar23.Settings\rNascar23.Settings.csproj">
+      <Project>{112c7b16-3b21-4b14-b6c3-3f89aa8d80ca}</Project>
+      <Name>rNascar23.Settings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

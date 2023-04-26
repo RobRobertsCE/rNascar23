@@ -2,25 +2,26 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using rNascar23.Common;
 using rNascar23.Configuration;
 using rNascar23.CustomViews;
-using rNascar23.Data.Flags.Ports;
-using rNascar23.Data.LiveFeeds.Ports;
 using rNascar23.Dialogs;
-using rNascar23.Flags.Models;
-using rNascar23.LapTimes.Models;
-using rNascar23.LapTimes.Ports;
-using rNascar23.LiveFeeds.Models;
-using rNascar23.LiveFeeds.Ports;
 using rNascar23.Logic;
-using rNascar23.LoopData.Ports;
-using rNascar23.PitStops.Ports;
-using rNascar23.Points.Models;
-using rNascar23.Points.Ports;
 using rNascar23.Replay;
-using rNascar23.Schedules.Models;
-using rNascar23.Schedules.Ports;
+using rNascar23.Sdk.Common;
+using rNascar23.Sdk.Flags.Models;
+using rNascar23.Sdk.Flags.Ports;
+using rNascar23.Sdk.LapTimes.Models;
+using rNascar23.Sdk.LapTimes.Ports;
+using rNascar23.Sdk.LiveFeeds.Models;
+using rNascar23.Sdk.LiveFeeds.Ports;
+using rNascar23.Sdk.LoopData.Models;
+using rNascar23.Sdk.LoopData.Ports;
+using rNascar23.Sdk.PitStops.Ports;
+using rNascar23.Sdk.Points.Models;
+using rNascar23.Sdk.Points.Ports;
+using rNascar23.Sdk.Schedules.Models;
+using rNascar23.Sdk.Schedules.Ports;
+using rNascar23.Settings;
 using rNascar23.ViewModels;
 using rNascar23.Views;
 using System;
@@ -34,7 +35,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PitStop = rNascar23.PitStops.Models.PitStop;
+using PitStop = rNascar23.Sdk.PitStops.Models.PitStop;
 
 namespace rNascar23
 {
@@ -57,21 +58,6 @@ namespace rNascar23
             Race,
             Schedules,
             PitStops
-        }
-
-        private enum RunType
-        {
-            Practice = 1,
-            Qualifying = 2,
-            Race = 3
-        }
-
-        private enum SeriesType
-        {
-            Cup = 1,
-            Xfinity,
-            Trucks,
-            All
         }
 
         #endregion
@@ -717,24 +703,24 @@ namespace rNascar23
             _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
             _formState.FlagStates = await _flagStateRepository.GetFlagStatesAsync();
 
-            _formState.EventStatistics = await _LoopDataRepository.GetEventAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+            _formState.EventStatistics = await _LoopDataRepository.GetLoopDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-            if (_formState.EventStatistics != null && _formState.EventStatistics.drivers != null)
+            if (_formState.EventStatistics != null && _formState.EventStatistics.Drivers != null)
             {
-                foreach (var driverStats in _formState.EventStatistics?.drivers)
+                foreach (var driverStats in _formState.EventStatistics?.Drivers)
                 {
-                    var liveFeedDriver = _formState.LiveFeed.Vehicles.FirstOrDefault(v => v.driver.DriverId == driverStats.DriverId);
+                    var liveFeedDriver = _formState.LiveFeed.Vehicles.FirstOrDefault(v => v.Driver.DriverId == driverStats.DriverId);
 
                     if (liveFeedDriver != null)
-                        driverStats.DriverName = liveFeedDriver.driver.FullName;
+                        driverStats.DriverName = liveFeedDriver.Driver.FullName;
                 }
             }
 
             _formState.LapAverages = await _lapAveragesRepository.GetLapAveragesAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-            _formState.LivePoints = await _pointsRepository.GetDriverPoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
+            _formState.LivePoints = await _pointsRepository.GetDriverPointsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-            _formState.StagePoints = await _pointsRepository.GetStagePoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
+            _formState.StagePoints = await _pointsRepository.GetStagePointsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
             _formState.PitStops = await _pitStopsRepository.GetPitStopsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
@@ -813,7 +799,7 @@ namespace rNascar23
                         return raceLists.CupSeries.
                            Concat(raceLists.XfinitySeries).
                            Concat(raceLists.TruckSeries).
-                           Where(s => s.Schedule.Any(x => x.StartTimeLocal.Date == DateTime.Now.Date)).
+                           Where(s => s.EventActivities.Any(x => x.StartTimeLocal.Date == DateTime.Now.Date)).
                            ToList();
                     }
                 default:
@@ -1220,7 +1206,7 @@ namespace rNascar23
                         AddGridToPanel(panel, ViewFactory.GetDriverPointsGridView(), dockStyle);
                         break;
                     case GridViewTypes.FastestLaps:
-                        AddGridToPanel(panel, ViewFactory.GetFastestLapsGridView(settings.FastestLapsDisplayType), dockStyle);
+                        AddGridToPanel(panel, ViewFactory.GetFastestLapsGridView((SpeedTimeType)settings.FastestLapsDisplayType), dockStyle);
                         break;
                     case GridViewTypes.LapLeaders:
                         AddGridToPanel(panel, ViewFactory.GetLapLeadersGridView(), dockStyle);
@@ -1231,35 +1217,35 @@ namespace rNascar23
                     case GridViewTypes.Best5Laps:
                         AddGridToPanel(
                             panel,
-                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Best5Laps, settings.BestNLapsDisplayType),
+                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Best5Laps, (SpeedTimeType)settings.BestNLapsDisplayType),
                             dockStyle);
                         break;
                     case GridViewTypes.Best10Laps:
                         AddGridToPanel(
                             panel,
-                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Best10Laps, settings.BestNLapsDisplayType),
+                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Best10Laps, (SpeedTimeType)settings.BestNLapsDisplayType),
                             dockStyle);
                         break;
                     case GridViewTypes.Best15Laps:
                         AddGridToPanel(
                             panel,
-                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Best15Laps, settings.BestNLapsDisplayType),
+                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Best15Laps, (SpeedTimeType)settings.BestNLapsDisplayType),
                             dockStyle);
                         break;
                     case GridViewTypes.Last5Laps:
-                        AddGridToPanel(panel, ViewFactory.GetNLapsGridView(NLapsViewTypes.Last5Laps, settings.LastNLapsDisplayType),
+                        AddGridToPanel(panel, ViewFactory.GetNLapsGridView(NLapsViewTypes.Last5Laps, (SpeedTimeType)settings.LastNLapsDisplayType),
                             dockStyle);
                         break;
                     case GridViewTypes.Last10Laps:
                         AddGridToPanel(
                             panel,
-                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Last10Laps, settings.LastNLapsDisplayType),
+                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Last10Laps, (SpeedTimeType)settings.LastNLapsDisplayType),
                             dockStyle);
                         break;
                     case GridViewTypes.Last15Laps:
                         AddGridToPanel(
                             panel,
-                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Last15Laps, settings.LastNLapsDisplayType),
+                            ViewFactory.GetNLapsGridView(NLapsViewTypes.Last15Laps, (SpeedTimeType)settings.LastNLapsDisplayType),
                             dockStyle);
                         break;
                     case GridViewTypes.Movers:
@@ -1427,7 +1413,7 @@ namespace rNascar23
                 ((Control)pitStopsView).BackColor = Color.White;
             }
 
-            pitStopsView.Data = _formState.PitStops;
+            pitStopsView.Data = _formState.PitStops.ToList();
         }
 
         private void SetBottomAndRightZOrder()
@@ -1532,10 +1518,10 @@ namespace rNascar23
                 switch (gridView.Settings.ApiSource)
                 {
                     case ApiSources.LoopData:
-                        ((IGridView<LoopData.Models.Driver>)gridView).Data = _formState.EventStatistics.drivers;
+                        ((IGridView<DriverLoopData>)gridView).Data = _formState.EventStatistics.Drivers;
                         break;
                     case ApiSources.Flags:
-                        ((IGridView<FlagState>)gridView).Data = _formState.FlagStates;
+                        ((IGridView<FlagState>)gridView).Data = _formState.FlagStates.ToList();
                         break;
                     case ApiSources.LapTimes:
                         ((IGridView<DriverLaps>)gridView).Data = _formState.LapTimes.Drivers;
@@ -1547,19 +1533,19 @@ namespace rNascar23
                         ((IGridView<LiveFeed>)gridView).Data = new List<LiveFeed>() { _formState.LiveFeed };
                         break;
                     case ApiSources.RaceLists:
-                        ((IGridView<SeriesEvent>)gridView).Data = _formState.SeriesSchedules;
+                        ((IGridView<SeriesEvent>)gridView).Data = _formState.SeriesSchedules.ToList();
                         break;
                     case ApiSources.Vehicles:
                         ((IGridView<Vehicle>)gridView).Data = _formState.LiveFeed.Vehicles;
                         break;
                     case ApiSources.LapAverages:
-                        ((IGridView<LapAverages>)gridView).Data = _formState.LapAverages;
+                        ((IGridView<LapAverages>)gridView).Data = _formState.LapAverages.ToList();
                         break;
                     case ApiSources.DriverPoints:
-                        ((IGridView<DriverPoints>)gridView).Data = _formState.LivePoints;
+                        ((IGridView<DriverPoints>)gridView).Data = _formState.LivePoints.ToList();
                         break;
                     case ApiSources.PitStops:
-                        ((IGridView<PitStop>)gridView).Data = _formState.PitStops;
+                        ((IGridView<PitStop>)gridView).Data = _formState.PitStops.ToList();
                         break;
                     default:
                         break;
@@ -1587,7 +1573,7 @@ namespace rNascar23
                 switch (uc.GridViewType)
                 {
                     case GridViewTypes.DriverPoints:
-                        uc.SetDataSource<GenericGridViewModel>(BuildDriverPointsData(_formState.LivePoints));
+                        uc.SetDataSource<GenericGridViewModel>(BuildDriverPointsData(_formState.LivePoints.ToList()));
                         break;
                     case GridViewTypes.FastestLaps:
                         uc.SetDataSource<GenericGridViewModel>(BuildFastestLapsData(_formState.LiveFeed.Vehicles));
@@ -1596,7 +1582,7 @@ namespace rNascar23
                         uc.SetDataSource<GenericGridViewModel>(BuildLapLeadersData(_formState.LiveFeed.Vehicles));
                         break;
                     case GridViewTypes.StagePoints:
-                        uc.SetDataSource<GenericGridViewModel>(BuildStagePointsData(_formState.StagePoints, _formState.LiveFeed?.RaceId));
+                        uc.SetDataSource<GenericGridViewModel>(BuildStagePointsData(_formState.StagePoints.ToList(), _formState.LiveFeed?.RaceId));
                         break;
                     case GridViewTypes.Best5Laps:
                     case GridViewTypes.Best10Laps:
@@ -1604,7 +1590,7 @@ namespace rNascar23
                     case GridViewTypes.Last5Laps:
                     case GridViewTypes.Last10Laps:
                     case GridViewTypes.Last15Laps:
-                        uc.SetDataSource<GenericGridViewModel>(BuildNLapsData(uc.GridViewType, _formState.LapTimes.Drivers, _formState.LapAverages));
+                        uc.SetDataSource<GenericGridViewModel>(BuildNLapsData(uc.GridViewType, _formState.LapTimes.Drivers, _formState.LapAverages.ToList()));
                         break;
                     case GridViewTypes.Movers:
                         uc.SetDataSource<GenericGridViewModel>(BuildMoversData(_formState.LapTimes));
@@ -1624,7 +1610,7 @@ namespace rNascar23
 
             foreach (GridViewBase uc in panel.Controls.OfType<KeyMomentsView>())
             {
-                uc.SetDataSource<KeyMoment>(_formState.KeyMoments);
+                uc.SetDataSource<KeyMoment>(_formState.KeyMoments.ToList());
             }
         }
 
@@ -1634,14 +1620,14 @@ namespace rNascar23
 
             int i = 1;
             foreach (var lapLedLeader in vehicles.
-                Where(v => v.laps_led.Length > 0).
-                OrderByDescending(v => v.laps_led.Sum(l => l.end_lap - l.start_lap)))
+                Where(v => v.LapsLed.Count > 0).
+                OrderByDescending(v => v.LapsLed.Sum(l => l.EndLap - l.StartLap)))
             {
                 var lapLeader = new GenericGridViewModel()
                 {
                     Position = i,
-                    Driver = lapLedLeader.driver.FullName,
-                    Value = lapLedLeader.laps_led.Sum(l => l.end_lap - l.start_lap) + 1
+                    Driver = lapLedLeader.Driver.FullName,
+                    Value = lapLedLeader.LapsLed.Sum(l => l.EndLap - l.StartLap) + 1
                 };
 
                 models.Add(lapLeader);
@@ -1662,28 +1648,28 @@ namespace rNascar23
                 }).OrderBy(p => p.Position).ToList();
         }
 
-        private IList<GenericGridViewModel> BuildStagePointsData(IList<StagePoints2> stagePoints, int? raceId)
+        private IList<GenericGridViewModel> BuildStagePointsData(IList<StagePointsDetails> stagePoints, int? raceId)
         {
             IList<GenericGridViewModel> models = new List<GenericGridViewModel>();
 
             if (stagePoints == null || stagePoints.Count == 0)
                 return models;
 
-            if (raceId.HasValue && stagePoints.Any(s => s.race_id == raceId.Value))
+            if (raceId.HasValue && stagePoints.Any(s => s.RaceId == raceId.Value))
             {
-                stagePoints = stagePoints.Where(s => s.race_id == raceId.Value).ToList();
+                stagePoints = stagePoints.Where(s => s.RaceId == raceId.Value).ToList();
             }
 
             int i = 1;
             foreach (var driverStagePoints in stagePoints.
-                Where(s => (s.stage_1_points + s.stage_2_points + s.stage_3_points) > 0).
-                OrderByDescending(s => (s.stage_1_points + s.stage_2_points + s.stage_3_points)))
+                Where(s => (s.Stage1Points + s.Stage2Points + s.Stage3Points) > 0).
+                OrderByDescending(s => (s.Stage1Points + s.Stage2Points + s.Stage3Points)))
             {
                 var model = new GenericGridViewModel()
                 {
                     Position = i,
-                    Driver = $"{driverStagePoints.first_name} {driverStagePoints.last_name}",
-                    Value = driverStagePoints.stage_1_points + driverStagePoints.stage_2_points + driverStagePoints.stage_3_points
+                    Driver = $"{driverStagePoints.FirstName} {driverStagePoints.LastName}",
+                    Value = driverStagePoints.Stage1Points + driverStagePoints.Stage2Points + driverStagePoints.Stage3Points
                 };
 
                 models.Add(model);
@@ -1698,28 +1684,28 @@ namespace rNascar23
         {
             var models = new List<GenericGridViewModel>();
 
-            if (UserSettings.FastestLapsDisplayType == SpeedTimeType.MPH)
+            if (UserSettings.FastestLapsDisplayType == (int)SpeedTimeType.MPH)
             {
                 models = vehicles.
-                    Where(v => v.best_lap_speed > 0).
-                    OrderByDescending(v => v.best_lap_speed).
+                    Where(v => v.BestLapSpeed > 0).
+                    OrderByDescending(v => v.BestLapSpeed).
                     Take(10).
                     Select(v => new GenericGridViewModel()
                     {
-                        Driver = v.driver.FullName,
-                        Value = (float)Math.Round(v.best_lap_speed, 3)
+                        Driver = v.Driver.FullName,
+                        Value = (float)Math.Round(v.BestLapSpeed, 3)
                     }).ToList();
             }
             else
             {
                 models = vehicles.
-                    Where(v => v.best_lap_time > 0).
-                    OrderBy(v => v.best_lap_time).
+                    Where(v => v.BestLapTime > 0).
+                    OrderBy(v => v.BestLapTime).
                     Take(10).
                     Select(v => new GenericGridViewModel()
                     {
-                        Driver = v.driver.FullName,
-                        Value = (float)Math.Round(v.best_lap_time, 3)
+                        Driver = v.Driver.FullName,
+                        Value = (float)Math.Round(v.BestLapTime, 3)
                     }).ToList();
             }
 
@@ -1791,7 +1777,7 @@ namespace rNascar23
             if (dataSource1 == null || dataSource1.Count == 0)
                 return BuildViewModelsByLapAverages(viewType, dataSource2);
 
-            switch (displayType)
+            switch ((SpeedTimeType)displayType)
             {
                 case SpeedTimeType.Seconds:
                     models = BuildViewModelsByTimeByDriverLaps(viewType, dataSource1);
@@ -2035,16 +2021,16 @@ namespace rNascar23
         private void DisplayHeaderData()
         {
             picFlagStatus.BackColor =
-                _formState.LiveFeed.FlagState == (int)FlagColors.Green ? FlagUiColors.Green :
-                _formState.LiveFeed.FlagState == (int)FlagColors.Yellow ? FlagUiColors.Yellow :
-                _formState.LiveFeed.FlagState == (int)FlagColors.Red ? FlagUiColors.Red :
-                _formState.LiveFeed.FlagState == (int)FlagColors.White ? FlagUiColors.White :
-                _formState.LiveFeed.FlagState == (int)FlagColors.Checkered ? FlagUiColors.Checkered :
-                _formState.LiveFeed.FlagState == (int)FlagColors.HotTrack ? FlagUiColors.HotTrack :
-                _formState.LiveFeed.FlagState == (int)FlagColors.ColdTrack ? FlagUiColors.ColdTrack :
+                _formState.LiveFeed.FlagState == FlagColors.Green ? FlagUiColors.Green :
+                _formState.LiveFeed.FlagState == FlagColors.Yellow ? FlagUiColors.Yellow :
+                _formState.LiveFeed.FlagState == FlagColors.Red ? FlagUiColors.Red :
+                _formState.LiveFeed.FlagState == FlagColors.White ? FlagUiColors.White :
+                _formState.LiveFeed.FlagState == FlagColors.Checkered ? FlagUiColors.Checkered :
+                _formState.LiveFeed.FlagState == FlagColors.HotTrack ? FlagUiColors.HotTrack :
+                _formState.LiveFeed.FlagState == FlagColors.ColdTrack ? FlagUiColors.ColdTrack :
                 Color.Black;
 
-            if (_formState.LiveFeed.RunType == (int)RunType.Race)
+            if (_formState.LiveFeed.RunType == RunTypes.Race)
             {
                 if (_lapStates == null || _lapStates.Stage1Laps == 0)
                 {
@@ -2107,13 +2093,13 @@ namespace rNascar23
             lblEventName.Text = $"{eventDetails} {stageDetails}".TrimEnd();
         }
 
-        private string GetSeriesName(int seriesId)
+        private string GetSeriesName(SeriesTypes seriesId)
         {
-            return seriesId == 1 ? "Cup Series" :
-                seriesId == 2 ? "Xfinity Series" :
-                seriesId == 3 ? "Craftsman Truck Series" :
-                seriesId == 4 ? "ARCA Menards Series" :
-                seriesId == 999 ? "Whelen Modified Tour" :
+            return seriesId == SeriesTypes.Cup ? "Cup Series" :
+                seriesId == SeriesTypes.Xfinity ? "Xfinity Series" :
+                seriesId == SeriesTypes.Truck ? "Craftsman Truck Series" :
+                seriesId == SeriesTypes.Arca ? "ARCA Menards Series" :
+                seriesId == SeriesTypes.WhelenTourMod ? "Whelen Modified Tour" :
                 "Unknown";
         }
 
@@ -2156,14 +2142,16 @@ namespace rNascar23
 
             _lapStates.LapSegments.Clear();
 
-            for (int i = 0; i < _formState.FlagStates.Count; i++)
+            var flagStates = _formState.FlagStates.ToArray();
+
+            for (int i = 0; i < flagStates.Length; i++)
             {
-                if (_formState.FlagStates[i].State != previousFlagState)
+                if (flagStates[i].State != previousFlagState)
                 {
                     var newLapSegment = new LapStateViewModel.LapSegment
                     {
                         StartLapNumber = lap,
-                        Laps = _formState.FlagStates[i].LapNumber - lap,
+                        Laps = flagStates[i].LapNumber - lap,
                         Stage = lap >= _lapStates.Stage1Laps + _lapStates.Stage2Laps ?
                         3 : lap >= _lapStates.Stage1Laps ?
                         2 :
@@ -2173,8 +2161,8 @@ namespace rNascar23
 
                     _lapStates.LapSegments.Add(newLapSegment);
 
-                    previousFlagState = _formState.FlagStates[i].State;
-                    lap = _formState.FlagStates[i].LapNumber;
+                    previousFlagState = flagStates[i].State;
+                    lap = flagStates[i].LapNumber;
                 }
             }
 

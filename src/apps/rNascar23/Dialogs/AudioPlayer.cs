@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
-using rNascar23.Media.Models;
-using rNascar23.Media.Ports;
+using rNascar23.Sdk.Common;
+using rNascar23.Sdk.Media.Models;
+using rNascar23.Sdk.Media.Ports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace rNascar23.Dialogs
 
         #region properties
 
-        public int SeriesId { get; set; }
+        public SeriesTypes SeriesId { get; set; }
 
         private AudioChannel _selectedChannel = null;
         public AudioChannel SelectedChannel
@@ -77,13 +78,13 @@ namespace rNascar23.Dialogs
 
                 var audioConfiguration = await LoadAudioConfiguration(SeriesId);
 
-                if (audioConfiguration == null || audioConfiguration.audio_config == null)
+                if (audioConfiguration == null || audioConfiguration.AudioChannels == null)
                 {
                     MessageBox.Show("No audio channels are available right now");
                     return;
                 }
 
-                DisplayAudioChannelList(audioConfiguration.audio_config);
+                DisplayAudioChannelList(audioConfiguration.AudioChannels);
             }
             catch (Exception ex)
             {
@@ -126,7 +127,7 @@ namespace rNascar23.Dialogs
             }
         }
 
-        private async Task<AudioConfiguration> LoadAudioConfiguration(int seriesId)
+        private async Task<AudioConfiguration> LoadAudioConfiguration(SeriesTypes seriesId)
         {
             return await _mediaRepository.GetAudioConfigurationAsync(seriesId);
         }
@@ -154,9 +155,9 @@ namespace rNascar23.Dialogs
 
                 var template = Properties.Resources.audioFeedTemplate;
 
-                var html = template.Replace(token, audioChannel.source);
+                var html = template.Replace(token, audioChannel.Source);
 
-                LogInfoMessage($"audioFeed.Name: {audioChannel.driver_name}; audioFeed.Source: {audioChannel.source}");
+                LogInfoMessage($"audioFeed.Name: {audioChannel.DriverName}; audioFeed.Source: {audioChannel.Source}");
 
                 webView.NavigateToString(html);
 
@@ -168,7 +169,7 @@ namespace rNascar23.Dialogs
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex, $"Exception in PlayAudioFeed: {audioChannel.source}");
+                ExceptionHandler(ex, $"Exception in PlayAudioFeed: {audioChannel.Source}");
             }
         }
 

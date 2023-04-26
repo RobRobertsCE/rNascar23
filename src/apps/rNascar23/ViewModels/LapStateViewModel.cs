@@ -1,4 +1,4 @@
-﻿using rNascar23.Flags.Models;
+﻿using rNascar23.Sdk.Common;
 using System.Collections.Generic;
 
 namespace rNascar23.ViewModels

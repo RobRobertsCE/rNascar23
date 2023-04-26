@@ -1,5 +1,6 @@
-﻿using rNascar23.Common;
+﻿using rNascar23.Sdk.Common;
 using rNascar23.CustomViews;
+using rNascar23.Settings;
 using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;

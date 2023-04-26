@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace rNascar23.Common
+namespace rNascar23.Settings
 {
     public class UserSettings
     {
         public string DataDirectory { get; set; }
         public string BackupDirectory { get; set; }
         public string LogDirectory { get; set; }
-        public SpeedTimeType FastestLapsDisplayType { get; set; }
-        public SpeedTimeType LastNLapsDisplayType { get; set; }
-        public SpeedTimeType BestNLapsDisplayType { get; set; }
-        public SpeedTimeType LeaderboardLastLapDisplayType { get; set; }
-        public SpeedTimeType LeaderboardBestLapDisplayType { get; set; }
+        public int FastestLapsDisplayType { get; set; }
+        public int LastNLapsDisplayType { get; set; }
+        public int BestNLapsDisplayType { get; set; }
+        public int LeaderboardLastLapDisplayType { get; set; }
+        public int LeaderboardBestLapDisplayType { get; set; }
         public IList<string> FavoriteDrivers { get; set; } = new List<string>();
         public bool UseGraphicalCarNumbers { get; set; } = false;
         public bool UseDarkTheme { get; set; } = false;

@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using rNascar23.Common;
+using rNascar23.Sdk.Common;
 using rNascar23.CustomViews;
-using rNascar23.LiveFeeds.Ports;
-using rNascar23.LoopData.Ports;
-using rNascar23.Schedules.Models;
-using rNascar23.Schedules.Ports;
+using rNascar23.Sdk.LiveFeeds.Ports;
+using rNascar23.Sdk.LoopData.Ports;
+using rNascar23.Sdk.Schedules.Models;
+using rNascar23.Sdk.Schedules.Ports;
+using rNascar23.Settings;
 using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -273,10 +274,7 @@ namespace rNascar23.Views
                     EventLaps = seriesEvent.ScheduledLaps.ToString(),
                     EventMiles = seriesEvent.ScheduledDistance.ToString(),
                     EventDateTime = seriesEvent.RaceDate,
-                    Series = seriesEvent.SeriesId == 1 ? SeriesTypes.Cup :
-                        seriesEvent.SeriesId == 2 ? SeriesTypes.XFinity :
-                        seriesEvent.SeriesId == 3 ? SeriesTypes.Truck :
-                        SeriesTypes.Unknown,
+                    Series = seriesEvent.SeriesId,
                     Tv = seriesEvent.TelevisionBroadcaster == "FOX" ? TvTypes.Fox :
                         seriesEvent.TelevisionBroadcaster == "FS1" ? TvTypes.FS1 :
                         seriesEvent.TelevisionBroadcaster == "FS2" ? TvTypes.FS2 :
@@ -363,7 +361,7 @@ namespace rNascar23.Views
 
                 ClearEventActivities();
 
-                IEnumerable<Schedules.Models.Schedule> compositeSchedule = new List<Schedules.Models.Schedule>();
+                IEnumerable<EventActivity> compositeSchedule = new List<EventActivity>();
 
                 foreach (ScheduledEventView view in flpScheduledEvents.
                     Controls.
@@ -374,7 +372,7 @@ namespace rNascar23.Views
 
                     var seriesEvent = _data.FirstOrDefault(d => d.RaceId == compositeViewModel.RaceId);
 
-                    compositeSchedule = compositeSchedule.Concat(seriesEvent.Schedule);
+                    compositeSchedule = compositeSchedule.Concat(seriesEvent.EventActivities);
                 }
 
                 DisplayEventSchedule(compositeSchedule.ToArray(), true);
@@ -452,7 +450,7 @@ namespace rNascar23.Views
         {
             try
             {
-                int seriesId = seriesEvent.SeriesId;
+                SeriesTypes seriesId = seriesEvent.SeriesId;
                 int raceId = seriesEvent.RaceId;
 
                 lvResults.BeginUpdate();
@@ -519,7 +517,7 @@ namespace rNascar23.Views
                 lvResults.EndUpdate();
             }
         }
-        private async Task<IList<EventResult>> GetEventResultsAsync(int seriesId, int raceId)
+        private async Task<IList<EventResult>> GetEventResultsAsync(SeriesTypes seriesId, int raceId)
         {
             IList<EventResult> eventResults = new List<EventResult>();
 
@@ -538,31 +536,31 @@ namespace rNascar23.Views
 
             var weekendFeed = await _weekendFeedRepository.GetWeekendFeedAsync(seriesId, raceId, year);
 
-            var weekendRace = weekendFeed.weekend_race.FirstOrDefault();
+            var weekendRace = weekendFeed.WeekendRaces.FirstOrDefault();
 
             var weekendRaceResults = weekendRace.
-                results.
-                Where(r => r.finishing_position > 0).
-                OrderBy(r => r.finishing_position);
+                Results.
+                Where(r => r.FinishingPosition > 0).
+                OrderBy(r => r.FinishingPosition);
 
-            foreach (rNascar23.LiveFeeds.Models.Result driverResult in weekendRaceResults)
+            foreach (Sdk.LiveFeeds.Models.Result driverResult in weekendRaceResults)
             {
                 var eventResult = new EventResult()
                 {
-                    FinishingPosition = driverResult.finishing_position,
-                    CarNumber = driverResult.car_number,
-                    Driver = driverResult.driver_fullname,
-                    Vehicle = driverResult.car_model,
-                    Hometown = driverResult.driver_hometown,
-                    Sponsor = driverResult.sponsor,
-                    Owner = driverResult.owner_fullname,
-                    FinishingStatus = driverResult.finishing_status,
-                    CrewChief = driverResult.crew_chief_fullname,
-                    LapsLed = driverResult.laps_led,
-                    LapsCompleted = driverResult.laps_completed,
-                    PointsEarned = driverResult.points_earned,
-                    PlayoffPointsEarned = driverResult.playoff_points_earned,
-                    StartingPosition = driverResult.starting_position,
+                    FinishingPosition = driverResult.FinishingPosition,
+                    CarNumber = driverResult.CarNumber,
+                    Driver = driverResult.DriverFullName,
+                    Vehicle = driverResult.CarModel,
+                    Hometown = driverResult.DriverHometown,
+                    Sponsor = driverResult.Sponsor,
+                    Owner = driverResult.OwnerFullName,
+                    FinishingStatus = driverResult.FinishingStatus,
+                    CrewChief = driverResult.CrewChiefFullName,
+                    LapsLed = driverResult.LapsLed,
+                    LapsCompleted = driverResult.LapsCompleted,
+                    PointsEarned = driverResult.PointsEarned,
+                    PlayoffPointsEarned = driverResult.PlayoffPointsEarned,
+                    StartingPosition = driverResult.StartingPosition,
                 };
 
                 eventResults.Add(eventResult);
@@ -572,7 +570,7 @@ namespace rNascar23.Views
         }
 
         /* Event Activities (tab control)  */
-        private void DisplayEventSchedule(Schedules.Models.Schedule[] schedule, bool isCompositeSchedule = false)
+        private void DisplayEventSchedule(EventActivity[] schedule, bool isCompositeSchedule = false)
         {
             try
             {
@@ -599,8 +597,8 @@ namespace rNascar23.Views
 
                     lvi.UseItemStyleForSubItems = false;
 
-                    if (item.SeriesId > 0 && item.SeriesId < 4)
-                        lvi.ImageIndex = (item.SeriesId - 1);
+                    if (item.SeriesId > 0 && (int)item.SeriesId < 4)
+                        lvi.ImageIndex = ((int)item.SeriesId - 1);
                     else
                         lvi.ImageIndex = -1;
 

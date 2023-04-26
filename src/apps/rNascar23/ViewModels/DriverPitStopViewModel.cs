@@ -1,4 +1,4 @@
-﻿using rNascar23.Common;
+﻿using rNascar23.Sdk.Common;
 
 namespace rNascar23.ViewModels
 {

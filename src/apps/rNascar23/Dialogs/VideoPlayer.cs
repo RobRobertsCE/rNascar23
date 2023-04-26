@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Web.WebView2.Core;
-using rNascar23.Media.Models;
-using rNascar23.Media.Ports;
+using rNascar23.Sdk.Common;
+using rNascar23.Sdk.Media.Models;
+using rNascar23.Sdk.Media.Ports;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace rNascar23.Dialogs
 
         #region properties
 
-        public int SeriesId { get; set; }
+        public SeriesTypes SeriesId { get; set; }
 
         private VideoChannel _selectedChannel = null;
         public VideoChannel SelectedChannel
@@ -77,7 +78,7 @@ namespace rNascar23.Dialogs
 
                 var videoConfiguration = await LoadVideoConfiguration(SeriesId);
                 
-                if (videoConfiguration == null || videoConfiguration.data == null)
+                if (videoConfiguration == null || videoConfiguration.VideoComponents == null)
                 {
                     MessageBox.Show("No video channels are available right now");
                     return;
@@ -85,15 +86,9 @@ namespace rNascar23.Dialogs
 
                 IList<VideoChannel> channels = new List<VideoChannel>();
 
-                if (videoConfiguration == null || videoConfiguration.data == null)
+                foreach (VideoComponent component in videoConfiguration.VideoComponents)
                 {
-                    MessageBox.Show("No video channels are available right now");
-                    return;
-                }
-
-                foreach (VideoComponent component in videoConfiguration.data)
-                {
-                    foreach (VideoChannel videoChannel in component.videos)
+                    foreach (VideoChannel videoChannel in component.VideosChannels)
                     {
                         channels.Add(videoChannel);
                     }
@@ -142,7 +137,7 @@ namespace rNascar23.Dialogs
             }
         }
 
-        private async Task<VideoConfiguration> LoadVideoConfiguration(int seriesId)
+        private async Task<VideoConfiguration> LoadVideoConfiguration(SeriesTypes seriesId)
         {
             return await _mediaRepository.GetVideoConfigurationAsync(seriesId);
         }
@@ -170,7 +165,7 @@ namespace rNascar23.Dialogs
 
                 // https://dw9ptu32blt7h.cloudfront.net/IC01/master.m3u8
                 var template = Properties.Resources.videoFeedTemplate;
-                var html = template.Replace(token, videoChannel.stream1);
+                var html = template.Replace(token, videoChannel.Stream1);
 
                 webView.NavigateToString(html);
 
@@ -178,7 +173,7 @@ namespace rNascar23.Dialogs
             }
             catch (Exception ex)
             {
-                ExceptionHandler(ex, $"Exception in PlayVideoFeed: {videoChannel.stream1}");
+                ExceptionHandler(ex, $"Exception in PlayVideoFeed: {videoChannel.Stream1}");
             }
         }
 
@@ -210,7 +205,7 @@ namespace rNascar23.Dialogs
             {
                 pnlSelection.Visible = false;
 
-                this.Text = $"{SelectedChannel.title} In-Car Video";
+                this.Text = $"{SelectedChannel.Title} In-Car Video";
 
                 PlayVideoFeed(SelectedChannel);
             }

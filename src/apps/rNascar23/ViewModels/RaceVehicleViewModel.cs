@@ -1,4 +1,4 @@
-﻿using rNascar23.Common;
+﻿using rNascar23.Sdk.Common;
 
 namespace rNascar23.ViewModels
 {
@@ -17,7 +17,7 @@ namespace rNascar23.ViewModels
         public float BestLap { get; set; }
         public int BestLapNumber { get; set; }
         public int LastPit { get; set; }
-        public VehicleEventStatus VehicleStatus { get; set; }
+        public VehicleStatusTypes VehicleStatus { get; set; }
         public bool PersonalBestLapThisLap { get; set; }
         public bool FastestLapInRace { get; set; }
         public bool FastestCarThisLap { get; set; }
@@ -29,22 +29,22 @@ namespace rNascar23.ViewModels
 
                 switch (VehicleStatus)
                 {
-                    case VehicleEventStatus.OnTrack:
+                    case VehicleStatusTypes.OnTrack:
                         break;
-                    case VehicleEventStatus.InPits:
+                    case VehicleStatusTypes.InPits:
                         status = "Pits";
                         break;
-                    case VehicleEventStatus.Garage:
+                    case VehicleStatusTypes.Garage:
                         status = "Garage";
                         break;
-                    case VehicleEventStatus.Retired:
+                    case VehicleStatusTypes.Retired:
                         status = "Retired";
                         break;
-                    case VehicleEventStatus.VehicleEventStatus0:
-                    case VehicleEventStatus.VehicleEventStatus4:
-                    case VehicleEventStatus.VehicleEventStatus5:
-                    case VehicleEventStatus.VehicleEventStatus7:
-                    case VehicleEventStatus.VehicleEventStatus8:
+                    case VehicleStatusTypes.VehicleEventStatus0:
+                    case VehicleStatusTypes.VehicleEventStatus4:
+                    case VehicleStatusTypes.VehicleEventStatus5:
+                    case VehicleStatusTypes.VehicleEventStatus7:
+                    case VehicleStatusTypes.VehicleEventStatus8:
                     default:
                         status = VehicleStatus.ToString();
                         break;

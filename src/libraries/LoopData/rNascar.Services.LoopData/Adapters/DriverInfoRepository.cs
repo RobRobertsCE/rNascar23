@@ -246,11 +246,7 @@ namespace rNascar23.Service.LoopData.Adapters
 
         private string BuildDataFilePath()
         {
-            var fileName = JsonFileHelper.GetDriverInfoDataFile();
-
-            var settings = UserSettingsService.LoadUserSettings();
-
-            return Path.Combine(settings.DataDirectory, fileName);
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), $"\\Data\\{DataFileName}");
         }
 
         #endregion
