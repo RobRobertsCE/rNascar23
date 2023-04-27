@@ -1,18 +1,10 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using rNascar23.Common;
 using rNascar23.Configuration;
-using rNascar23.CustomViews;
 using rNascar23.Dialogs;
-using rNascar23.Service.Flags;
-using rNascar23.Service.LapTimes;
-using rNascar23.Service.LiveFeeds;
-using rNascar23.Service.LoopData;
-using rNascar23.Service.Media;
-using rNascar23.Service.PitStops;
-using rNascar23.Service.Points;
+using rNascar23.Sdk;
+using rNascar23.Settings;
 using Serilog;
 using System;
 using System.IO;
@@ -43,15 +35,7 @@ namespace rNascar23
                 .ConfigureServices((context, services) =>
                 {
                     services
-                        .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-                        .AddFlagState()
-                        .AddSchedules()
-                        .AddLiveFeed()
-                        .AddLapTimes()
-                        .AddPoints()
-                        .AddLoopData()
-                        .AddPitStops()
-                        .AddMedia()                       
+                        .AddrNascar23Sdk()
                         .AddTransient<MainForm>()
                         .AddTransient<UserSettingsDialog>()
                         .AddTransient<ReplaySelectionDialog>()

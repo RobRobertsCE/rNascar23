@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using rNascar23.Common;
-using rNascar23.LoopData.Ports;
+using rNascar23.Sdk.Common;
+using rNascar23.Sdk.LoopData.Ports;
+using rNascar23.Settings;
 using rNascar23.Views;
 using System;
 using System.Collections.Generic;
@@ -110,11 +111,11 @@ namespace rNascar23.Dialogs
             txtDataDirectory.Text = settings.DataDirectory;
             txtBackupDirectory.Text = settings.BackupDirectory;
             txtLogDirectory.Text = settings.LogDirectory;
-            rbFastestLapsTime.Checked = settings.FastestLapsDisplayType == SpeedTimeType.Seconds;
-            rbLastNLapsTime.Checked = settings.LastNLapsDisplayType == SpeedTimeType.Seconds;
-            rbBestNLapsTime.Checked = settings.BestNLapsDisplayType == SpeedTimeType.Seconds;
-            rbLeaderboardLastLapTime.Checked = settings.LeaderboardLastLapDisplayType == SpeedTimeType.Seconds;
-            rbLeaderboardBestLapTime.Checked = settings.LeaderboardBestLapDisplayType == SpeedTimeType.Seconds;
+            rbFastestLapsTime.Checked = settings.FastestLapsDisplayType == (int)SpeedTimeType.Seconds;
+            rbLastNLapsTime.Checked = settings.LastNLapsDisplayType == (int)SpeedTimeType.Seconds;
+            rbBestNLapsTime.Checked = settings.BestNLapsDisplayType == (int)SpeedTimeType.Seconds;
+            rbLeaderboardLastLapTime.Checked = settings.LeaderboardLastLapDisplayType == (int)SpeedTimeType.Seconds;
+            rbLeaderboardBestLapTime.Checked = settings.LeaderboardBestLapDisplayType == (int)SpeedTimeType.Seconds;
             chkUseGraphicalNumbers.Checked = settings.UseGraphicalCarNumbers;
             chkUseDarkTheme.Checked = settings.UseDarkTheme;
             chkAutoUpdateEnabledOnStartup.Checked = settings.AutoUpdateEnabledOnStart;
@@ -465,11 +466,11 @@ namespace rNascar23.Dialogs
             _userSettings.DataDirectory = txtDataDirectory.Text;
             _userSettings.LogDirectory = txtLogDirectory.Text;
 
-            _userSettings.FastestLapsDisplayType = rbFastestLapsTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
-            _userSettings.LastNLapsDisplayType = rbLastNLapsTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
-            _userSettings.BestNLapsDisplayType = rbBestNLapsTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
-            _userSettings.LeaderboardLastLapDisplayType = rbLeaderboardLastLapTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
-            _userSettings.LeaderboardBestLapDisplayType = rbLeaderboardBestLapTime.Checked ? SpeedTimeType.Seconds : SpeedTimeType.MPH;
+            _userSettings.FastestLapsDisplayType = rbFastestLapsTime.Checked ? (int)SpeedTimeType.Seconds : (int)SpeedTimeType.MPH;
+            _userSettings.LastNLapsDisplayType = rbLastNLapsTime.Checked ? (int)SpeedTimeType.Seconds : (int)SpeedTimeType.MPH;
+            _userSettings.BestNLapsDisplayType = rbBestNLapsTime.Checked ? (int)SpeedTimeType.Seconds : (int)SpeedTimeType.MPH;
+            _userSettings.LeaderboardLastLapDisplayType = rbLeaderboardLastLapTime.Checked ? (int)SpeedTimeType.Seconds : (int)SpeedTimeType.MPH;
+            _userSettings.LeaderboardBestLapDisplayType = rbLeaderboardBestLapTime.Checked ? (int)SpeedTimeType.Seconds : (int)SpeedTimeType.MPH;
             _userSettings.UseGraphicalCarNumbers = chkUseGraphicalNumbers.Checked;
             _userSettings.UseDarkTheme = chkUseDarkTheme.Checked;
             _userSettings.AutoUpdateEnabledOnStart = chkAutoUpdateEnabledOnStartup.Checked;

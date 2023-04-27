@@ -1,14 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using rNascar23.Common;
-using rNascar23.Data.Flags.Ports;
-using rNascar23.Data.LiveFeeds.Ports;
-using rNascar23.LapTimes.Ports;
-using rNascar23.LiveFeeds.Models;
-using rNascar23.LoopData.Ports;
-using rNascar23.PitStops.Ports;
-using rNascar23.Points.Ports;
-using rNascar23.Schedules.Ports;
+using rNascar23.Sdk.Flags.Ports;
+using rNascar23.Sdk.LiveFeeds.Ports;
+using rNascar23.Sdk.LapTimes.Ports;
+using rNascar23.Sdk.LiveFeeds.Models;
+using rNascar23.Sdk.LoopData.Ports;
+using rNascar23.Sdk.PitStops.Ports;
+using rNascar23.Sdk.Points.Ports;
+using rNascar23.Sdk.Schedules.Ports;
+using rNascar23.Settings;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -165,24 +165,24 @@ namespace rNascar23.RaceLogger
 
                 _formState.FlagStates = await _flagStateRepository.GetFlagStatesAsync();
 
-                _formState.EventStatistics = await _driverStatisticsRepository.GetEventAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+                _formState.EventStatistics = await _driverStatisticsRepository.GetLoopDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-                if (_formState.EventStatistics != null && _formState.EventStatistics.drivers != null)
+                if (_formState.EventStatistics != null && _formState.EventStatistics.Drivers != null)
                 {
-                    foreach (var driverStats in _formState.EventStatistics?.drivers)
+                    foreach (var driverStats in _formState.EventStatistics?.Drivers)
                     {
-                        var liveFeedDriver = _formState.LiveFeed.Vehicles.FirstOrDefault(v => v.driver.DriverId == driverStats.DriverId);
+                        var liveFeedDriver = _formState.LiveFeed.Vehicles.FirstOrDefault(v => v.Driver.DriverId == driverStats.DriverId);
 
                         if (liveFeedDriver != null)
-                            driverStats.DriverName = liveFeedDriver.driver.FullName;
+                            driverStats.DriverName = liveFeedDriver.Driver.FullName;
                     }
                 }
 
                 _formState.LapAverages = await _lapAveragesRepository.GetLapAveragesAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-                _formState.LivePoints = await _pointsRepository.GetDriverPoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
+                _formState.LivePoints = await _pointsRepository.GetDriverPointsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-                _formState.StagePoints = await _pointsRepository.GetStagePoints(_formState.LiveFeed.RaceId, _formState.LiveFeed.SeriesId);
+                _formState.StagePoints = await _pointsRepository.GetStagePointsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
                 _formState.PitStops = await _pitStopsRepository.GetPitStopsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
@@ -268,15 +268,9 @@ namespace rNascar23.RaceLogger
         {
             lblLastUpdate.Text = DateTime.Now.ToString();
 
-            var seriesName = _formState.LiveFeed.SeriesId == 1 ? "Cup" :
-                _formState.LiveFeed.SeriesId == 2 ? "XFinity" :
-                _formState.LiveFeed.SeriesId == 3 ? "Truck" :
-                "Other Series";
+            var seriesName = _formState.LiveFeed.SeriesId.ToString();
 
-            var runType = _formState.LiveFeed.RunType == 1 ? "Practice" :
-                _formState.LiveFeed.RunType == 2 ? "Qualifying" :
-                _formState.LiveFeed.RunType == 3 ? "Race" :
-                "Other Run Type";
+            var runType = _formState.LiveFeed.RunType.ToString();
 
             lblEvent.Text = $"{_formState.LiveFeed.TrackName} {seriesName} {_formState.LiveFeed.RunName} {runType}";
         }
@@ -285,15 +279,9 @@ namespace rNascar23.RaceLogger
         {
             try
             {
-                var seriesName = _formState.LiveFeed.SeriesId == 1 ? "Cup" :
-                    _formState.LiveFeed.SeriesId == 2 ? "XFinity" :
-                    _formState.LiveFeed.SeriesId == 3 ? "Truck" :
-                    "Other Series";
+                var seriesName = _formState.LiveFeed.SeriesId.ToString();
 
-                var runType = _formState.LiveFeed.RunType == 1 ? "Practice" :
-                    _formState.LiveFeed.RunType == 2 ? "Qualifying" :
-                    _formState.LiveFeed.RunType == 3 ? "Race" :
-                    "Other Run Type";
+                var runType = _formState.LiveFeed.RunType.ToString();
 
                 var sanitizedRunName = _formState.LiveFeed.RunName.Replace(".", "_").Replace("\\", "_").Replace("/", "_").Replace("-", "_");
 

@@ -1,5 +1,6 @@
-﻿using rNascar23.Common;
+﻿using rNascar23.Sdk.Common;
 using rNascar23.Properties;
+using rNascar23.Settings;
 using rNascar23.ViewModels;
 using System;
 using System.ComponentModel;
@@ -144,7 +145,7 @@ namespace rNascar23.Views
                     case SeriesTypes.Cup:
                         picSeries.Image = Resources.NCS_Small;
                         break;
-                    case SeriesTypes.XFinity:
+                    case SeriesTypes.Xfinity:
                         picSeries.Image = Resources.XFinity_Small;
                         break;
                     case SeriesTypes.Truck:

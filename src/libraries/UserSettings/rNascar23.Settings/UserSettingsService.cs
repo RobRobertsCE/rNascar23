@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace rNascar23.Common
+namespace rNascar23.Settings
 {
     public class UserSettingsService
     {

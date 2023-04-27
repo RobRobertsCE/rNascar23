@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using rNascar23.Dialogs;
+using rNascar23.Sdk.Common;
 using System;
 using System.Windows.Forms;
 
@@ -7,7 +8,7 @@ namespace rNascar23
 {
     public partial class MultiView : Form
     {
-        public int SeriesId { get; set; }
+        public SeriesTypes SeriesId { get; set; }
 
         public MultiView()
         {

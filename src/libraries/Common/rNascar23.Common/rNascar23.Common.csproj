@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="JsonFileHelper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\..\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs" />
   </ItemGroup>
 

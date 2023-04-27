@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using rNascar23.Common;
+using rNascar23.Sdk.Common;
 using rNascar23.CustomViews;
-using rNascar23.LiveFeeds.Models;
-using rNascar23.Media.Models;
-using rNascar23.Media.Ports;
+using rNascar23.Sdk.LiveFeeds.Models;
+using rNascar23.Sdk.Media.Models;
+using rNascar23.Sdk.Media.Ports;
 using rNascar23.Properties;
+using rNascar23.Settings;
 using rNascar23.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -83,7 +84,7 @@ namespace rNascar23.Views
         }
         public SpeedTimeType LastLapDisplayType { get; set; }
         public SpeedTimeType BestLapDisplayType { get; set; }
-        public int SeriesId { get; set; }
+        public SeriesTypes SeriesId { get; set; }
         public Font FontOverride { get; set; } = null;
 
         #endregion
@@ -126,8 +127,8 @@ namespace rNascar23.Views
                 SortOrder = 1
             };
 
-            LastLapDisplayType = _userSettings.LeaderboardLastLapDisplayType;
-            BestLapDisplayType = _userSettings.LeaderboardBestLapDisplayType;
+            LastLapDisplayType = (SpeedTimeType)_userSettings.LeaderboardLastLapDisplayType;
+            BestLapDisplayType = (SpeedTimeType)_userSettings.LeaderboardBestLapDisplayType;
         }
 
         #endregion
@@ -251,8 +252,8 @@ namespace rNascar23.Views
 
                 if (row.Cells["IsOnDvp"]?.Value?.ToString() == "True")
                 {
-                    if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.OnTrack ||
-                        (VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.InPits)
+                    if ((VehicleStatusTypes)row.Cells["VehicleStatus"].Value == VehicleStatusTypes.OnTrack ||
+                        (VehicleStatusTypes)row.Cells["VehicleStatus"].Value == VehicleStatusTypes.InPits)
                     {
                         row.Cells["VehicleStatusImage"].Style.BackColor = Color.Red;
                     }
@@ -288,7 +289,7 @@ namespace rNascar23.Views
 
                 if (row.Cells["VehicleStatus"]?.Value != null)
                 {
-                    if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.InPits)
+                    if ((VehicleStatusTypes)row.Cells["VehicleStatus"].Value == VehicleStatusTypes.InPits)
                     {
                         if (_userSettings.UseDarkTheme)
                         {
@@ -302,7 +303,7 @@ namespace rNascar23.Views
                         }
                         row.Cells["VehicleStatusImage"].ToolTipText = $"{row.Cells["VehicleStatusImage"].ToolTipText}In Pits";
                     }
-                    else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Retired)
+                    else if ((VehicleStatusTypes)row.Cells["VehicleStatus"].Value == VehicleStatusTypes.Retired)
                     {
                         if (_userSettings.UseDarkTheme)
                             row.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
@@ -312,7 +313,7 @@ namespace rNascar23.Views
                         row.Cells["VehicleStatusImage"].ToolTipText = "Retired";
                         ((DataGridViewImageCell)row.Cells["VehicleStatusImage"]).Value = Properties.Resources.Cancel;
                     }
-                    else if ((VehicleEventStatus)row.Cells["VehicleStatus"].Value == VehicleEventStatus.Garage)
+                    else if ((VehicleStatusTypes)row.Cells["VehicleStatus"].Value == VehicleStatusTypes.Garage)
                     {
                         if (_userSettings.UseDarkTheme)
                         {
@@ -358,46 +359,46 @@ namespace rNascar23.Views
 
             Vehicle lastVehicle = null;
 
-            var bestLapSpeedInRace = vehicles.Max(v => v.best_lap_speed);
-            var currentLap = vehicles.Max(v => v.laps_completed);
-            var bestLapSpeedThisLap = vehicles.Max(v => v.last_lap_speed);
+            var bestLapSpeedInRace = vehicles.Max(v => v.BestLapSpeed);
+            var currentLap = vehicles.Max(v => v.LapsCompleted);
+            var bestLapSpeedThisLap = vehicles.Max(v => v.LastLapSpeed);
 
             var leaderboardRowCount = vehicles.Count > 40 ?
                 (int)Math.Round((vehicles.Count / 2F), MidpointRounding.AwayFromZero) :
                 VehicleCountPerLeaderboardSide;
 
             var splitVehiclesList = LeaderboardSide == LeaderboardSides.Left ?
-                vehicles.OrderBy(v => v.running_position).Take(leaderboardRowCount) :
-                vehicles.OrderBy(v => v.running_position).Skip(leaderboardRowCount);
+                vehicles.OrderBy(v => v.RunningPosition).Take(leaderboardRowCount) :
+                vehicles.OrderBy(v => v.RunningPosition).Skip(leaderboardRowCount);
 
             foreach (var vehicle in splitVehiclesList)
             {
                 var model = new RaceVehicleViewModel()
                 {
-                    RunningPosition = vehicle.running_position,
-                    CarManufacturer = vehicle.vehicle_manufacturer,
-                    CarNumber = vehicle.vehicle_number,
-                    DeltaLeader = (float)Math.Round(vehicle.delta, 2),
-                    DeltaNext = (float)Math.Round(lastVehicle == null ? 0 : vehicle.delta - lastVehicle.delta, 2),
-                    Driver = vehicle.driver.FullName,
-                    LapsCompleted = vehicle.laps_completed,
-                    VehicleStatus = (VehicleEventStatus)vehicle.status,
-                    IsOnTrack = vehicle.is_on_track,
-                    IsOnDvp = vehicle.is_on_dvp,
-                    LastLap = LastLapDisplayType == SpeedTimeType.Seconds ? vehicle.last_lap_time : vehicle.last_lap_speed,
-                    BestLap = BestLapDisplayType == SpeedTimeType.Seconds ? vehicle.best_lap_time : vehicle.best_lap_speed,
-                    BestLapNumber = vehicle.best_lap,
-                    LastPit = vehicle.last_pit,
-                    PersonalBestLapThisLap = vehicle.status == (int)VehicleEventStatus.OnTrack && vehicle.is_on_track == true && vehicle.best_lap_speed > 0 && vehicle.best_lap == vehicle.laps_completed,
-                    FastestLapInRace = vehicle.best_lap_speed > 0 && vehicle.best_lap_speed == bestLapSpeedInRace,
-                    FastestCarThisLap = vehicle.is_on_track == true && vehicle.last_lap_speed > 0 && vehicle.last_lap_speed == bestLapSpeedThisLap
+                    RunningPosition = vehicle.RunningPosition,
+                    CarManufacturer = vehicle.VehicleManufacturer,
+                    CarNumber = vehicle.VehicleNumber,
+                    DeltaLeader = (float)Math.Round(vehicle.Delta, 2),
+                    DeltaNext = (float)Math.Round(lastVehicle == null ? 0 : vehicle.Delta - lastVehicle.Delta, 2),
+                    Driver = vehicle.Driver.FullName,
+                    LapsCompleted = vehicle.LapsCompleted,
+                    VehicleStatus = (VehicleStatusTypes)vehicle.Status,
+                    IsOnTrack = vehicle.IsOnTrack,
+                    IsOnDvp = vehicle.IsOnDvp,
+                    LastLap = LastLapDisplayType == SpeedTimeType.Seconds ? vehicle.LastLapTime : vehicle.LastLapSpeed,
+                    BestLap = BestLapDisplayType == SpeedTimeType.Seconds ? vehicle.BestLapTime : vehicle.BestLapSpeed,
+                    BestLapNumber = vehicle.BestLap,
+                    LastPit = vehicle.LastPit.GetValueOrDefault(0),
+                    PersonalBestLapThisLap = vehicle.Status == VehicleStatusTypes.OnTrack && vehicle.IsOnTrack == true && vehicle.BestLapSpeed > 0 && vehicle.BestLap == vehicle.LapsCompleted,
+                    FastestLapInRace = vehicle.BestLapSpeed > 0 && vehicle.BestLapSpeed == bestLapSpeedInRace,
+                    FastestCarThisLap = vehicle.IsOnTrack == true && vehicle.LastLapSpeed > 0 && vehicle.LastLapSpeed == bestLapSpeedThisLap
                 };
 
                 raceVehicles.Add(model);
 
                 if (_userSettings.UseGraphicalCarNumbers)
                 {
-                    var carNumber = int.Parse(vehicle.vehicle_number);
+                    var carNumber = int.Parse(vehicle.VehicleNumber);
                     if (!_mediaCache.Any(c => c.CarNumber == carNumber && c.SeriesId == SeriesId && c.MediaType == MediaTypes.CarNumber))
                     {
                         var carNumberImage = _mediaRepository.GetCarNumberImage(SeriesId, carNumber);
