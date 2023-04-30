@@ -45,6 +45,7 @@ namespace rNascar23
 
         private const string LogFileName = "rNascar23Log.{0}.txt";
         private const string PatchFileName = "Patch Notes.txt";
+        private const int OtherSeriesRaceId = 10000;
 
         #endregion
 
@@ -84,7 +85,7 @@ namespace rNascar23
         private readonly ILapTimesRepository _lapTimeRepository = null;
         private readonly ILapAveragesRepository _lapAveragesRepository = null;
         private readonly ILiveFeedRepository _liveFeedRepository = null;
-        private readonly ILoopDataRepository _LoopDataRepository = null;
+        private readonly ILoopDataRepository _loopDataRepository = null;
         private readonly IFlagStateRepository _flagStateRepository = null;
         private readonly ISchedulesRepository _raceScheduleRepository = null;
         private readonly IPointsRepository _pointsRepository = null;
@@ -133,7 +134,7 @@ namespace rNascar23
             _lapTimeRepository = lapTimeRepository ?? throw new ArgumentNullException(nameof(lapTimeRepository));
             _lapAveragesRepository = lapAveragesRepository ?? throw new ArgumentNullException(nameof(lapAveragesRepository));
             _liveFeedRepository = liveFeedRepository ?? throw new ArgumentNullException(nameof(liveFeedRepository));
-            _LoopDataRepository = LoopDataRepository ?? throw new ArgumentNullException(nameof(LoopDataRepository));
+            _loopDataRepository = LoopDataRepository ?? throw new ArgumentNullException(nameof(LoopDataRepository));
             _flagStateRepository = flagStateRepository ?? throw new ArgumentNullException(nameof(flagStateRepository));
             _raceScheduleRepository = raceScheduleRepository ?? throw new ArgumentNullException(nameof(raceScheduleRepository));
             _pointsRepository = pointsRepository ?? throw new ArgumentNullException(nameof(pointsRepository));
@@ -691,7 +692,10 @@ namespace rNascar23
             if (!UpdateLastTimestamp(_formState.LiveFeed.TimeOfDayOs))
                 return false;
 
-            if (_formState.CurrentSeriesRace == null || _formState.LiveFeed.RaceId != _formState.CurrentSeriesRace.RaceId)
+            // RaceId = 10000 and SeriesId = 999 (SeriesTypes.Arca) for races that are not in the top 3 series, (ex. Arca or Tour Mod races).
+            // There are no schedules for these races, so don't try to load.
+            if ((_formState.LiveFeed.SeriesId != SeriesTypes.Other && _formState.LiveFeed.RaceId != OtherSeriesRaceId) &&
+                (_formState.CurrentSeriesRace == null || _formState.LiveFeed.RaceId != _formState.CurrentSeriesRace.RaceId))
             {
                 _formState.SeriesSchedules = await GetSeriesScheduleAsync((ScheduleType)_formState.LiveFeed.SeriesId);
 
@@ -701,9 +705,10 @@ namespace rNascar23
             }
 
             _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+
             _formState.FlagStates = await _flagStateRepository.GetFlagStatesAsync();
 
-            _formState.EventStatistics = await _LoopDataRepository.GetLoopDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
+            _formState.EventStatistics = await _loopDataRepository.GetLoopDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
             if (_formState.EventStatistics != null && _formState.EventStatistics.Drivers != null)
             {
@@ -2098,8 +2103,7 @@ namespace rNascar23
             return seriesId == SeriesTypes.Cup ? "Cup Series" :
                 seriesId == SeriesTypes.Xfinity ? "Xfinity Series" :
                 seriesId == SeriesTypes.Truck ? "Craftsman Truck Series" :
-                seriesId == SeriesTypes.Arca ? "ARCA Menards Series" :
-                seriesId == SeriesTypes.WhelenTourMod ? "Whelen Modified Tour" :
+                seriesId == SeriesTypes.Other ? "Other" :
                 "Unknown";
         }
 
