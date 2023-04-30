@@ -317,7 +317,7 @@ namespace rNascar23.Views
                                 DisplayIndex= 4,
                                 HeaderTitle ="Time",
                                 Visible =true,
-                                Width = 70,
+                                Width = 75,
                                 Format = "h:mm tt"
                             }
                         },

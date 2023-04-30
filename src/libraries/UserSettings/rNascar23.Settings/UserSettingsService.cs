@@ -81,6 +81,10 @@ namespace rNascar23.Settings
             return defaultRootDirectoryPath;
         }
 
+        #endregion
+
+        #region private
+
         private static void EnsureDirectoryExists(string directory)
         {
             if (!Directory.Exists(directory))

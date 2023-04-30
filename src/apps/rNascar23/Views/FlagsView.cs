@@ -58,7 +58,7 @@ namespace rNascar23.Views
 
             GridViewColumnBuilder.ConfigureColumn(colLuckyDog, "Beneficiary", 45, "Lucky Dog");
 
-            GridViewColumnBuilder.ConfigureColumn(colTimeOfDayOS, "TimeOfDayOs", 45, "TimeOfDayOs");
+            GridViewColumnBuilder.ConfigureColumn(colTimeOfDayOS, "TimeOfDayOs", 70, "TimeOfDayOs");
 
             Grid.ColumnHeadersVisible = true;
             Grid.RowHeadersVisible = false;
@@ -98,9 +98,9 @@ namespace rNascar23.Views
                     IList<DataRow> rowsToRemove = new List<DataRow>();
                     foreach (DataRow row in _dataTable.Rows)
                     {
-                        var position = row.Field<int>("LapNumber");
+                        var timestamp = row.Field<float>("ElapsedTime");
 
-                        if (!models.OfType<FlagState>().Any(m => m.LapNumber == position))
+                        if (!models.OfType<FlagState>().Any(m => m.ElapsedTime == timestamp))
                         {
                             rowsToRemove.Add(row);
                         }
@@ -114,7 +114,7 @@ namespace rNascar23.Views
 
                 foreach (FlagState model in models.OfType<FlagState>())
                 {
-                    DataRow[] foundRows = _dataTable.Select($"State = {(int)model.State} AND LapNumber = {model.LapNumber}");
+                    DataRow[] foundRows = _dataTable.Select($"ElapsedTime = {model.ElapsedTime}");
 
                     if (foundRows != null && foundRows.Length > 0)
                     {
@@ -132,6 +132,7 @@ namespace rNascar23.Views
                         dr["LapNumber"] = model.LapNumber;
                         dr["Comment"] = comment;
                         dr["Beneficiary"] = beneficiary;
+                        dr["ElapsedTime"] = model.ElapsedTime;
                         dr["TimeOfDayOs"] = model.TimeOfDayOs.ToString("h:mm tt");
 
                         _dataTable.Rows.Add(dr);
