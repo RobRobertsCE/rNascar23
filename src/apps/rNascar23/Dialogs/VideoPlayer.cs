@@ -146,8 +146,8 @@ namespace rNascar23.Dialogs
         {
             cboChannels.DataSource = null;
 
-            cboChannels.DisplayMember = "title";
-            cboChannels.ValueMember = "stream1";
+            cboChannels.DisplayMember = "Title";
+            cboChannels.ValueMember = "Stream1";
 
             cboChannels.DataSource = channels.ToList();
 
