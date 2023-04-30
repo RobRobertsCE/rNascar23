@@ -147,8 +147,8 @@
     <Reference Include="RestSharp, Version=109.0.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\..\packages\\RestSharp.109.0.1\lib\net471\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="rNascar23.Sdk, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\rNascar23.Sdk.1.0.8\lib\netstandard2.0\rNascar23.Sdk.dll</HintPath>
+    <Reference Include="rNascar23.Sdk, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\rNascar23.Sdk.1.0.10\lib\netstandard2.0\rNascar23.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>

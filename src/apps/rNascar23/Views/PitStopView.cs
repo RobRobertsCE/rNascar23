@@ -445,7 +445,7 @@ namespace rNascar23.Views
 
         private async Task UpdateDisplayAsync()
         {
-            var pitStops = await _pitStopsRepository.GetPitStopsAsync(SeriesId, RaceId, StartLap, EndLap);
+            var pitStops = await _pitStopsRepository.GetPitStopsInRangeAsync(SeriesId, RaceId, StartLap, EndLap);
 
             Data = pitStops.ToList();
 
