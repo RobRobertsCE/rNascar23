@@ -28,5 +28,6 @@ namespace rNascar23.Settings
         public IList<int> PracticeViewBottomGrids { get; set; } = new List<int>();
         public IList<int> PracticeViewRightGrids { get; set; } = new List<int>();
         public int? DataDelayInSeconds { get; set; } = null;
+        public float? AudioDelayInSeconds { get; set; } = null;
     }
 }

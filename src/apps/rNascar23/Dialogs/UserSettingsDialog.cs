@@ -127,6 +127,12 @@ namespace rNascar23.Dialogs
                 txtDataDelay.Text = settings.DataDelayInSeconds.Value.ToString();
             }
 
+            chkDelayAudio.Checked = settings.AudioDelayInSeconds.HasValue;
+            if (settings.AudioDelayInSeconds.HasValue)
+            {
+                txtAudioDelay.Text = settings.AudioDelayInSeconds.Value.ToString("N0");
+            }
+
             if (_userSettings.UseLowScreenResolutionSizes)
             {
                 chkLowRes.Checked = true;
@@ -443,6 +449,36 @@ namespace rNascar23.Dialogs
             else
                 _userSettings.DataDelayInSeconds = null;
 
+            if (chkDelayAudio.Checked)
+            {
+                if (String.IsNullOrEmpty(txtAudioDelay.Text))
+                    _userSettings.AudioDelayInSeconds = null;
+                else if (float.TryParse(txtAudioDelay.Text, out float audioDelay))
+                {
+                    if (audioDelay < 0)
+                    {
+                        MessageBox.Show("Audio delay value must be greater than zero");
+                        return false;
+                    }
+                    else if (audioDelay > 150)
+                    {
+                        MessageBox.Show("Audio delay value must be less than 150 seconds");
+                        return false;
+                    }
+                    else if (audioDelay == 0)
+                        _userSettings.AudioDelayInSeconds = null;
+                    else
+                        _userSettings.AudioDelayInSeconds = audioDelay;
+                }
+                else
+                {
+                    MessageBox.Show("Audio delay value must be numeric");
+                    return false;
+                }
+            }
+            else
+                _userSettings.AudioDelayInSeconds = null;
+
             if (chkLowRes.Checked)
             {
                 _userSettings.UseLowScreenResolutionSizes = true;
@@ -532,6 +568,12 @@ namespace rNascar23.Dialogs
         {
             txtDataDelay.Enabled = chkDelayDataUpdates.Checked;
             lblDataDelay.Enabled = chkDelayDataUpdates.Checked;
+        }
+
+        private void chkDelayAudio_CheckStateChanged(object sender, EventArgs e)
+        {
+            txtAudioDelay.Enabled = chkDelayAudio.Checked;
+            lblAudioDelay.Enabled = chkDelayAudio.Checked;
         }
 
         private void chkLowRes_CheckStateChanged(object sender, EventArgs e)

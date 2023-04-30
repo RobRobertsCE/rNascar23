@@ -18,8 +18,8 @@
     <span class="panning-value">0</span>
     <br />
     <h2>Adjust slider to add delay to audio</h2>
-    <input class="delay-control" type="range" min="0" max="30" step="0.1" value="0">
-    <span class="delay-value">0</span>
+    <input class="delay-control" type="range" min="0" max="<#AUDIOMAXDELAY#>" step="0.1" value="0">
+    <span class="delay-value"><#AUDIOUSERSETTING#></span>
     <script>
       let audioCtx;
 
@@ -39,7 +39,7 @@
         });
 
         let panNode = new StereoPannerNode(audioCtx);
-        let delayNode = audioCtx.createDelay(30.0);
+        let delayNode = audioCtx.createDelay(<#AUDIOUSERSETTING#>);
 
         panControl.oninput = () => {
           panNode.pan.value = panControl.value;

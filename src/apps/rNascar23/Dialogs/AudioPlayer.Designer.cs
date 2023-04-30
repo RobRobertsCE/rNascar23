@@ -84,7 +84,7 @@
             // 
             this.lblInstructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblInstructions.Location = new System.Drawing.Point(17, 504);
+            this.lblInstructions.Location = new System.Drawing.Point(17, 595);
             this.lblInstructions.Name = "lblInstructions";
             this.lblInstructions.Size = new System.Drawing.Size(658, 73);
             this.lblInstructions.TabIndex = 9;
@@ -103,7 +103,7 @@
             this.webView.DefaultBackgroundColor = System.Drawing.Color.White;
             this.webView.Location = new System.Drawing.Point(17, 91);
             this.webView.Name = "webView";
-            this.webView.Size = new System.Drawing.Size(658, 397);
+            this.webView.Size = new System.Drawing.Size(658, 488);
             this.webView.TabIndex = 10;
             this.webView.Visible = false;
             this.webView.ZoomFactor = 1D;
@@ -112,7 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(697, 586);
+            this.ClientSize = new System.Drawing.Size(697, 677);
             this.Controls.Add(this.webView);
             this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.panel1);

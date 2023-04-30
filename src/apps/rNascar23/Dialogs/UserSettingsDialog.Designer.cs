@@ -101,6 +101,9 @@
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lblAudioDelay = new System.Windows.Forms.Label();
+            this.txtAudioDelay = new System.Windows.Forms.TextBox();
+            this.chkDelayAudio = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -757,6 +760,9 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.lblAudioDelay);
+            this.tabPage4.Controls.Add(this.txtAudioDelay);
+            this.tabPage4.Controls.Add(this.chkDelayAudio);
             this.tabPage4.Controls.Add(this.chkDisplayTimes);
             this.tabPage4.Controls.Add(this.lblOverrideFont);
             this.tabPage4.Controls.Add(this.btnSetFont);
@@ -810,7 +816,7 @@
             this.btnSetFont.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSetFont.Location = new System.Drawing.Point(234, 418);
             this.btnSetFont.Name = "btnSetFont";
-            this.btnSetFont.Size = new System.Drawing.Size(75, 23);
+            this.btnSetFont.Size = new System.Drawing.Size(58, 23);
             this.btnSetFont.TabIndex = 28;
             this.btnSetFont.Text = "Set Font";
             this.btnSetFont.UseVisualStyleBackColor = true;
@@ -918,6 +924,36 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Folders";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // lblAudioDelay
+            // 
+            this.lblAudioDelay.AutoSize = true;
+            this.lblAudioDelay.Enabled = false;
+            this.lblAudioDelay.Location = new System.Drawing.Point(375, 388);
+            this.lblAudioDelay.Name = "lblAudioDelay";
+            this.lblAudioDelay.Size = new System.Drawing.Size(122, 20);
+            this.lblAudioDelay.TabIndex = 33;
+            this.lblAudioDelay.Text = "Delay in Seconds";
+            // 
+            // txtAudioDelay
+            // 
+            this.txtAudioDelay.Enabled = false;
+            this.txtAudioDelay.Location = new System.Drawing.Point(317, 385);
+            this.txtAudioDelay.Name = "txtAudioDelay";
+            this.txtAudioDelay.Size = new System.Drawing.Size(52, 27);
+            this.txtAudioDelay.TabIndex = 32;
+            this.txtAudioDelay.Text = "0";
+            // 
+            // chkDelayAudio
+            // 
+            this.chkDelayAudio.AutoSize = true;
+            this.chkDelayAudio.Location = new System.Drawing.Point(297, 355);
+            this.chkDelayAudio.Name = "chkDelayAudio";
+            this.chkDelayAudio.Size = new System.Drawing.Size(108, 24);
+            this.chkDelayAudio.TabIndex = 31;
+            this.chkDelayAudio.Text = "Delay audio";
+            this.chkDelayAudio.UseVisualStyleBackColor = true;
+            this.chkDelayAudio.CheckStateChanged += new System.EventHandler(this.chkDelayAudio_CheckStateChanged);
             // 
             // UserSettingsDialog
             // 
@@ -1031,5 +1067,8 @@
         private System.Windows.Forms.Button btnSetFont;
         private System.Windows.Forms.CheckBox chkLowRes;
         private System.Windows.Forms.CheckBox chkDisplayTimes;
+        private System.Windows.Forms.Label lblAudioDelay;
+        private System.Windows.Forms.TextBox txtAudioDelay;
+        private System.Windows.Forms.CheckBox chkDelayAudio;
     }
 }
