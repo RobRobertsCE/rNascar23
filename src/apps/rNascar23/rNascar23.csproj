@@ -147,8 +147,8 @@
     <Reference Include="RestSharp, Version=109.0.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\..\packages\\RestSharp.109.0.1\lib\net471\RestSharp.dll</HintPath>
     </Reference>
-    <Reference Include="rNascar23.Sdk, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\rNascar23.Sdk.1.0.10\lib\netstandard2.0\rNascar23.Sdk.dll</HintPath>
+    <Reference Include="rNascar23.Sdk, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\rNascar23.Sdk.1.0.11\lib\netstandard2.0\rNascar23.Sdk.dll</HintPath>
     </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
@@ -282,7 +282,6 @@
     </Compile>
     <Compile Include="CustomViews\ApiSources.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Logic\DayOfWeekHelper.cs" />
     <Compile Include="Logic\FlagUiColors.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -315,11 +314,7 @@
     <Compile Include="ViewModels\INamedItem.cs" />
     <Compile Include="ViewModels\LapStateViewModel.cs" />
     <Compile Include="ViewModels\RaceVehicleViewModel.cs" />
-    <Compile Include="ViewModels\RadioTypes.cs" />
-    <Compile Include="ViewModels\SatelliteTypes.cs" />
     <Compile Include="ViewModels\ScheduledEventViewModel.cs" />
-    <Compile Include="ViewModels\ScheduleType.cs" />
-    <Compile Include="ViewModels\TvTypes.cs" />
     <Compile Include="Views\GridViewBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -527,6 +522,7 @@
     <None Include="Resources\RightTires.png" />
     <None Include="Resources\Cancel.png" />
     <None Include="Resources\Audio.png" />
+    <Content Include="Resources\audioFeedTemplate - delay.html" />
     <Content Include="Resources\audioFeedTemplate.html" />
     <None Include="Resources\CNBC-logo-small.png" />
     <None Include="Resources\IMS-radio-small.png" />

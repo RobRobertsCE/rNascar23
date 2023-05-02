@@ -307,7 +307,7 @@ namespace rNascar23.Views
 
                 var selectedSeason = cboYear.SelectedItem as SeasonSelection;
 
-                var seriesSchedules = await _raceScheduleRepository.GetRaceListAsync(selectedSeason.Year);
+                var seriesSchedules = await _raceScheduleRepository.GetSchedulesAsync(selectedSeason.Year);
 
                 IEnumerable<SeriesEvent> schedules = new List<SeriesEvent>();
 

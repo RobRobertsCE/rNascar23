@@ -698,11 +698,7 @@ namespace rNascar23
             if ((_formState.LiveFeed.SeriesId != SeriesTypes.Other && _formState.LiveFeed.RaceId != OtherSeriesRaceId) &&
                 (_formState.CurrentSeriesRace == null || _formState.LiveFeed.RaceId != _formState.CurrentSeriesRace.RaceId))
             {
-                _formState.SeriesSchedules = await GetSeriesScheduleAsync((ScheduleType)_formState.LiveFeed.SeriesId);
-
-                var currentRace = _formState.SeriesSchedules.FirstOrDefault(s => s.RaceId == _formState.LiveFeed.RaceId);
-
-                _formState.CurrentSeriesRace = currentRace;
+                _formState.CurrentSeriesRace = await _raceScheduleRepository.GetEventAsync(_formState.LiveFeed.RaceId);
             }
 
             _formState.LapTimes = await _lapTimeRepository.GetLapTimeDataAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
@@ -755,67 +751,6 @@ namespace rNascar23
             DisplayTimes(timeOfDayOs, DateTime.Now);
 
             return true;
-        }
-
-        private async Task<IList<SeriesEvent>> GetSeriesScheduleAsync(ScheduleType scheduleType)
-        {
-            if (scheduleType == ScheduleType.Historical)
-                return new List<SeriesEvent>();
-
-            var raceLists = await _raceScheduleRepository.GetRaceListAsync();
-
-            switch (scheduleType)
-            {
-                case ScheduleType.Trucks:
-                    {
-                        return raceLists.TruckSeries;
-                    }
-                case ScheduleType.Xfinity:
-                    {
-                        return raceLists.XfinitySeries;
-                    }
-                case ScheduleType.Cup:
-                    {
-                        return raceLists.CupSeries;
-                    }
-                case ScheduleType.All:
-                    {
-                        return raceLists.CupSeries.Concat(raceLists.XfinitySeries).Concat(raceLists.TruckSeries).ToList();
-                    }
-                case ScheduleType.ThisWeek:
-                    {
-                        var range = DayOfWeekHelper.GetScheduleRange(scheduleType);
-
-                        return raceLists.CupSeries.
-                            Concat(raceLists.XfinitySeries).
-                            Concat(raceLists.TruckSeries).
-                            Where(s => s.DateScheduled.Date >= range.Start.Date && s.DateScheduled.Date <= range.End.Date).
-                            ToList();
-                    }
-                case ScheduleType.NextWeek:
-                    {
-                        var range = DayOfWeekHelper.GetScheduleRange(scheduleType);
-
-                        return raceLists.CupSeries.
-                            Concat(raceLists.XfinitySeries).
-                            Concat(raceLists.TruckSeries).
-                            Where(s => s.DateScheduled.Date >= range.Start.Date && s.DateScheduled.Date <= range.End.Date).
-                            ToList();
-                    }
-                case ScheduleType.Today:
-                    {
-                        return raceLists.CupSeries.
-                           Concat(raceLists.XfinitySeries).
-                           Concat(raceLists.TruckSeries).
-                           Where(s => s.EventActivities.Any(x => x.StartTimeLocal.Date == DateTime.Now.Date)).
-                           ToList();
-                    }
-                default:
-                    {
-                        LogError($"Error selecting schedule to read: Unrecognized Series {scheduleType}");
-                        return new List<SeriesEvent>();
-                    }
-            }
         }
 
         #endregion
@@ -1044,7 +979,6 @@ namespace rNascar23
             panel.Controls.Add(leftLeaderboardGridView);
             leftLeaderboardGridView.Dock = DockStyle.Left;
             leftLeaderboardGridView.BringToFront();
-            //leftLeaderboardGridView.Width = (int)((panel.Width - 10) / 2);
 
             AddSplitter(panel, DockStyle.Left);
 
@@ -1344,7 +1278,7 @@ namespace rNascar23
             if (_viewState != ViewState.Schedules)
                 await SetViewStateAsync(ViewState.Schedules);
 
-            var schedule = await GetSeriesScheduleAsync(scheduleType);
+            var schedule = await _raceScheduleRepository.GetSchedulesAsync(scheduleType);
 
             if (!displayEmptySchedule && schedule.Count == 0)
                 return false;
