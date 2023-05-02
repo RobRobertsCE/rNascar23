@@ -80,6 +80,7 @@ namespace rNascar23
 
         private bool _isFullScreen = false;
         private bool _isImportedData = false;
+        private bool _initialLoad = true;
 
         private readonly ILogger<MainForm> _logger = null;
         private readonly ILapTimesRepository _lapTimeRepository = null;
@@ -731,10 +732,12 @@ namespace rNascar23
 
             _formState.KeyMoments = await _keyMomentsRepository.GetKeyMomentsAsync(_formState.LiveFeed.SeriesId, _formState.LiveFeed.RaceId);
 
-            if (UserSettings.DataDelayInSeconds.HasValue)
+            if (!_initialLoad && UserSettings.DataDelayInSeconds.HasValue)
             {
                 await Task.Delay(UserSettings.DataDelayInSeconds.Value * 1000);
             }
+
+            _initialLoad = false;
 
             return true;
         }
