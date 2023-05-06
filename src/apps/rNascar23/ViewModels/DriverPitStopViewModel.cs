@@ -4,7 +4,7 @@ namespace rNascar23.ViewModels
 {
     public class DriverPitStopViewModel
     {
-        public int CarNumber { get; set; }
+        public string CarNumber { get; set; }
         public string DriverName { get; set; }
         public int RunningPosition { get; set; }
         public int PitOnLap { get; set; }
