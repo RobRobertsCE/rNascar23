@@ -1,4 +1,14 @@
-﻿Version 0.3.0.30
+﻿﻿Version 0.3.0.31
+====================================
+
+Bug Fixes
+-----------
+- Car number 11F causes error
+	Car number data type was integer in some places. This caused an error when trying to process data containing a car number of 11F.
+	Fix:
+	Refactored car number fields to be of type string.
+
+Version 0.3.0.30
 ====================================
 
 Bug Fixes
