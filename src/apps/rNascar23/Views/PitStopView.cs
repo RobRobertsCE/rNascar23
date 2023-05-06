@@ -323,7 +323,7 @@ namespace rNascar23.Views
             {
                 var viewModel = new DriverViewModel()
                 {
-                    CarNumber = int.Parse(vehicle.vehicle_number),
+                    CarNumber = vehicle.vehicle_number,
                     Name = vehicle.driver.FullName
                 };
 
@@ -390,7 +390,7 @@ namespace rNascar23.Views
             {
                 var viewModel = new DriverPitStopViewModel()
                 {
-                    CarNumber = int.Parse(pitStop.vehicle_number),
+                    CarNumber = pitStop.vehicle_number,
                     DriverName = pitStop.driver_name,
                     PitOnLap = pitStop.lap_count,
                     PitStopTime = pitStop.total_duration,
@@ -448,7 +448,7 @@ namespace rNascar23.Views
             SetDataSource(Data);
         }
 
-        private async Task UpdateDisplayByDriverAsync(int carNumber, string driverName)
+        private async Task UpdateDisplayByDriverAsync(string carNumber, string driverName)
         {
             var driverPitStopData = await GetAllPitStopsByDriverAsync(carNumber);
 
@@ -492,12 +492,12 @@ namespace rNascar23.Views
             await UpdateDisplayByDriverAsync(selectedDriver.CarNumber, selectedDriver.Name);
         }
 
-        private async Task<IList<PitStop>> GetAllPitStopsByDriverAsync(int carNumber)
+        private async Task<IList<PitStop>> GetAllPitStopsByDriverAsync(string carNumber)
         {
             return await _pitStopsRepository.GetPitStopsAsync(SeriesId, RaceId, null, null, carNumber);
         }
 
-        private void DisplayDriverPitStops(IList<PitStop> pitStops, int carNumber, string driverName)
+        private void DisplayDriverPitStops(IList<PitStop> pitStops, string carNumber, string driverName)
         {
             try
             {
@@ -627,7 +627,7 @@ namespace rNascar23.Views
                 {
                     var driverPitStopSet = new PitStopAverages
                     {
-                        CarNumber = int.Parse(driverPitStops.Key),
+                        CarNumber = driverPitStops.Key,
                         Driver = driverPitStops.First().driver_name,
                         TotalGainLoss = driverPitStops.Sum(p => p.positions_gained_lost),
                         AveragePitTime = driverPitStops.Average(p => p.pit_stop_duration),
@@ -916,7 +916,7 @@ namespace rNascar23.Views
 
         private class PitStopAverages
         {
-            public int CarNumber { get; set; }
+            public string CarNumber { get; set; }
             public string Driver { get; set; }
             public int TotalGainLoss { get; set; }
             public float AveragePitTime { get; set; }
@@ -929,7 +929,7 @@ namespace rNascar23.Views
 
         private class DriverViewModel
         {
-            public int CarNumber { get; set; }
+            public string CarNumber { get; set; }
             public string Name { get; set; }
         }
 

@@ -70,7 +70,7 @@ namespace rNascar23.Service.PitStops.Adapters
             return pitStops;
         }
 
-        public async Task<IList<PitStop>> GetPitStopsAsync(int seriesId, int raceId, int? startLap, int? endLap = null, int? carNumber = null)
+        public async Task<IList<PitStop>> GetPitStopsAsync(int seriesId, int raceId, int? startLap, int? endLap = null, string carNumber = null)
         {
             IList<PitStop> pitStops = new List<PitStop>();
 
@@ -89,8 +89,8 @@ namespace rNascar23.Service.PitStops.Adapters
 
                 IEnumerable<PitStopModel> filteredModels = models;
 
-                if (carNumber.HasValue)
-                    filteredModels = filteredModels.Where(p => p.vehicle_number == carNumber.Value.ToString());
+                if (!string.IsNullOrEmpty(carNumber))
+                    filteredModels = filteredModels.Where(p => p.vehicle_number == carNumber);
 
                 if (startLap.HasValue)
                     filteredModels = filteredModels.Where(p => p.lap_count >= startLap.Value);
